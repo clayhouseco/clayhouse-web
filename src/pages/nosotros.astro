@@ -1,0 +1,150 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Nosotros"
+  description="Tradición alfarera en Amagá. Ladrillo neoartesanal para fachada, estructura, pisos y cubiertas con NTC 4205."
+>
+  <section class="page-hero">
+    <div class="container narrow">
+      <p class="eyebrow">Alfarera Pueblo Viejo</p>
+      <h1>Cien años de barro, piezas para cada espacio</h1>
+      <p class="lead">
+        Somos Clay House — Alfarera Pueblo Viejo. Una ladrillera neoartesanal en
+        Amagá, Antioquia, donde el oficio manual y la especificación técnica se
+        encuentran para crear materiales con identidad territorial.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>Historia</h2>
+      <p>
+        Desde 1965, en el corazón de la tradición ladrillera del suroeste
+        antioqueño, nuestra historia comenzó como Ladrillera San Fernando:
+        ladrillos macizos, atanores, tejas y pisos hechos con las manos y el
+        conocimiento de generaciones.
+      </p>
+      <p>
+        Con el tiempo evolucionamos hacia Alfarera Pueblo Viejo y, en 2022,
+        adoptamos el nombre <strong>Clay House</strong> para proyectar al mundo una
+        marca que honra el pasado y abraza la innovación.
+      </p>
+      <p>
+        Hoy somos un showroom de materiales derivados de la arcilla con enfoque de
+        alta gama: calidad estética, trazabilidad de origen y soluciones integrales
+        para arquitectos, constructores y diseñadores.
+      </p>
+
+      <h2>El barro de un lugar con nombre</h2>
+      <p>
+        Amagá no es solo nuestra fábrica: es nuestra materia prima narrativa. La
+        cuenca del Sinifaná aporta arcillas con un comportamiento único en cocción
+        — el <strong>Rojizo Amagá</strong> que define nuestra paleta.
+      </p>
+      <p>
+        Extraemos, preparamos y cocinamos a pocos kilómetros del taller. Kilómetro
+        cero ladrillero: menos huella logística, más vínculo con el territorio.
+      </p>
+
+      <h2>Materiales para cada tipo de obra</h2>
+      <p>
+        Nuestro catálogo está pensado por aplicación: fachadas a la vista,
+        muros estructurales, enchapes decorativos, pisos de barro y cubiertas en
+        teja. Cada referencia con ficha técnica, asesoría de instalación y
+        cumplimiento NTC 4205 cuando aplica.
+      </p>
+      <p>
+        La cocción se realiza en horno Hoffman, lo que nos permite lotes
+        consistentes sin dejar de lado el carácter artesanal de cada pieza.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="aplicaciones">
+    <div class="container narrow">
+      <p class="eyebrow eyebrow--light">Especificación</p>
+      <h2>Dónde usar nuestros productos</h2>
+      <ul class="feature-list">
+        <li>Fachadas residenciales y comerciales a la vista</li>
+        <li>Muros estructurales y divisorios</li>
+        <li>Interiores con enchape y pisos de barro cocido</li>
+        <li>Cubiertas y pérgolas con teja plana</li>
+        <li>Piezas a medida según plano de arquitecto</li>
+      </ul>
+      <p>
+        <a href="/productos" class="link-arrow link-arrow--light"
+          >ver catálogo completo →</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow quote-block">
+      <blockquote>Convirtiendo piezas en sueños.</blockquote>
+      <p>
+        Clay House existe para que arquitectos y constructores encuentren en el
+        ladrillo no un commodity, sino un material con historia, norma y alma.
+      </p>
+      <a href="/contacto" class="btn btn--primary">trabajemos juntos</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 8rem 0 3rem;
+    background: var(--color-white);
+  }
+
+  .narrow {
+    max-width: 42rem;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+  }
+
+  .prose h2 {
+    margin-top: 3rem;
+  }
+
+  .prose p {
+    color: var(--color-text-muted);
+  }
+
+  .eyebrow--light {
+    color: var(--color-salmon);
+  }
+
+  .feature-list {
+    margin: 1.5rem 0 2rem;
+    padding-left: 1.25rem;
+    line-height: 1.9;
+    color: rgba(255, 251, 249, 0.85);
+  }
+
+  .link-arrow--light {
+    color: var(--color-salmon);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .quote-block {
+    text-align: center;
+  }
+
+  .quote-block blockquote {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-style: italic;
+    margin: 0 0 1.5rem;
+    color: var(--color-chocolate);
+  }
+</style>

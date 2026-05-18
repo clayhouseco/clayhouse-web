@@ -1,0 +1,128 @@
+---
+import { site, nav } from "@/data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <p class="footer__logo">{site.name}</p>
+      <p class="footer__tagline">{site.tagline}</p>
+      <p class="footer__legal">{site.legalName}</p>
+    </div>
+    <div>
+      <p class="footer__heading">Navegación</p>
+      <ul class="footer__links">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <p class="footer__heading">Contacto</p>
+      <ul class="footer__links">
+        <li>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </li>
+        <li>
+          <a href={site.phoneHref}>{site.phone}</a>
+        </li>
+        <li>{site.address}</li>
+        <li class="footer__hours">{site.hours}</li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer__heading">Especificación</p>
+      <p class="footer__ntc">Cumplimiento NTC 4205</p>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <p>© {year} {site.name}. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-chocolate);
+    color: rgba(255, 251, 249, 0.85);
+    padding-block: 4rem 2rem;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 251, 249, 0.12);
+  }
+
+  .footer__logo {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--color-bg);
+  }
+
+  .footer__tagline {
+    font-style: italic;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer__legal {
+    font-size: 0.875rem;
+    opacity: 0.6;
+  }
+
+  .footer__heading {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-salmon);
+    margin: 0 0 1rem;
+  }
+
+  .footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9375rem;
+    line-height: 1.8;
+  }
+
+  .footer__links a:hover {
+    color: var(--color-salmon);
+  }
+
+  .footer__hours {
+    opacity: 0.7;
+    font-size: 0.8125rem;
+    margin-top: 0.5rem;
+  }
+
+  .footer__ntc {
+    font-size: 0.9375rem;
+  }
+
+  .footer__bottom {
+    padding-top: 2rem;
+    font-size: 0.8125rem;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 900px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

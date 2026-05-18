@@ -1,0 +1,489 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+import { getFeaturedProducts } from "@/data/products";
+import { colors } from "@/data/colors";
+import { assetUrl } from "@/utils/paths";
+import { capitalizeHeading } from "@/utils/text";
+
+const featured = getFeaturedProducts();
+
+const categories = [
+  {
+    title: "Ladrillo de fachada",
+    href: "/productos?categoria=Fachada",
+    image: assetUrl("/images/Editadas/Romano Liso/DSC_6501.jpg"),
+  },
+  {
+    title: "Ladrillo macizo",
+    href: "/productos?categoria=Macizo",
+    image: assetUrl("/images/Fotos Productos/Campesino.jpg"),
+  },
+  {
+    title: "Rayados y enchapes",
+    href: "/productos?categoria=Enchape",
+    image: assetUrl("/images/Fotos Productos/Enchape Thin Brick.jpg"),
+  },
+  {
+    title: "Pisos y techos",
+    href: "/productos?categoria=Piso",
+    image: assetUrl("/images/Fotos Productos/Tabaco Lisa.jpg"),
+  },
+];
+
+const pillars = [
+  {
+    title: "Hecho en Amagá",
+    text: "Arcilla local, manos expertas, origen verificable.",
+  },
+  {
+    title: "Cada lote único",
+    text: "Destonificaciones naturales que ningún producto industrial replica.",
+  },
+  {
+    title: "Piezas a medida",
+    text: "Desarrollo especial para proyectos de arquitectura.",
+  },
+];
+
+const services = [
+  {
+    title: "Cotización personalizada",
+    text: "Presupuesto según volumen, acabado y destino de obra.",
+  },
+  {
+    title: "Asesoría técnica",
+    text: "Dudas sobre NTC 4205, instalación y mantenimiento.",
+  },
+  {
+    title: "Tiempos de entrega",
+    text: "Entre 4 y 8 semanas según referencia. El barro necesita su tiempo.",
+  },
+  {
+    title: "Stock disponible",
+    text: "Consulte referencias en inventario para proyectos urgentes.",
+  },
+  {
+    title: "Visita al taller",
+    text: "Conozca Amagá, el taller y las referencias disponibles con cita previa.",
+  },
+];
+---
+
+<BaseLayout title={site.name} description={site.description}>
+  <section class="hero">
+    <div class="hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=80"
+        alt="Fachada en ladrillo de arcilla"
+        loading="eager"
+      />
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="hero__content container">
+      <p class="eyebrow">{site.tagline}</p>
+      <h1>Tradición antioqueña, fuego moderno</h1>
+      <p class="hero__lead">
+        Ladrillo de fachada neoartesanal, fabricado en Amagá con cumplimiento NTC
+        4205.
+      </p>
+      <div class="hero__actions">
+        <a href="/productos" class="btn btn--light">explorar el catálogo</a>
+        <a href="/contacto" class="btn btn--outline btn--on-dark"
+          >solicitar cotización</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="split__media">
+        <img
+          src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cd09?w=900&q=80"
+          alt="Fachada terminada con ladrillo a la vista"
+          loading="lazy"
+        />
+      </div>
+      <div class="split__text">
+        <h2>Redescubre el ladrillo a la vista</h2>
+        <p>
+          Estética colombiana contemporánea con la calidez del barro cocido. Cada
+          pieza nace en Amagá, en la cuenca del Sinifaná, y llega a su proyecto con
+          trazabilidad y carácter.
+        </p>
+        <a href="/productos" class="link-arrow">ver el catálogo →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="text-center">Categorías de producto</h2>
+      <p class="text-center text-muted section-intro">
+        Ladrillo de fachada, macizo, piezas especiales y pisos de barro cocido.
+      </p>
+      <div class="grid-4">
+        {
+          categories.map((cat) => (
+            <a href={cat.href} class="card">
+              <div class="card__img">
+                <img src={cat.image} alt="" loading="lazy" />
+              </div>
+              <h3>{cat.title}</h3>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center">Una paleta para cada proyecto</h2>
+      <p class="text-center text-muted section-intro">
+        Tonos nacidos de la arcilla local y de la cocción artesanal en Amagá.
+      </p>
+      <div class="color-grid">
+        {
+          colors.map((c) => (
+            <a href={`/productos?color=${c.slug}`} class="color-swatch">
+              <span class="color-swatch__chip" style={`background: ${c.hex}`} />
+              <span class="color-swatch__name">{capitalizeHeading(c.name)}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container split split--reverse">
+      <div class="split__text">
+        <p class="eyebrow eyebrow--light">Para cada proyecto</p>
+        <h2>Materiales que definen el espacio</h2>
+        <p>
+          Fachadas a la vista, muros interiores, pisos de barro y cubiertas en
+          teja: piezas con trazabilidad, asesoría técnica NTC 4205 y la calidez del
+          barro cocido en Amagá.
+        </p>
+        <a href="/productos" class="link-arrow link-arrow--light"
+          >explorar aplicaciones →</a
+        >
+      </div>
+      <div class="split__media">
+        <img
+          src={assetUrl("/images/Editadas/Romano Liso/DSC_6501.jpg")}
+          alt="Ladrillo de fachada Clay House"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class="container pillars">
+      {
+        pillars.map((p) => (
+          <div class="pillar">
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="text-center">Productos destacados</h2>
+      <div class="grid-3">
+        {
+          featured.map((p) => (
+            <a href={`/productos/${p.slug}`} class="card">
+              <div class="card__img">
+                <img src={assetUrl(p.image)} alt={p.name} loading="lazy" />
+              </div>
+              <p class="card__meta">{p.category}</p>
+              <h3>{p.name}</h3>
+              <p class="card__desc">{p.shortDescription}</p>
+            </a>
+          ))
+        }
+      </div>
+      <p class="text-center" style="margin-top: 2.5rem">
+        <a href="/productos" class="btn btn--primary">ver todos los productos</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center">Pide muestras de nuestros colores</h2>
+      <p class="text-center text-muted section-intro">
+        Enviamos cajas físicas a su estudio para especificar con el material en mano.
+      </p>
+      <div class="services-grid">
+        {
+          services.map((s) => (
+            <div class="service">
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="text-center" style="margin-top: 2.5rem">
+        <a href="/contacto" class="btn btn--primary">solicitar muestras</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: clamp(4rem, 12vh, 8rem);
+    margin-top: 0;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(71, 36, 16, 0.85) 0%,
+      rgba(71, 36, 16, 0.35) 50%,
+      rgba(71, 36, 16, 0.2) 100%
+    );
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    color: var(--color-bg);
+    max-width: 42rem;
+  }
+
+  .hero__content h1 {
+    color: var(--color-bg);
+  }
+
+  .hero__lead {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .btn--on-dark {
+    border-color: rgba(255, 251, 249, 0.6);
+    color: var(--color-bg);
+  }
+
+  .btn--on-dark:hover {
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .split--reverse {
+    direction: rtl;
+  }
+
+  .split--reverse > * {
+    direction: ltr;
+  }
+
+  .split__media img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+  }
+
+  .link-arrow {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .link-arrow--light {
+    color: var(--color-salmon);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-intro {
+    max-width: 36rem;
+    margin: 0 auto 3rem;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .card {
+    display: block;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card__img {
+    margin-bottom: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .card__img img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .card:hover .card__img img {
+    transform: scale(1.04);
+  }
+
+  .card h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .card__meta {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+    margin-bottom: 0.25rem;
+  }
+
+  .card__desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
+
+  .color-swatch {
+    text-align: center;
+  }
+
+  .color-swatch__chip {
+    display: block;
+    aspect-ratio: 1;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    transition: transform 0.2s;
+  }
+
+  .color-swatch:hover .color-swatch__chip {
+    transform: scale(1.05);
+  }
+
+  .color-swatch__name {
+    font-size: 0.8125rem;
+  }
+
+  .eyebrow--light {
+    color: var(--color-salmon);
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid rgba(255, 251, 249, 0.12);
+  }
+
+  .pillar h3 {
+    color: var(--color-salmon);
+    font-size: 1.125rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .service p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .color-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .pillars {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .split,
+    .split--reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+    }
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

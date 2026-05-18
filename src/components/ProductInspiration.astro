@@ -1,0 +1,333 @@
+---
+import type { InspirationCard } from "@/utils/variantGallery";
+
+interface Props {
+  cards: InspirationCard[];
+}
+
+const { cards } = Astro.props;
+
+const INTRO =
+  "Sus matices y variaciones naturales generan composiciones únicas que añaden personalidad y un acabado auténtico a fachadas e interiores.";
+---
+
+{
+  cards.length > 0 && (
+    <div class="product-inspiration" data-product-inspiration>
+      <div class="product-inspiration__header container">
+        <p class="product-inspiration__eyebrow">Proyectos</p>
+        <h2 class="product-inspiration__title">Inspiración</h2>
+        <p class="product-inspiration__intro">{INTRO}</p>
+      </div>
+
+      <div class="product-inspiration__carousel">
+        <button
+          type="button"
+          class="product-inspiration__nav product-inspiration__nav--prev"
+          aria-label="Proyecto anterior"
+          data-inspiration-prev
+          hidden
+        >
+          ←
+        </button>
+
+        <div class="product-inspiration__viewport" data-inspiration-viewport>
+          <div class="product-inspiration__track" data-inspiration-track>
+            {cards.map((card, i) => {
+              const img = card.images[0];
+              const split = i % 2 === 1;
+              return (
+                <article
+                  class:list={["inspiration-card", split && "inspiration-card--split"]}
+                  data-inspiration-card
+                >
+                  {split && (
+                    <div class="inspiration-card__text">
+                      <p>{card.title}</p>
+                    </div>
+                  )}
+                  <figure class="inspiration-card__media">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      loading={i < 2 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                    {!split && <figcaption>{card.title}</figcaption>}
+                    {card.images.length > 1 && (
+                      <span class="inspiration-card__count" aria-hidden="true">
+                        +{card.images.length - 1}
+                      </span>
+                    )}
+                  </figure>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="product-inspiration__nav product-inspiration__nav--next"
+          aria-label="Siguiente proyecto"
+          data-inspiration-next
+        >
+          →
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  interface GalleryImage {
+    src: string;
+    alt: string;
+    label: string;
+  }
+
+  interface InspirationCard {
+    title: string;
+    category: string;
+    images: GalleryImage[];
+  }
+
+  function bindInspiration(root: HTMLElement) {
+    const viewport = root.querySelector<HTMLElement>("[data-inspiration-viewport]");
+    const track = root.querySelector<HTMLElement>("[data-inspiration-track]");
+    const prevBtn = root.querySelector<HTMLButtonElement>("[data-inspiration-prev]");
+    const nextBtn = root.querySelector<HTMLButtonElement>("[data-inspiration-next]");
+
+    if (!viewport || !track) return;
+
+    const updateNav = () => {
+      if (!prevBtn || !nextBtn) return;
+      const maxScroll = track.scrollWidth - viewport.clientWidth;
+      const sl = viewport.scrollLeft;
+      prevBtn.hidden = sl <= 8;
+      nextBtn.hidden = sl >= maxScroll - 8;
+    };
+
+    const scrollByCard = (direction: 1 | -1) => {
+      const card = track.querySelector<HTMLElement>("[data-inspiration-card]");
+      if (!card) return;
+      const gap = parseFloat(getComputedStyle(track).gap) || 16;
+      const step = card.offsetWidth + gap;
+      viewport.scrollBy({ left: direction * step, behavior: "smooth" });
+    };
+
+    prevBtn?.addEventListener("click", () => scrollByCard(-1));
+    nextBtn?.addEventListener("click", () => scrollByCard(1));
+    viewport.addEventListener("scroll", updateNav, { passive: true });
+    window.addEventListener("resize", updateNav);
+    updateNav();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-product-inspiration]").forEach(bindInspiration);
+</script>
+
+<style is:global>
+  .product-inspiration__header {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto 2.5rem;
+  }
+
+  .product-inspiration__eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .product-inspiration__title {
+    margin: 0 0 1rem;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--color-chocolate);
+  }
+
+  .product-inspiration__intro {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .product-inspiration__carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-inline: clamp(0.75rem, 3vw, 2rem);
+  }
+
+  .product-inspiration__viewport {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .product-inspiration__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-inspiration__track {
+    display: flex;
+    gap: 1rem;
+    padding-block: 0.5rem 1rem;
+    padding-inline: max(0px, calc((100vw - 72rem) / 2));
+  }
+
+  .inspiration-card {
+    flex: 0 0 min(88vw, 520px);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: var(--color-white);
+    box-shadow: 0 12px 40px rgba(71, 36, 16, 0.1);
+  }
+
+  .inspiration-card--split {
+    flex: 0 0 min(92vw, 720px);
+    flex-direction: row;
+    min-height: 280px;
+  }
+
+  .inspiration-card__text {
+    flex: 0 0 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.75rem;
+    background: var(--color-terracota);
+    color: var(--color-white);
+  }
+
+  .inspiration-card__text p {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .inspiration-card__media {
+    flex: 1;
+    margin: 0;
+    position: relative;
+    min-height: 220px;
+    min-width: 0;
+  }
+
+  .inspiration-card--split .inspiration-card__media {
+    flex: 0 0 58%;
+  }
+
+  .inspiration-card__media img {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .inspiration-card__media figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-white);
+    background: linear-gradient(transparent, rgba(71, 36, 16, 0.75));
+  }
+
+  .inspiration-card__count {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-white);
+    background: rgba(71, 36, 16, 0.65);
+    border-radius: 0.35rem;
+  }
+
+  .product-inspiration__nav {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(71, 36, 16, 0.08);
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    z-index: 2;
+  }
+
+  .product-inspiration__nav:hover:not(:hidden) {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-white);
+    transform: scale(1.05);
+  }
+
+  .product-inspiration__nav[hidden] {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  @media (min-width: 900px) {
+    .inspiration-card {
+      flex: 0 0 min(42vw, 480px);
+    }
+
+    .inspiration-card--split {
+      flex: 0 0 min(58vw, 680px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .inspiration-card--split {
+      flex-direction: column;
+      flex: 0 0 88vw;
+    }
+
+    .inspiration-card__text {
+      flex: none;
+      padding: 1.25rem 1rem;
+    }
+
+    .inspiration-card--split .inspiration-card__media {
+      flex: 1;
+    }
+
+    .product-inspiration__nav {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { downloads } from "@/data/downloads";
+---
+
+<BaseLayout
+  title="Descargas"
+  description="Fichas técnicas, catálogo y certificados NTC 4205 para especificadores."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Especificadores</p>
+      <h1>Recursos para especificadores</h1>
+      <p class="text-muted page-hero__lead">
+        Documentación técnica para integrar en memorias de especificación.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ul class="download-list">
+        {
+          downloads.map((d) => (
+            <li class="download-item">
+              <div>
+                <span class="download-type">{d.type}</span>
+                <h2>{d.title}</h2>
+                <p>{d.description}</p>
+              </div>
+              <a href={d.file} class="btn btn--primary" download>
+                descargar PDF
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="download-note">
+        Los PDF provienen de <code>public/Fichas Tecnicas/</code>. Si falta alguno,
+        escríbanos a <a href="mailto:ventas@clayhouse.com.co">ventas@clayhouse.com.co</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 8rem 0 3rem;
+    background: var(--color-white);
+  }
+
+  .page-hero__lead {
+    max-width: 36rem;
+  }
+
+  .download-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .download-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(71, 36, 16, 0.1);
+  }
+
+  .download-type {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .download-item h2 {
+    font-size: 1.25rem;
+    margin: 0.25rem 0 0.5rem;
+  }
+
+  .download-item p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    max-width: 36rem;
+  }
+
+  .download-note {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .download-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

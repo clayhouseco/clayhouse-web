@@ -1,0 +1,330 @@
+---
+export interface GalleryImage {
+  src: string;
+  alt: string;
+  label: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="product-gallery product-gallery--stacked" data-product-gallery>
+  <div class="product-gallery__stage">
+    <button
+      type="button"
+      class="product-gallery__nav product-gallery__nav--prev"
+      aria-label="Imagen anterior"
+      data-nav="prev"
+    >
+      ←
+    </button>
+
+    <div class="product-gallery__main">
+      {
+        images.map((img, i) => (
+          <figure
+            class:list={["product-gallery__slide", i === 0 && "product-gallery__slide--active"]}
+            data-slide={i}
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding="async"
+            />
+            <figcaption class="product-gallery__caption">{img.label}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <button
+      type="button"
+      class="product-gallery__nav product-gallery__nav--next"
+      aria-label="Imagen siguiente"
+      data-nav="next"
+    >
+      →
+    </button>
+
+    <p class="product-gallery__counter" aria-live="polite">
+      <span data-current>1</span> / <span data-total>{images.length}</span>
+    </p>
+  </div>
+
+  <div class="product-gallery__thumbs" role="tablist" aria-label="Vistas del producto">
+    {
+      images.map((img, i) => (
+        <button
+          type="button"
+          class:list={["product-gallery__thumb", i === 0 && "product-gallery__thumb--active"]}
+          data-index={i}
+          role="tab"
+          aria-selected={i === 0 ? "true" : "false"}
+          aria-label={img.label}
+        >
+          <img src={img.src} alt="" loading="lazy" decoding="async" />
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  interface GalleryImage {
+    src: string;
+    alt: string;
+    label: string;
+  }
+
+  function bindGallery(root: HTMLElement) {
+    let index = 0;
+
+    const getSlides = () => [...root.querySelectorAll<HTMLElement>(".product-gallery__slide")];
+    const getThumbs = () => [...root.querySelectorAll<HTMLButtonElement>(".product-gallery__thumb")];
+    const counter = root.querySelector("[data-current]");
+    const totalEl = root.querySelector("[data-total]");
+    const main = root.querySelector(".product-gallery__main");
+    const thumbsWrap = root.querySelector(".product-gallery__thumbs");
+
+    const show = (next: number) => {
+      const slides = getSlides();
+      const thumbs = getThumbs();
+      const total = slides.length;
+      if (total === 0) return;
+      index = ((next % total) + total) % total;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("product-gallery__slide--active", i === index);
+      });
+      thumbs.forEach((thumb, i) => {
+        const active = i === index;
+        thumb.classList.toggle("product-gallery__thumb--active", active);
+        thumb.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      if (counter) counter.textContent = String(index + 1);
+    };
+
+    const render = (images: GalleryImage[]) => {
+      if (!main || !thumbsWrap) return;
+
+      main.innerHTML = "";
+      thumbsWrap.innerHTML = "";
+
+      images.forEach((img, i) => {
+        const slide = document.createElement("figure");
+        slide.className = `product-gallery__slide${i === 0 ? " product-gallery__slide--active" : ""}`;
+        slide.dataset.slide = String(i);
+
+        const image = document.createElement("img");
+        image.src = img.src;
+        image.alt = img.alt;
+        image.loading = i === 0 ? "eager" : "lazy";
+        image.decoding = "async";
+
+        const caption = document.createElement("figcaption");
+        caption.className = "product-gallery__caption";
+        caption.textContent = img.label;
+
+        slide.append(image, caption);
+        main.append(slide);
+
+        const thumb = document.createElement("button");
+        thumb.type = "button";
+        thumb.className = `product-gallery__thumb${i === 0 ? " product-gallery__thumb--active" : ""}`;
+        thumb.dataset.index = String(i);
+        thumb.setAttribute("role", "tab");
+        thumb.setAttribute("aria-selected", i === 0 ? "true" : "false");
+        thumb.setAttribute("aria-label", img.label);
+
+        const thumbImg = document.createElement("img");
+        thumbImg.src = img.src;
+        thumbImg.alt = "";
+        thumbImg.loading = "lazy";
+        thumb.append(thumbImg);
+        thumbsWrap.append(thumb);
+      });
+
+      if (totalEl) totalEl.textContent = String(images.length);
+      index = 0;
+      if (counter) counter.textContent = "1";
+    };
+
+    root.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("[data-nav='prev']")) {
+        show(index - 1);
+        return;
+      }
+      if (target.closest("[data-nav='next']")) {
+        show(index + 1);
+        return;
+      }
+      const thumb = target.closest<HTMLButtonElement>(".product-gallery__thumb");
+      if (thumb) {
+        const i = Number(thumb.dataset.index);
+        if (!Number.isNaN(i)) show(i);
+      }
+    });
+
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") show(index - 1);
+      if (e.key === "ArrowRight") show(index + 1);
+    });
+
+    root.addEventListener("gallery-set", ((e: CustomEvent<{ images: GalleryImage[] }>) => {
+      const images = e.detail?.images ?? [];
+      if (images.length) render(images);
+    }) as EventListener);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-product-gallery]").forEach(bindGallery);
+</script>
+
+<style is:global>
+  .product-gallery--stacked {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .product-gallery__stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .product-gallery__main {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    background: var(--color-white);
+    aspect-ratio: 4/5;
+    max-height: min(72vh, 680px);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(71, 36, 16, 0.06);
+  }
+
+  .product-gallery__slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .product-gallery__slide--active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  .product-gallery__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    max-width: none;
+  }
+
+  .product-gallery__caption {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    margin: 0;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-chocolate);
+    background: rgba(255, 251, 249, 0.92);
+    border-radius: 0.5rem;
+    z-index: 2;
+  }
+
+  .product-gallery__nav {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    font-size: 1.25rem;
+    cursor: pointer;
+    border-radius: 0.75rem;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .product-gallery__nav:hover {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: white;
+  }
+
+  .product-gallery__counter {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    margin: 0;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    background: rgba(255, 251, 249, 0.92);
+    color: var(--color-chocolate);
+    border-radius: 0.5rem;
+    z-index: 2;
+  }
+
+  .product-gallery__thumbs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .product-gallery__thumb {
+    flex: 0 0 72px;
+    height: 72px;
+    padding: 0;
+    border: 2px solid transparent;
+    background: var(--color-white);
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .product-gallery__thumb:hover,
+  .product-gallery__thumb--active {
+    border-color: var(--color-terracota);
+  }
+
+  .product-gallery__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    max-width: none;
+  }
+
+  @media (max-width: 640px) {
+    .product-gallery__main {
+      max-height: 55vh;
+    }
+
+    .product-gallery__thumb {
+      flex: 0 0 56px;
+      height: 56px;
+    }
+  }
+</style>

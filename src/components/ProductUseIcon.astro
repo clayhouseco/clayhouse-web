@@ -1,0 +1,75 @@
+---
+import type { UseChip } from "@/data/productMeta";
+
+interface Props {
+  icon: UseChip["icon"];
+}
+
+const { icon } = Astro.props;
+---
+
+<span class="use-icon" aria-hidden="true">
+  {
+    icon === "exterior" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      </svg>
+    )
+  }
+  {
+    icon === "interior" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 21h18M5 21V7l7-4 7 4v14" /><path d="M9 21v-6h6v6" />
+      </svg>
+    )
+  }
+  {
+    icon === "fachada" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="4" y="4" width="16" height="16" /><path d="M4 9h16M9 4v16" />
+      </svg>
+    )
+  }
+  {
+    icon === "muro" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 6h4v4H4zM10 6h4v4h-4zM16 6h4v4h-4zM4 12h4v4H4zM10 12h4v4h-4zM16 12h4v4h-4z" />
+      </svg>
+    )
+  }
+  {
+    icon === "suelo" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="14" width="18" height="6" /><path d="M7 14V8h10v6" />
+      </svg>
+    )
+  }
+  {
+    icon === "techo" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 12L12 4l9 8" /><path d="M5 12v8h14v-8" />
+      </svg>
+    )
+  }
+  {
+    icon === "estructural" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 3v18M3 12h18" /><rect x="8" y="8" width="8" height="8" />
+      </svg>
+    )
+  }
+  {
+    icon === "bano" && (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 12h12v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6z" /><path d="M6 12V8a3 3 0 016 0v4" />
+      </svg>
+    )
+  }
+</span>
+
+<style>
+  .use-icon {
+    display: inline-flex;
+    color: var(--color-terracota);
+  }
+</style>

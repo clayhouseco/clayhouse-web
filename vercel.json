@@ -1,0 +1,21 @@
+{
+  "redirects": [
+    { "source": "/nosotros/", "destination": "/nosotros", "permanent": true },
+    { "source": "/tienda", "destination": "/productos", "permanent": true },
+    { "source": "/tienda/", "destination": "/productos", "permanent": true },
+    {
+      "source": "/solicita-informacion-productos-servicios",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/solicita-informacion-productos-servicios/",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    { "source": "/carrito-de-compras", "destination": "/contacto", "permanent": true },
+    { "source": "/carrito-de-compras/", "destination": "/contacto", "permanent": true },
+    { "source": "/mi-cuenta", "destination": "/contacto", "permanent": true },
+    { "source": "/mi-cuenta/", "destination": "/contacto", "permanent": true }
+  ]
+}

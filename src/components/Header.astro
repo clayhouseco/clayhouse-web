@@ -1,0 +1,176 @@
+---
+import { nav, site } from "@/data/site";
+import { logos } from "@/utils/media";
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="header__inner container">
+    <a href="/" class="header__logo">
+      <img
+        src={logos.header}
+        alt={site.name}
+        class="header__logo-img"
+        onerror={`this.onerror=null;this.src='${logos.headerAlt}'`}
+      />
+      <span class="header__logo-text" hidden>{site.name}</span>
+    </a>
+    <nav class="header__nav" aria-label="Principal">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  "header__link",
+                  {
+                    "header__link--active":
+                      item.href === "/"
+                        ? currentPath === "/"
+                        : currentPath.startsWith(item.href),
+                  },
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button class="header__toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector(".header__toggle");
+  const nav = document.querySelector(".header__nav");
+  toggle?.addEventListener("click", () => {
+    const open = nav?.classList.toggle("header__nav--open");
+    toggle.setAttribute("aria-expanded", String(!!open));
+  });
+</script>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: rgba(255, 251, 249, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(71, 36, 16, 0.06);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 5.25rem;
+  }
+
+  .header__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--color-chocolate);
+  }
+
+  .header__logo-img {
+    height: 2.75rem;
+    width: auto;
+    max-width: min(320px, 52vw);
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  @media (min-width: 768px) {
+    .header__logo-img {
+      height: 3.5rem;
+      max-width: 360px;
+    }
+  }
+
+  .header__logo-text {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.04em;
+  }
+
+  .header__nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__link {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-chocolate);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .header__link:hover,
+  .header__link--active {
+    opacity: 1;
+    color: var(--color-terracota);
+  }
+
+  .header__toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+  .header__toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-chocolate);
+  }
+
+  @media (max-width: 768px) {
+    .header__toggle {
+      display: flex;
+    }
+
+    .header__nav {
+      position: fixed;
+      inset: 4.5rem 0 auto 0;
+      background: var(--color-bg);
+      padding: 2rem;
+      border-bottom: 1px solid rgba(71, 36, 16, 0.08);
+      transform: translateY(-120%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s var(--ease), opacity 0.3s;
+    }
+
+    .header__nav--open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .header__nav ul {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+  }
+</style>

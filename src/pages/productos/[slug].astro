@@ -1,0 +1,882 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProductGallery, { type GalleryImage } from "@/components/ProductGallery.astro";
+import ProductInspiration from "@/components/ProductInspiration.astro";
+import ProductColorVariants from "@/components/ProductColorVariants.astro";
+import ProductUseIcon from "@/components/ProductUseIcon.astro";
+import { products, getProduct } from "@/data/products";
+import {
+  getRecommendedUses,
+  getNotRecommended,
+  getRelatedProducts,
+  getCategoryHref,
+} from "@/data/productMeta";
+import { getProductAssets, getProductInspiration, getVariantGallery } from "@/data/productVariants";
+import { assetUrl } from "@/utils/paths";
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const product = getProduct(slug!);
+
+if (!product) {
+  return Astro.redirect("/productos");
+}
+
+const assets = getProductAssets(product.slug);
+const defaultVariantId = assets?.variants[0]?.id ?? "default";
+const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
+const activeVariantId = activeVariant?.id ?? defaultVariantId;
+
+const galleryImages: GalleryImage[] = assets
+  ? getVariantGallery(assets, activeVariantId)
+  : [{ src: assetUrl(product.image), alt: product.name, label: "Producto" }];
+
+const inspirationCards = assets ? getProductInspiration(assets) : [];
+
+if (!assets) {
+  product.gallery?.forEach((path, i) => {
+    galleryImages.push({
+      src: assetUrl(path),
+      alt: `${product.name} — detalle ${i + 1}`,
+      label: "Detalle",
+    });
+  });
+  if (product.imageDimensiones) {
+    galleryImages.push({
+      src: assetUrl(product.imageDimensiones),
+      alt: `Dimensiones ${product.name}`,
+      label: "Dimensiones",
+    });
+  }
+  if (product.imageFachada) {
+    galleryImages.push({
+      src: assetUrl(product.imageFachada),
+      alt: `${product.name} en fachada`,
+      label: "En obra",
+    });
+  }
+}
+
+const displayColor = activeVariant?.colorLabel ?? product.color;
+
+const dimensionesLine = product.dimensions
+  ? product.slug === "romano"
+    ? [product.dimensions.alto, product.dimensions.ancho, product.dimensions.largo]
+        .filter(Boolean)
+        .join(" × ")
+    : [product.dimensions.largo, product.dimensions.ancho, product.dimensions.alto]
+        .filter(Boolean)
+        .join(" × ")
+  : null;
+
+const specRows = [
+  { label: "Textura", value: product.texture },
+  { label: "Color", value: product.color },
+  dimensionesLine && { label: "Dimensiones", value: dimensionesLine },
+  product.dimensions?.pesoAprox && { label: "Peso", value: product.dimensions.pesoAprox },
+  product.dimensions?.rendimiento && {
+    label: "Rendimiento",
+    value: product.dimensions.rendimiento,
+  },
+  ...(product.specs ?? []),
+].filter(Boolean) as { label: string; value: string }[];
+
+const quoteBase = `/contacto?producto=${encodeURIComponent(product.name)}&referencia=${encodeURIComponent(product.slug)}`;
+
+const recommendedUses = getRecommendedUses(product);
+const notRecommended = getNotRecommended(product);
+const related = getRelatedProducts(product);
+
+---
+
+<BaseLayout title={product.seoTitle} description={product.seoDescription}>
+  <article class="product-page">
+    <div class="container product-page__breadcrumb">
+      <a href="/">Clay House</a>
+      <span aria-hidden="true">›</span>
+      <a href="/productos">Productos</a>
+      <span aria-hidden="true">›</span>
+      <a href={getCategoryHref(product.category)}>{product.category}</a>
+      <span aria-hidden="true">›</span>
+      <span>{product.name}</span>
+    </div>
+
+    <section class="container product-page__hero">
+      <div class="product-page__hero-grid">
+        <div class="product-page__gallery-col">
+          <div class="product-page__gallery" tabindex="0">
+            <ProductGallery images={galleryImages} />
+          </div>
+          <nav class="product-page__quick-nav" aria-label="Secciones del producto">
+            <a href="#usos" class="quick-pill">Usos</a>
+            <a href="#descargables" class="quick-pill">Fichas</a>
+            <a href="#especificaciones" class="quick-pill">Especificaciones</a>
+          </nav>
+        </div>
+
+        <aside class="product-page__info-card">
+          <h1>{product.name}</h1>
+          <p class="product-page__meta">
+            <span>{product.category}</span>
+            <span class="product-page__meta-dot" aria-hidden="true">·</span>
+            <span data-product-color>{displayColor}</span>
+          </p>
+          {
+            assets && (
+              <ProductColorVariants
+                variants={assets.variants}
+                galleriesByVariant={assets.galleriesByVariant}
+                activeId={activeVariantId}
+                productName={product.name}
+              />
+            )
+          }
+          <div class="product-page__description">
+            {product.description.split("\n\n").map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <p class="product-page__delivery">Plazo de entrega: consultar según volumen y referencia</p>
+          <div class="product-page__order" data-product-order>
+            {
+              product.pricePerUnit && (
+                <p class="product-page__price">
+                  {product.pricePerUnit}
+                  <span class="product-page__price-unit">
+                    / {product.priceUnitLabel ?? "unidad"}
+                  </span>
+                </p>
+              )
+            }
+            <label class="product-page__qty">
+              <span>Cantidad</span>
+              <input
+                type="number"
+                name="cantidad"
+                min="1"
+                value="1"
+                inputmode="numeric"
+                data-qty-input
+              />
+            </label>
+            <a
+              href={`${quoteBase}&color=${encodeURIComponent(displayColor)}&cantidad=1`}
+              class="btn btn--primary btn--block"
+              data-quote-link
+            >
+              Solicitar cotización
+            </a>
+          </div>
+          <a href={product.technicalPdf} class="product-page__pdf" target="_blank" rel="noopener">
+            Descargar ficha técnica (PDF) →
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    {
+      specRows.length > 0 && (
+        <section class="product-page__block" id="especificaciones">
+          <div class="container product-page__panel product-page__panel--dark">
+            <h2 class="product-page__h2 product-page__h2--large">Especificaciones</h2>
+            <dl class="spec-grid">
+              {specRows.map((row) => (
+                <div class="spec-item">
+                  <dt>{row.label}</dt>
+                  <dd>
+                    {row.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="product-page__block" id="usos">
+      <div class="container product-page__two-col">
+        <div>
+          <h2 class="product-page__h2">Usos recomendados</h2>
+          <ul class="chip-list chip-list--yes">
+            {
+              recommendedUses.map((use) => (
+                <li class="chip">
+                  <ProductUseIcon icon={use.icon} />
+                  <span>{use.label}</span>
+                </li>
+              ))
+            }
+          </ul>
+          {
+            product.applications.length > 0 && (
+              <ul class="product-page__detail-list">
+                {product.applications.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+        <div>
+          <h2 class="product-page__h2">No apto</h2>
+          <ul class="chip-list chip-list--no">
+            {
+              notRecommended.map((item) => (
+                <li class="chip chip--muted">
+                  <span class="chip__x" aria-hidden="true">×</span>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-page__block product-page__block--alt" id="descargables">
+      <div class="container product-page__panel">
+        <h2 class="product-page__h2">Descargables</h2>
+        <ul class="download-list">
+          <li>
+            <a href={product.technicalPdf} target="_blank" rel="noopener" class="download-link">
+              <span class="download-link__title">Ficha técnica (PDF)</span>
+              <span class="download-link__meta">Dimensiones, tolerancias y NTC 4205</span>
+            </a>
+          </li>
+          {
+            assets?.extraDownloads?.map((item) => (
+              <li>
+                <a href={item.href} target="_blank" rel="noopener" class="download-link">
+                  <span class="download-link__title">{item.title}</span>
+                  {item.meta && <span class="download-link__meta">{item.meta}</span>}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a href="/descargas" class="download-link">
+              <span class="download-link__title">Más recursos para especificadores</span>
+              <span class="download-link__meta">Catálogo y documentación Clay House</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    {
+      inspirationCards.length > 0 && (
+        <section
+          class="product-page__block product-page__inspiration-wrap"
+          id="inspiracion"
+          data-inspiration-section
+        >
+          <ProductInspiration cards={inspirationCards} />
+        </section>
+      )
+    }
+
+    {
+      related.length > 0 && (
+        <section class="product-page__block product-page__block--alt">
+          <div class="container product-page__panel">
+            <h2 class="product-page__h2 product-page__h2--large">Productos relacionados</h2>
+            <div class="related-grid">
+              {related.map((p) => (
+                <a href={`/productos/${p.slug}`} class="related-card">
+                  <div class="related-card__img">
+                    <img src={assetUrl(p.image)} alt={p.name} loading="lazy" />
+                  </div>
+                  <p class="related-card__meta">{p.category}</p>
+                  <h3 class="related-card__title">{p.name}</h3>
+                  <p class="related-card__desc">{p.shortDescription}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-product-order]").forEach((order) => {
+    const qty = order.querySelector<HTMLInputElement>("[data-qty-input]");
+    const link = order.querySelector<HTMLAnchorElement>("[data-quote-link]");
+    if (!qty || !link) return;
+
+    const syncQty = () => {
+      const url = new URL(link.href, window.location.origin);
+      url.searchParams.set("cantidad", qty.value || "1");
+      link.href = `${url.pathname}${url.search}`;
+    };
+
+    qty.addEventListener("input", syncQty);
+    qty.addEventListener("change", syncQty);
+  });
+</script>
+
+<style>
+  .product-page {
+    --radius-xl: 1.25rem;
+    --radius-lg: 1rem;
+    --radius-md: 0.75rem;
+    --radius-sm: 0.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .product-page__breadcrumb {
+    padding: 6.5rem 0 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+  }
+
+  .product-page__breadcrumb a:hover {
+    color: var(--color-terracota);
+  }
+
+  .product-page__hero {
+    margin-bottom: 2rem;
+  }
+
+  .product-page__hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: start;
+  }
+
+  .product-page__gallery-col {
+    min-width: 0;
+  }
+
+  .product-page__gallery {
+    outline: none;
+  }
+
+  .product-page__gallery:focus-visible {
+    outline: 2px solid var(--color-terracota);
+    outline-offset: 4px;
+    border-radius: var(--radius-xl);
+  }
+
+  .product-page__quick-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .quick-pill {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.65rem 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    border-radius: var(--radius-md);
+    color: var(--color-chocolate);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .quick-pill:hover {
+    border-color: var(--color-terracota);
+    background: var(--color-bg);
+  }
+
+  .product-page__info-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid rgba(71, 36, 16, 0.06);
+    box-shadow: 0 8px 32px rgba(71, 36, 16, 0.06);
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .product-page__info-card h1 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    margin-bottom: 0.5rem;
+    line-height: 1.15;
+  }
+
+  .product-page__meta {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+    margin: 0 0 1.25rem;
+  }
+
+  .product-page__meta-dot {
+    opacity: 0.5;
+  }
+
+  .product-page__description {
+    margin: 0 0 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .product-page__description p {
+    margin: 0 0 0.85rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .product-page__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .product-page__delivery {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 1rem;
+  }
+
+  .product-page__order {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-top: 0.25rem;
+  }
+
+  .product-page__price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--color-chocolate);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .product-page__price-unit {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+  }
+
+  .product-page__qty {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .product-page__qty input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+  }
+
+  .product-page__qty input:focus {
+    outline: 2px solid var(--color-terracota);
+    outline-offset: 1px;
+  }
+
+  .product-page :global(.btn--block) {
+    width: 100%;
+    border-radius: var(--radius-md);
+    padding-block: 1rem;
+  }
+
+  .product-page__pdf {
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .product-page__source {
+    margin: 1rem 0 0;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  .product-page__assets {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .product-page__assets summary {
+    cursor: pointer;
+    color: var(--color-terracota);
+    font-weight: 500;
+  }
+
+  .product-page__assets ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .product-page__story {
+    margin-bottom: 3rem;
+  }
+
+  .product-page__story-inner {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid rgba(71, 36, 16, 0.06);
+    max-width: 52rem;
+  }
+
+  .product-page__story-inner p {
+    margin: 0 0 1rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    font-size: 1.0625rem;
+  }
+
+  .product-page__story-inner p:last-child {
+    margin-bottom: 0;
+  }
+
+  .product-page__panel {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid rgba(71, 36, 16, 0.06);
+  }
+
+  .product-page__block {
+    padding-block: 2.5rem;
+  }
+
+  .product-page__block--alt {
+    background: var(--color-white);
+  }
+
+  .product-page__panel--dark {
+    background: var(--color-terracota);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-bg);
+  }
+
+  .product-page__panel--dark .product-page__h2,
+  .product-page__panel--dark .product-page__h2--large {
+    color: var(--color-white);
+  }
+
+  .product-page__panel--dark .spec-item {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .product-page__panel--dark .spec-item dt {
+    color: var(--color-salmon);
+  }
+
+  .product-page__panel--dark .spec-item dd {
+    color: rgba(255, 251, 249, 0.92);
+  }
+
+  .product-page__inspiration-wrap {
+    padding-block: 3rem 4rem;
+    overflow: hidden;
+  }
+
+  .product-page__two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .product-page__h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .product-page__h2--large {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .chip-list {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
+  }
+
+  .chip--muted {
+    background: rgba(71, 36, 16, 0.04);
+    color: var(--color-text-muted);
+  }
+
+  .chip__x {
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--color-coral);
+  }
+
+  .product-page__detail-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .download-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .download-link {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .download-link:hover {
+    border-color: var(--color-terracota);
+    background: var(--color-white);
+  }
+
+  .download-link__title {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .download-link__meta {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .product-page__highlights {
+    padding-block: 3rem;
+    background: var(--color-chocolate);
+    color: var(--color-bg);
+  }
+
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .highlight-card__eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-salmon);
+    margin: 0 0 0.5rem;
+  }
+
+  .highlight-card__title {
+    font-size: 1.25rem;
+    margin: 0 0 0.75rem;
+    color: var(--color-bg);
+  }
+
+  .highlight-card__text {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgba(255, 251, 249, 0.75);
+  }
+
+  .product-page__samples {
+    padding-block: 0;
+  }
+
+  .samples-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 2.5rem;
+    background: var(--color-terracota);
+    color: white;
+    margin-top: -1px;
+    border-radius: var(--radius-xl);
+  }
+
+  .samples-banner :global(.btn) {
+    border-radius: var(--radius-md);
+  }
+
+  .samples-banner__title {
+    font-size: 1.5rem;
+    margin: 0 0 0.35rem;
+    color: white;
+  }
+
+  .samples-banner__text {
+    margin: 0;
+    opacity: 0.9;
+    max-width: 28rem;
+  }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 2rem;
+    margin: 0;
+  }
+
+  .spec-item {
+    display: grid;
+    grid-template-columns: minmax(0, 42%) 1fr;
+    gap: 0.75rem 1rem;
+    align-items: baseline;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .spec-item dt {
+    margin: 0;
+    font-weight: 500;
+    color: var(--color-terracota);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .spec-item dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-chocolate);
+  }
+
+  @media (max-width: 720px) {
+    .spec-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .related-card {
+    display: block;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(71, 36, 16, 0.06);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+
+  .related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(71, 36, 16, 0.08);
+  }
+
+  .related-card__img {
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    background: var(--color-white);
+  }
+
+  .related-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-width: none;
+  }
+
+  .related-card__meta {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+    margin: 1rem 1rem 0.35rem;
+  }
+
+  .related-card__title {
+    font-size: 1.125rem;
+    margin: 0 1rem 0.5rem;
+  }
+
+  .related-card__desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0 1rem 1.25rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .product-page__hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .product-page__info-card {
+      position: static;
+    }
+
+    .product-page__two-col,
+    .highlights-grid,
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .samples-banner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

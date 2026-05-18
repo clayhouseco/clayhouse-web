@@ -1,0 +1,145 @@
+---
+import type { ProductColorVariant } from "@/data/productVariants";
+import type { SplitVariantGallery } from "@/utils/variantGallery";
+
+interface Props {
+  variants: ProductColorVariant[];
+  galleriesByVariant: Record<string, SplitVariantGallery>;
+  activeId: string;
+  productName: string;
+}
+
+const { variants, galleriesByVariant, activeId, productName } = Astro.props;
+---
+
+<div
+  class="color-variants"
+  data-color-variants
+  data-product-name={productName}
+  data-galleries={JSON.stringify(galleriesByVariant)}
+>
+  <p class="color-variants__label">Color</p>
+  <div class="color-variants__list" role="listbox" aria-label="Color del producto">
+    {
+      variants.map((v) => (
+        <button
+          type="button"
+          class:list={["color-variant", v.id === activeId && "color-variant--active"]}
+          role="option"
+          aria-selected={v.id === activeId ? "true" : "false"}
+          data-variant-id={v.id}
+          data-variant-label={v.colorLabel}
+        >
+          {v.label}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  interface GalleryImage {
+    src: string;
+    alt: string;
+    label: string;
+  }
+
+  interface SplitVariantGallery {
+    hero: GalleryImage[];
+    inspiration: GalleryImage[];
+  }
+
+  function initColorVariants(root: HTMLElement) {
+    const page = root.closest(".product-page");
+    if (!page) return;
+
+    const galleries = JSON.parse(root.dataset.galleries ?? "{}") as Record<
+      string,
+      SplitVariantGallery
+    >;
+
+    const metaColor = page.querySelector<HTMLElement>("[data-product-color]");
+    const galleryRoot = page.querySelector<HTMLElement>("[data-product-gallery]");
+    const quoteLink = page.querySelector<HTMLAnchorElement>("[data-quote-link]");
+
+    const setHeroGallery = (split: SplitVariantGallery) => {
+      if (split.hero.length) {
+        galleryRoot?.dispatchEvent(
+          new CustomEvent("gallery-set", { detail: { images: split.hero }, bubbles: true })
+        );
+      }
+    };
+
+    root.querySelectorAll<HTMLButtonElement>(".color-variant").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.variantId;
+        const label = btn.dataset.variantLabel;
+        if (!id) return;
+
+        root.querySelectorAll(".color-variant").forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle("color-variant--active", active);
+          b.setAttribute("aria-selected", active ? "true" : "false");
+        });
+
+        if (label && metaColor) metaColor.textContent = label;
+
+        if (quoteLink && label) {
+          const url = new URL(quoteLink.href, window.location.origin);
+          url.searchParams.set("color", label);
+          quoteLink.href = `${url.pathname}${url.search}`;
+        }
+
+        const split = galleries[id];
+        if (split) setHeroGallery(split);
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-color-variants]").forEach(initColorVariants);
+</script>
+
+<style>
+  .color-variants {
+    margin-bottom: 1.25rem;
+  }
+
+  .color-variants__label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 0.65rem;
+  }
+
+  .color-variants__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .color-variant {
+    padding: 0.55rem 0.85rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: var(--radius-md, 0.75rem);
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+
+  .color-variant:hover {
+    border-color: var(--color-terracota);
+  }
+
+  .color-variant--active {
+    border-color: var(--color-terracota);
+    background: var(--color-chocolate);
+    color: var(--color-white);
+  }
+</style>

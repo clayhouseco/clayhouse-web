@@ -1,0 +1,93 @@
+{
+  "brand": "Clay House",
+  "tagline": "Convirtiendo piezas en sueños",
+  "source": "MANUAL DE MARCA CLAYHOUSE.pdf",
+  "colors": {
+    "chocolateProfundo": {
+      "name": "Chocolate profundo",
+      "hex": "#472410",
+      "rgb": [71, 36, 16],
+      "cmyk": [45, 75, 84, 70],
+      "role": "Texto principal, titulares, footer oscuro"
+    },
+    "terracotaClay": {
+      "name": "Terracota Clay",
+      "hex": "#7C482C",
+      "rgb": [124, 72, 44],
+      "cmyk": [34, 67, 79, 42],
+      "role": "Botones primarios, links, acento de marca"
+    },
+    "salmonSuave": {
+      "name": "Salmón suave",
+      "hex": "#F99A91",
+      "rgb": [249, 154, 145],
+      "cmyk": [0, 51, 36, 0],
+      "role": "Fondos alternativos, highlights"
+    },
+    "coralVivo": {
+      "name": "Coral vivo",
+      "hex": "#EF5843",
+      "rgb": [239, 88, 67],
+      "cmyk": [0, 77, 72, 0],
+      "role": "CTAs secundarios, hover, énfasis"
+    },
+    "ambarArcilla": {
+      "name": "Ámbar arcilla",
+      "hex": "#F2A141",
+      "rgb": [242, 161, 65],
+      "cmyk": [2, 43, 80, 0],
+      "role": "Acentos cálidos, iconografía"
+    },
+    "fondoNeutro": {
+      "name": "Blanco cálido (complemento web)",
+      "hex": "#FFFBF9",
+      "rgb": [255, 251, 249],
+      "role": "Fondo de página — no sustituye colores de marca"
+    },
+    "blanco": {
+      "name": "Blanco",
+      "hex": "#FFFFFF",
+      "role": "Fondos de producto, tarjetas"
+    }
+  },
+  "typography": {
+    "headings": {
+      "family": "Helvetica Neue",
+      "fallback": "Neue Haas Grotesk Display, system-ui, sans-serif",
+      "weight": 700,
+      "style": "Bold Extended",
+      "letterSpacing": "0.02em",
+      "textTransform": "lowercase",
+      "sizes": {
+        "h1": { "desktop": "64px", "mobile": "40px", "lineHeight": 1.1 },
+        "h2": { "desktop": "40px", "mobile": "28px", "lineHeight": 1.15 },
+        "h3": { "desktop": "24px", "mobile": "20px", "lineHeight": 1.2 }
+      }
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 300,
+      "style": "Light",
+      "sizes": {
+        "body": { "desktop": "17px", "mobile": "16px", "lineHeight": 1.6 },
+        "small": { "desktop": "14px", "mobile": "13px", "lineHeight": 1.5 }
+      }
+    },
+    "social": {
+      "family": "Rigid Square",
+      "weight": 300,
+      "note": "Solo redes sociales; subir en Framer si hay licencia"
+    }
+  },
+  "spacing": {
+    "sectionPaddingY": { "desktop": "120px", "mobile": "80px" },
+    "containerMaxWidth": "1280px",
+    "gridGap": "24px"
+  },
+  "contact": {
+    "email": "ventas@clayhouse.com.co",
+    "phone": "+57 320 672 33 65",
+    "address": "Km 2, vía Amagá - Angelópolis, Amagá, Antioquia, Colombia",
+    "hours": "Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m."
+  }
+}

@@ -1,0 +1,5 @@
+title,slug,location,architect,typology,year,featured,shortDescription,productSlugs
+Casa en el Eje Cafetero,casa-eje-cafetero,"Pereira, Risaralda","[Nombre arquitecto — completar]",Residencial,2024,true,"Fachada en ladrillo F-PV con aparejo corrido y juntas abiertas. Luz dorada sobre textura vertical.",ladrillo-f-pv
+Restauración patrimonial Antioquia,restauracion-patrimonial-antioquia,"Medellín, Antioquia","[Nombre arquitecto — completar]",Restauración,2023,true,"Integración de ladrillo macizo y piezas especiales en muro patrimonial rehabilitado.",ladrillo-macizo;piezas-especiales
+Edificio multifamiliar Amagá,edificio-multifamiliar-amaga,"Amagá, Antioquia","[Nombre arquitecto — completar]",Residencial,2025,false,"Volúmenes contemporáneos con paleta Rojizo Amagá y Tierra Sinifaná en fachada principal.",ladrillo-f-pv;ladrillo-toscano-oscuro
+Hotel boutique cordillera,hotel-boutique-cordillera,"Envigado, Antioquia","[Nombre arquitecto — completar]",Comercial,2024,false,"Materialidad cálida en espacios comunes y fachada. Ladrillo como protagonista sensorial.",ladrillo-toscano-claro;ladrillo-macizo
