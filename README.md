@@ -48,16 +48,17 @@ Definidos en [`src/styles/global.css`](src/styles/global.css) y [`design-tokens.
 
 Sin `.env`, la página muestra email y WhatsApp.
 
-## Publicar en internet (Vercel — recomendado)
+## Publicar en internet (Vercel + GitHub)
 
-1. Sube este repo a GitHub
-2. [vercel.com](https://vercel.com) → **Import Project**
-3. Framework: **Astro** (auto-detectado)
-4. Deploy
-5. **Settings → Domains** → añade `clayhouse.com.co`
-6. En tu registrador del dominio, apunta DNS según indique Vercel
+Guía paso a paso: **[`docs/deploy-vercel-github.md`](docs/deploy-vercel-github.md)**
 
-Redirects básicos desde WordPress: [`vercel.json`](vercel.json)
+Resumen:
+
+1. `npm run build` → `npx vercel login` → `npx vercel --prod`
+2. `gh auth login` → commit → `git push origin main`
+3. Vercel → Import `clayhouseco/clayhouse-web` → dominio `clayhouse.com.co`
+
+Redirects WordPress: [`vercel.json`](vercel.json) · Exclusión de videos en deploy: [`.vercelignore`](.vercelignore)
 
 ## Fotos y PDFs
 

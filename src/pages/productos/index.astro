@@ -1,68 +1,32 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { products, type ProductCategory } from "@/data/products";
-import { assetUrl } from "@/utils/paths";
+import CatalogFilters from "@/components/catalog/CatalogFilters.astro";
+import ProductGrid from "@/components/catalog/ProductGrid.astro";
+import { getCatalogCategoryHref } from "@/data/catalogCategories";
+import { groupProductsByCategory } from "@/utils/catalog";
+import "@/styles/catalog-page.css";
 
-const categoria = Astro.url.searchParams.get("categoria") as ProductCategory | null;
 const color = Astro.url.searchParams.get("color");
-
-const filtered = categoria
-  ? products.filter((p) => p.category === categoria)
-  : products;
-
-const title = categoria ? `Productos — ${categoria}` : "Productos";
+const grouped = groupProductsByCategory();
 ---
 
 <BaseLayout
-  title={title}
-  description="Catálogo de ladrillo de fachada, macizo, piezas especiales y pisos. Fabricación en Amagá, Antioquia."
+  title="Productos"
+  description="Catálogo Clay House: fachadas, pisos, tejas y enchapes. Productos en barro cocido, atemporales, finos y duraderos."
 >
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">Catálogo</p>
-      <h1>El ladrillo de Amagá, reinventado</h1>
+      <h1>Materiales que cuentan historias</h1>
       <p class="text-muted page-hero__lead">
-        Catálogo neoartesanal para fachada, estructura y piezas a medida. Cada
-        referencia con trazabilidad y soporte técnico para especificación NTC 4205.
+        Fachadas, pisos, tejas y enchapes: productos atemporales, finos y duraderos.
       </p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="filters">
-        <a href="/productos" class:list={["filter", !categoria && "filter--active"]}
-          >Todos</a
-        >
-        <a
-          href="/productos?categoria=Fachada"
-          class:list={["filter", categoria === "Fachada" && "filter--active"]}
-          >Fachada</a
-        >
-        <a
-          href="/productos?categoria=Macizo"
-          class:list={["filter", categoria === "Macizo" && "filter--active"]}
-          >Macizo</a
-        >
-        <a
-          href="/productos?categoria=Rayado"
-          class:list={["filter", categoria === "Rayado" && "filter--active"]}
-          >Rayado</a
-        >
-        <a
-          href="/productos?categoria=Enchape"
-          class:list={["filter", categoria === "Enchape" && "filter--active"]}
-          >Enchape</a
-        >
-        <a
-          href="/productos?categoria=Piso"
-          class:list={["filter", categoria === "Piso" && "filter--active"]}>Piso</a
-        >
-        <a
-          href="/productos?categoria=Techo"
-          class:list={["filter", categoria === "Techo" && "filter--active"]}>Techo</a
-        >
-      </div>
+      <CatalogFilters />
 
       {
         color && (
@@ -72,20 +36,20 @@ const title = categoria ? `Productos — ${categoria}` : "Productos";
         )
       }
 
-      <div class="product-grid">
-        {
-          filtered.map((p) => (
-            <a href={`/productos/${p.slug}`} class="product-card">
-              <div class="product-card__img">
-                <img src={assetUrl(p.image)} alt={p.name} loading="lazy" />
-              </div>
-              <span class="product-card__cat">{p.category}</span>
-              <h2>{p.name}</h2>
-              <p>{p.shortDescription}</p>
-            </a>
-          ))
-        }
-      </div>
+      {
+        grouped.map((group) => (
+          <section class="catalog-group">
+            <header class="catalog-group__header">
+              <h2 class="catalog-group__title">{group.def.title}</h2>
+              <p class="catalog-group__desc">{group.def.description}</p>
+              <a href={getCatalogCategoryHref(group.def.id)} class="link-arrow">
+                ver solo {group.def.label.toLowerCase()} →
+              </a>
+            </header>
+            <ProductGrid products={group.products} />
+          </section>
+        ))
+      }
 
       <aside class="catalog-cta">
         <h3>¿No encuentra su referencia?</h3>
@@ -94,107 +58,14 @@ const title = categoria ? `Productos — ${categoria}` : "Productos";
       </aside>
     </div>
   </section>
+
+  <script>
+    import { categorySlugById } from "@/data/catalogCategories";
+
+    const q = new URL(window.location.href).searchParams.get("categoria");
+    if (q && q in categorySlugById) {
+      const slug = categorySlugById[q as keyof typeof categorySlugById];
+      window.location.replace(`/productos/categoria/${slug}/`);
+    }
+  </script>
 </BaseLayout>
-
-<style>
-  .page-hero {
-    padding: 8rem 0 3rem;
-    background: var(--color-white);
-  }
-
-  .page-hero__lead {
-    max-width: 40rem;
-    font-size: 1.125rem;
-  }
-
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .filter {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border: 1px solid rgba(71, 36, 16, 0.15);
-    transition: all 0.2s;
-  }
-
-  .filter:hover,
-  .filter--active {
-    background: var(--color-terracota);
-    border-color: var(--color-terracota);
-    color: white;
-  }
-
-  .filter-note {
-    margin: -1.5rem 0 2rem;
-    font-size: 0.875rem;
-  }
-
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-
-  .product-card h2 {
-    font-size: 1.25rem;
-  }
-
-  .product-card__img {
-    margin-bottom: 1rem;
-    border-radius: var(--radius-lg);
-  }
-
-  .product-card__img img {
-    width: 100%;
-    aspect-ratio: 4/5;
-    object-fit: cover;
-    transition: transform 0.4s var(--ease);
-  }
-
-  .product-card:hover .product-card__img img {
-    transform: scale(1.03);
-  }
-
-  .product-card__cat {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-terracota);
-  }
-
-  .product-card p {
-    font-size: 0.9375rem;
-    color: var(--color-text-muted);
-  }
-
-  .catalog-cta {
-    margin-top: 4rem;
-    padding: 2.5rem;
-    background: var(--color-white);
-    text-align: center;
-  }
-
-  .catalog-cta h3 {
-    margin-bottom: 0.5rem;
-  }
-
-  @media (max-width: 900px) {
-    .product-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .product-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

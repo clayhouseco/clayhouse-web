@@ -1,0 +1,11 @@
+# No subir a Vercel (solo afecta el deploy, no Git)
+**/.DS_Store
+**/*.HEIC
+**/*.heic
+**/*.MP4
+**/*.mp4
+**/*.RAF
+**/*.raf
+deploy-zips/
+.cursor/
+Protocolo de fotografía Clay house.pdf

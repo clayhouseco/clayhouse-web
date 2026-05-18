@@ -1,5 +1,7 @@
 ---
 import { site, nav } from "@/data/site";
+import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
+
 const year = new Date().getFullYear();
 ---
 
@@ -8,7 +10,6 @@ const year = new Date().getFullYear();
     <div class="footer__brand">
       <p class="footer__logo">{site.name}</p>
       <p class="footer__tagline">{site.tagline}</p>
-      <p class="footer__legal">{site.legalName}</p>
     </div>
     <div>
       <p class="footer__heading">Navegación</p>
@@ -34,7 +35,17 @@ const year = new Date().getFullYear();
       </ul>
     </div>
     <div>
-      <p class="footer__heading">Especificación</p>
+      <p class="footer__heading">Catálogo</p>
+      <ul class="footer__links">
+        {
+          catalogCategories.map((cat) => (
+            <li>
+              <a href={getCatalogCategoryHref(cat.id)}>{cat.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="footer__heading footer__heading--spaced">Especificación</p>
       <p class="footer__ntc">Cumplimiento NTC 4205</p>
     </div>
   </div>
@@ -52,7 +63,7 @@ const year = new Date().getFullYear();
 
   .footer__grid {
     display: grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr);
+    grid-template-columns: 1.5fr repeat(4, 1fr);
     gap: 2.5rem;
     padding-bottom: 3rem;
     border-bottom: 1px solid rgba(255, 251, 249, 0.12);
@@ -84,6 +95,10 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
     color: var(--color-salmon);
     margin: 0 0 1rem;
+  }
+
+  .footer__heading--spaced {
+    margin-top: 1.75rem;
   }
 
   .footer__links {

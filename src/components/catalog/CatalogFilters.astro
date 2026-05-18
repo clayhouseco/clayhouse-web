@@ -1,0 +1,27 @@
+---
+import {
+  catalogCategories,
+  getCatalogCategoryHref,
+  type ProductCategory,
+} from "@/data/catalogCategories";
+
+interface Props {
+  activeCategory?: ProductCategory | null;
+}
+
+const { activeCategory = null } = Astro.props;
+---
+
+<div class="filters">
+  <a href="/productos" class:list={["filter", !activeCategory && "filter--active"]}>Todos</a>
+  {
+    catalogCategories.map((cat) => (
+      <a
+        href={getCatalogCategoryHref(cat.id)}
+        class:list={["filter", activeCategory === cat.id && "filter--active"]}
+      >
+        {cat.label}
+      </a>
+    ))
+  }
+</div>

@@ -1,18 +1,20 @@
-/** Codifica rutas con espacios; evita doble codificación (%2520) */
+/** Codifica rutas con espacios y tildes; tolera doble codificación (%2520) */
 export function assetUrl(path: string): string {
   if (!path || path.startsWith("http://") || path.startsWith("https://")) return path;
 
-  return path
-    .split("/")
-    .map((segment, i) => {
-      if (i === 0 || segment === "") return segment;
-      try {
-        return encodeURIComponent(decodeURIComponent(segment));
-      } catch {
-        return encodeURIComponent(segment);
-      }
-    })
-    .join("/");
+  let decoded = path;
+  try {
+    let previous = "";
+    while (decoded !== previous) {
+      previous = decoded;
+      decoded = decodeURI(decoded);
+    }
+  } catch {
+    return encodeURI(path);
+  }
+
+  // Carpetas en public/ (macOS) suelen estar en NFD; encodeURI usa NFC por defecto.
+  return encodeURI(decoded.normalize("NFD"));
 }
 
 export function productAiImage(slug: string, type: "dimensiones" | "fachada"): string {

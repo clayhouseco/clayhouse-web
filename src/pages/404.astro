@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página que busca no existe. Explore el catálogo Clay House."
+>
+  <section class="page-hero page-hero--center">
+    <div class="container narrow">
+      <p class="eyebrow">Error 404</p>
+      <h1>No encontramos esta página</h1>
+      <p class="text-muted page-hero__lead">
+        Puede que el enlace haya cambiado o que la referencia ya no esté en el catálogo.
+      </p>
+      <div class="not-found__actions">
+        <a href="/productos" class="btn btn--primary">ver catálogo</a>
+        <a href="/contacto" class="btn btn--outline">contactar</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+</style>

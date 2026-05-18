@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+---
+
+<BaseLayout
+  title="Solicitud recibida"
+  description="Gracias por contactar a Clay House. Responderemos pronto con cotización o muestras."
+>
+  <section class="page-hero page-hero--center">
+    <div class="container narrow">
+      <p class="eyebrow">Gracias</p>
+      <h1>Recibimos su solicitud</h1>
+      <p class="text-muted page-hero__lead">
+        Nuestro equipo comercial revisará su mensaje y le responderá con cotización, fichas técnicas
+        o información sobre muestras físicas.
+      </p>
+      <div class="thanks__actions">
+        <a href="/productos" class="btn btn--primary">explorar catálogo</a>
+        <a href={site.whatsapp} class="btn btn--outline" target="_blank" rel="noopener">
+          WhatsApp
+        </a>
+      </div>
+      <p class="thanks__note">
+        ¿Necesita ampliar su consulta?{" "}
+        <a href="/contacto">enviar otro mensaje</a> o escribir a{" "}
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { clearQuoteCart } from "@/utils/quoteCart";
+  clearQuoteCart();
+</script>
+
+<style>
+  .thanks__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .thanks__note {
+    margin-top: 2rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .thanks__note a {
+    color: var(--color-terracota);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

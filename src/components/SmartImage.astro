@@ -15,14 +15,7 @@ const { src, alt, class: className, loading = "lazy", placeholderLabel } = Astro
 const rawSrc = typeof src === "string" ? src.trim() : "";
 const hasSrc = rawSrc.length > 0;
 
-/** Evita doble encode si la ruta ya viene codificada desde datos legacy */
-function resolveUrl(path: string): string {
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  if (/%[0-9A-Fa-f]{2}/.test(path)) return path;
-  return assetUrl(path);
-}
-
-const url = hasSrc ? resolveUrl(rawSrc) : "";
+const url = hasSrc ? assetUrl(rawSrc) : "";
 const showPlaceholderOnly = !hasSrc;
 const id = `img-${Math.random().toString(36).slice(2, 9)}`;
 const label = placeholderLabel ?? alt;

@@ -1,13 +1,9 @@
-import { fichaPdf, productAiImage } from "@/utils/paths";
+import { assetUrl, fichaPdf, productFolderImage } from "@/utils/paths";
 import { romanoAssets } from "@/data/productVariants";
 
-export type ProductCategory =
-  | "Fachada"
-  | "Macizo"
-  | "Enchape"
-  | "Piso"
-  | "Techo"
-  | "Rayado";
+export type { ProductCategory } from "@/data/catalogCategories";
+export { productCategories } from "@/data/catalogCategories";
+import type { ProductCategory } from "@/data/catalogCategories";
 
 export interface ProductDimensions {
   largo?: string;
@@ -48,13 +44,11 @@ export interface Product {
   technicalPdf: string;
 }
 
-const editada = (folder: string, file: string) => `/images/Editadas/${folder}/${file}`;
-
 export const products: Product[] = [
   {
     name: "Ladrillo Toscano",
     slug: "toscano",
-    category: "Fachada",
+    category: "Fachadas",
     shortDescription:
       "Acabado limpio y elegante en tonos tierra claros. Ideal para fachadas y espacios con estilo cálido, minimalista y atemporal.",
     description:
@@ -65,26 +59,35 @@ export const products: Product[] = [
       "Proyectos minimalistas y contemporáneos",
       "Patios y zonas sociales con diseño atemporal",
     ],
-    color: "Claro / oscuro",
-    texture: "Rústico toscano",
+    color: "Arena, Oscuro",
+    texture: "Texturizado",
     featured: true,
     seoTitle: "Ladrillo Toscano | Clay House Amagá",
     seoDescription:
-      "Ladrillo Toscano Claro para fachada e interiores. Estilo cálido y contemporáneo. Clay House, Amagá.",
-    image: editada("Romano Liso", "DSC_6514.jpg"),
-    gallery: [
-      editada("Romano Liso", "DSC_6501.jpg"),
-      editada("romano curvo", "DSC_9287.jpg"),
+      "Ladrillo Toscano para fachada e interiores. Tonos arena y oscuro. Clay House, Amagá.",
+    image: productFolderImage("toscano", "arena/Toscano Arena.png"),
+    pricePerUnit: "$ 2.250",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      alto: "5 cm",
+      ancho: "14 cm",
+      largo: "29 cm",
+      pesoAprox: "1,8 kg",
+      rendimiento: "68 und/m²",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205-2 / 4205-3" },
+      { label: "Tipo de uso", value: "Fachada" },
+      { label: "Tolerancia dimensional", value: "± 2%" },
+      { label: "Absorción de agua", value: "Promedio 13% · Individual 17%" },
+      { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
-    imageDimensiones: productAiImage("toscano", "dimensiones"),
-    imageFachada: productAiImage("toscano", "fachada"),
-    dimensions: { largo: "24 cm", ancho: "5.5 cm", alto: "11 cm", rendimiento: "Ver ficha técnica" },
     technicalPdf: fichaPdf("Toscano.pdf"),
   },
   {
     name: "Ladrillo Napolitano",
     slug: "napolitano",
-    category: "Fachada",
+    category: "Fachadas",
     shortDescription:
       "Proporción alargada y ritmo vertical para fachadas con presencia elegante y acabado artesanal.",
     description:
@@ -94,21 +97,34 @@ export const products: Product[] = [
       "Muros perimetrales a la vista",
       "Remodelaciones con lenguaje clásico-contemporáneo",
     ],
-    color: "Rojizo / matizado",
-    texture: "Napolitano",
+    color: "Rojo, Matizado claro, Matizado oscuro",
+    texture: "Texturizado",
     featured: true,
     seoTitle: "Ladrillo Napolitano | Clay House",
     seoDescription: "Ladrillo Napolitano para fachada. Clay House, Amagá.",
-    image: editada("Liso vertical 15", "DSC_5715.jpg"),
-    gallery: [editada("Liso vertical 15", "DSC_5692.jpg")],
-    imageDimensiones: productAiImage("napolitano", "dimensiones"),
-    imageFachada: productAiImage("napolitano", "fachada"),
+    image: productFolderImage("napolitano", "rojo/Napolitano Roj.jpg"),
+    pricePerUnit: "$ 2.090",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      alto: "5 cm",
+      ancho: "10 cm",
+      largo: "20 cm",
+      pesoAprox: "1,8 kg",
+      rendimiento: "68 und/m²",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205-2 / 4205-3" },
+      { label: "Tipo de uso", value: "Fachada" },
+      { label: "Tolerancia dimensional", value: "± 2%" },
+      { label: "Absorción de agua", value: "Promedio 13% · Individual 17%" },
+      { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
+    ],
     technicalPdf: fichaPdf("Napolitano.pdf"),
   },
   {
     name: "Ladrillo Romano",
     slug: "romano",
-    category: "Fachada",
+    category: "Fachadas",
     shortDescription:
       "Perfil romano con volumen y juego de sombras. Referencia clásica para fachadas con carácter.",
     description:
@@ -123,8 +139,8 @@ export const products: Product[] = [
     featured: true,
     seoTitle: "Ladrillo Romano | Clay House Amagá",
     seoDescription: "Ladrillo Romano de fachada. Amagá, Colombia.",
-    image: "/images/products/romano/matizado/render 1.png",
-    pricePerUnit: "Consultar",
+    image: productFolderImage("romano", "matizado/Romano Matizado Claro.jpg"),
+    pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "30 cm",
@@ -145,31 +161,44 @@ export const products: Product[] = [
   {
     name: "Ladrillo Cartagena",
     slug: "cartagena",
-    category: "Fachada",
+    category: "Fachadas",
     shortDescription:
-      "Tonos claros, oscuros y matizados para fachadas con identidad, contraste y calidez regional.",
+      "Tonos claro, matizado y oscuro para fachadas con identidad, contraste y calidez regional.",
     description:
-      "El Ladrillo Cartagena ofrece una paleta amplia para composiciones monocromáticas o contrastadas. Su acabado permite proyectos con carácter costero-contemporáneo o fachadas sobrias con puntos de luz y sombra bien definidos.\n\nFunciona en vivienda, restaurantes y espacios comerciales que buscan personalidad sin renunciar a la durabilidad del barro cocido. Ideal para destacar volúmenes, ingresos y franjas decorativas en muro a la vista.",
+      "El Ladrillo Cartagena ofrece una paleta amplia para composiciones monocromáticas o contrastadas. Su acabado texturizado y perforación vertical permiten proyectos con carácter costero-contemporáneo o fachadas sobrias con puntos de luz y sombra bien definidos.\n\nFabricado en arcilla cocida natural, combina resistencia, durabilidad y variaciones artesanales propias del barro. Funciona en vivienda, restaurantes y espacios comerciales que buscan personalidad sin renunciar al cumplimiento NTC 4205.",
     applications: [
-      "Fachadas residenciales",
-      "Locales comerciales y restaurantes",
-      "Proyectos con identidad regional-contemporánea",
+      "Fachadas residenciales y comerciales",
+      "Muros estructurales interiores con revoque",
+      "Divisiones internas y obra residencial",
     ],
-    color: "Claro / oscuro / matizado",
-    texture: "Cartagena",
-    featured: false,
-    seoTitle: "Ladrillo Cartagena | Clay House",
-    seoDescription: "Ladrillo Cartagena para fachadas. Clay House.",
-    image: editada("Catalán vertical rojo", "DSC_5831.jpg"),
-    gallery: [editada("Catalán vertical pálido", "DSC_6472.jpg")],
-    imageDimensiones: productAiImage("cartagena", "dimensiones"),
-    imageFachada: productAiImage("cartagena", "fachada"),
+    color: "Claro, Matizado, Oscuro",
+    texture: "Texturizado",
+    featured: true,
+    seoTitle: "Ladrillo Cartagena | Clay House Amagá",
+    seoDescription:
+      "Ladrillo Cartagena para fachada. Tonos claro, matizado y oscuro. Clay House, Amagá.",
+    image: productFolderImage("cartagena", "claro/Cartagena Claro.png"),
+    pricePerUnit: "$ 2.700",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      alto: "4,5 cm",
+      ancho: "11 cm",
+      largo: "30 cm",
+      pesoAprox: "1,6 kg",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205 / NTC 3829" },
+      { label: "Tipo de uso", value: "Fachada y muro" },
+      { label: "Tolerancia dimensional", value: "± 4%" },
+      { label: "Absorción de agua", value: "Promedio 14% · Individual 17%" },
+      { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
+    ],
     technicalPdf: fichaPdf("Cartagena.pdf"),
   },
   {
     name: "Macizo Campesino",
     slug: "macizo-campesino",
-    category: "Macizo",
+    category: "Fachadas",
     shortDescription:
       "Macizo con carácter artesanal para muros estructurales y acabados con textura auténtica de barro.",
     description:
@@ -180,21 +209,29 @@ export const products: Product[] = [
       "Construcción tradicional y campestre",
       "Fachadas con acabado macizo",
     ],
-    color: "Terracota natural",
+    color: "Claro, Matizado, Oscuro, Natural",
     texture: "Macizo liso",
     featured: true,
     seoTitle: "Macizo Campesino | Clay House",
     seoDescription: "Ladrillo macizo campesino. Amagá, Antioquia.",
-    image: editada("Macizo 6x12x24", "DSC_9310.jpg"),
-    gallery: [editada("Macizo 6x12x24", "DSC_9294.jpg")],
-    imageDimensiones: productAiImage("macizo-campesino", "dimensiones"),
-    imageFachada: productAiImage("macizo-campesino", "fachada"),
+    image: productFolderImage("macizo-campesino", "claro/Campesino Claro.png"),
+    pricePerUnit: "$ 1.650",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      alto: "6 cm",
+      ancho: "12 cm",
+      largo: "24 cm",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Estructural y fachada" },
+    ],
     technicalPdf: fichaPdf("Macizo Campesino.pdf"),
   },
   {
     name: "Macizo Brix",
     slug: "macizo-brix",
-    category: "Macizo",
+    category: "Fachadas",
     shortDescription:
       "Formato macizo optimizado para obra moderna con buen rendimiento y acabado uniforme.",
     description:
@@ -209,45 +246,64 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Macizo Brix | Clay House",
     seoDescription: "Ladrillo macizo Brix. Clay House Amagá.",
-    image: editada("Macizo 5x10x20", "DSC_9315.jpg"),
-    imageDimensiones: productAiImage("macizo-brix", "dimensiones"),
-    imageFachada: productAiImage("macizo-brix", "fachada"),
+    image: productFolderImage("macizo-brix", "pieza/DSC_9310.jpg"),
+    pricePerUnit: "$ 1.500",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      alto: "5 / 6 cm",
+      ancho: "10 / 12 cm",
+      largo: "20 / 24 cm",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Estructural" },
+    ],
     technicalPdf: fichaPdf("Macizo Brix.pdf"),
   },
   {
     name: "Ladrillo Rayado Vertical",
     slug: "rayados-verticales",
-    category: "Rayado",
+    category: "Divisorios",
     shortDescription:
-      "Textura vertical que acentúa la altura del muro y el juego de luz en fachada.",
+      "Textura vertical para muros divisorios y cerramientos con ritmo y juego de luz.",
     description:
-      "El Ladrillo Rayado Vertical introduce ritmo y profundidad en el plano del muro. Los surcos verticales captan la luz a lo largo del día, aportando dinamismo a fachadas residenciales y comerciales.\n\nExcelente para portones, ingresos principales y muros que buscan identidad sin recurrir a color adicional. Una pieza expresiva para arquitectura contemporánea en Antioquia y el Eje Cafetero.",
+      "El Ladrillo Rayado Vertical introduce ritmo y profundidad en el plano del muro. Los surcos verticales captan la luz a lo largo del día, aportando dinamismo a divisiones interiores, cerramientos y fachadas de acento.\n\nExcelente para muros divisorios, ingresos y cerramientos que buscan identidad sin recurrir a color adicional. Una pieza expresiva para arquitectura contemporánea en Antioquia y el Eje Cafetero.",
     applications: [
-      "Fachadas principales de vivienda",
-      "Muros de acceso y portones",
-      "Locales comerciales con fachada texturizada",
+      "Muros divisorios interiores y exteriores",
+      "Cerramientos y muros de acceso",
+      "Locales comerciales con textura vertical",
     ],
     color: "Rojizo Amagá",
     texture: "Rayado vertical",
     featured: false,
     seoTitle: "Ladrillo Rayado Vertical | Clay House",
     seoDescription: "Ladrillo rayado vertical para fachada.",
-    image: editada("Rayado vertical 12", "DSC_5608.jpg"),
-    gallery: [editada("Rayado vertical 12", "DSC_5625.jpg")],
-    imageDimensiones: productAiImage("rayados-verticales", "dimensiones"),
-    imageFachada: productAiImage("rayados-verticales", "fachada"),
+    image: productFolderImage(
+      "rayados-verticales",
+      "rayado 12-vertical/rayado 12 vertical apilado.png"
+    ),
+    pricePerUnit: "$ 2.360",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      ancho: "10 / 12 / 15 cm",
+      espesor: "Según formato",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Divisorios y cerramientos" },
+    ],
     technicalPdf: fichaPdf("Rayados Verticales.pdf"),
   },
   {
     name: "Ladrillo Rayado Horizontal",
     slug: "rayados-horizontales",
-    category: "Rayado",
+    category: "Divisorios",
     shortDescription:
-      "Rayado horizontal que ensancha visualmente la fachada y enfatiza el aparejo.",
+      "Rayado horizontal para divisiones y muros largos con lectura material cálida.",
     description:
-      "El Ladrillo Rayado Horizontal suaviza la escala del muro y enfatiza su longitud. Ideal para fachadas extensas, restaurantes y vivienda urbana donde se busca calidez material con lectura horizontal clara.\n\nCombina bien con otras referencias Clay House en bandas o franjas. Su textura aporta interés táctil y visual sin competir con vanos amplios ni carpintería minimalista.",
+      "El Ladrillo Rayado Horizontal suaviza la escala del muro y enfatiza su longitud. Ideal para muros divisorios extensos, restaurantes y vivienda donde se busca calidez material con lectura horizontal clara.\n\nCombina bien con otras referencias Clay House en bandas o franjas. Su textura aporta interés táctil y visual sin competir con vanos amplios ni carpintería minimalista.",
     applications: [
-      "Fachadas horizontales y muros largos",
+      "Muros divisorios y cerramientos largos",
       "Vivienda urbana y campestre",
       "Restaurantes y espacios gastronómicos",
     ],
@@ -256,16 +312,26 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Ladrillo Rayado Horizontal | Clay House",
     seoDescription: "Ladrillo rayado horizontal. Clay House.",
-    image: editada("Rayado horizontal 12", "DSC_6535.jpg"),
-    gallery: [editada("Rayado horizontal 12", "DSC_6538.jpg")],
-    imageDimensiones: productAiImage("rayados-horizontales", "dimensiones"),
-    imageFachada: productAiImage("rayados-horizontales", "fachada"),
+    image: productFolderImage(
+      "rayados-horizontales",
+      "rayado 12-horizontal/rayado 12 horizontal apilados.png"
+    ),
+    pricePerUnit: "$ 1.790",
+    priceUnitLabel: "unidad",
+    dimensions: {
+      ancho: "10 / 12 / 15 cm",
+      espesor: "Según formato",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Divisorios y cerramientos" },
+    ],
     technicalPdf: fichaPdf("Rayados Horizontales.pdf"),
   },
   {
     name: "Enchape Rústico",
     slug: "enchape-rustico",
-    category: "Enchape",
+    category: "Enchapes",
     shortDescription:
       "Revestimiento de barro con acabado rústico para transformar muros interiores y exteriores.",
     description:
@@ -280,15 +346,19 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Enchape Rústico | Clay House",
     seoDescription: "Enchape rústico de barro cocido.",
-    image: editada("Bocadillo liso rojo", "DSC_6589.jpg"),
-    imageDimensiones: productAiImage("enchape-rustico", "dimensiones"),
-    imageFachada: productAiImage("enchape-rustico", "fachada"),
+    image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto.jpg"),
+    pricePerUnit: "$ 85.000",
+    priceUnitLabel: "m²",
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Revestimiento interior y exterior" },
+    ],
     technicalPdf: fichaPdf("Enchape Rustico.pdf"),
   },
   {
     name: "Enchape Romano",
     slug: "enchape-romano",
-    category: "Enchape",
+    category: "Enchapes",
     shortDescription:
       "Perfil romano en formato delgado para detalles con profundidad y acabado premium.",
     description:
@@ -298,66 +368,145 @@ export const products: Product[] = [
       "Baños y cocinas (según especificación)",
       "Muros de acento en comercio y vivienda",
     ],
-    color: "Semimatizado",
+    color: "Natural, Matizado, Oscuro",
     texture: "Romano",
     featured: false,
     seoTitle: "Enchape Romano | Clay House",
     seoDescription: "Enchape romano Clay House.",
-    image: editada("Enchape romano 6x27,5", "DSC_9510.jpg"),
-    gallery: [editada("Enchape romano 6x27,5", "DSC_9507.jpg")],
-    imageDimensiones: productAiImage("enchape-romano", "dimensiones"),
-    imageFachada: productAiImage("enchape-romano", "fachada"),
+    image: productFolderImage("enchape-romano", "natural/Chapa Natural.jpg"),
+    pricePerUnit: "$ 89.500",
+    priceUnitLabel: "m²",
+    dimensions: {
+      alto: "6 cm",
+      ancho: "27,5 cm",
+      largo: "Según pieza",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Revestimiento y detalle" },
+    ],
     technicalPdf: fichaPdf("Enchape Romano.pdf"),
   },
   {
     name: "Piso 30×30",
     slug: "piso-30x30",
-    category: "Piso",
+    category: "Pisos",
     shortDescription:
       "Piso de barro 30×30 cm con acabado artesanal para espacios cálidos y luminosos.",
     description:
-      "El Piso 30×30 de barro cocido aporta calidez y continuidad visual a interiores y exteriores cubiertos. Sus tonos tabaco y natural crean ambientes acogedores, con la nobleza del material tierra bajo los pies.\n\nIdeal para salones, comedores, patios cubiertos y hotelería con identidad regional. Consulte asesoría de instalación para zonas húmedas y exteriores según su proyecto.",
+      "El Piso 30×30 de barro cocido aporta calidez y continuidad visual a interiores y exteriores cubiertos. Tono natural con la nobleza del material tierra bajo los pies.\n\nIdeal para salones, comedores, patios cubiertos y hotelería con identidad regional. Consulte asesoría de instalación para zonas húmedas y exteriores según su proyecto.",
     applications: [
       "Salones y comedores",
       "Patios cubiertos y galerías",
       "Locales comerciales y hotelería",
       "Zonas húmedas con tratamiento adecuado",
     ],
-    color: "Tabaco / natural",
+    color: "Natural",
     texture: "Rústico",
     featured: false,
     seoTitle: "Piso de barro 30x30 | Clay House",
     seoDescription: "Piso 30x30 de barro cocido. Amagá.",
-    image: editada("piso artesanal 30x30", "DSC_9524.jpg"),
-    gallery: [editada("piso 20x30", "DSC_9530.jpg")],
-    imageDimensiones: productAiImage("piso-30x30", "dimensiones"),
-    imageFachada: productAiImage("piso-30x30", "fachada"),
-    dimensions: { largo: "30 cm", ancho: "30 cm", alto: "2.5 cm", rendimiento: "Ver ficha técnica" },
+    image: productFolderImage("piso-30x30", "DSC_9516.jpg"),
+    pricePerUnit: "$ 88.500",
+    priceUnitLabel: "m²",
+    dimensions: {
+      alto: "2,5 cm",
+      ancho: "30 cm",
+      largo: "30 cm",
+      rendimiento: "Ver ficha técnica",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Piso interior y exterior cubierto" },
+    ],
     technicalPdf: fichaPdf("Piso 30x30.pdf"),
+  },
+  {
+    name: "Piso 10×30",
+    slug: "piso-10x30",
+    category: "Pisos",
+    shortDescription:
+      "Piso de barro en formato alargado 10×30 cm para recorridos lineales y detalle artesanal.",
+    description:
+      "El Piso 10×30 de barro cocido aporta ritmo longitudinal a interiores y exteriores cubiertos. Su formato estrecho permite composiciones en espiga, franjas o continuidad visual en pasillos, galerías y zonas sociales.\n\nIdeal para proyectos que buscan calidez material con una lectura distinta al cuadrado 30×30. Consulte asesoría de instalación según pendientes, juntas y zonas húmedas.",
+    applications: [
+      "Pasillos, galerías y circulaciones",
+      "Patios cubiertos y terrazas",
+      "Locales comerciales y hotelería",
+    ],
+    color: "Tabaco, Natural",
+    texture: "Rústico",
+    featured: false,
+    seoTitle: "Piso de barro 10x30 | Clay House",
+    seoDescription: "Piso 10x30 de barro cocido. Clay House, Amagá.",
+    image: productFolderImage("piso-10x30", "DSC_9574.jpg"),
+    pricePerUnit: "$ 80.000",
+    priceUnitLabel: "m²",
+    dimensions: {
+      alto: "2,5 cm",
+      ancho: "10 cm",
+      largo: "30 cm",
+      rendimiento: "Ver ficha técnica",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Piso interior y exterior cubierto" },
+    ],
+    technicalPdf: assetUrl("/Fichas Tecnicas/Viejos/Fichas Técnicas Piso 10-30.pdf"),
   },
   {
     name: "Teja Plana",
     slug: "teja-plana",
-    category: "Techo",
+    category: "Techos",
     shortDescription:
       "Teja plana de barro para cubiertas visibles con estética tradicional y contemporánea.",
     description:
-      "La Teja Plana define cubiertas con carácter y presencia material. En tonos chocolate y rojizo, aporta calidez a vivienda campestre, pérgolas y proyectos turísticos que valoran la tradición del barro.\n\nRecomendada para techos visibles desde el jardín o la calle. Requiere pendiente y detalle de instalación según el diseño del arquitecto; nuestro equipo puede orientar la especificación.",
+      "La Teja Plana define cubiertas con carácter y presencia material. Tono chocolate que aporta calidez a vivienda campestre, pérgolas y proyectos turísticos que valoran la tradición del barro.\n\nRecomendada para techos visibles desde el jardín o la calle. Requiere pendiente y detalle de instalación según el diseño del arquitecto; nuestro equipo puede orientar la especificación.",
     applications: [
       "Cubiertas visibles en vivienda campestre",
       "Pérgolas y cubiertas de terraza",
       "Proyectos patrimoniales y turísticos",
     ],
-    color: "Chocolate / rojizo",
+    color: "Chocolate",
     texture: "Plana",
     featured: false,
     seoTitle: "Teja Plana | Clay House Amagá",
     seoDescription: "Teja plana de barro cocido.",
-    image: editada("Teja plana lisa", "DSC_9351.jpg"),
-    gallery: [editada("Teja plana lisa", "DSC_9356.jpg")],
-    imageDimensiones: productAiImage("teja-plana", "dimensiones"),
-    imageFachada: productAiImage("teja-plana", "fachada"),
+    image: productFolderImage("teja-plana", "teja plana ppal.png"),
+    pricePerUnit: "$ 60.000",
+    priceUnitLabel: "m²",
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Cubierta visible" },
+    ],
     technicalPdf: fichaPdf("Teja Plana.pdf"),
+  },
+  {
+    name: "Teja Colonial",
+    slug: "teja-colonial",
+    category: "Techos",
+    shortDescription:
+      "Teja colonial de barro para cubiertas tradicionales con perfil clásico y presencia.",
+    description:
+      "La Teja Colonial define cubiertas con carácter patrimonial y calidez del barro cocido. Su perfil curvo aporta volumen y sombra en vivienda campestre, casas de campo y proyectos que valoran la tradición constructiva antioqueña.\n\nRequiere pendiente y detalle de instalación según el diseño del arquitecto.",
+    applications: [
+      "Cubiertas visibles en vivienda campestre",
+      "Proyectos patrimoniales y turísticos",
+      "Ampliaciones con lenguaje tradicional",
+    ],
+    color: "Roja",
+    texture: "Colonial",
+    featured: false,
+    seoTitle: "Teja Colonial | Clay House Amagá",
+    seoDescription: "Teja colonial de barro cocido. Clay House, Amagá.",
+    image: productFolderImage("teja-colonial", "roja/DSC_9435.jpg"),
+    pricePerUnit: "$ 1.600",
+    priceUnitLabel: "unidad",
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Cubierta visible" },
+    ],
+    technicalPdf: assetUrl("/Fichas Tecnicas/Viejos/Fichas Técnicas Teja.pdf"),
   },
 ];
 
@@ -369,11 +518,3 @@ export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.featured);
 }
 
-export const productCategories: ProductCategory[] = [
-  "Fachada",
-  "Macizo",
-  "Rayado",
-  "Enchape",
-  "Piso",
-  "Techo",
-];

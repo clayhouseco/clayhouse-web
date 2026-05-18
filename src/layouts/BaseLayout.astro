@@ -1,7 +1,10 @@
 ---
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import QuoteCart from "@/components/QuoteCart.astro";
 import { site } from "@/data/site";
+import { logos } from "@/utils/media";
+import "@/styles/fonts.css";
 import "@/styles/global.css";
 
 interface Props {
@@ -12,6 +15,31 @@ interface Props {
 
 const { title, description = site.description, ogImage } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
+
+const canonicalPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const canonicalUrl = new URL(canonicalPath, site.url).href;
+const ogImageUrl = ogImage
+  ? ogImage.startsWith("http")
+    ? ogImage
+    : new URL(ogImage, site.url).href
+  : new URL(logos.header, site.url).href;
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  legalName: site.legalName,
+  url: site.url,
+  email: site.email,
+  telephone: site.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.address,
+    addressLocality: "Amagá",
+    addressRegion: "Antioquia",
+    addressCountry: "CO",
+  },
+};
 ---
 
 <!doctype html>
@@ -21,25 +49,31 @@ const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${ti
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
     <title>{fullTitle}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Montserrat:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    <link rel="icon" href={logos.header} type="image/png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
   </head>
   <body>
+    <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
     <Header />
-    <main>
+    <main id="contenido-principal">
       <slot />
     </main>
     <Footer />
+    <QuoteCart />
     <a
-      href="https://wa.me/573206723365"
+      href={site.whatsapp}
       class="whatsapp-fab"
       target="_blank"
       rel="noopener noreferrer"
@@ -55,6 +89,23 @@ const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${ti
 </html>
 
 <style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    background: var(--color-chocolate);
+    color: var(--color-bg);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+
   main {
     min-height: 60vh;
   }

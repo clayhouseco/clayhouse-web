@@ -7,3 +7,13 @@ dist/
 .DS_Store
 ~$*
 .cursor/
+deploy-zips/
+clayhouse-dist.zip
+
+# Archivo bruto / video (la web solo usa jpg, png, webp)
+**/*.HEIC
+**/*.heic
+**/*.MP4
+**/*.mp4
+**/*.RAF
+**/*.raf

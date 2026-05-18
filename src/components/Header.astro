@@ -16,7 +16,7 @@ const currentPath = Astro.url.pathname;
       />
       <span class="header__logo-text" hidden>{site.name}</span>
     </a>
-    <nav class="header__nav" aria-label="Principal">
+    <nav class="header__nav" aria-label="Principal" id="header-nav">
       <ul>
         {
           nav.map((item) => (
@@ -32,6 +32,7 @@ const currentPath = Astro.url.pathname;
                         : currentPath.startsWith(item.href),
                   },
                 ]}
+                data-nav-link
               >
                 {item.label}
               </a>
@@ -40,6 +41,27 @@ const currentPath = Astro.url.pathname;
         }
       </ul>
     </nav>
+    <div class="header__actions">
+      <button
+        type="button"
+        class="header__cart-btn"
+        data-quote-cart-open
+        aria-label="Ver cotización"
+      >
+        cotización
+        <span class="header__cart-count" data-quote-header-count hidden>0</span>
+      </button>
+      <a href="/contacto" class="header__cta btn btn--primary">solicitar</a>
+    </div>
+    <button
+      type="button"
+      class="header__cart-btn header__cart-btn--mobile"
+      data-quote-cart-open
+      aria-label="Ver cotización"
+    >
+      cotización
+      <span class="header__cart-count" data-quote-header-count hidden>0</span>
+    </button>
     <button class="header__toggle" aria-label="Abrir menú" aria-expanded="false">
       <span></span>
       <span></span>
@@ -50,10 +72,40 @@ const currentPath = Astro.url.pathname;
 <script>
   const toggle = document.querySelector(".header__toggle");
   const nav = document.querySelector(".header__nav");
+
+  function setNavOpen(open: boolean) {
+    nav?.classList.toggle("header__nav--open", open);
+    toggle?.setAttribute("aria-expanded", String(open));
+    toggle?.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    document.body.classList.toggle("nav-open", open);
+  }
+
   toggle?.addEventListener("click", () => {
-    const open = nav?.classList.toggle("header__nav--open");
-    toggle.setAttribute("aria-expanded", String(!!open));
+    setNavOpen(!nav?.classList.contains("header__nav--open"));
   });
+
+  nav?.querySelectorAll("[data-nav-link]").forEach((link) => {
+    link.addEventListener("click", () => setNavOpen(false));
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setNavOpen(false);
+  });
+</script>
+
+<script>
+  import { QUOTE_CART_EVENT, getQuoteCartCount } from "@/utils/quoteCart";
+
+  function updateHeaderCart() {
+    const count = getQuoteCartCount();
+    document.querySelectorAll<HTMLElement>("[data-quote-header-count]").forEach((el) => {
+      el.textContent = String(count);
+      el.hidden = count === 0;
+    });
+  }
+
+  document.addEventListener(QUOTE_CART_EVENT, updateHeaderCart);
+  updateHeaderCart();
 </script>
 
 <style>
@@ -128,6 +180,66 @@ const currentPath = Astro.url.pathname;
     color: var(--color-terracota);
   }
 
+  .header__actions {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .header__cart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.625rem 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid rgba(71, 36, 16, 0.2);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .header__cart-btn:hover {
+    border-color: var(--color-terracota);
+    color: var(--color-terracota);
+  }
+
+  .header__cart-btn--mobile {
+    display: none;
+  }
+
+  .header__cart-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.3rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    background: var(--color-terracota);
+    color: var(--color-white);
+    border-radius: 999px;
+  }
+
+  .header__cta {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.6875rem;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 769px) {
+    .header__actions {
+      display: flex;
+    }
+  }
+
   .header__toggle {
     display: none;
     flex-direction: column;
@@ -145,7 +257,15 @@ const currentPath = Astro.url.pathname;
     background: var(--color-chocolate);
   }
 
+  :global(body.nav-open) {
+    overflow: hidden;
+  }
+
   @media (max-width: 768px) {
+    .header__cart-btn--mobile {
+      display: inline-flex;
+    }
+
     .header__toggle {
       display: flex;
     }
@@ -171,6 +291,20 @@ const currentPath = Astro.url.pathname;
     .header__nav ul {
       flex-direction: column;
       gap: 1.25rem;
+    }
+
+    .header__actions {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(71, 36, 16, 0.08);
+    }
+
+    .header__cart-btn,
+    .header__cta {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>

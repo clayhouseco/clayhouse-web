@@ -11,8 +11,15 @@ import {
   getRelatedProducts,
   getCategoryHref,
 } from "@/data/productMeta";
-import { getProductAssets, getProductInspiration, getVariantGallery } from "@/data/productVariants";
+import {
+  getCatalogImage,
+  getCatalogImageScale,
+  getProductAssets,
+  getProductInspiration,
+  getVariantGallery,
+} from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
+import { site } from "@/data/site";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -61,15 +68,13 @@ if (!assets) {
 }
 
 const displayColor = activeVariant?.colorLabel ?? product.color;
+const displayPrice = activeVariant?.pricePerUnit ?? product.pricePerUnit;
 
+/** Dimensiones de menor a mayor (ej. 5 × 14 × 29 cm) */
 const dimensionesLine = product.dimensions
-  ? product.slug === "romano"
-    ? [product.dimensions.alto, product.dimensions.ancho, product.dimensions.largo]
-        .filter(Boolean)
-        .join(" × ")
-    : [product.dimensions.largo, product.dimensions.ancho, product.dimensions.alto]
-        .filter(Boolean)
-        .join(" × ")
+  ? [product.dimensions.alto, product.dimensions.ancho, product.dimensions.largo]
+      .filter(Boolean)
+      .join(" × ")
   : null;
 
 const specRows = [
@@ -84,16 +89,31 @@ const specRows = [
   ...(product.specs ?? []),
 ].filter(Boolean) as { label: string; value: string }[];
 
-const quoteBase = `/contacto?producto=${encodeURIComponent(product.name)}&referencia=${encodeURIComponent(product.slug)}`;
-
 const recommendedUses = getRecommendedUses(product);
 const notRecommended = getNotRecommended(product);
 const related = getRelatedProducts(product);
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.shortDescription,
+  image: new URL(assetUrl(product.image), site.url).href,
+  brand: { "@type": "Brand", name: site.name },
+  category: product.category,
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "COP",
+    availability: "https://schema.org/InStock",
+    url: new URL(`/productos/${product.slug}/`, site.url).href,
+  },
+};
 
 ---
 
 <BaseLayout title={product.seoTitle} description={product.seoDescription}>
   <article class="product-page">
+    <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
     <div class="container product-page__breadcrumb">
       <a href="/">Clay House</a>
       <span aria-hidden="true">›</span>
@@ -111,9 +131,14 @@ const related = getRelatedProducts(product);
             <ProductGallery images={galleryImages} />
           </div>
           <nav class="product-page__quick-nav" aria-label="Secciones del producto">
+            <a href="#especificaciones" class="quick-pill">Especificaciones</a>
             <a href="#usos" class="quick-pill">Usos</a>
             <a href="#descargables" class="quick-pill">Fichas</a>
-            <a href="#especificaciones" class="quick-pill">Especificaciones</a>
+            {
+              inspirationCards.length > 0 && (
+                <a href="#inspiracion" class="quick-pill">Inspiración</a>
+              )
+            }
           </nav>
         </div>
 
@@ -131,6 +156,7 @@ const related = getRelatedProducts(product);
                 galleriesByVariant={assets.galleriesByVariant}
                 activeId={activeVariantId}
                 productName={product.name}
+                selectorLabel={assets.variantSelectorLabel}
               />
             )
           }
@@ -140,9 +166,9 @@ const related = getRelatedProducts(product);
           <p class="product-page__delivery">Plazo de entrega: consultar según volumen y referencia</p>
           <div class="product-page__order" data-product-order>
             {
-              product.pricePerUnit && (
-                <p class="product-page__price">
-                  {product.pricePerUnit}
+              displayPrice && (
+                <p class="product-page__price" data-product-price>
+                  <span data-product-price-value>{displayPrice}</span>
                   <span class="product-page__price-unit">
                     / {product.priceUnitLabel ?? "unidad"}
                   </span>
@@ -160,13 +186,30 @@ const related = getRelatedProducts(product);
                 data-qty-input
               />
             </label>
-            <a
-              href={`${quoteBase}&color=${encodeURIComponent(displayColor)}&cantidad=1`}
+            <button
+              type="button"
               class="btn btn--primary btn--block"
-              data-quote-link
+              data-add-to-quote
+              data-slug={product.slug}
+              data-name={product.name}
+              data-category={product.category}
+              data-color={displayColor}
+              data-unit={product.priceUnitLabel ?? "unidad"}
+              data-image={galleryImages[0]?.src ?? product.image}
+              data-price={displayPrice ?? "Consultar"}
+              data-texture={product.texture}
+              data-url={`/productos/${product.slug}/`}
             >
-              Solicitar cotización
-            </a>
+              Agregar a cotización
+            </button>
+            <button
+              type="button"
+              class="btn btn--outline btn--block product-page__view-cart"
+              data-quote-cart-open
+              hidden
+            >
+              Ver cotización (<span data-quote-header-count>0</span>)
+            </button>
           </div>
           <a href={product.technicalPdf} class="product-page__pdf" target="_blank" rel="noopener">
             Descargar ficha técnica (PDF) →
@@ -195,9 +238,10 @@ const related = getRelatedProducts(product);
       )
     }
 
-    <section class="product-page__block" id="usos">
-      <div class="container product-page__two-col">
-        <div>
+    <section class="product-page__block product-page__usos" id="usos">
+      <div class="container product-page__panel product-page__panel--uses">
+        <div class="product-page__two-col">
+        <div class="product-page__uses-col product-page__uses-col--yes">
           <h2 class="product-page__h2">Usos recomendados</h2>
           <ul class="chip-list chip-list--yes">
             {
@@ -219,7 +263,7 @@ const related = getRelatedProducts(product);
             )
           }
         </div>
-        <div>
+        <div class="product-page__uses-col product-page__uses-col--no">
           <h2 class="product-page__h2">No apto</h2>
           <ul class="chip-list chip-list--no">
             {
@@ -232,11 +276,12 @@ const related = getRelatedProducts(product);
             }
           </ul>
         </div>
+        </div>
       </div>
     </section>
 
     <section class="product-page__block product-page__block--alt" id="descargables">
-      <div class="container product-page__panel">
+      <div class="container product-page__panel product-page__panel--downloads">
         <h2 class="product-page__h2">Descargables</h2>
         <ul class="download-list">
           <li>
@@ -285,8 +330,11 @@ const related = getRelatedProducts(product);
             <div class="related-grid">
               {related.map((p) => (
                 <a href={`/productos/${p.slug}`} class="related-card">
-                  <div class="related-card__img">
-                    <img src={assetUrl(p.image)} alt={p.name} loading="lazy" />
+                  <div
+                    class="related-card__img product-card__img"
+                    style={`--catalog-scale: ${getCatalogImageScale(p.slug)}`}
+                  >
+                    <img src={getCatalogImage(p.slug, p.image)} alt={p.name} loading="lazy" />
                   </div>
                   <p class="related-card__meta">{p.category}</p>
                   <h3 class="related-card__title">{p.name}</h3>
@@ -302,20 +350,21 @@ const related = getRelatedProducts(product);
 </BaseLayout>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-product-order]").forEach((order) => {
-    const qty = order.querySelector<HTMLInputElement>("[data-qty-input]");
-    const link = order.querySelector<HTMLAnchorElement>("[data-quote-link]");
-    if (!qty || !link) return;
+  import { QUOTE_CART_EVENT, getQuoteCartCount } from "@/utils/quoteCart";
 
-    const syncQty = () => {
-      const url = new URL(link.href, window.location.origin);
-      url.searchParams.set("cantidad", qty.value || "1");
-      link.href = `${url.pathname}${url.search}`;
-    };
+  function refreshProductCartBtn() {
+    const count = getQuoteCartCount();
+    document.querySelectorAll<HTMLElement>("[data-quote-header-count]").forEach((el) => {
+      el.textContent = String(count);
+    });
+    document.querySelectorAll<HTMLElement>(".product-page__view-cart").forEach((btn) => {
+      btn.hidden = count === 0;
+    });
+  }
 
-    qty.addEventListener("input", syncQty);
-    qty.addEventListener("change", syncQty);
-  });
+  document.addEventListener(QUOTE_CART_EVENT, refreshProductCartBtn);
+  document.addEventListener("quote-cart-added", refreshProductCartBtn);
+  refreshProductCartBtn();
 </script>
 
 <style>
@@ -451,9 +500,13 @@ const related = getRelatedProducts(product);
   .product-page__order {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.65rem;
     margin-bottom: 1rem;
     padding-top: 0.25rem;
+  }
+
+  .product-page__view-cart {
+    margin-top: 0;
   }
 
   .product-page__price {
@@ -606,6 +659,38 @@ const related = getRelatedProducts(product);
     overflow: hidden;
   }
 
+  .product-page__panel--uses {
+    background: var(--color-white);
+    border: 2px solid rgba(124, 72, 44, 0.35);
+    box-shadow: 0 8px 28px rgba(71, 36, 16, 0.06);
+  }
+
+  .product-page__uses-col {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .product-page__uses-col--yes {
+    border-left: 4px solid var(--color-terracota);
+  }
+
+  .product-page__uses-col--no {
+    border-left: 4px solid var(--color-coral);
+  }
+
+  .product-page__panel--downloads {
+    background: var(--color-white);
+    border: 2px solid rgba(124, 72, 44, 0.35);
+    border-left: 4px solid var(--color-chocolate);
+    box-shadow: 0 8px 28px rgba(71, 36, 16, 0.06);
+  }
+
+  .product-page__panel--downloads .product-page__h2 {
+    color: var(--color-chocolate);
+  }
+
   .product-page__two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -675,16 +760,19 @@ const related = getRelatedProducts(product);
 
   .download-link {
     display: block;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 1.5rem 1.25rem 1.35rem;
     background: var(--color-bg);
     border: 1px solid rgba(71, 36, 16, 0.08);
+    border-left: 3px solid var(--color-terracota);
     border-radius: var(--radius-md);
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   }
 
   .download-link:hover {
-    border-color: var(--color-terracota);
+    border-color: rgba(71, 36, 16, 0.12);
+    border-left-color: var(--color-chocolate);
     background: var(--color-white);
+    box-shadow: 0 4px 16px rgba(71, 36, 16, 0.06);
   }
 
   .download-link__title {
@@ -826,16 +914,7 @@ const related = getRelatedProducts(product);
   }
 
   .related-card__img {
-    aspect-ratio: 4/5;
-    overflow: hidden;
-    background: var(--color-white);
-  }
-
-  .related-card__img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    max-width: none;
+    margin-bottom: 0;
   }
 
   .related-card__meta {

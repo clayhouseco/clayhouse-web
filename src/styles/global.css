@@ -45,16 +45,39 @@ img {
   display: block;
 }
 
-/* Imágenes de producto: ancho completo del contenedor */
-.product-visual__img,
-.product-card__img img,
-.card__img img {
-  width: 100%;
-  max-width: none;
+/* Catálogo / destacados: marco crema compacto, misma escala entre referencias */
+.product-card__img,
+.card__img {
+  --catalog-scale: 1;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #f2ebe3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.65rem, 2.2vw, 0.95rem);
 }
 
-.product-card__img,
-.card__img,
+.product-card__img img,
+.card__img img {
+  width: 94%;
+  height: 94%;
+  max-width: none;
+  aspect-ratio: unset;
+  object-fit: contain;
+  object-position: center center;
+  mix-blend-mode: multiply;
+  transform: scale(var(--catalog-scale));
+  transition: transform 0.4s var(--ease);
+}
+
+.product-card:hover .product-card__img img,
+.card:hover .card__img img {
+  transform: scale(calc(var(--catalog-scale) * 1.04));
+}
+
 .product-visual__img {
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -190,4 +213,36 @@ p {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.page-hero {
+  padding: 8rem 0 3rem;
+  background: var(--color-white);
+}
+
+.page-hero__lead {
+  max-width: 40rem;
+  font-size: 1.125rem;
+}
+
+.page-hero--center {
+  text-align: center;
+}
+
+.page-hero--center .page-hero__lead {
+  margin-inline: auto;
+}
+
+.container.narrow {
+  max-width: 42rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-coral);
+  outline-offset: 3px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
 }

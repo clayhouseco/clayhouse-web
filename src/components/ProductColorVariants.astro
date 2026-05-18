@@ -7,18 +7,23 @@ interface Props {
   galleriesByVariant: Record<string, SplitVariantGallery>;
   activeId: string;
   productName: string;
+  selectorLabel?: string;
 }
 
-const { variants, galleriesByVariant, activeId, productName } = Astro.props;
+const { variants, galleriesByVariant, activeId, productName, selectorLabel = "Color" } =
+  Astro.props;
+const showSelector = variants.length > 1;
 ---
 
+{
+  showSelector && (
 <div
   class="color-variants"
   data-color-variants
   data-product-name={productName}
   data-galleries={JSON.stringify(galleriesByVariant)}
 >
-  <p class="color-variants__label">Color</p>
+  <p class="color-variants__label">{selectorLabel}</p>
   <div class="color-variants__list" role="listbox" aria-label="Color del producto">
     {
       variants.map((v) => (
@@ -29,6 +34,7 @@ const { variants, galleriesByVariant, activeId, productName } = Astro.props;
           aria-selected={v.id === activeId ? "true" : "false"}
           data-variant-id={v.id}
           data-variant-label={v.colorLabel}
+          data-variant-price={v.pricePerUnit ?? ""}
         >
           {v.label}
         </button>
@@ -36,6 +42,8 @@ const { variants, galleriesByVariant, activeId, productName } = Astro.props;
     }
   </div>
 </div>
+  )
+}
 
 <script>
   interface GalleryImage {
@@ -59,8 +67,10 @@ const { variants, galleriesByVariant, activeId, productName } = Astro.props;
     >;
 
     const metaColor = page.querySelector<HTMLElement>("[data-product-color]");
+    const priceValueEl = page.querySelector<HTMLElement>("[data-product-price-value]");
     const galleryRoot = page.querySelector<HTMLElement>("[data-product-gallery]");
-    const quoteLink = page.querySelector<HTMLAnchorElement>("[data-quote-link]");
+    const addBtn = page.querySelector<HTMLButtonElement>("[data-add-to-quote]");
+    const defaultPrice = addBtn?.dataset.price ?? "";
 
     const setHeroGallery = (split: SplitVariantGallery) => {
       if (split.hero.length) {
@@ -74,6 +84,7 @@ const { variants, galleriesByVariant, activeId, productName } = Astro.props;
       btn.addEventListener("click", () => {
         const id = btn.dataset.variantId;
         const label = btn.dataset.variantLabel;
+        const variantPrice = btn.dataset.variantPrice;
         if (!id) return;
 
         root.querySelectorAll(".color-variant").forEach((b) => {
@@ -84,11 +95,11 @@ const { variants, galleriesByVariant, activeId, productName } = Astro.props;
 
         if (label && metaColor) metaColor.textContent = label;
 
-        if (quoteLink && label) {
-          const url = new URL(quoteLink.href, window.location.origin);
-          url.searchParams.set("color", label);
-          quoteLink.href = `${url.pathname}${url.search}`;
-        }
+        if (addBtn && label) addBtn.dataset.color = label;
+
+        const nextPrice = variantPrice || defaultPrice;
+        if (addBtn && nextPrice) addBtn.dataset.price = nextPrice;
+        if (priceValueEl && nextPrice) priceValueEl.textContent = nextPrice;
 
         const split = galleries[id];
         if (split) setHeroGallery(split);

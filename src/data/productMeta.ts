@@ -1,5 +1,7 @@
-import type { Product, ProductCategory } from "@/data/products";
+import type { Product } from "@/data/products";
 import { products } from "@/data/products";
+import type { ProductCategory } from "@/data/catalogCategories";
+import { getCatalogCategoryHref } from "@/data/catalogCategories";
 
 export interface UseChip {
   id: string;
@@ -19,21 +21,19 @@ const USE_CHIPS: Record<string, UseChip> = {
 };
 
 const USES_BY_CATEGORY: Record<ProductCategory, string[]> = {
-  Fachada: ["exterior", "interior", "fachada", "muro"],
-  Macizo: ["exterior", "interior", "estructural", "muro"],
-  Rayado: ["exterior", "fachada", "muro"],
-  Enchape: ["interior", "exterior", "muro", "bano"],
-  Piso: ["interior", "exterior", "suelo"],
-  Techo: ["exterior", "techo"],
+  Fachadas: ["exterior", "interior", "fachada", "muro"],
+  Divisorios: ["exterior", "interior", "estructural", "muro"],
+  Pisos: ["interior", "exterior", "suelo"],
+  Enchapes: ["interior", "exterior", "muro", "bano"],
+  Techos: ["exterior", "techo"],
 };
 
 const NOT_APT_BY_CATEGORY: Record<ProductCategory, string[]> = {
-  Fachada: ["Piscinas", "Tráfico vehicular directo"],
-  Macizo: ["Piscinas", "Acabados de alto brillo sin tratamiento"],
-  Rayado: ["Piscinas", "Suelos"],
-  Enchape: ["Piscinas", "Zonas heladas sin especificación"],
-  Piso: ["Piscinas", "Zonas heladas sin tratamiento"],
-  Techo: ["Muros estructurales verticales", "Piscinas"],
+  Fachadas: ["Piscinas", "Tráfico vehicular directo"],
+  Divisorios: ["Piscinas", "Acabados de alto brillo sin tratamiento"],
+  Pisos: ["Piscinas", "Zonas heladas sin tratamiento"],
+  Enchapes: ["Piscinas", "Zonas heladas sin especificación"],
+  Techos: ["Muros estructurales verticales", "Piscinas"],
 };
 
 export function getRecommendedUses(product: Product): UseChip[] {
@@ -52,5 +52,5 @@ export function getRelatedProducts(product: Product, limit = 3): Product[] {
 }
 
 export function getCategoryHref(category: ProductCategory): string {
-  return `/productos?categoria=${encodeURIComponent(category)}`;
+  return getCatalogCategoryHref(category);
 }

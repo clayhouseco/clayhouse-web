@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { downloads } from "@/data/downloads";
+import { getDownloadsByCategory } from "@/data/downloads";
+import { getCatalogCategoryHref } from "@/data/catalogCategories";
+
+const groups = getDownloadsByCategory();
 ---
 
 <BaseLayout
@@ -12,51 +15,95 @@ import { downloads } from "@/data/downloads";
       <p class="eyebrow">Especificadores</p>
       <h1>Recursos para especificadores</h1>
       <p class="text-muted page-hero__lead">
-        Documentación técnica para integrar en memorias de especificación.
+        Documentación técnica agrupada por aplicación para integrar en memorias de especificación.
       </p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <ul class="download-list">
-        {
-          downloads.map((d) => (
-            <li class="download-item">
-              <div>
-                <span class="download-type">{d.type}</span>
-                <h2>{d.title}</h2>
-                <p>{d.description}</p>
-              </div>
-              <a href={d.file} class="btn btn--primary" download>
-                descargar PDF
+      {
+        groups.map((group) => (
+          <section class="download-group">
+            <header class="download-group__header">
+              <h2 class="download-group__title">{group.label}</h2>
+              <p class="download-group__desc">{group.description}</p>
+              <a href={getCatalogCategoryHref(group.category)} class="download-group__catalog">
+                ver productos →
               </a>
-            </li>
-          ))
-        }
-      </ul>
+            </header>
+            <ul class="download-list">
+              {
+                group.items.map((d) => (
+                  <li class="download-item">
+                    <div>
+                      <span class="download-type">{d.type}</span>
+                      <h3>{d.title}</h3>
+                      <p>{d.description}</p>
+                    </div>
+                    <a href={d.file} class="btn btn--primary" download>
+                      descargar PDF
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+        ))
+      }
       <p class="download-note">
-        Los PDF provienen de <code>public/Fichas Tecnicas/</code>. Si falta alguno,
-        escríbanos a <a href="mailto:ventas@clayhouse.com.co">ventas@clayhouse.com.co</a>.
+        ¿Necesita otra ficha o el catálogo completo? Escríbanos a{" "}
+        <a href="mailto:ventas@clayhouse.com.co">ventas@clayhouse.com.co</a> o{" "}
+        <a href="/contacto">solicite cotización</a>.
       </p>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .page-hero {
-    padding: 8rem 0 3rem;
-    background: var(--color-white);
+  .download-group {
+    margin-bottom: 3.5rem;
   }
 
-  .page-hero__lead {
-    max-width: 36rem;
+  .download-group__header {
+    margin-bottom: 1.25rem;
+    max-width: 40rem;
+  }
+
+  .download-group__title {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    color: var(--color-chocolate);
+  }
+
+  .download-group__desc {
+    margin: 0 0 0.5rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .download-group__catalog {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .download-group__catalog:hover {
+    color: var(--color-coral);
   }
 
   .download-list {
     list-style: none;
     margin: 0;
     padding: 0;
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
   }
 
   .download-item {
@@ -64,8 +111,12 @@ import { downloads } from "@/data/downloads";
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba(71, 36, 16, 0.1);
+    padding: 1.5rem 1.75rem;
+    border-bottom: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .download-item:last-child {
+    border-bottom: none;
   }
 
   .download-type {
@@ -76,16 +127,17 @@ import { downloads } from "@/data/downloads";
     color: var(--color-terracota);
   }
 
-  .download-item h2 {
-    font-size: 1.25rem;
-    margin: 0.25rem 0 0.5rem;
+  .download-item h3 {
+    font-size: 1.0625rem;
+    margin: 0.25rem 0 0.35rem;
   }
 
   .download-item p {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     margin: 0;
     max-width: 36rem;
+    line-height: 1.5;
   }
 
   .download-note {

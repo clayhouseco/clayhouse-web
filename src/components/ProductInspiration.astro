@@ -36,6 +36,7 @@ const INTRO =
             {cards.map((card, i) => {
               const img = card.images[0];
               const split = i % 2 === 1;
+              const multi = card.images.length > 1;
               return (
                 <article
                   class:list={["inspiration-card", split && "inspiration-card--split"]}
@@ -46,20 +47,31 @@ const INTRO =
                       <p>{card.title}</p>
                     </div>
                   )}
-                  <figure class="inspiration-card__media">
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      loading={i < 2 ? "eager" : "lazy"}
-                      decoding="async"
-                    />
-                    {!split && <figcaption>{card.title}</figcaption>}
-                    {card.images.length > 1 && (
-                      <span class="inspiration-card__count" aria-hidden="true">
-                        +{card.images.length - 1}
-                      </span>
-                    )}
-                  </figure>
+                  <button
+                    type="button"
+                    class="inspiration-card__open"
+                    data-inspiration-open={i}
+                    aria-label={
+                      multi
+                        ? `Ver ${card.images.length} fotos de ${card.title}`
+                        : `Ampliar ${card.title}`
+                    }
+                  >
+                    <figure class="inspiration-card__media">
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        loading={i < 2 ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                      {!split && <figcaption>{card.title}</figcaption>}
+                      {multi && (
+                        <span class="inspiration-card__count">
+                          +{card.images.length - 1} fotos
+                        </span>
+                      )}
+                    </figure>
+                  </button>
                 </article>
               );
             })}
@@ -75,6 +87,39 @@ const INTRO =
           →
         </button>
       </div>
+
+      <div
+        class="inspiration-lightbox"
+        data-inspiration-lightbox
+        hidden
+        role="dialog"
+        aria-modal="true"
+        aria-label="Galería del proyecto"
+      >
+        <button type="button" class="inspiration-lightbox__backdrop" data-lightbox-close aria-label="Cerrar" />
+        <div class="inspiration-lightbox__panel">
+          <button type="button" class="inspiration-lightbox__close" data-lightbox-close aria-label="Cerrar">
+            ×
+          </button>
+          <p class="inspiration-lightbox__title" data-lightbox-title />
+          <figure class="inspiration-lightbox__stage">
+            <img src="" alt="" data-lightbox-img />
+            <figcaption data-lightbox-caption />
+          </figure>
+          <div class="inspiration-lightbox__thumbs" data-lightbox-thumbs hidden />
+          <div class="inspiration-lightbox__controls">
+            <button type="button" data-lightbox-prev aria-label="Foto anterior">
+              ←
+            </button>
+            <span data-lightbox-counter />
+            <button type="button" data-lightbox-next aria-label="Foto siguiente">
+              →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <script type="application/json" data-inspiration-data set:html={JSON.stringify(cards)} />
     </div>
   )
 }
@@ -121,6 +166,136 @@ const INTRO =
     viewport.addEventListener("scroll", updateNav, { passive: true });
     window.addEventListener("resize", updateNav);
     updateNav();
+
+    const dataEl = root.querySelector<HTMLScriptElement>("[data-inspiration-data]");
+    const cards: InspirationCard[] = dataEl ? JSON.parse(dataEl.textContent ?? "[]") : [];
+
+    const lightbox = root.querySelector<HTMLElement>("[data-inspiration-lightbox]");
+    const lbImg = root.querySelector<HTMLImageElement>("[data-lightbox-img]");
+    const lbTitle = root.querySelector<HTMLElement>("[data-lightbox-title]");
+    const lbCaption = root.querySelector<HTMLElement>("[data-lightbox-caption]");
+    const lbCounter = root.querySelector<HTMLElement>("[data-lightbox-counter]");
+    const lbPrev = root.querySelector<HTMLButtonElement>("[data-lightbox-prev]");
+    const lbNext = root.querySelector<HTMLButtonElement>("[data-lightbox-next]");
+    const lbThumbs = root.querySelector<HTMLElement>("[data-lightbox-thumbs]");
+
+    let activeCard: InspirationCard | null = null;
+    let activeIndex = 0;
+
+    const syncLightbox = () => {
+      if (!activeCard || !lbImg || !lbTitle || !lbCaption || !lbCounter) return;
+      const img = activeCard.images[activeIndex];
+      if (!img) return;
+
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbTitle.textContent = activeCard.title;
+      lbCaption.textContent = img.label;
+      lbCounter.textContent = `${activeIndex + 1} / ${activeCard.images.length}`;
+
+      const multi = activeCard.images.length > 1;
+      if (lbPrev) lbPrev.hidden = !multi;
+      if (lbNext) lbNext.hidden = !multi;
+
+      lbThumbs?.querySelectorAll<HTMLButtonElement>(".inspiration-lightbox__thumb").forEach((btn) => {
+        const i = Number(btn.dataset.index);
+        btn.classList.toggle("inspiration-lightbox__thumb--active", i === activeIndex);
+      });
+    };
+
+    const buildThumbs = () => {
+      if (!lbThumbs || !activeCard) return;
+      lbThumbs.innerHTML = "";
+      const multi = activeCard.images.length > 1;
+      lbThumbs.hidden = !multi;
+      if (!multi) return;
+
+      activeCard.images.forEach((item, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "inspiration-lightbox__thumb";
+        btn.dataset.index = String(i);
+        btn.setAttribute("aria-label", `Foto ${i + 1} de ${activeCard!.title}`);
+
+        const thumbImg = document.createElement("img");
+        thumbImg.src = item.src;
+        thumbImg.alt = "";
+        thumbImg.loading = "lazy";
+        btn.append(thumbImg);
+        lbThumbs.append(btn);
+      });
+    };
+
+    const openLightbox = (cardIndex: number, imageIndex = 0) => {
+      if (!lightbox || !cards[cardIndex]) return;
+      activeCard = cards[cardIndex];
+      activeIndex = Math.min(imageIndex, activeCard.images.length - 1);
+      buildThumbs();
+      syncLightbox();
+      lightbox.hidden = false;
+      lightbox.classList.add("inspiration-lightbox--open");
+      document.body.style.overflow = "hidden";
+      lightbox.querySelector<HTMLButtonElement>(".inspiration-lightbox__close")?.focus();
+    };
+
+    const closeLightbox = () => {
+      if (!lightbox) return;
+      lightbox.hidden = true;
+      lightbox.classList.remove("inspiration-lightbox--open");
+      document.body.style.overflow = "";
+      activeCard = null;
+      activeIndex = 0;
+      if (lbThumbs) {
+        lbThumbs.innerHTML = "";
+        lbThumbs.hidden = true;
+      }
+      if (lbImg) {
+        lbImg.removeAttribute("src");
+        lbImg.alt = "";
+      }
+    };
+
+    lbThumbs?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(".inspiration-lightbox__thumb");
+      if (!btn?.dataset.index || !activeCard) return;
+      activeIndex = Number(btn.dataset.index);
+      syncLightbox();
+    });
+
+    root.querySelectorAll<HTMLButtonElement>("[data-inspiration-open]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const index = Number(btn.dataset.inspirationOpen);
+        if (!Number.isNaN(index)) openLightbox(index);
+      });
+    });
+
+    lbPrev?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (!activeCard) return;
+      activeIndex = (activeIndex - 1 + activeCard.images.length) % activeCard.images.length;
+      syncLightbox();
+    });
+
+    lbNext?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (!activeCard) return;
+      activeIndex = (activeIndex + 1) % activeCard.images.length;
+      syncLightbox();
+    });
+
+    root.querySelectorAll("[data-lightbox-close]").forEach((el) => {
+      el.addEventListener("click", closeLightbox);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox?.classList.contains("inspiration-lightbox--open")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") lbPrev?.click();
+      if (e.key === "ArrowRight") lbNext?.click();
+    });
   }
 
   document.querySelectorAll<HTMLElement>("[data-product-inspiration]").forEach(bindInspiration);
@@ -225,6 +400,18 @@ const INTRO =
     text-wrap: balance;
   }
 
+  .inspiration-card__open {
+    flex: 1;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: zoom-in;
+    text-align: inherit;
+    font: inherit;
+  }
+
   .inspiration-card__media {
     flex: 1;
     margin: 0;
@@ -233,7 +420,7 @@ const INTRO =
     min-width: 0;
   }
 
-  .inspiration-card--split .inspiration-card__media {
+  .inspiration-card--split .inspiration-card__open {
     flex: 0 0 58%;
   }
 
@@ -243,6 +430,11 @@ const INTRO =
     min-height: 220px;
     object-fit: cover;
     display: block;
+    transition: transform 0.35s var(--ease, ease);
+  }
+
+  .inspiration-card__open:hover .inspiration-card__media img {
+    transform: scale(1.02);
   }
 
   .inspiration-card__media figcaption {
@@ -299,6 +491,155 @@ const INTRO =
     opacity: 0;
   }
 
+  .inspiration-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    place-items: center;
+    padding: 1rem;
+    pointer-events: none;
+  }
+
+  .inspiration-lightbox.inspiration-lightbox--open {
+    display: grid;
+    pointer-events: auto;
+  }
+
+  .inspiration-lightbox[hidden] {
+    display: none !important;
+    pointer-events: none;
+  }
+
+  .inspiration-lightbox__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(71, 36, 16, 0.82);
+    cursor: pointer;
+  }
+
+  .inspiration-lightbox__panel {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 960px);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--color-white);
+    border-radius: 1rem;
+    padding: 1rem 1rem 1.25rem;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  }
+
+  .inspiration-lightbox__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .inspiration-lightbox__title {
+    margin: 0 2.5rem 0 0.25rem;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+  }
+
+  .inspiration-lightbox__stage {
+    margin: 0;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .inspiration-lightbox__stage img {
+    width: 100%;
+    max-height: min(70vh, 640px);
+    object-fit: contain;
+    background: var(--color-bg);
+    border-radius: 0.5rem;
+  }
+
+  .inspiration-lightbox__stage figcaption {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .inspiration-lightbox__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .inspiration-lightbox__controls button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: 50%;
+    background: var(--color-bg);
+    cursor: pointer;
+  }
+
+  .inspiration-lightbox__controls span {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    min-width: 4rem;
+    text-align: center;
+  }
+
+  .inspiration-lightbox__thumbs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 0.35rem 0.15rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .inspiration-lightbox__thumb {
+    flex: 0 0 4rem;
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 0.35rem;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-bg);
+    pointer-events: auto;
+  }
+
+  .inspiration-lightbox__thumb--active {
+    border-color: var(--color-terracota);
+  }
+
+  .inspiration-lightbox__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   @media (min-width: 900px) {
     .inspiration-card {
       flex: 0 0 min(42vw, 480px);
@@ -320,7 +661,7 @@ const INTRO =
       padding: 1.25rem 1rem;
     }
 
-    .inspiration-card--split .inspiration-card__media {
+    .inspiration-card--split .inspiration-card__open {
       flex: 1;
     }
 

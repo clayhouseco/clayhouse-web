@@ -1,0 +1,852 @@
+---
+import { quoteProductCatalog } from "@/data/quoteCatalog";
+---
+
+<div class="quote-cart" data-quote-cart-root hidden>
+  <div class="quote-cart__backdrop" data-quote-cart-close tabindex="-1" aria-hidden="true"></div>
+  <aside
+    class="quote-cart__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="quote-cart-title"
+  >
+    <header class="quote-cart__header">
+      <div class="quote-cart__header-top">
+        <div>
+          <h2 id="quote-cart-title">Cotización</h2>
+          <p class="quote-cart__subtitle">Revise su selección antes de enviar la solicitud</p>
+        </div>
+        <button type="button" class="quote-cart__close" data-quote-cart-close aria-label="Cerrar">
+          ×
+        </button>
+      </div>
+      <ol class="quote-cart__steps" aria-label="Proceso de cotización">
+        <li class="quote-cart__step quote-cart__step--active">
+          <span class="quote-cart__step-num" aria-hidden="true">1</span>
+          <span class="quote-cart__step-label">Selección</span>
+        </li>
+        <li class="quote-cart__step" aria-current="false">
+          <span class="quote-cart__step-num" aria-hidden="true">2</span>
+          <span class="quote-cart__step-label">Contacto</span>
+        </li>
+        <li class="quote-cart__step">
+          <span class="quote-cart__step-num" aria-hidden="true">3</span>
+          <span class="quote-cart__step-label">Confirmación</span>
+        </li>
+      </ol>
+    </header>
+
+    <div class="quote-cart__layout">
+      <div class="quote-cart__main" data-quote-cart-body>
+        <p class="quote-cart__empty" data-quote-cart-empty>
+          Aún no ha agregado productos. Explore el catálogo y pulse «Agregar a cotización» en cada
+          referencia.
+        </p>
+        <ul class="quote-cart__list" data-quote-cart-list hidden></ul>
+      </div>
+
+      <aside class="quote-cart__aside" data-quote-cart-footer hidden>
+        <div class="quote-cart__summary-card">
+          <h3 class="quote-cart__summary-title">Resumen de cotización</h3>
+          <ul class="quote-cart__summary-list" data-quote-summary-list></ul>
+          <div class="quote-cart__summary-total-row">
+            <span>Total (orientativo)</span>
+            <strong data-quote-summary-total></strong>
+          </div>
+          <p class="quote-cart__summary-note">
+            Precios de referencia sin IVA ni flete. La cotización final depende de volumen,
+            destino y disponibilidad.
+          </p>
+          <a href="/contacto" class="quote-cart__cta" data-quote-cart-checkout>
+            Completar solicitud de cotización
+          </a>
+          <button type="button" class="quote-cart__clear" data-quote-cart-clear>
+            Vaciar cotización
+          </button>
+        </div>
+      </aside>
+    </div>
+  </aside>
+</div>
+
+<script
+  type="application/json"
+  id="quote-product-catalog"
+  set:html={JSON.stringify(quoteProductCatalog)}
+></script>
+
+<script>
+  import {
+    QUOTE_CART_EVENT,
+    clearQuoteCart,
+    escapeHtml,
+    formatLineSubtotal,
+    getQuoteCart,
+    removeFromQuoteCart,
+    updateQuoteCartItem,
+    addToQuoteCart,
+  } from "@/utils/quoteCart";
+
+  const catalogEl = document.getElementById("quote-product-catalog");
+  const catalog = catalogEl ? JSON.parse(catalogEl.textContent || "[]") : [];
+  window.__quoteProductCatalog = catalog;
+
+  const root = document.querySelector("[data-quote-cart-root]");
+  const listEl = document.querySelector("[data-quote-cart-list]");
+  const emptyEl = document.querySelector("[data-quote-cart-empty]");
+  const footerEl = document.querySelector("[data-quote-cart-footer]");
+  const summaryList = document.querySelector("[data-quote-summary-list]");
+  const summaryTotal = document.querySelector("[data-quote-summary-total]");
+
+  function openCart() {
+    if (!root) return;
+    root.hidden = false;
+    document.body.classList.add("quote-cart-open");
+    root.querySelector(".quote-cart__close")?.focus();
+  }
+
+  function closeCart() {
+    if (!root) return;
+    root.hidden = true;
+    document.body.classList.remove("quote-cart-open");
+  }
+
+  function renderItem(item) {
+    const li = document.createElement("li");
+    li.className = "quote-cart__card";
+    li.dataset.slug = item.slug;
+    if (item.color) li.dataset.color = item.color;
+
+    const subtotal = formatLineSubtotal(item);
+    const imgSrc = item.image || "";
+    const colorLine = item.color ? escapeHtml(item.color) : "";
+    const detailLine =
+      item.texture && item.texture !== item.color ? escapeHtml(item.texture) : "";
+
+    li.innerHTML = `
+      <a href="${escapeHtml(item.productUrl)}" class="quote-cart__thumb" aria-label="Ver ${escapeHtml(item.name)}">
+        <img src="${escapeHtml(imgSrc)}" alt="" loading="lazy" width="112" height="112" />
+      </a>
+      <div class="quote-cart__info">
+        <a href="${escapeHtml(item.productUrl)}" class="quote-cart__item-name">${escapeHtml(item.name)}</a>
+        ${colorLine ? `<p class="quote-cart__color">${colorLine}</p>` : ""}
+        ${detailLine ? `<p class="quote-cart__detail">${detailLine}</p>` : ""}
+      </div>
+      <dl class="quote-cart__metrics">
+        <div class="quote-cart__metric">
+          <dt>Precio / ${escapeHtml(item.unitLabel)}</dt>
+          <dd>${escapeHtml(item.pricePerUnit)}</dd>
+        </div>
+        <div class="quote-cart__metric">
+          <dt>Cantidad</dt>
+          <dd class="quote-cart__qty-wrap">
+            <input type="number" min="1" value="${item.quantity}" data-quote-qty aria-label="Cantidad" />
+            <span>${escapeHtml(item.unitLabel)}</span>
+          </dd>
+        </div>
+        <div class="quote-cart__metric quote-cart__metric--total">
+          <dt>Total (orientativo)</dt>
+          <dd class="quote-cart__subtotal">${escapeHtml(subtotal)}</dd>
+        </div>
+      </dl>
+      <button type="button" class="quote-cart__remove" data-quote-remove>Eliminar</button>
+    `;
+
+    const img = li.querySelector("img");
+    if (img) {
+      img.addEventListener("error", () => {
+        img.src = "/images/hero/hero.jpg";
+        img.style.opacity = "0.5";
+      });
+    }
+
+    li.querySelector("[data-quote-qty]")?.addEventListener("change", (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      const qty = parseInt(target.value, 10);
+      if (qty >= 1) updateQuoteCartItem(item.slug, item.color, qty, catalog);
+    });
+
+    li.querySelector("[data-quote-remove]")?.addEventListener("click", () => {
+      removeFromQuoteCart(item.slug, item.color);
+    });
+
+    return li;
+  }
+
+  function renderSummary(items) {
+    if (!summaryList || !summaryTotal) return;
+
+    let numericSum = 0;
+    let hasNumeric = false;
+
+    summaryList.replaceChildren(
+      ...items.map((item) => {
+        const subtotal = formatLineSubtotal(item);
+        const numeric = subtotal !== "A cotizar";
+        if (numeric) {
+          const n = parseInt(subtotal.replace(/[^\d]/g, ""), 10);
+          if (n) {
+            numericSum += n;
+            hasNumeric = true;
+          }
+        }
+        const li = document.createElement("li");
+        const colorPart = item.color ? ` · ${item.color}` : "";
+        li.innerHTML = `
+          <div class="quote-cart__summary-line">
+            <span class="quote-cart__summary-item">— ${escapeHtml(item.name)}${escapeHtml(colorPart)}</span>
+            <span class="quote-cart__summary-meta">${item.quantity} ${escapeHtml(item.unitLabel)}</span>
+          </div>
+          <span class="quote-cart__summary-price">${escapeHtml(subtotal)}</span>
+        `;
+        return li;
+      })
+    );
+
+    summaryTotal.textContent = hasNumeric
+      ? new Intl.NumberFormat("es-CO", {
+          style: "currency",
+          currency: "COP",
+          maximumFractionDigits: 0,
+        }).format(numericSum)
+      : "A cotizar";
+  }
+
+  function refreshUI() {
+    const items = getQuoteCart(catalog);
+    const count = items.length;
+
+    document.querySelectorAll("[data-quote-header-count]").forEach((el) => {
+      el.textContent = String(count);
+      el.hidden = count === 0;
+    });
+
+    if (!listEl || !emptyEl || !footerEl) return;
+
+    if (!count) {
+      emptyEl.hidden = false;
+      listEl.hidden = true;
+      footerEl.hidden = true;
+      listEl.replaceChildren();
+      return;
+    }
+
+    emptyEl.hidden = true;
+    listEl.hidden = false;
+    footerEl.hidden = false;
+    listEl.replaceChildren(...items.map(renderItem));
+    renderSummary(items);
+  }
+
+  function bindOpenButtons() {
+    document.querySelectorAll("[data-quote-cart-open]").forEach((btn) => {
+      if (btn.dataset.quoteBound === "1") return;
+      btn.dataset.quoteBound = "1";
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        refreshUI();
+        openCart();
+      });
+    });
+  }
+
+  document.addEventListener(QUOTE_CART_EVENT, bindOpenButtons);
+
+  root?.querySelectorAll("[data-quote-cart-close]").forEach((btn) => {
+    btn.addEventListener("click", closeCart);
+  });
+
+  root?.querySelector("[data-quote-cart-clear]")?.addEventListener("click", () => {
+    if (confirm("¿Vaciar todos los productos de la cotización?")) clearQuoteCart();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && root && !root.hidden) closeCart();
+  });
+
+  document.addEventListener(QUOTE_CART_EVENT, refreshUI);
+  document.addEventListener("quote-cart-added", () => {
+    refreshUI();
+    openCart();
+  });
+
+  document.addEventListener("click", (e) => {
+    const el = e.target instanceof Element ? e.target : null;
+    const btn = el?.closest("[data-add-to-quote]");
+    if (!btn || !(btn instanceof HTMLButtonElement)) return;
+    e.preventDefault();
+
+    const page = btn.closest(".product-page");
+    const order = btn.closest("[data-product-order]");
+    const qtyInput = order?.querySelector("[data-qty-input]");
+    const colorEl = page?.querySelector("[data-product-color]");
+    const heroImg = page?.querySelector(".product-gallery img, [data-product-gallery] img");
+
+    const quantity = Math.max(1, parseInt(qtyInput?.value || "1", 10) || 1);
+    const image = heroImg?.getAttribute("src") || btn.dataset.image || "";
+
+    addToQuoteCart(
+      {
+        slug: btn.dataset.slug,
+        name: btn.dataset.name,
+        category: btn.dataset.category,
+        color: btn.dataset.color || colorEl?.textContent?.trim() || undefined,
+        quantity,
+        unitLabel: btn.dataset.unit || "unidad",
+        image,
+        pricePerUnit: btn.dataset.price || "Consultar",
+        texture: btn.dataset.texture || undefined,
+        productUrl: btn.dataset.url || `/productos/${btn.dataset.slug}/`,
+      },
+      catalog
+    );
+    document.dispatchEvent(new CustomEvent("quote-cart-added"));
+  });
+
+  document.querySelectorAll("[data-color-variants]").forEach((variantRoot) => {
+    const page = variantRoot.closest(".product-page");
+    const addBtn = page?.querySelector("[data-add-to-quote]");
+    if (!addBtn) return;
+
+    variantRoot.querySelectorAll(".color-variant").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const label = btn.dataset.variantLabel;
+        if (label) addBtn.dataset.color = label;
+      });
+    });
+  });
+
+  document.querySelectorAll(".product-page [data-product-gallery]").forEach((galleryRoot) => {
+    galleryRoot.addEventListener("gallery-set", () => {
+      const page = galleryRoot.closest(".product-page");
+      const addBtn = page?.querySelector("[data-add-to-quote]");
+      const img = page?.querySelector(".product-gallery img");
+      if (addBtn && img?.src) addBtn.dataset.image = img.src;
+    });
+  });
+
+  function init() {
+    bindOpenButtons();
+    refreshUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>
+
+<style is:global>
+  .quote-cart__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    background: rgba(71, 36, 16, 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  .quote-cart__panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 111;
+    width: min(100vw, 72rem);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f5f2ef;
+    box-shadow: -16px 0 48px rgba(0, 0, 0, 0.12);
+  }
+
+  .quote-cart__header {
+    flex-shrink: 0;
+    padding: 1.5rem 1.75rem 1.25rem;
+    background: var(--color-white);
+    border-bottom: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .quote-cart__header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .quote-cart__header h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .quote-cart__subtitle {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cart__close {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    background: var(--color-white);
+    border-radius: 50%;
+    color: var(--color-chocolate);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .quote-cart__close:hover {
+    background: rgba(71, 36, 16, 0.06);
+  }
+
+  .quote-cart__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .quote-cart__step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: rgba(71, 36, 16, 0.4);
+    position: relative;
+    padding-right: 2rem;
+  }
+
+  .quote-cart__step:not(:last-child)::after {
+    content: "›";
+    position: absolute;
+    right: 0.65rem;
+    font-size: 1rem;
+    color: rgba(71, 36, 16, 0.25);
+    font-weight: 300;
+  }
+
+  .quote-cart__step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 0.35rem;
+    background: rgba(71, 36, 16, 0.08);
+    color: rgba(71, 36, 16, 0.45);
+    transform: rotate(-3deg);
+  }
+
+  .quote-cart__step--active {
+    color: var(--color-chocolate);
+    font-weight: 600;
+  }
+
+  .quote-cart__step--active .quote-cart__step-num {
+    background: var(--color-ambar);
+    color: var(--color-chocolate);
+    box-shadow: 0 2px 8px rgba(242, 161, 65, 0.45);
+  }
+
+  .quote-cart__layout {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr min(20rem, 34%);
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .quote-cart__main {
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .quote-cart__empty {
+    margin: 2rem auto;
+    max-width: 22rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 1px dashed rgba(71, 36, 16, 0.15);
+  }
+
+  .quote-cart__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .quote-cart__card {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(9rem, 1fr) minmax(0, 2.2fr) auto;
+    gap: 1.25rem 1.5rem;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: #f3f1ee;
+    border-radius: 0.875rem;
+    border: 1px solid rgba(71, 36, 16, 0.05);
+  }
+
+  .quote-cart__thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #e8e4df;
+    flex-shrink: 0;
+  }
+
+  .quote-cart__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .quote-cart__info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-self: center;
+  }
+
+  .quote-cart__item-name {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-chocolate);
+    line-height: 1.3;
+    text-decoration: none;
+  }
+
+  .quote-cart__item-name:hover {
+    color: var(--color-terracota);
+  }
+
+  .quote-cart__color {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--color-chocolate);
+  }
+
+  .quote-cart__detail {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cart__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 2rem;
+    margin: 0;
+    align-self: center;
+  }
+
+  .quote-cart__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .quote-cart__metric dt {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cart__metric dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-chocolate);
+  }
+
+  .quote-cart__metric--total dd {
+    font-size: 1rem;
+  }
+
+  .quote-cart__qty-wrap {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .quote-cart__qty-wrap input {
+    width: 3.5rem;
+    padding: 0.2rem 0.35rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: 0.3rem;
+    background: var(--color-white);
+    color: var(--color-chocolate);
+  }
+
+  .quote-cart__qty-wrap span {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cart__subtotal {
+    color: var(--color-chocolate) !important;
+  }
+
+  .quote-cart__remove {
+    flex-shrink: 0;
+    padding: 0.55rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--color-chocolate);
+    border-radius: 2rem;
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .quote-cart__remove:hover {
+    background: var(--color-chocolate);
+    color: var(--color-white);
+  }
+
+  .quote-cart__aside {
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem 1.5rem 0.75rem;
+    background: transparent;
+  }
+
+  .quote-cart__summary-card {
+    position: sticky;
+    top: 0;
+    padding: 1.5rem;
+    background: var(--color-white);
+    border-radius: 1rem;
+    border: 1px solid rgba(71, 36, 16, 0.06);
+    box-shadow: 0 4px 24px rgba(71, 36, 16, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .quote-cart__summary-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-chocolate);
+  }
+
+  .quote-cart__summary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+  }
+
+  .quote-cart__summary-list li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 0.35rem 1rem;
+  }
+
+  .quote-cart__summary-line {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .quote-cart__summary-item {
+    line-height: 1.35;
+  }
+
+  .quote-cart__summary-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cart__summary-price {
+    font-weight: 600;
+    color: var(--color-chocolate);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .quote-cart__summary-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    border-top: 1px solid rgba(71, 36, 16, 0.1);
+    font-size: 0.9375rem;
+    color: var(--color-chocolate);
+  }
+
+  .quote-cart__summary-total-row strong {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .quote-cart__summary-note {
+    margin: 0;
+    font-size: 0.6875rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cart__cta {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 1rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    color: var(--color-chocolate);
+    background: var(--color-ambar);
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 4px 16px rgba(242, 161, 65, 0.35);
+  }
+
+  .quote-cart__cta:hover {
+    background: #e89438;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(242, 161, 65, 0.45);
+  }
+
+  .quote-cart__clear {
+    align-self: center;
+    padding: 0.25rem 0;
+    border: none;
+    background: none;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .quote-cart__clear:hover {
+    color: var(--color-coral);
+  }
+
+  body.quote-cart-open {
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .quote-cart__panel {
+      width: 100%;
+    }
+
+    .quote-cart__layout {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+
+    .quote-cart__main {
+      overflow: visible;
+    }
+
+    .quote-cart__aside {
+      padding: 0 1.25rem 1.5rem;
+      overflow: visible;
+    }
+
+    .quote-cart__summary-card {
+      position: static;
+    }
+
+    .quote-cart__card {
+      grid-template-columns: 5rem 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 1rem;
+    }
+
+    .quote-cart__thumb {
+      width: 5rem;
+      height: 5rem;
+      grid-row: span 2;
+    }
+
+    .quote-cart__metrics {
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .quote-cart__metric {
+      grid-template-columns: 1fr auto;
+    }
+
+    .quote-cart__remove {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .quote-cart__header {
+      padding: 1rem 1.25rem;
+    }
+
+    .quote-cart__step-label {
+      display: none;
+    }
+
+    .quote-cart__metrics {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
