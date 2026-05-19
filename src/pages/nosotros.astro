@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { aboutSections } from "@/data/nosotros";
+import AboutSectionIcon from "@/components/about/AboutSectionIcon.astro";
+import { aboutSections, aboutHeroImage } from "@/data/nosotros";
 import "@/styles/nosotros-page.css";
 ---
 
@@ -11,13 +12,25 @@ import "@/styles/nosotros-page.css";
   <div class="nosotros-page">
     <section class="page-hero">
       <div class="container">
-        <p class="eyebrow">Nuestra historia</p>
-        <h1>Cien años de barro, piezas para cada espacio</h1>
-        <div class="about-intro">
-          <p class="lead">
-            Tradición alfarera del suroeste antioqueño con especificación técnica
-            para proyectos que buscan identidad en el material.
-          </p>
+        <div class="about-hero">
+          <div class="about-hero__copy">
+            <p class="eyebrow">Nuestra historia</p>
+            <h1>Cien años de barro, piezas para cada espacio</h1>
+            <p class="about-hero__lead">
+              Tradición alfarera del suroeste antioqueño con especificación técnica
+              para proyectos que buscan identidad en el material.
+            </p>
+          </div>
+          <figure class="about-hero__frame">
+            <img
+              src={aboutHeroImage}
+              alt="Detalle de ladrillo con identidad Clay House"
+              width="640"
+              height="800"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
         </div>
       </div>
     </section>
@@ -29,7 +42,10 @@ import "@/styles/nosotros-page.css";
             aboutSections.map((section) => (
               <article class="about-card" id={section.id}>
                 <p class="about-card__eyebrow">{section.eyebrow}</p>
-                <h2 class="about-card__title">{section.title}</h2>
+                <div class="about-card__head">
+                  <AboutSectionIcon icon={section.icon} />
+                  <h2 class="about-card__title">{section.title}</h2>
+                </div>
                 <div class="about-card__body">
                   {section.paragraphs.map((text) => (
                     <p>{text}</p>
