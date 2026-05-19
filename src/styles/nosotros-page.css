@@ -1,0 +1,151 @@
+.about-intro {
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.about-intro .lead {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.about-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  background: var(--color-white);
+  border: 1px solid rgba(71, 36, 16, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 12px rgba(71, 36, 16, 0.04);
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
+
+.about-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(124, 72, 44, 0.18);
+  box-shadow: 0 16px 48px rgba(71, 36, 16, 0.1);
+}
+
+.about-card__eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-terracota);
+  margin: 0 0 0.75rem;
+}
+
+.about-card__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 600;
+  color: var(--color-chocolate);
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+.about-card__body {
+  flex: 1;
+}
+
+.about-card__body p {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  margin: 0 0 0.875rem;
+}
+
+.about-card__body p:last-child {
+  margin-bottom: 0;
+}
+
+.nosotros-page .page-hero {
+  padding: 8rem 0 2.5rem;
+  background: var(--color-white);
+}
+
+.nosotros-page .page-hero h1 {
+  max-width: 18ch;
+  margin-inline: auto;
+}
+
+.nosotros-page .section--cards {
+  padding-top: 0;
+}
+
+.nosotros-page .eyebrow--light {
+  color: var(--color-salmon);
+}
+
+.nosotros-page .feature-list {
+  margin: 1.5rem 0 2rem;
+  padding-left: 1.25rem;
+  line-height: 1.9;
+  color: rgba(255, 251, 249, 0.85);
+}
+
+.nosotros-page .link-arrow--light {
+  color: var(--color-salmon);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nosotros-page .quote-block {
+  text-align: center;
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.nosotros-page .quote-block blockquote {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-style: italic;
+  margin: 0 0 1.5rem;
+  color: var(--color-chocolate);
+}
+
+@media (max-width: 1024px) {
+  .about-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .about-intro {
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .nosotros-page .page-hero h1 {
+    max-width: none;
+    margin-inline: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-card {
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .about-card:hover {
+    transform: none;
+  }
+}
