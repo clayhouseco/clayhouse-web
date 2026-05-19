@@ -26,7 +26,7 @@ const CRITICAL = [
   ["enchape-romano", "matizado/Enchapematizado_Clayhouse.jpg"],
   ["enchape-romano", "matizado oscuro/Chapa Matizada Oscura (Tono 1).jpg"],
   ["enchape-rustico", "producto/enchape-rustico-producto.jpg"],
-  ["piso-30x30", "DSC_9516.jpg"],
+  ["piso-30x30", "DSC_9524.jpg"],
   ["piso-10x30", "DSC_9574.jpg"],
   ["teja-plana", "teja plana ppal.png"],
   ["teja-colonial", "roja/DSC_9435.jpg"],

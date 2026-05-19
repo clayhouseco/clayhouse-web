@@ -138,12 +138,12 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "piso-30x30": {
     heroProductByVariant: {
-      ".": "DSC_9516.jpg",
+      ".": "DSC_9524.jpg",
     },
     sharedRootPattern: /^piso 30x30 /i,
     dimensionesPattern: /piso 30x30 dimensiones/i,
     fichaPattern: /piso 30x30 ficha/i,
-    productFilePattern: /^DSC_9516/i,
+    productFilePattern: /^DSC_95/i,
   },
   "piso-10x30": {
     heroProductByVariant: {

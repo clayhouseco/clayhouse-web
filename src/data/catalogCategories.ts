@@ -43,7 +43,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     description: "Pisos de barro cocido en formato 30×30 y 10×30 para interiores y espacios cubiertos.",
     order: 3,
     coverProductSlug: "piso-30x30",
-    coverFallback: "/images/products/piso-30x30/DSC_9516.jpg",
+    coverFallback: "/images/products/piso-30x30/DSC_9524.jpg",
   },
   {
     id: "Enchapes",

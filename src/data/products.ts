@@ -406,7 +406,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Piso de barro 30x30 | Clay House",
     seoDescription: "Piso 30x30 de barro cocido. Amagá.",
-    image: productFolderImage("piso-30x30", "DSC_9516.jpg"),
+    image: productFolderImage("piso-30x30", "DSC_9524.jpg"),
     pricePerUnit: "$ 88.500",
     priceUnitLabel: "m²",
     dimensions: {
