@@ -94,6 +94,20 @@ Si ya creaste el proyecto con `npx vercel`, en el dashboard: **Settings → Git*
 
 ---
 
+## Si ves la versión antigua del sitio
+
+1. Abre **https://clayhouse-web.vercel.app** (alias público). Las URLs `*-clay-house.vercel.app` pueden pedir login (protección del equipo).
+2. En Vercel → **clayhouse-web** → **Settings** → **Build and Deployment**:
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+   - **Framework Preset:** Astro
+3. **Deployments** → el deploy del commit `17b9542` (o el último) → menú **⋯** → **Redeploy** → desmarca **Use existing Build Cache**.
+4. No uses `vercel deploy` desde la carpeta local si tienes muchas fotos sin commitear (intenta subir gigas y falla). Deja que construya **desde GitHub**.
+
+Señales de que ya está el sitio nuevo: home con bloques verdes/terracota, carpeta `/ch-assets/`, catálogo en `/productos/categoria/fachadas/`, botón **cotización** en el header.
+
+---
+
 ## Comprobaciones rápidas
 
 ```bash

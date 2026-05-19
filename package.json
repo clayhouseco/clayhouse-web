@@ -2,6 +2,11 @@
   "name": "clayhouse-web",
   "type": "module",
   "version": "1.0.0",
+  "vercel": {
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "framework": "astro"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
