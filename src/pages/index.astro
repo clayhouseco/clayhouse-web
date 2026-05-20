@@ -7,6 +7,11 @@ import { assetUrl } from "@/utils/paths";
 import { logos } from "@/utils/media";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
 import { getCatalogCoverImage } from "@/utils/catalog";
+import HomeFeaturedProjects from "@/components/HomeFeaturedProjects.astro";
+import ReviewCard from "@/components/ReviewCard.astro";
+import StarRating from "@/components/StarRating.astro";
+import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
+import "@/styles/reviews-page.css";
 
 const featured = getFeaturedProducts();
 
@@ -16,13 +21,46 @@ const categories = catalogCategories.map((cat) => ({
   image: getCatalogCoverImage(cat),
 }));
 
-const heroImage = assetUrl(
-  "/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (22).jpg"
-);
+const heroImage = assetUrl("/images/home/starbucks-fachada.png");
 const processVideo = assetUrl("/images/Videos/La tradición que construye el futuro.mp4");
 const processLogo = logos.header;
-const detailImage = assetUrl("/images/Editadas/Romano Liso/DSC_6501.jpg");
-const handcraftImage = assetUrl("/images/Editadas/Romano corcho matizado/DSC_6628.jpg");
+const handcraftImage = assetUrl("/images/products/napolitano/proyectos/dsc-6628/DSC_6628.jpg");
+
+const featuredProjects = [
+  {
+    src: assetUrl("/images/home/starbucks-fachada.png"),
+    alt: "Fachada Starbucks con enchape Romano Clay House",
+    label: "Starbucks",
+  },
+  {
+    src: assetUrl(
+      "/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (22).jpg"
+    ),
+    alt: "Vivienda con fachada en Ladrillo Romano matizado",
+    label: "Casa Retiro",
+  },
+  {
+    src: assetUrl(
+      "/images/products/enchape-romano/proyectos/starbucks/Starbucks_Clayhouse (1).jpg"
+    ),
+    alt: "Detalle de fachada Starbucks con ladrillo Clay House",
+    label: "Starbucks · detalle",
+  },
+  {
+    src: assetUrl(
+      "/images/products/romano/proyectos/Plaza de Mercado Envigado Romano/DSCF2720.jpg"
+    ),
+    alt: "Plaza de Mercado Envigado con Ladrillo Romano",
+    label: "Plaza Envigado",
+  },
+  {
+    src: assetUrl(
+      "/images/products/enchape-romano/proyectos/dos-santos/Dos Santos - enchape_1.jpg"
+    ),
+    alt: "Dos Santos Cantina con enchape Romano",
+    label: "Dos Santos",
+  },
+];
 
 const services = [
   {
@@ -51,12 +89,20 @@ const services = [
     icon: "visit",
   },
 ] as const;
+
+const featuredReviews = getFeaturedReviews(3);
+const reviewsAverage = getAverageRating();
 ---
 
 <BaseLayout title={site.name} description={site.description}>
   <section class="hero">
     <div class="hero__media">
-      <img src={heroImage} alt="Fachada Clay House en ladrillo Romano matizado" loading="eager" />
+      <img
+        src={heroImage}
+        alt="Fachada Starbucks con enchape Romano Clay House"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="hero__overlay"></div>
     </div>
     <div class="hero__content container">
@@ -77,19 +123,19 @@ const services = [
 
   <section class="section">
     <div class="container split-feature">
-      <div class="split-feature__card split-feature__card--olive">
-        <p class="split-feature__eyebrow">Identidad Clay House</p>
+      <div class="split-feature__card split-feature__card--chocolate">
+        <p class="split-feature__eyebrow">Proyectos destacados</p>
         <h2 class="split-feature__title">Redescubre<br />el barro cocido</h2>
         <p class="split-feature__text">
-          Llévate la calidez del barro a cualquier proyecto: fachadas, pisos, tejas y enchapes
-          que ganan carácter con el tiempo y dialogan con la arquitectura contemporánea.
+          Enchapes y fachadas que elevan espacios comerciales y residenciales: el mismo material
+          artesanal de Clay House, visto en obra real con carácter y durabilidad.
         </p>
-        <a href="/productos" class="split-feature__link" aria-label="Ver catálogo">
+        <a href="/productos/enchape-romano" class="split-feature__link" aria-label="Ver enchape Romano">
           <span class="arrow-circle" aria-hidden="true">→</span>
         </a>
       </div>
-      <div class="split-feature__media">
-        <img src={detailImage} alt="Detalle Ladrillo Romano Clay House" loading="lazy" />
+      <div class="split-feature__media split-feature__media--carousel" tabindex="0">
+        <HomeFeaturedProjects slides={featuredProjects} />
       </div>
     </div>
   </section>
@@ -116,20 +162,9 @@ const services = [
     </div>
   </section>
 
-  <section class="section">
-    <div class="container split-feature split-feature--reverse">
-      <div class="split-feature__card split-feature__card--terracota">
-        <p class="split-feature__eyebrow">El proceso</p>
-        <h2 class="split-feature__title">La tradición<br />que construye<br />el futuro</h2>
-        <p class="split-feature__text">
-          Extraemos la arcilla a pocos kilómetros del taller, moldeamos cada pieza y la cocemos
-          en horno Hoffman. El resultado: lotes consistentes con la huella del oficio.
-        </p>
-        <a href="/nosotros" class="split-feature__link" aria-label="Conocer el proceso">
-          <span class="arrow-circle arrow-circle--light" aria-hidden="true">→</span>
-        </a>
-      </div>
-      <div class="split-feature__media split-feature__media--video" data-video-wrap>
+  <section class="section section--alt">
+    <div class="container split-feature split-feature--floating split-feature--reverse">
+      <article class="split-feature__panel split-feature__panel--media split-feature__media--video" data-video-wrap>
         <div class="video-poster" data-video-poster>
           <img src={processLogo} alt="Clay House" class="video-poster__logo" width="280" height="61" />
           <button type="button" class="video-poster__play" aria-label="Reproducir video del proceso">
@@ -146,11 +181,23 @@ const services = [
           playsinline
           aria-label="Video del proceso de fabricación Clay House"
         ></video>
-      </div>
+      </article>
+
+      <article class="split-feature__panel split-feature__panel--copy">
+        <p class="split-feature__eyebrow">El proceso</p>
+        <h2 class="split-feature__title">Tradición que proyecta futuro</h2>
+        <p class="split-feature__text">
+          Arcilla extraída cerca, formada en planta y cocida bajo control. Cada lote conserva la
+          consistencia que pide la arquitectura y el carácter natural del barro.
+        </p>
+        <a href="/nosotros" class="split-feature__link" aria-label="Conocer el proceso">
+          <span class="arrow-circle" aria-hidden="true">→</span>
+        </a>
+      </article>
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section">
     <div class="container split-feature">
       <div class="split-feature__card split-feature__card--cream">
         <p class="split-feature__eyebrow">Hecho a mano</p>
@@ -195,6 +242,37 @@ const services = [
       </div>
       <p class="text-center" style="margin-top: 2.5rem">
         <a href="/productos" class="btn btn--primary">Ver todos los productos</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <p class="eyebrow text-center">Clientes</p>
+      <h2 class="text-center">Experiencias de compra</h2>
+      <p class="text-center text-muted section-intro">
+        Arquitectos y constructores que ya trabajaron con Clay House.
+      </p>
+      {
+        featuredReviews.length > 0 && (
+          <p class="text-center reviews-hero__inline-wrap">
+            <StarRating rating={reviewsAverage} size="sm" />
+            <span>{reviewsAverage} de 5 · promedio de clientes</span>
+          </p>
+        )
+      }
+      {
+        featuredReviews.length > 0 && (
+          <div class="reviews-teaser">
+            {featuredReviews.map((review) => (
+              <ReviewCard review={review} />
+            ))}
+          </div>
+        )
+      }
+      <p class="reviews-teaser__cta">
+        <a href="/reseñas/" class="btn btn--primary">Ver todas las reseñas</a>
+        <a href="/reseñas/#dejar-resena" class="btn btn--ghost">Dejar mi reseña</a>
       </p>
     </div>
   </section>
@@ -391,8 +469,84 @@ const services = [
     order: 2;
   }
 
-  .split-feature--reverse > .split-feature__media {
+  .split-feature--reverse > .split-feature__media,
+  .split-feature--reverse > .split-feature__panel--media {
     order: 1;
+  }
+
+  .split-feature--reverse > .split-feature__panel--copy {
+    order: 2;
+  }
+
+  /* Tarjetas flotantes (proceso) */
+  .split-feature--floating {
+    gap: 1.25rem;
+    min-height: auto;
+    align-items: stretch;
+  }
+
+  .split-feature__panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(71, 36, 16, 0.06);
+    overflow: hidden;
+    transition:
+      transform 0.35s var(--ease),
+      box-shadow 0.35s var(--ease),
+      border-color 0.35s var(--ease);
+  }
+
+  .split-feature__panel:hover {
+    transform: translateY(-6px);
+    border-color: rgba(124, 72, 44, 0.18);
+    box-shadow: 0 18px 48px rgba(71, 36, 16, 0.12);
+  }
+
+  .split-feature__panel--copy {
+    justify-content: center;
+    gap: 1.15rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    color: var(--color-chocolate);
+  }
+
+  .split-feature__panel--copy .split-feature__eyebrow {
+    color: var(--color-terracota);
+    opacity: 1;
+  }
+
+  .split-feature__panel--copy .split-feature__title {
+    color: var(--color-chocolate);
+    font-weight: 600;
+  }
+
+  .split-feature__panel--copy .split-feature__text {
+    color: var(--color-text-muted);
+  }
+
+  .split-feature__panel--copy .arrow-circle {
+    border-color: var(--color-terracota);
+    color: var(--color-terracota);
+  }
+
+  .split-feature__panel--copy .split-feature__link:hover .arrow-circle {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-bg);
+    transform: translateX(4px);
+  }
+
+  .split-feature__panel--media {
+    padding: 0;
+    min-height: 26rem;
+    position: relative;
+  }
+
+  .split-feature__panel--media.split-feature__media--video {
+    background: var(--color-white);
   }
 
   .split-feature__card {
@@ -404,14 +558,14 @@ const services = [
     color: var(--color-chocolate);
   }
 
-  .split-feature__card--olive {
-    background: #8d9572;
+  .split-feature__card--chocolate {
+    background: var(--color-chocolate);
     color: var(--color-bg);
   }
 
-  .split-feature__card--olive .split-feature__eyebrow,
-  .split-feature__card--olive .split-feature__title,
-  .split-feature__card--olive .split-feature__text {
+  .split-feature__card--chocolate .split-feature__eyebrow,
+  .split-feature__card--chocolate .split-feature__title,
+  .split-feature__card--chocolate .split-feature__text {
     color: var(--color-bg);
   }
 
@@ -503,7 +657,7 @@ const services = [
     transition: transform 0.25s var(--ease), background 0.25s, color 0.25s;
   }
 
-  .split-feature__card--olive .split-feature__link:hover .arrow-circle,
+  .split-feature__card--chocolate .split-feature__link:hover .arrow-circle,
   .split-feature__card--terracota .split-feature__link:hover .arrow-circle {
     background: var(--color-bg);
     color: var(--color-chocolate);
@@ -521,6 +675,16 @@ const services = [
     overflow: hidden;
     min-height: 28rem;
     background: #ebe6e0;
+  }
+
+  .split-feature__media--carousel {
+    padding: 0;
+    display: flex;
+  }
+
+  .split-feature__media--carousel:focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: -2px;
   }
 
   .split-feature__media > img,
@@ -741,7 +905,9 @@ const services = [
     }
 
     .split-feature--reverse > .split-feature__card,
-    .split-feature--reverse > .split-feature__media {
+    .split-feature--reverse > .split-feature__media,
+    .split-feature--reverse > .split-feature__panel--media,
+    .split-feature--reverse > .split-feature__panel--copy {
       order: unset;
     }
 
@@ -749,9 +915,14 @@ const services = [
       padding: 2.5rem 1.5rem;
     }
 
-    .split-feature__media {
+    .split-feature__media,
+    .split-feature__panel--media {
       min-height: 20rem;
       max-height: 28rem;
+    }
+
+    .split-feature__panel--copy {
+      padding: 1.75rem 1.5rem;
     }
 
     .grid-3,
@@ -763,6 +934,12 @@ const services = [
   @media (max-width: 520px) {
     .grid-categories {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .split-feature__panel:hover {
+      transform: none;
     }
   }
 </style>

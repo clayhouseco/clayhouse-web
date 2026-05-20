@@ -1,0 +1,72 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ReviewCard from "@/components/ReviewCard.astro";
+import ReviewForm from "@/components/ReviewForm.astro";
+import StarRating from "@/components/StarRating.astro";
+import { reviews, getAverageRating } from "@/data/reviews";
+import "@/styles/reviews-page.css";
+
+const average = getAverageRating();
+const sorted = [...reviews].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+---
+
+<BaseLayout
+  title="Reseñas"
+  description="Opiniones de arquitectos y constructores sobre su experiencia de compra con Clay House en Amagá."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Clientes</p>
+      <h1>Reseñas de compra</h1>
+      <p class="text-muted page-hero__lead">
+        Experiencias reales en cotización, muestras, entrega y acompañamiento en obra. ¿Ya compró
+        con nosotros? Comparta su reseña.
+      </p>
+      {
+        reviews.length > 0 && (
+          <div class="reviews-hero__stats">
+            <div class="reviews-hero__score">
+              <StarRating rating={average} label={`Promedio ${average} de 5`} />
+              <strong>{average}</strong>
+            </div>
+            <p class="reviews-hero__count">{reviews.length} reseñas publicadas</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reviews-layout">
+      <div class="reviews-list-col">
+        <h2 class="visually-hidden">Reseñas publicadas</h2>
+        {
+          sorted.length > 0 ? (
+            <div class="reviews-list">
+              {sorted.map((review) => (
+                <ReviewCard review={review} />
+              ))}
+            </div>
+          ) : (
+            <p class="text-muted">Aún no hay reseñas publicadas. Sea el primero en compartir la suya.</p>
+          )
+        }
+      </div>
+
+      <aside class="reviews-form-panel" id="dejar-resena">
+        <h2 class="reviews-form-panel__title">Deje su reseña</h2>
+        <p class="reviews-form-panel__lead">
+          Cuéntenos cómo fue su proceso con Clay House. Revisamos cada envío antes de publicarlo en
+          el sitio.
+        </p>
+        <ReviewForm />
+        <p class="reviews-note">
+          Las reseñas se publican tras validación. No mostramos datos sensibles ni mensajes
+          ofensivos.
+        </p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

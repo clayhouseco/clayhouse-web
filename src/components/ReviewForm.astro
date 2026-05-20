@@ -1,0 +1,261 @@
+---
+import { site } from "@/data/site";
+
+interface Props {
+  id?: string;
+}
+
+const { id = "review-form" } = Astro.props;
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
+const formspreeReady =
+  Boolean(formspreeId) && formspreeId !== "your_form_id" && !formspreeId.startsWith("your_");
+const formAction = formspreeReady ? `https://formspree.io/f/${formspreeId}` : undefined;
+const thankYouUrl = new URL("/reseñas/gracias/", site.url).href;
+const thankYouPath = "/reseñas/gracias/";
+---
+
+<div class="review-form-wrap">
+  {!formAction && (
+    <p class="review-form-hint">
+      Configure <code>PUBLIC_FORMSPREE_ID</code> en <code>.env</code> para recibir reseñas por correo.
+      Mientras tanto, puede escribirnos por <a href={site.whatsapp}>WhatsApp</a>.
+    </p>
+  )}
+
+  <form
+    class="review-form"
+    id={id}
+    method={formAction ? "POST" : "get"}
+    action={formAction}
+  >
+    {
+      formAction && (
+        <>
+          <input type="hidden" name="_subject" value="Nueva reseña de cliente — Clay House" />
+          <input type="hidden" name="_next" value={thankYouUrl} />
+          <input type="hidden" name="tipo_formulario" value="reseña" />
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="review-form__honeypot" />
+        </>
+      )
+    }
+
+    <label>
+      Nombre completo *
+      <input type="text" name="nombre" required autocomplete="name" />
+    </label>
+
+    <label>
+      Empresa o rol (opcional)
+      <input type="text" name="empresa_rol" placeholder="Ej. Arquitecto, Constructora…" />
+    </label>
+
+    <label>
+      Email *
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+
+    <fieldset class="review-form__rating">
+      <legend>¿Cómo califica su experiencia de compra? *</legend>
+      <div class="review-form__stars">
+        {
+          [5, 4, 3, 2, 1].map((value) => (
+            <label class="review-form__star-option">
+              <input type="radio" name="calificacion" value={String(value)} required={value === 5} />
+              <span>{value} ★</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <label>
+      Producto (opcional)
+      <input type="text" name="producto" placeholder="Ej. Ladrillo Romano, Enchape…" />
+    </label>
+
+    <label>
+      Su reseña *
+      <textarea
+        name="resena"
+        rows="5"
+        required
+        placeholder="Cuéntenos cómo fue el proceso: cotización, muestras, entrega, atención en obra…"
+      ></textarea>
+    </label>
+
+    <label class="checkbox review-form__consent">
+      <input type="checkbox" name="autorizacion" value="si" required />
+      <span>
+        Autorizo publicar mi reseña en el sitio web (puede editarse por claridad). Clay House puede
+        contactarme para confirmar datos.
+      </span>
+    </label>
+
+    <button type="submit" class="btn btn--primary review-form__submit">
+      Enviar reseña
+    </button>
+  </form>
+</div>
+
+<script
+  define:vars={{
+    whatsappUrl: site.whatsapp,
+    thankYouPath,
+    useFormspree: Boolean(formAction),
+    formId: id,
+  }}
+>
+  const form = document.getElementById(formId);
+  if (!form || useFormspree) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const lines = [
+      "Hola Clay House, quiero dejar una reseña:",
+      "",
+      `Nombre: ${fd.get("nombre")}`,
+      fd.get("empresa_rol") ? `Empresa/Rol: ${fd.get("empresa_rol")}` : "",
+      `Email: ${fd.get("email")}`,
+      `Calificación: ${fd.get("calificacion")}/5`,
+      fd.get("producto") ? `Producto: ${fd.get("producto")}` : "",
+      "",
+      String(fd.get("resena") || ""),
+    ].filter(Boolean);
+
+    window.open(`${whatsappUrl}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
+    window.location.href = thankYouPath;
+  });
+</script>
+
+<style>
+  .review-form-wrap {
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: 0 2px 12px rgba(71, 36, 16, 0.05);
+  }
+
+  .review-form-hint {
+    margin: 0 0 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .review-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-chocolate);
+  }
+
+  .review-form input[type="text"],
+  .review-form input[type="email"],
+  .review-form textarea {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+  }
+
+  .review-form textarea {
+    resize: vertical;
+    min-height: 7rem;
+  }
+
+  .review-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+  }
+
+  .review-form__rating {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .review-form__rating legend {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-chocolate);
+  }
+
+  .review-form__stars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .review-form__star-option {
+    cursor: pointer;
+  }
+
+  .review-form__star-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .review-form__star-option span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.25rem;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: 999px;
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+    transition:
+      background 0.2s var(--ease),
+      border-color 0.2s var(--ease),
+      color 0.2s var(--ease);
+  }
+
+  .review-form__star-option input:checked + span,
+  .review-form__star-option:hover span {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-bg);
+  }
+
+  .review-form__consent {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-weight: 400;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .review-form__consent input {
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .review-form__submit {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+  }
+</style>

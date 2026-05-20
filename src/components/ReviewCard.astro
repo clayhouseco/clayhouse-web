@@ -1,0 +1,28 @@
+---
+import type { Review } from "@/data/reviews";
+import StarRating from "@/components/StarRating.astro";
+
+interface Props {
+  review: Review;
+}
+
+const { review } = Astro.props;
+
+const dateLabel = new Date(review.date).toLocaleDateString("es-CO", {
+  year: "numeric",
+  month: "long",
+});
+---
+
+<article class="review-card">
+  <div class="review-card__head">
+    <StarRating rating={review.rating} size="sm" />
+    <time class="review-card__date" datetime={review.date}>{dateLabel}</time>
+  </div>
+  <blockquote class="review-card__text">“{review.text}”</blockquote>
+  <footer class="review-card__author">
+    <strong>{review.author}</strong>
+    {review.role && <span>{review.role}</span>}
+    {review.product && <span class="review-card__product">{review.product}</span>}
+  </footer>
+</article>

@@ -1,0 +1,46 @@
+---
+interface Props {
+  rating: number;
+  max?: number;
+  label?: string;
+  size?: "sm" | "md";
+}
+
+const { rating, max = 5, label, size = "md" } = Astro.props;
+const rounded = Math.min(max, Math.max(0, Math.round(rating)));
+---
+
+<div
+  class:list={["star-rating", size === "sm" && "star-rating--sm"]}
+  role="img"
+  aria-label={label ?? `${rounded} de ${max} estrellas`}
+>
+  {
+    Array.from({ length: max }, (_, i) => (
+      <span class:list={["star-rating__star", i < rounded && "star-rating__star--on"]} aria-hidden="true">
+        ★
+      </span>
+    ))
+  }
+</div>
+
+<style>
+  .star-rating {
+    display: inline-flex;
+    gap: 0.15rem;
+    line-height: 1;
+  }
+
+  .star-rating__star {
+    font-size: 1.15rem;
+    color: rgba(71, 36, 16, 0.2);
+  }
+
+  .star-rating__star--on {
+    color: var(--color-ambar);
+  }
+
+  .star-rating--sm .star-rating__star {
+    font-size: 0.9rem;
+  }
+</style>
