@@ -2,154 +2,132 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getDownloadsByCategory } from "@/data/downloads";
 import { getCatalogCategoryHref } from "@/data/catalogCategories";
+import "@/styles/descargas-page.css";
 
 const groups = getDownloadsByCategory();
+const totalFichas = groups.reduce((sum, group) => sum + group.items.length, 0);
+
+const heroStats = [
+  { value: String(groups.length), label: "Categorías" },
+  { value: String(totalFichas), label: "Fichas técnicas" },
+  { value: "PDF", label: "Formato listo" },
+] as const;
+
+const heroFeatures = [
+  "Dimensiones, tolerancias y normativa por producto",
+  "Organizado por fachadas, divisorios, pisos, enchapes y techos",
+  "Descarga directa para obra y especificación",
+] as const;
 ---
 
 <BaseLayout
   title="Descargas"
   description="Fichas técnicas, catálogo y certificados NTC 4205 para especificadores."
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Especificadores</p>
-      <h1>Recursos para especificadores</h1>
-      <p class="text-muted page-hero__lead">
-        Documentación técnica agrupada por aplicación para integrar en memorias de especificación.
-      </p>
-    </div>
-  </section>
+  <div class="descargas-page">
+    <section class="descargas-hero" aria-labelledby="descargas-hero-title">
+      <div class="descargas-hero__pattern" aria-hidden="true"></div>
+      <div class="container descargas-hero__grid">
+        <div class="descargas-hero__copy">
+          <p class="eyebrow">Especificadores</p>
+          <h1 id="descargas-hero-title">Recursos para especificadores</h1>
+          <p class="descargas-hero__lead">
+            Documentación técnica agrupada por aplicación. Elija una categoría, revise la ficha y
+            descargue el PDF para su proyecto.
+          </p>
+        </div>
 
-  <section class="section">
-    <div class="container">
-      {
-        groups.map((group) => (
-          <section class="download-group">
-            <header class="download-group__header">
-              <h2 class="download-group__title">{group.label}</h2>
-              <p class="download-group__desc">{group.description}</p>
-              <a href={getCatalogCategoryHref(group.category)} class="download-group__catalog">
-                ver productos →
-              </a>
-            </header>
-            <ul class="download-list">
-              {
-                group.items.map((d) => (
-                  <li class="download-item">
-                    <div>
-                      <span class="download-type">{d.type}</span>
-                      <h3>{d.title}</h3>
-                      <p>{d.description}</p>
-                    </div>
-                    <a href={d.file} class="btn btn--primary" download>
-                      descargar PDF
+        <aside class="descargas-hero__panel">
+          <ul class="descargas-hero__stats">
+            {
+              heroStats.map((stat) => (
+                <li class="descargas-hero__stat">
+                  <span class="descargas-hero__stat-value">{stat.value}</span>
+                  <span class="descargas-hero__stat-label">{stat.label}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="descargas-hero__features">
+            {heroFeatures.map((feature) => <li>{feature}</li>)}
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="download-accordion">
+          {
+            groups.map((group, index) => (
+              <details class="download-accordion__item" open={index === 0}>
+                <summary class="download-accordion__trigger">
+                  <span class="download-accordion__trigger-text">
+                    <span class="download-accordion__title">{group.label}</span>
+                    <span class="download-accordion__count">
+                      {group.items.length}{" "}
+                      {group.items.length === 1 ? "ficha" : "fichas"}
+                    </span>
+                  </span>
+                  <span class="download-accordion__chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </summary>
+                <div class="download-accordion__panel">
+                  <div class="download-accordion__intro">
+                    <p>{group.description}</p>
+                    <a
+                      href={getCatalogCategoryHref(group.category)}
+                      class="download-group__catalog"
+                    >
+                      Ver productos →
                     </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </section>
-        ))
-      }
-      <p class="download-note">
-        ¿Necesita otra ficha o el catálogo completo? Escríbanos a{" "}
-        <a href="mailto:ventas@clayhouse.com.co">ventas@clayhouse.com.co</a> o{" "}
-        <a href="/contacto">solicite cotización</a>.
-      </p>
-    </div>
-  </section>
+                  </div>
+                  <ul class="download-grid">
+                    {
+                      group.items.map((d) => (
+                        <li class="download-card">
+                          <div class="download-card__head">
+                            <span class="download-card__icon" aria-hidden="true">
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                              >
+                                <path d="M6 4h9l3 3v13H6V4z" />
+                                <path d="M15 4v4h4M8 12h8M8 16h6" />
+                              </svg>
+                            </span>
+                            <div class="download-card__meta">
+                              <span class="download-type">{d.type}</span>
+                              <h3>{d.title}</h3>
+                            </div>
+                          </div>
+                          <p>{d.description}</p>
+                          <div class="download-card__action">
+                            <a href={d.file} class="btn btn--primary" download>
+                              Descargar PDF
+                            </a>
+                          </div>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+              </details>
+            ))
+          }
+        </div>
+
+        <p class="download-note">
+          ¿Necesita otra ficha o el catálogo completo? Escríbanos a{" "}
+          <a href="mailto:ventas@clayhouse.com.co">ventas@clayhouse.com.co</a> o{" "}
+          <a href="/contacto">solicite cotización</a>.
+        </p>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
-
-<style>
-  .download-group {
-    margin-bottom: 3.5rem;
-  }
-
-  .download-group__header {
-    margin-bottom: 1.25rem;
-    max-width: 40rem;
-  }
-
-  .download-group__title {
-    margin: 0 0 0.5rem;
-    font-family: var(--font-heading);
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-    font-weight: 600;
-    color: var(--color-chocolate);
-  }
-
-  .download-group__desc {
-    margin: 0 0 0.5rem;
-    font-size: 0.9375rem;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-  }
-
-  .download-group__catalog {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-terracota);
-  }
-
-  .download-group__catalog:hover {
-    color: var(--color-coral);
-  }
-
-  .download-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    background: var(--color-white);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-
-  .download-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    padding: 1.5rem 1.75rem;
-    border-bottom: 1px solid rgba(71, 36, 16, 0.08);
-  }
-
-  .download-item:last-child {
-    border-bottom: none;
-  }
-
-  .download-type {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-terracota);
-  }
-
-  .download-item h3 {
-    font-size: 1.0625rem;
-    margin: 0.25rem 0 0.35rem;
-  }
-
-  .download-item p {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    margin: 0;
-    max-width: 36rem;
-    line-height: 1.5;
-  }
-
-  .download-note {
-    margin-top: 2rem;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-  }
-
-  @media (max-width: 640px) {
-    .download-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-</style>

@@ -17,3 +17,4 @@ clayhouse-dist.zip
 **/*.mp4
 **/*.RAF
 **/*.raf
+.vercel

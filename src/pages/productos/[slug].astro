@@ -948,14 +948,40 @@ const productJsonLd = {
     }
 
     .product-page__two-col,
-    .highlights-grid,
-    .related-grid {
+    .highlights-grid {
       grid-template-columns: 1fr;
+    }
+
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .samples-banner {
       flex-direction: column;
       align-items: flex-start;
+    }
+
+    .product-page__quick-nav {
+      gap: 0.4rem;
+    }
+
+    .quick-pill {
+      flex: 1 1 calc(50% - 0.25rem);
+      font-size: 0.5625rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .product-page__breadcrumb {
+      padding-top: 5.5rem;
+    }
+
+    .quick-pill {
+      flex: 1 1 100%;
     }
   }
 </style>

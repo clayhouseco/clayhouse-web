@@ -582,9 +582,24 @@ const thankYouPath = "/contacto/gracias/";
     text-underline-offset: 2px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .contact-grid {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-form {
+      padding: 1.25rem;
+    }
+
+    .product-picker__options {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-map__frame iframe {
+      height: 220px;
     }
   }
 </style>

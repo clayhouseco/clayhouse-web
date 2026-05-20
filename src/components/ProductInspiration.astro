@@ -650,6 +650,16 @@ const INTRO =
     }
   }
 
+  @media (max-width: 768px) {
+    .inspiration-card {
+      flex: 0 0 min(78vw, 320px);
+    }
+
+    .inspiration-card--split {
+      flex: 0 0 min(88vw, 360px);
+    }
+  }
+
   @media (max-width: 640px) {
     .inspiration-card--split {
       flex-direction: column;
@@ -669,6 +679,10 @@ const INTRO =
       width: 2.5rem;
       height: 2.5rem;
       font-size: 1rem;
+    }
+
+    .product-inspiration__title {
+      font-size: clamp(1.5rem, 6vw, 2rem);
     }
   }
 </style>

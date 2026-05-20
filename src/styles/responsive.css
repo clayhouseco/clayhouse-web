@@ -1,0 +1,70 @@
+/**
+ * Ajustes compartidos móvil / tablet (768px, 520px).
+ * Los componentes pueden tener reglas propias; esto unifica lo transversal.
+ */
+
+@media (max-width: 1024px) {
+  .page-hero {
+    padding: 7rem 0 2.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 6.5rem 0 2.5rem;
+  }
+
+  .page-hero__lead {
+    font-size: 1.0625rem;
+  }
+
+  .container {
+    width: min(100% - 1.5rem, var(--max-width));
+  }
+
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 2rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter {
+    flex-shrink: 0;
+  }
+
+  .whatsapp-fab {
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  body.quote-cart-open .whatsapp-fab,
+  body.nav-open .whatsapp-fab {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-hero {
+    padding: 6rem 0 2rem;
+  }
+
+  .page-hero__lead {
+    font-size: 1rem;
+  }
+
+  .catalog-cta {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .catalog-cta .btn {
+    width: 100%;
+  }
+}

@@ -19,6 +19,31 @@ export const site = {
     "https://www.google.com/maps/dir/?api=1&destination=Clay+House,+Km+2,+vía+Amagá+-+Angelópolis,+Amagá,+Antioquia,+Colombia",
 } as const;
 
+export type SocialId =
+  | "facebook"
+  | "instagram"
+  | "youtube"
+  | "pinterest"
+  | "tiktok"
+  | "linkedin";
+
+export const socialLinks: {
+  id: SocialId;
+  label: string;
+  href: string;
+}[] = [
+  { id: "facebook", label: "Facebook", href: "https://www.facebook.com/clayhousecol" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/clayhouseco/" },
+  { id: "youtube", label: "YouTube", href: "https://www.youtube.com/@clayhouse-v1x" },
+  { id: "pinterest", label: "Pinterest", href: "https://co.pinterest.com/clayhousecol/" },
+  { id: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@clayhouseco" },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/clayhouseco",
+  },
+];
+
 export const nav = [
   { label: "Inicio", href: "/" },
   { label: "Productos", href: "/productos" },

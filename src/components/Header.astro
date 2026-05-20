@@ -40,6 +40,18 @@ const currentPath = Astro.url.pathname;
           ))
         }
       </ul>
+      <div class="header__nav-extras">
+        <button
+          type="button"
+          class="header__cart-btn"
+          data-quote-cart-open
+          aria-label="Ver cotización"
+        >
+          cotización
+          <span class="header__cart-count" data-quote-header-count hidden>0</span>
+        </button>
+        <a href="/contacto" class="header__cta btn btn--primary">solicitar</a>
+      </div>
     </nav>
     <div class="header__actions">
       <button
@@ -53,15 +65,6 @@ const currentPath = Astro.url.pathname;
       </button>
       <a href="/contacto" class="header__cta btn btn--primary">solicitar</a>
     </div>
-    <button
-      type="button"
-      class="header__cart-btn header__cart-btn--mobile"
-      data-quote-cart-open
-      aria-label="Ver cotización"
-    >
-      cotización
-      <span class="header__cart-count" data-quote-header-count hidden>0</span>
-    </button>
     <button class="header__toggle" aria-label="Abrir menú" aria-expanded="false">
       <span></span>
       <span></span>
@@ -86,6 +89,10 @@ const currentPath = Astro.url.pathname;
 
   nav?.querySelectorAll("[data-nav-link]").forEach((link) => {
     link.addEventListener("click", () => setNavOpen(false));
+  });
+
+  document.querySelectorAll("[data-quote-cart-open]").forEach((btn) => {
+    btn.addEventListener("click", () => setNavOpen(false));
   });
 
   document.addEventListener("keydown", (e) => {
@@ -210,7 +217,7 @@ const currentPath = Astro.url.pathname;
     color: var(--color-terracota);
   }
 
-  .header__cart-btn--mobile {
+  .header__nav-extras {
     display: none;
   }
 
@@ -262,17 +269,27 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (max-width: 768px) {
-    .header__cart-btn--mobile {
-      display: inline-flex;
+    .header__inner {
+      height: 4.5rem;
+    }
+
+    .header__logo-img {
+      height: 2.35rem;
     }
 
     .header__toggle {
       display: flex;
     }
 
+    .header__actions {
+      display: none;
+    }
+
     .header__nav {
       position: fixed;
       inset: 4.5rem 0 auto 0;
+      max-height: calc(100dvh - 4.5rem);
+      overflow-y: auto;
       background: var(--color-bg);
       padding: 2rem;
       border-bottom: 1px solid rgba(71, 36, 16, 0.08);
@@ -293,16 +310,17 @@ const currentPath = Astro.url.pathname;
       gap: 1.25rem;
     }
 
-    .header__actions {
+    .header__nav-extras {
       display: flex;
       flex-direction: column;
+      gap: 0.75rem;
       margin-top: 1.5rem;
       padding-top: 1.5rem;
       border-top: 1px solid rgba(71, 36, 16, 0.08);
     }
 
-    .header__cart-btn,
-    .header__cta {
+    .header__nav-extras .header__cart-btn,
+    .header__nav-extras .header__cta {
       width: 100%;
       justify-content: center;
     }

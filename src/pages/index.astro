@@ -712,6 +712,29 @@ const services = [
   }
 
   @media (max-width: 768px) {
+    .hero {
+      min-height: 100svh;
+      padding-bottom: 3rem;
+    }
+
+    .hero__title {
+      font-size: clamp(2rem, 9vw, 2.75rem);
+    }
+
+    .hero__lead {
+      font-size: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero__actions .btn {
+      width: 100%;
+    }
+
     .split-feature {
       grid-template-columns: 1fr;
       min-height: auto;
@@ -731,7 +754,14 @@ const services = [
       max-height: 28rem;
     }
 
-    .grid-3 {
+    .grid-3,
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .grid-categories {
       grid-template-columns: 1fr;
     }
   }

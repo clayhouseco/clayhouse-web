@@ -20,4 +20,6 @@ export const heroImages = {
 export const logos = {
   header: assetUrl("/Logos/MASTERMesa de trabajo 3.png"),
   headerAlt: assetUrl("/Logos/MASTERMesa de trabajo 1.png"),
+  /** Isotipo CH (crema) para pie de página */
+  footerMark: assetUrl("/Logos/MASTERMesa de trabajo 11.png"),
 } as const;
