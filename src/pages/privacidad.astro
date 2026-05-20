@@ -1,0 +1,117 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+
+const lastUpdated = "Mayo 2026";
+---
+
+<BaseLayout
+  title="Política de privacidad"
+  description="Política de privacidad y tratamiento de datos de Clay House. Formularios, cotizaciones y analítica web."
+  hideQuoteCart
+>
+  <section class="page-hero">
+    <div class="container narrow">
+      <p class="eyebrow">Legal</p>
+      <h1>Política de privacidad</h1>
+      <p class="text-muted page-hero__lead">
+        Última actualización: {lastUpdated}. Clay House ({site.legalName}) en Amagá, Antioquia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow legal-prose">
+      <h2>Responsable del tratamiento</h2>
+      <p>
+        <strong>{site.name}</strong><br />
+        {site.address}<br />
+        Correo: <a href={`mailto:${site.email}`}>{site.email}</a><br />
+        Teléfono: <a href={site.phoneHref}>{site.phone}</a>
+      </p>
+
+      <h2>Datos que recopilamos</h2>
+      <ul>
+        <li>
+          <strong>Formularios de contacto y cotización:</strong> nombre, empresa, rol, correo,
+          teléfono, ciudad, productos de interés y mensaje.
+        </li>
+        <li>
+          <strong>Reseñas de clientes:</strong> nombre, rol u oficina, calificación y texto (publicadas
+          tras revisión manual).
+        </li>
+        <li>
+          <strong>Analítica web (opcional):</strong> páginas visitadas, origen del tráfico y eventos
+          agregados (clic en WhatsApp, inicio de formulario, envío de cotización), si usted acepta
+          cookies de medición o si usamos analítica sin cookies.
+        </li>
+      </ul>
+
+      <h2>Finalidad</h2>
+      <p>
+        Responder solicitudes comerciales, preparar cotizaciones, enviar fichas técnicas o muestras,
+        mejorar el sitio web y cumplir obligaciones legales aplicables en Colombia.
+      </p>
+
+      <h2>Formularios y proveedores</h2>
+      <p>
+        Los envíos pueden procesarse mediante <strong>Formspree</strong> o, en su defecto, abrir
+        <strong>WhatsApp</strong> con el mensaje que usted redacta. Esos servicios pueden almacenar
+        datos fuera de Colombia según sus propias políticas.
+      </p>
+
+      <h2>Cookies y analítica</h2>
+      <p>
+        Podemos usar <strong>Plausible Analytics</strong> (sin cookies de seguimiento en su configuración
+        estándar) y/o <strong>Google Analytics 4</strong> (requiere su consentimiento mediante el
+        banner del sitio). Puede rechazar las cookies de medición en cualquier momento; las cookies
+        estrictamente necesarias para el funcionamiento del sitio son mínimas.
+      </p>
+
+      <h2>Conservación y derechos</h2>
+      <p>
+        Conservamos los datos el tiempo necesario para la relación comercial y obligaciones contables.
+        Puede solicitar acceso, rectificación o supresión escribiendo a{" "}
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+
+      <h2>Contacto</h2>
+      <p>
+        Para dudas sobre esta política: <a href={`mailto:${site.email}`}>{site.email}</a> o{" "}
+        <a href="/contacto">formulario de contacto</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-prose {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-chocolate);
+  }
+
+  .legal-prose h2 {
+    margin: 2rem 0 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p,
+  .legal-prose ul {
+    margin: 0 0 1rem;
+  }
+
+  .legal-prose ul {
+    padding-left: 1.25rem;
+  }
+
+  .legal-prose a {
+    color: var(--color-terracota);
+  }
+</style>

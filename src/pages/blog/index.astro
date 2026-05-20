@@ -8,6 +8,18 @@ import "@/styles/blog-page.css";
 const allPosts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const postCountByType = allPosts.reduce(
+  (acc, post) => {
+    acc[post.data.type] = (acc[post.data.type] ?? 0) + 1;
+    return acc;
+  },
+  {} as Record<string, number>
+);
+
+const visibleBlogFilters = blogFilters.filter(
+  (f) => f.id === "all" || (postCountByType[f.id] ?? 0) > 0
+);
 ---
 
 <BaseLayout
@@ -29,7 +41,7 @@ const allPosts = (await getCollection("blog"))
     <div class="container">
       <div class="blog-filters" role="tablist" aria-label="Filtrar publicaciones">
         {
-          blogFilters.map((f, i) => (
+          visibleBlogFilters.map((f, i) => (
             <button
               type="button"
               class:list={["blog-filter", i === 0 && "is-active"]}

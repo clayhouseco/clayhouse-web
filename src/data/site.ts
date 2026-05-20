@@ -16,7 +16,7 @@ export const site = {
     "Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m.",
   /** Mapa embebido (sin API key) y enlace a indicaciones en Google Maps */
   mapsEmbedUrl:
-    "https://maps.google.com/maps?q=Clay+House,+Km+2,+vía+Amagá+-+Angelópolis,+Amagá,+Antioquia,+Colombia&hl=es&z=15&output=embed",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.184!2d-75.7035!3d6.0397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e44286b5f7f2f0d%3A0x0!2sKm%202%2C%20v%C3%ADa%20Amag%C3%A1%20-%20Angel%C3%B3polis%2C%20Amag%C3%A1!5e0!3m2!1ses!2sco!4v1!5m2!1ses!2sco",
   mapsDirectionsUrl:
     "https://www.google.com/maps/dir/?api=1&destination=Clay+House,+Km+2,+vía+Amagá+-+Angelópolis,+Amagá,+Antioquia,+Colombia",
 } as const;

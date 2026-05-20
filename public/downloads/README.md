@@ -1,12 +1,15 @@
-# PDFs — Fichas técnicas y catálogos
+# PDFs — Catálogo y guías
 
-Sube los PDFs con estos nombres (o avisa si usas otros y los renombro en el código):
+Coloque aquí archivos con **nombres legibles** (sin `doc_final_v3.pdf`):
 
-| Archivo | Descripción |
-|---------|-------------|
-| `ficha-ladrillo-f-pv-ntc.pdf` | Ficha técnica F-PV NTC 4205 |
-| `catalogo-general-clayhouse.pdf` | Catálogo general |
-| `certificado-ensayos-laboratorio.pdf` | Certificado de laboratorio |
-| `detalle-constructivo-juntas.pdf` | Detalle constructivo |
+| Archivo | Uso en el sitio |
+|---------|------------------|
+| `Manual de Fachadas Clay House.pdf` | Catálogo general y guía de instalación de fachadas |
 
-Tras subirlos, la página `/descargas` enlazará la descarga directa.
+Fichas técnicas por producto están en `/public/Fichas Tecnicas/` con el nombre del producto (ej. `Romano.pdf`, `Enchape Romano.pdf`).
+
+Opcionales para ampliar `/descargas` en `src/data/generalDownloads.ts`:
+
+- `catalogo-general-clayhouse.pdf`
+- `guia-instalacion-enchapes.pdf`
+- `certificado-ensayos-laboratorio.pdf`

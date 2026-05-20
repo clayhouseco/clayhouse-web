@@ -1,0 +1,125 @@
+---
+const ga4Id = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID?.trim();
+const showBanner = Boolean(ga4Id && ga4Id !== "G-XXXXXXXXXX");
+---
+
+{
+  showBanner && (
+    <div class="cookie-consent" id="cookie-consent" hidden role="dialog" aria-labelledby="cookie-consent-title">
+      <div class="cookie-consent__inner container">
+        <p id="cookie-consent-title" class="cookie-consent__title">Cookies y analítica</p>
+        <p class="cookie-consent__text">
+          Usamos Google Analytics para entender el uso del sitio. Solo se activa si usted acepta. Consulte
+          nuestra <a href="/privacidad">política de privacidad</a>.
+        </p>
+        <div class="cookie-consent__actions">
+          <button type="button" class="btn btn--ghost cookie-consent__decline" data-cookie-decline>
+            Rechazar
+          </button>
+          <button type="button" class="btn btn--primary cookie-consent__accept" data-cookie-accept>
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  import {
+    hasAnalyticsConsent,
+    loadAnalytics,
+    setAnalyticsConsent,
+  } from "@/utils/analytics.client";
+
+  const banner = document.getElementById("cookie-consent");
+  if (banner) {
+    const show = () => {
+      banner.hidden = false;
+    };
+
+    const hide = () => {
+      banner.hidden = true;
+    };
+
+    if (!hasAnalyticsConsent()) {
+      show();
+    } else {
+      hide();
+    }
+
+    banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
+      setAnalyticsConsent(true);
+      loadAnalytics();
+      hide();
+    });
+
+    banner.querySelector("[data-cookie-decline]")?.addEventListener("click", () => {
+      setAnalyticsConsent(false);
+      hide();
+    });
+  }
+</script>
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 120;
+    padding: 1rem;
+    background: rgba(71, 36, 16, 0.92);
+    color: var(--color-bg);
+    backdrop-filter: blur(8px);
+  }
+
+  .cookie-consent__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+  }
+
+  .cookie-consent__title {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .cookie-consent__text {
+    margin: 0;
+    flex: 1 1 16rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    opacity: 0.92;
+  }
+
+  .cookie-consent__text a {
+    color: var(--color-ambar);
+    text-decoration: underline;
+  }
+
+  .cookie-consent__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cookie-consent__decline {
+    border-color: rgba(255, 251, 249, 0.35);
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 520px) {
+    .cookie-consent__actions {
+      width: 100%;
+    }
+
+    .cookie-consent__actions .btn {
+      flex: 1;
+    }
+  }
+</style>

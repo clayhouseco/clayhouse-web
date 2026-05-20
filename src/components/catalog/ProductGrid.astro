@@ -1,6 +1,6 @@
 ---
 import type { Product } from "@/data/products";
-import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
+import CatalogProductCard from "@/components/catalog/CatalogProductCard.astro";
 
 interface Props {
   products: Product[];
@@ -10,19 +10,5 @@ const { products } = Astro.props;
 ---
 
 <div class="product-grid">
-  {
-    products.map((p) => (
-      <a href={`/productos/${p.slug}`} class="product-card">
-        <div
-          class="product-card__img"
-          style={`--catalog-scale: ${getCatalogImageScale(p.slug)}`}
-        >
-          <img src={getCatalogImage(p.slug, p.image)} alt={p.name} loading="lazy" />
-        </div>
-        <span class="product-card__cat">{p.category}</span>
-        <h2>{p.name}</h2>
-        <p>{p.shortDescription}</p>
-      </a>
-    ))
-  }
+  {products.map((p) => <CatalogProductCard product={p} />)}
 </div>

@@ -35,7 +35,10 @@ const rows: RowConfig[] = [
   <div class="container client-band__intro">
     <p class="eyebrow">Alianzas</p>
     <h2 id="client-band-heading" class="client-band__heading">Clientes y proyectos</h2>
-    <p class="client-band__hint">Mueva el cursor en cada franja; se desplazan en direcciones opuestas</p>
+    <p class="client-band__hint">
+      <span class="client-band__hint--pointer">Mueva el cursor en cada franja; se desplazan en direcciones opuestas</span>
+      <span class="client-band__hint--touch">Deslice para explorar cada franja</span>
+    </p>
   </div>
 
   {
@@ -168,6 +171,24 @@ const rows: RowConfig[] = [
     margin: 0;
     font-size: 0.8125rem;
     color: var(--color-text-muted);
+  }
+
+  .client-band__hint--touch {
+    display: none;
+  }
+
+  @media (pointer: coarse) {
+    .client-band__hint--pointer {
+      display: none;
+    }
+
+    .client-band__hint--touch {
+      display: inline;
+    }
+
+    .client-band__zone {
+      cursor: default;
+    }
   }
 
   .client-band__row {

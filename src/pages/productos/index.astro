@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CatalogFilters from "@/components/catalog/CatalogFilters.astro";
 import ProductGrid from "@/components/catalog/ProductGrid.astro";
+import PricingGuide from "@/components/catalog/PricingGuide.astro";
 import { getCatalogCategoryHref } from "@/data/catalogCategories";
 import { groupProductsByCategory } from "@/utils/catalog";
 import "@/styles/catalog-page.css";
@@ -27,6 +28,8 @@ const grouped = groupProductsByCategory();
   <section class="section">
     <div class="container">
       <CatalogFilters />
+
+      <PricingGuide />
 
       {
         color && (

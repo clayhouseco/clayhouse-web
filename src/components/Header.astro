@@ -45,6 +45,8 @@ const currentPath = Astro.url.pathname;
           type="button"
           class="header__cart-btn"
           data-quote-cart-open
+          data-quote-header-cart
+          hidden
           aria-label="Ver cotización"
         >
           cotización
@@ -58,6 +60,8 @@ const currentPath = Astro.url.pathname;
         type="button"
         class="header__cart-btn"
         data-quote-cart-open
+        data-quote-header-cart
+        hidden
         aria-label="Ver cotización"
       >
         cotización
@@ -108,6 +112,9 @@ const currentPath = Astro.url.pathname;
     document.querySelectorAll<HTMLElement>("[data-quote-header-count]").forEach((el) => {
       el.textContent = String(count);
       el.hidden = count === 0;
+    });
+    document.querySelectorAll<HTMLElement>("[data-quote-header-cart]").forEach((btn) => {
+      btn.hidden = count === 0;
     });
   }
 
@@ -215,6 +222,11 @@ const currentPath = Astro.url.pathname;
   .header__cart-btn:hover {
     border-color: var(--color-terracota);
     color: var(--color-terracota);
+  }
+
+  .header__cart-btn:not([hidden]) {
+    border-color: var(--color-terracota);
+    background: rgba(124, 72, 44, 0.06);
   }
 
   .header__nav-extras {

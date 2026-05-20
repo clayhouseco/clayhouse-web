@@ -84,7 +84,10 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="container footer__bottom">
-    <p>© {year} {site.name}. Todos los derechos reservados.</p>
+    <p>
+      © {year} {site.name}. Todos los derechos reservados. ·{" "}
+      <a href="/privacidad" class="footer__legal">Privacidad</a>
+    </p>
   </div>
 </footer>
 
@@ -276,6 +279,16 @@ const year = new Date().getFullYear();
     font-size: 0.8125rem;
     color: rgba(255, 251, 249, 0.55);
     text-align: center;
+  }
+
+  .footer__legal {
+    color: rgba(255, 251, 249, 0.75);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .footer__legal:hover {
+    color: var(--color-ambar);
   }
 
   @media (max-width: 1100px) {

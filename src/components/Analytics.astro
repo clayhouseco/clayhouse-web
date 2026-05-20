@@ -1,0 +1,29 @@
+---
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN?.trim();
+const ga4Id = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID?.trim();
+const hasPlausible = Boolean(plausibleDomain);
+const hasGa4 = Boolean(ga4Id && !ga4Id.startsWith("G-XXXX"));
+const needsConsent = hasGa4;
+const active = hasPlausible || hasGa4;
+---
+
+{
+  active && (
+    <>
+      <script
+        is:inline
+        define:vars={{ plausibleDomain: hasPlausible ? plausibleDomain : "", ga4Id: hasGa4 ? ga4Id : "", needsConsent }}
+      >
+        window.__clayhouseAnalytics = {
+          plausibleDomain: plausibleDomain || undefined,
+          ga4Id: ga4Id || undefined,
+          needsConsent,
+        };
+      </script>
+      <script>
+        import { initAnalyticsOnLoad } from "@/utils/analytics.client";
+        initAnalyticsOnLoad();
+      </script>
+    </>
+  )
+}

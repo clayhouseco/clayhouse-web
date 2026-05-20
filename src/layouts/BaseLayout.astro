@@ -2,7 +2,10 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import QuoteCart from "@/components/QuoteCart.astro";
+import Analytics from "@/components/Analytics.astro";
+import CookieConsent from "@/components/CookieConsent.astro";
 import { site } from "@/data/site";
+import { localBusinessJsonLd } from "@/data/schema";
 import { logos } from "@/utils/media";
 import "@/styles/fonts.css";
 import "@/styles/global.css";
@@ -26,22 +29,6 @@ const ogImageUrl = ogImagePath.startsWith("http")
   ? ogImagePath
   : new URL(ogImagePath, site.url).href;
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: site.name,
-  legalName: site.legalName,
-  url: site.url,
-  email: site.email,
-  telephone: site.phone,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: site.address,
-    addressLocality: "Amagá",
-    addressRegion: "Antioquia",
-    addressCountry: "CO",
-  },
-};
 ---
 
 <!doctype html>
@@ -53,7 +40,11 @@ const organizationJsonLd = {
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
     <title>{fullTitle}</title>
-    <link rel="icon" href={logos.header} type="image/png" />
+    <link rel="icon" href="/icons/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/icons/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#472410" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_CO" />
@@ -67,7 +58,7 @@ const organizationJsonLd = {
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
   </head>
   <body>
     <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
@@ -77,12 +68,16 @@ const organizationJsonLd = {
     </main>
     <Footer />
     {!hideQuoteCart && <QuoteCart />}
+    <Analytics />
+    <CookieConsent />
     <a
       href={site.whatsapp}
       class="whatsapp-fab"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp"
+      data-track="whatsapp_click"
+      data-track-location="fab"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path

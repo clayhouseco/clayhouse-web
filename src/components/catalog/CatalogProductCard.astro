@@ -1,0 +1,46 @@
+---
+import type { Product } from "@/data/products";
+import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
+import { getReferencePriceLabel } from "@/utils/productPricing";
+
+interface Props {
+  product: Product;
+  /** Color por defecto al agregar desde tarjeta (primera tonalidad del listado) */
+  defaultColor?: string;
+}
+
+const { product, defaultColor } = Astro.props;
+const priceLabel = getReferencePriceLabel(product);
+const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? product.color;
+---
+
+<article class="product-card">
+  <a href={`/productos/${product.slug}`} class="product-card__link">
+    <div
+      class="product-card__img"
+      style={`--catalog-scale: ${getCatalogImageScale(product.slug)}`}
+    >
+      <img src={getCatalogImage(product.slug, product.image)} alt={product.name} loading="lazy" />
+    </div>
+    <span class="product-card__cat">{product.category}</span>
+    <h2>{product.name}</h2>
+    <p class="product-card__desc">{product.shortDescription}</p>
+    {priceLabel && <p class="product-card__price">{priceLabel}</p>}
+  </a>
+  <button
+    type="button"
+    class="product-card__quote btn btn--outline"
+    data-add-to-quote
+    data-slug={product.slug}
+    data-name={product.name}
+    data-category={product.category}
+    data-color={colorForCart}
+    data-unit={product.priceUnitLabel ?? "unidad"}
+    data-image={getCatalogImage(product.slug, product.image)}
+    data-price={product.pricePerUnit ?? "Consultar"}
+    data-texture={product.texture}
+    data-url={`/productos/${product.slug}/`}
+  >
+    Agregar a cotización
+  </button>
+</article>

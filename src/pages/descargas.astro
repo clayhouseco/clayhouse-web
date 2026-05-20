@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getDownloadsByCategory } from "@/data/downloads";
+import { generalDownloads } from "@/data/generalDownloads";
 import { getCatalogCategoryHref } from "@/data/catalogCategories";
 import "@/styles/descargas-page.css";
 
@@ -10,7 +11,7 @@ const totalFichas = groups.reduce((sum, group) => sum + group.items.length, 0);
 const heroStats = [
   { value: String(groups.length), label: "Categorías" },
   { value: String(totalFichas), label: "Fichas técnicas" },
-  { value: "PDF", label: "Formato listo" },
+  { value: String(generalDownloads.length), label: "Documentos generales" },
 ] as const;
 
 const heroFeatures = [
@@ -57,6 +58,44 @@ const heroFeatures = [
 
     <section class="section">
       <div class="container">
+        <section class="download-general" aria-labelledby="download-general-title">
+          <h2 id="download-general-title" class="download-general__title">Catálogo y guías</h2>
+          <p class="download-general__lead">
+            Documentos transversales con nombres claros para obra y especificación.
+          </p>
+          <ul class="download-grid download-grid--general">
+            {
+              generalDownloads.map((doc) => (
+                <li class="download-card">
+                  <div class="download-card__head">
+                    <span class="download-card__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M6 4h9l3 3v13H6V4z" />
+                        <path d="M15 4v4h4M8 12h8M8 16h6" />
+                      </svg>
+                    </span>
+                    <div class="download-card__meta">
+                      <span class="download-type">{doc.type}</span>
+                      <h3>{doc.title}</h3>
+                    </div>
+                  </div>
+                  <p>{doc.description}</p>
+                  <p class="download-card__file">
+                    Archivo: <code>{doc.filename}</code>
+                  </p>
+                  <div class="download-card__action">
+                    <a href={doc.file} class="btn btn--primary" download>
+                      Descargar PDF
+                    </a>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <h2 class="download-section-title">Fichas técnicas por producto</h2>
+
         <div class="download-accordion">
           {
             groups.map((group, index) => (

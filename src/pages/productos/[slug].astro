@@ -19,7 +19,7 @@ import {
   getVariantGallery,
 } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
-import { site } from "@/data/site";
+import { buildProductJsonLd } from "@/utils/productSchema";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -93,21 +93,7 @@ const recommendedUses = getRecommendedUses(product);
 const notRecommended = getNotRecommended(product);
 const related = getRelatedProducts(product);
 
-const productJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  name: product.name,
-  description: product.shortDescription,
-  image: new URL(assetUrl(product.image), site.url).href,
-  brand: { "@type": "Brand", name: site.name },
-  category: product.category,
-  offers: {
-    "@type": "Offer",
-    priceCurrency: "COP",
-    availability: "https://schema.org/InStock",
-    url: new URL(`/productos/${product.slug}/`, site.url).href,
-  },
-};
+const productJsonLd = buildProductJsonLd(product, product.image);
 
 ---
 

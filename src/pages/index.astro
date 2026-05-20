@@ -2,13 +2,14 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/data/site";
 import { getFeaturedProducts } from "@/data/products";
-import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
 import { logos } from "@/utils/media";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
 import { getCatalogCoverImage } from "@/utils/catalog";
 import HomeFeaturedProjects from "@/components/HomeFeaturedProjects.astro";
 import ClientLogoBand from "@/components/ClientLogoBand.astro";
+import CatalogProductCard from "@/components/catalog/CatalogProductCard.astro";
+import "@/styles/catalog-page.css";
 import ReviewCard from "@/components/ReviewCard.astro";
 import StarRating from "@/components/StarRating.astro";
 import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
@@ -197,22 +198,8 @@ const reviewsAverage = getAverageRating();
     <div class="container">
       <p class="eyebrow text-center">Inspiración</p>
       <h2 class="text-center">Productos destacados</h2>
-      <div class="grid-3">
-        {
-          featured.map((p) => (
-            <a href={`/productos/${p.slug}`} class="card">
-              <div
-                class="card__img"
-                style={`--catalog-scale: ${getCatalogImageScale(p.slug)}`}
-              >
-                <img src={getCatalogImage(p.slug, p.image)} alt={p.name} loading="lazy" />
-              </div>
-              <p class="card__meta">{p.category}</p>
-              <h3>{p.name}</h3>
-              <p class="card__desc">{p.shortDescription}</p>
-            </a>
-          ))
-        }
+      <div class="product-grid product-grid--featured">
+        {featured.map((p) => <CatalogProductCard product={p} />)}
       </div>
       <p class="text-center" style="margin-top: 2.5rem">
         <a href="/productos" class="btn btn--primary">Ver todos los productos</a>
