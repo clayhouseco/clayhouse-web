@@ -16,10 +16,10 @@ export const heroImages = {
   horno: "/images/hero/horno.jpg",
 } as const;
 
-/** Logo horizontal Clay House (1080×237) */
+/** Logo horizontal Clay House */
 export const logos = {
-  header: assetUrl("/Logos/MASTERMesa de trabajo 3.png"),
-  headerAlt: assetUrl("/Logos/MASTERMesa de trabajo 1.png"),
+  header: assetUrl("/logo-clayhouse.png"),
+  headerAlt: assetUrl("/logo-clayhouse.png"),
   /** Isotipo CH (crema) para pie de página */
   footerMark: assetUrl("/Logos/MASTERMesa de trabajo 11.png"),
 } as const;

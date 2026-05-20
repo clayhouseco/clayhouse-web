@@ -1,0 +1,471 @@
+---
+import type { Product } from "@/data/products";
+
+interface ProductGroup {
+  label: string;
+  products: Product[];
+}
+
+interface Props {
+  formAction?: string;
+  thankYouUrl: string;
+  referencia?: string | null;
+  fromProduct?: Product;
+  preselectedCategory?: string;
+  productsByCategory: ProductGroup[];
+  defaultMessage?: string;
+}
+
+const {
+  formAction,
+  thankYouUrl,
+  referencia,
+  fromProduct,
+  preselectedCategory,
+  productsByCategory,
+  defaultMessage = "",
+} = Astro.props;
+---
+
+<div class="contact-form-wrap">
+  <ol class="contact-form__steps" aria-label="Proceso de cotización">
+    <li class="contact-form__step contact-form__step--done">
+      <span class="contact-form__step-num" aria-hidden="true">1</span>
+      <span>Selección</span>
+    </li>
+    <li class="contact-form__step contact-form__step--active" aria-current="step">
+      <span class="contact-form__step-num" aria-hidden="true">2</span>
+      <span>Contacto</span>
+    </li>
+    <li class="contact-form__step">
+      <span class="contact-form__step-num" aria-hidden="true">3</span>
+      <span>Confirmación</span>
+    </li>
+  </ol>
+
+  {!formAction && (
+    <p class="form-hint">El envío abrirá WhatsApp con su mensaje listo para enviar.</p>
+  )}
+
+  <div class="cart-summary" id="quote-cart-summary" hidden>
+    <p class="cart-summary__title">Su cotización incluye:</p>
+    <ul class="cart-summary__list" data-cart-summary-list></ul>
+    <a href="/productos" class="cart-summary__edit">Agregar más productos</a>
+  </div>
+
+  <form
+    class="contact-form"
+    id="contact-form"
+    method={formAction ? "POST" : "get"}
+    action={formAction}
+  >
+    {
+      formAction && (
+        <>
+          <input type="hidden" name="_subject" value="Nueva solicitud — Clay House" />
+          <input type="hidden" name="_next" value={thankYouUrl} />
+        </>
+      )
+    }
+    {referencia && <input type="hidden" name="referencia" value={referencia} />}
+    {
+      fromProduct && (
+        <p class="form-prefill" role="status">
+          Solicitud para <strong>{fromProduct.name}</strong>. Puede ajustar el mensaje antes de enviar.
+        </p>
+      )
+    }
+    <label>
+      Nombre completo *
+      <input type="text" name="nombre" required />
+    </label>
+    <label>
+      Empresa / Estudio
+      <input type="text" name="empresa" />
+    </label>
+    <label>
+      Rol *
+      <select name="rol" required>
+        <option value="">Seleccione…</option>
+        <option>Arquitecto</option>
+        <option>Constructor</option>
+        <option>Diseñador de interiores</option>
+        <option>Desarrollador</option>
+        <option>Otro</option>
+      </select>
+    </label>
+    <label>
+      Email *
+      <input type="email" name="email" required />
+    </label>
+    <label>
+      Teléfono *
+      <input type="tel" name="telefono" required />
+    </label>
+    <label>
+      Ciudad / País *
+      <input type="text" name="ciudad" required />
+    </label>
+    <label>
+      Tipo de proyecto
+      <select name="tipo_proyecto">
+        <option value="">Seleccione…</option>
+        <option>Residencial</option>
+        <option>Comercial</option>
+        <option>Restauración patrimonial</option>
+        <option>Multifamiliar</option>
+        <option>Otro</option>
+      </select>
+    </label>
+    <fieldset class="product-picker" data-product-picker>
+      <legend>Productos de interés</legend>
+      <p class="product-picker__hint">
+        Seleccione uno o varios. Si ya armó la cotización en el catálogo, los verá arriba en el resumen.
+      </p>
+      {
+        productsByCategory.map((group) => (
+          <div class="product-picker__group">
+            <p class="product-picker__cat">{group.label}</p>
+            <div class="product-picker__options">
+              {
+                group.products.map((p) => (
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      name="productos_interes"
+                      value={p.name}
+                      data-slug={p.slug}
+                      checked={
+                        fromProduct?.slug === p.slug ||
+                        preselectedCategory === p.category ||
+                        undefined
+                      }
+                    />
+                    <span>{p.name}</span>
+                  </label>
+                ))
+              }
+            </div>
+          </div>
+        ))
+      }
+    </fieldset>
+    <fieldset class="radio-group">
+      <legend>¿Necesita muestras físicas?</legend>
+      <div class="radio-group__options">
+        <label class="radio">
+          <input type="radio" name="muestras" value="si" />
+          <span>Sí</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="muestras" value="no" />
+          <span>No</span>
+        </label>
+      </div>
+    </fieldset>
+    <label>
+      Mensaje *
+      <textarea name="mensaje" rows="5" required>
+        {defaultMessage}
+      </textarea>
+    </label>
+    <button type="submit" class="btn btn--primary">
+      {formAction ? "enviar solicitud" : "enviar por WhatsApp"}
+    </button>
+    <p class="form-legal">Al enviar acepta el tratamiento de sus datos para fines comerciales.</p>
+  </form>
+</div>
+
+<script>
+  import { QUOTE_CART_EVENT, buildQuoteMessage, formatCartLine, getQuoteCart } from "@/utils/quoteCart";
+
+  function applyCartToContactForm() {
+    const items = getQuoteCart();
+    const form = document.getElementById("contact-form");
+    const summary = document.getElementById("quote-cart-summary");
+    const list = document.querySelector("[data-cart-summary-list]");
+    const picker = document.querySelector<HTMLElement>("[data-product-picker]");
+    const textarea = form?.querySelector<HTMLTextAreaElement>('[name="mensaje"]');
+
+    if (!form) return;
+
+    if (summary && list) {
+      if (items.length) {
+        summary.hidden = false;
+        list.replaceChildren(
+          ...items.map((item) => {
+            const li = document.createElement("li");
+            li.textContent = formatCartLine(item).replace(/^•\s*/, "");
+            return li;
+          })
+        );
+      } else {
+        summary.hidden = true;
+        list.replaceChildren();
+      }
+    }
+
+    if (picker) {
+      picker.hidden = items.length > 0;
+    }
+
+    const slugsInCart = new Set(items.map((i) => i.slug));
+    form.querySelectorAll<HTMLInputElement>('input[name="productos_interes"]').forEach((cb) => {
+      if (cb.dataset.slug && slugsInCart.has(cb.dataset.slug)) cb.checked = true;
+    });
+
+    if (items.length && textarea) {
+      const cartMsg = buildQuoteMessage(items);
+      const current = textarea.value.trim();
+      if (!current || current.startsWith("Solicito cotización de:")) {
+        textarea.value = cartMsg;
+      } else if (!current.includes(cartMsg.split("\n")[0])) {
+        textarea.value = `${cartMsg}\n\n${current}`;
+      }
+    }
+  }
+
+  applyCartToContactForm();
+  document.addEventListener(QUOTE_CART_EVENT, applyCartToContactForm);
+</script>
+
+<style>
+  .contact-form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-form__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .contact-form__step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .contact-form__step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    font-size: 0.6875rem;
+  }
+
+  .contact-form__step--done {
+    color: var(--color-terracota);
+  }
+
+  .contact-form__step--active {
+    color: var(--color-chocolate);
+    font-weight: 600;
+  }
+
+  .contact-form__step--active .contact-form__step-num {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-white);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: var(--color-white);
+    padding: 2rem;
+  }
+
+  .contact-form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+  }
+
+  .product-picker,
+  .radio-group {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .product-picker legend,
+  .radio-group legend {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    padding: 0;
+  }
+
+  .product-picker__hint {
+    margin: 0 0 1rem;
+    font-size: 0.8125rem;
+    font-weight: 300;
+    color: var(--color-text-muted);
+  }
+
+  .product-picker__group {
+    margin-bottom: 1.25rem;
+  }
+
+  .product-picker__group:last-child {
+    margin-bottom: 0;
+  }
+
+  .product-picker__cat {
+    margin: 0 0 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .product-picker__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 0.5rem 1rem;
+  }
+
+  .checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 300;
+    cursor: pointer;
+  }
+
+  .checkbox input {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    flex-shrink: 0;
+    accent-color: var(--color-terracota);
+  }
+
+  .radio-group__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .radio {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 300;
+    cursor: pointer;
+  }
+
+  .radio input {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    flex-shrink: 0;
+    accent-color: var(--color-terracota);
+  }
+
+  .form-legal {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .form-prefill {
+    margin: 0;
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+    background: rgba(124, 72, 44, 0.08);
+    border-left: 3px solid var(--color-terracota);
+    color: var(--color-chocolate);
+  }
+
+  .form-hint {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    background: rgba(124, 72, 44, 0.06);
+    border-radius: var(--radius-sm);
+  }
+
+  .cart-summary {
+    padding: 1.25rem 1.5rem;
+    background: var(--color-white);
+    border-left: 3px solid var(--color-terracota);
+  }
+
+  .cart-summary__title {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .cart-summary__list {
+    margin: 0 0 1rem;
+    padding: 0 0 0 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-chocolate);
+  }
+
+  .cart-summary__edit {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cart-summary__edit:hover {
+    color: var(--color-coral);
+  }
+
+  @media (max-width: 768px) {
+    .contact-form {
+      padding: 1.25rem;
+    }
+
+    .product-picker__options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

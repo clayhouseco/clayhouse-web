@@ -12,18 +12,19 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  /** En /contacto no se muestra el panel lateral de cotización (evita duplicar el flujo) */
+  hideQuoteCart?: boolean;
 }
 
-const { title, description = site.description, ogImage } = Astro.props;
+const { title, description = site.description, ogImage, hideQuoteCart = false } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
 
 const canonicalPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 const canonicalUrl = new URL(canonicalPath, site.url).href;
-const ogImageUrl = ogImage
-  ? ogImage.startsWith("http")
-    ? ogImage
-    : new URL(ogImage, site.url).href
-  : new URL(logos.header, site.url).href;
+const ogImagePath = ogImage ?? site.defaultOgImage;
+const ogImageUrl = ogImagePath.startsWith("http")
+  ? ogImagePath
+  : new URL(ogImagePath, site.url).href;
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -53,12 +54,15 @@ const organizationJsonLd = {
     <link rel="canonical" href={canonicalUrl} />
     <title>{fullTitle}</title>
     <link rel="icon" href={logos.header} type="image/png" />
+    <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={`${site.name} — ladrillo de fachada en barro cocido`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
@@ -72,7 +76,7 @@ const organizationJsonLd = {
       <slot />
     </main>
     <Footer />
-    <QuoteCart />
+    {!hideQuoteCart && <QuoteCart />}
     <a
       href={site.whatsapp}
       class="whatsapp-fab"

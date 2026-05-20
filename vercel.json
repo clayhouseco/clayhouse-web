@@ -5,6 +5,22 @@
   "installCommand": "npm install",
   "framework": "astro",
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.clayhouse.com.co" }],
+      "destination": "https://clayhouse.com.co/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/Logos/MASTERMesa%20de%20trabajo%203.png",
+      "destination": "/logo-clayhouse.png",
+      "permanent": true
+    },
+    {
+      "source": "/Logos/MASTERMesa de trabajo 3.png",
+      "destination": "/logo-clayhouse.png",
+      "permanent": true
+    },
     { "source": "/nosotros/", "destination": "/nosotros", "permanent": true },
     { "source": "/tienda", "destination": "/productos", "permanent": true },
     { "source": "/tienda/", "destination": "/productos", "permanent": true },

@@ -4,6 +4,8 @@ export const site = {
   tagline: "Convirtiendo piezas en sueños",
   description:
     "Ladrillo de fachada neoartesanal fabricado en Amagá, Antioquia. Cumplimiento NTC 4205. Cotización y muestras para arquitectos y constructores.",
+  /** Imagen por defecto para Open Graph y Twitter (1200×630 recomendado) */
+  defaultOgImage: "/og-image.jpg",
   url: "https://clayhouse.com.co",
   email: "ventas@clayhouse.com.co",
   phone: "+57 320 672 33 65",

@@ -268,7 +268,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
   document.addEventListener(QUOTE_CART_EVENT, refreshUI);
   document.addEventListener("quote-cart-added", () => {
     refreshUI();
-    openCart();
+    if (!window.location.pathname.startsWith("/contacto")) openCart();
   });
 
   document.addEventListener("click", (e) => {
@@ -339,6 +339,10 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
 </script>
 
 <style is:global>
+  .quote-cart[hidden] {
+    display: none !important;
+  }
+
   .quote-cart__backdrop {
     position: fixed;
     inset: 0;
