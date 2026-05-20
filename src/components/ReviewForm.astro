@@ -16,13 +16,6 @@ const thankYouPath = "/reseñas/gracias/";
 ---
 
 <div class="review-form-wrap">
-  {!formAction && (
-    <p class="review-form-hint">
-      Configure <code>PUBLIC_FORMSPREE_ID</code> en <code>.env</code> para recibir reseñas por correo.
-      Mientras tanto, puede escribirnos por <a href={site.whatsapp}>WhatsApp</a>.
-    </p>
-  )}
-
   <form
     class="review-form"
     id={id}
@@ -136,12 +129,6 @@ const thankYouPath = "/reseñas/gracias/";
     border-radius: var(--radius-lg);
     padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: 0 2px 12px rgba(71, 36, 16, 0.05);
-  }
-
-  .review-form-hint {
-    margin: 0 0 1rem;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
   }
 
   .review-form {

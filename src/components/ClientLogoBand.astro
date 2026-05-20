@@ -1,0 +1,337 @@
+---
+import { brandClients, projectPartners } from "@/data/clients";
+import type { BrandEntry } from "@/data/clients";
+
+interface RowConfig {
+  id: string;
+  eyebrow: string;
+  title: string;
+  items: BrandEntry[];
+  direction: "normal" | "reverse";
+  restRatio: number;
+}
+
+const rows: RowConfig[] = [
+  {
+    id: "clientes",
+    eyebrow: "Confían en nosotros",
+    title: "Clientes",
+    items: [...brandClients, ...brandClients],
+    direction: "normal",
+    restRatio: 0.3,
+  },
+  {
+    id: "proyectos",
+    eyebrow: "En obra",
+    title: "Proyectos",
+    items: [...projectPartners, ...projectPartners],
+    direction: "reverse",
+    restRatio: 0.7,
+  },
+];
+---
+
+<section class="client-band" aria-labelledby="client-band-heading">
+  <div class="container client-band__intro">
+    <p class="eyebrow">Alianzas</p>
+    <h2 id="client-band-heading" class="client-band__heading">Clientes y proyectos</h2>
+    <p class="client-band__hint">Mueva el cursor en cada franja; se desplazan en direcciones opuestas</p>
+  </div>
+
+  {
+    rows.map((row) => (
+      <div class={`client-band__row client-band__row--${row.direction}`}>
+        <div class="container client-band__row-header">
+          <p class="client-band__row-eyebrow">{row.eyebrow}</p>
+          <h3 id={`client-band-${row.id}`} class="client-band__row-title">
+            {row.title}
+          </h3>
+        </div>
+
+        <div
+          class="client-band__zone"
+          data-client-band
+          data-direction={row.direction}
+          data-rest={String(row.restRatio)}
+          aria-labelledby={`client-band-${row.id}`}
+        >
+          <div class="client-band__fade client-band__fade--left" aria-hidden="true" />
+          <div class="client-band__fade client-band__fade--right" aria-hidden="true" />
+
+          <div class="client-band__viewport" data-client-viewport>
+            <div class="client-band__track" data-client-track>
+              {row.items.map((entry, index) => (
+                <div class="client-band__item">
+                  {entry.logo ? (
+                    <img
+                      src={entry.logo}
+                      alt={entry.name}
+                      class="client-band__img"
+                      loading={index < 3 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  ) : (
+                    <span class="client-band__wordmark">{entry.name}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</section>
+
+<script>
+  function bindClientBand(zone: HTMLElement) {
+    const viewport = zone.querySelector<HTMLElement>("[data-client-viewport]");
+    const track = zone.querySelector<HTMLElement>("[data-client-track]");
+    if (!viewport || !track) return;
+
+    const reverse = zone.dataset.direction === "reverse";
+    const restRatio = Number(zone.dataset.rest) || 0.35;
+
+    let targetOffset = 0;
+    let currentOffset = 0;
+    let raf = 0;
+
+    const getMaxOffset = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+
+    const tick = () => {
+      const diff = targetOffset - currentOffset;
+      if (Math.abs(diff) > 0.5) {
+        currentOffset += diff * 0.12;
+        track.style.transform = `translate3d(${-currentOffset}px, 0, 0)`;
+        raf = requestAnimationFrame(tick);
+      } else {
+        currentOffset = targetOffset;
+        track.style.transform = `translate3d(${-currentOffset}px, 0, 0)`;
+        raf = 0;
+      }
+    };
+
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    const updateFromPointer = (clientX: number) => {
+      const rect = zone.getBoundingClientRect();
+      const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+      const scrollRatio = reverse ? 1 - ratio : ratio;
+      targetOffset = scrollRatio * getMaxOffset();
+      schedule();
+    };
+
+    zone.addEventListener("mousemove", (e) => updateFromPointer(e.clientX));
+
+    zone.addEventListener("mouseleave", () => {
+      targetOffset = getMaxOffset() * restRatio;
+      schedule();
+    });
+
+    const onResize = () => {
+      targetOffset = Math.min(targetOffset, getMaxOffset());
+      schedule();
+    };
+
+    window.addEventListener("resize", onResize);
+
+    targetOffset = getMaxOffset() * restRatio;
+    schedule();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-client-band]").forEach(bindClientBand);
+</script>
+
+<style>
+  .client-band {
+    padding: clamp(2.5rem, 6vw, 3.5rem) 0 0;
+    background: var(--color-white);
+    border-block: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .client-band__intro {
+    text-align: center;
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .client-band__heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 600;
+    color: var(--color-chocolate);
+    margin: 0 0 0.35rem;
+  }
+
+  .client-band__hint {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .client-band__row {
+    padding-bottom: clamp(1.75rem, 4vw, 2.25rem);
+  }
+
+  .client-band__row--reverse {
+    background: var(--color-bg);
+    padding-top: clamp(1.25rem, 3vw, 1.75rem);
+    padding-bottom: clamp(2rem, 5vw, 2.75rem);
+    border-top: 1px solid rgba(71, 36, 16, 0.06);
+  }
+
+  .client-band__row-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .client-band__row-eyebrow {
+    margin: 0 0 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .client-band__row-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    font-weight: 600;
+    color: var(--color-chocolate);
+  }
+
+  .client-band__zone {
+    position: relative;
+    cursor: ew-resize;
+    padding-block: 0.5rem;
+  }
+
+  .client-band__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .client-band__track {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2rem);
+    width: max-content;
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+    will-change: transform;
+  }
+
+  .client-band__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: clamp(9rem, 14vw, 12rem);
+    height: clamp(4.5rem, 10vw, 5.5rem);
+    padding: 0.75rem 1.25rem;
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 10px rgba(71, 36, 16, 0.04);
+    transition:
+      border-color 0.25s var(--ease),
+      box-shadow 0.25s var(--ease),
+      transform 0.25s var(--ease);
+  }
+
+  .client-band__row--reverse .client-band__item {
+    background: var(--color-white);
+  }
+
+  .client-band__zone:hover .client-band__item {
+    border-color: rgba(124, 72, 44, 0.12);
+  }
+
+  .client-band__item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(124, 72, 44, 0.22);
+    box-shadow: 0 10px 24px rgba(71, 36, 16, 0.08);
+  }
+
+  .client-band__img {
+    max-width: 100%;
+    max-height: 3.25rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(0.15) contrast(1.05);
+  }
+
+  .client-band__wordmark {
+    font-family: var(--font-heading);
+    font-size: clamp(0.8125rem, 1.8vw, 1rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-align: center;
+    line-height: 1.25;
+    color: var(--color-terracota);
+    text-wrap: balance;
+  }
+
+  .client-band__fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(2rem, 8vw, 5rem);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .client-band__fade--left {
+    left: 0;
+    background: linear-gradient(90deg, var(--color-white), transparent);
+  }
+
+  .client-band__fade--right {
+    right: 0;
+    background: linear-gradient(270deg, var(--color-white), transparent);
+  }
+
+  .client-band__row--reverse .client-band__fade--left {
+    background: linear-gradient(90deg, var(--color-bg), transparent);
+  }
+
+  .client-band__row--reverse .client-band__fade--right {
+    background: linear-gradient(270deg, var(--color-bg), transparent);
+  }
+
+  @media (max-width: 720px) {
+    .client-band__hint {
+      font-size: 0.75rem;
+    }
+
+    .client-band__item {
+      min-width: 8rem;
+      height: 4rem;
+      padding: 0.6rem 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .client-band__track {
+      transform: none !important;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .client-band__viewport {
+      overflow: visible;
+    }
+
+    .client-band__zone {
+      cursor: default;
+    }
+
+    .client-band__item:hover {
+      transform: none;
+    }
+  }
+</style>

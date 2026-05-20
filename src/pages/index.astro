@@ -8,6 +8,7 @@ import { logos } from "@/utils/media";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
 import { getCatalogCoverImage } from "@/utils/catalog";
 import HomeFeaturedProjects from "@/components/HomeFeaturedProjects.astro";
+import ClientLogoBand from "@/components/ClientLogoBand.astro";
 import ReviewCard from "@/components/ReviewCard.astro";
 import StarRating from "@/components/StarRating.astro";
 import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
@@ -21,11 +22,11 @@ const categories = catalogCategories.map((cat) => ({
   image: getCatalogCoverImage(cat),
 }));
 
-const heroImage = assetUrl("/images/home/starbucks-fachada.png");
+const heroImage = assetUrl(
+  "/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (22).jpg"
+);
 const processVideo = assetUrl("/images/Videos/La tradición que construye el futuro.mp4");
 const processLogo = logos.header;
-const handcraftImage = assetUrl("/images/products/napolitano/proyectos/dsc-6628/DSC_6628.jpg");
-
 const featuredProjects = [
   {
     src: assetUrl("/images/home/starbucks-fachada.png"),
@@ -38,13 +39,6 @@ const featuredProjects = [
     ),
     alt: "Vivienda con fachada en Ladrillo Romano matizado",
     label: "Casa Retiro",
-  },
-  {
-    src: assetUrl(
-      "/images/products/enchape-romano/proyectos/starbucks/Starbucks_Clayhouse (1).jpg"
-    ),
-    alt: "Detalle de fachada Starbucks con ladrillo Clay House",
-    label: "Starbucks · detalle",
   },
   {
     src: assetUrl(
@@ -99,7 +93,7 @@ const reviewsAverage = getAverageRating();
     <div class="hero__media">
       <img
         src={heroImage}
-        alt="Fachada Starbucks con enchape Romano Clay House"
+        alt="Fachada Clay House en ladrillo Romano matizado"
         loading="eager"
         fetchpriority="high"
       />
@@ -121,8 +115,10 @@ const reviewsAverage = getAverageRating();
     </div>
   </section>
 
+  <ClientLogoBand />
+
   <section class="section">
-    <div class="container split-feature">
+    <div class="container split-feature split-feature--rounded">
       <div class="split-feature__card split-feature__card--chocolate">
         <p class="split-feature__eyebrow">Proyectos destacados</p>
         <h2 class="split-feature__title">Redescubre<br />el barro cocido</h2>
@@ -194,28 +190,6 @@ const reviewsAverage = getAverageRating();
           <span class="arrow-circle" aria-hidden="true">→</span>
         </a>
       </article>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container split-feature">
-      <div class="split-feature__card split-feature__card--cream">
-        <p class="split-feature__eyebrow">Hecho a mano</p>
-        <h2 class="split-feature__title">Cada lote,<br />una pieza única</h2>
-        <p class="split-feature__text">
-          A diferencia del producto industrial, nuestra producción y cocción artesanal hacen
-          que cada ladrillo sea irrepetible, con destonificaciones naturales que enriquecen
-          cualquier fachada.
-        </p>
-        <ul class="pillar-list">
-          <li><strong>Origen local</strong> · Arcilla de la cuenca del Sinifaná</li>
-          <li><strong>Cocción Hoffman</strong> · Lotes consistentes con carácter</li>
-          <li><strong>Piezas a medida</strong> · Desarrollos para arquitectura</li>
-        </ul>
-      </div>
-      <div class="split-feature__media">
-        <img src={handcraftImage} alt="Pieza Clay House con matiz natural" loading="lazy" />
-      </div>
     </div>
   </section>
 
@@ -465,6 +439,16 @@ const reviewsAverage = getAverageRating();
     min-height: 28rem;
   }
 
+  .split-feature--rounded {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(71, 36, 16, 0.1);
+  }
+
+  .split-feature--rounded :global(.featured-projects__viewport) {
+    border-radius: calc(var(--radius-lg) - 0.5rem);
+  }
+
   .split-feature--reverse > .split-feature__card {
     order: 2;
   }
@@ -607,34 +591,6 @@ const reviewsAverage = getAverageRating();
     max-width: 28rem;
     font-size: 1rem;
     line-height: 1.65;
-  }
-
-  .pillar-list {
-    list-style: none;
-    margin: 0.5rem 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    font-size: 0.9375rem;
-    line-height: 1.5;
-  }
-
-  .pillar-list li {
-    padding-left: 1rem;
-    position: relative;
-  }
-
-  .pillar-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.6rem;
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.6;
   }
 
   .split-feature__link {
