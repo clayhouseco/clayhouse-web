@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 import { products } from "@/data/products";
 import { catalogCategories, getCategorySlug } from "@/data/catalogCategories";
 import { site } from "@/data/site";
@@ -9,6 +10,7 @@ const staticPaths = [
   "/",
   "/productos/",
   "/nosotros/",
+  "/blog/",
   "/descargas/",
   "/contacto/",
   "/contacto/gracias/",
@@ -19,11 +21,14 @@ function locFor(path: string): string {
   return `${site.url}${path}`;
 }
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = async () => {
+  const blogPosts = await getCollection("blog", ({ data }) => !data.draft);
+
   const paths = [
     ...staticPaths,
     ...catalogCategories.map((c) => `/productos/categoria/${getCategorySlug(c.id)}/`),
     ...products.map((p) => `/productos/${p.slug}/`),
+    ...blogPosts.map((post) => `/blog/${post.id}/`),
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

@@ -1,0 +1,131 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BlogMediaEmbed from "@/components/blog/BlogMediaEmbed.astro";
+import { getCollection, render } from "astro:content";
+import { blogTypeLabels, formatBlogDate } from "@/data/blog";
+import { products } from "@/data/products";
+import { resolveAudioEmbed, resolveVideoEmbed } from "@/utils/mediaEmbed";
+import "@/styles/blog-page.css";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: Awaited<ReturnType<typeof getCollection<"blog">>>[number];
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const {
+  title,
+  description,
+  type,
+  pubDate,
+  updatedDate,
+  coverImage,
+  videoUrl,
+  audioUrl,
+  duration,
+  tags,
+  relatedProducts,
+} = post.data;
+
+const typeLabel = blogTypeLabels[type];
+const videoEmbed = videoUrl ? resolveVideoEmbed(videoUrl) : null;
+const audioEmbed = audioUrl ? resolveAudioEmbed(audioUrl) : null;
+
+const linkedProducts =
+  relatedProducts
+    ?.map((slug) => products.find((p) => p.slug === slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p)) ?? [];
+
+const ogImage = coverImage ?? undefined;
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <article class="blog-post">
+    <header class="blog-post-hero">
+      <div class="container">
+        <a href="/blog/" class="blog-back">← Volver al blog</a>
+        <div class="blog-post-hero__inner">
+          <div class="blog-post-hero__meta">
+            <span class="blog-post-hero__type">{typeLabel}</span>
+            <time class="blog-post-hero__date" datetime={pubDate.toISOString()}>
+              {formatBlogDate(pubDate)}
+              {duration ? ` · ${duration}` : ""}
+            </time>
+            {
+              updatedDate && (
+                <span class="blog-post-hero__date">
+                  (actualizado {formatBlogDate(updatedDate)})
+                </span>
+              )
+            }
+          </div>
+          <h1>{title}</h1>
+          <p class="blog-post-hero__lead">{description}</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        {
+          coverImage && !videoEmbed && (
+            <figure class="blog-post-cover">
+              <img src={coverImage} alt="" loading="eager" />
+            </figure>
+          )
+        }
+
+        <div class="blog-post-layout">
+          <div class="blog-prose">
+            {videoEmbed && <BlogMediaEmbed embed={videoEmbed} title={title} />}
+            {audioEmbed && <BlogMediaEmbed embed={audioEmbed} title={title} />}
+            <Content />
+          </div>
+
+          {
+            (linkedProducts.length > 0 || tags.length > 0) && (
+              <aside class="blog-aside">
+                {
+                  linkedProducts.length > 0 && (
+                    <>
+                      <h2>Productos en esta obra</h2>
+                      <ul>
+                        {
+                          linkedProducts.map((p) => (
+                            <li>
+                              <a href={`/productos/${p.slug}/`}>{p.name}</a>
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </>
+                  )
+                }
+                {
+                  tags.length > 0 && (
+                    <>
+                      <h2>Etiquetas</h2>
+                      <div class="blog-tags">
+                        {tags.map((tag) => (
+                          <span class="blog-tag">{tag}</span>
+                        ))}
+                      </div>
+                    </>
+                  )
+                }
+              </aside>
+            )
+          }
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

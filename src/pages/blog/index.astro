@@ -1,0 +1,101 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BlogCard from "@/components/blog/BlogCard.astro";
+import { getCollection } from "astro:content";
+import { blogFilters } from "@/data/blog";
+import "@/styles/blog-page.css";
+
+const allPosts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title="Blog"
+  description="Proyectos, artículos, videoblog y podcast de Clay House. Novedades de obra y del oficio alfarero en Amagá."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Actualidad</p>
+      <h1>Blog y proyectos</h1>
+      <p class="text-muted page-hero__lead">
+        Obras, reflexiones y contenido en video o audio que no siempre encajan en una
+        ficha de producto — aquí compartimos el trabajo en contexto.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="blog-filters" role="tablist" aria-label="Filtrar publicaciones">
+        {
+          blogFilters.map((f, i) => (
+            <button
+              type="button"
+              class:list={["blog-filter", i === 0 && "is-active"]}
+              data-filter={f.id}
+              role="tab"
+              aria-selected={i === 0 ? "true" : "false"}
+            >
+              {f.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="blog-grid" id="blog-grid">
+        {
+          allPosts.length > 0 ? (
+            allPosts.map((post) => <BlogCard post={post} />)
+          ) : (
+            <p class="blog-empty">
+              Próximamente publicaremos proyectos y contenido aquí. Mientras tanto, explore el{" "}
+              <a href="/productos">catálogo</a>.
+            </p>
+          )
+        }
+      </div>
+
+      <p class="blog-empty blog-empty--filtered" hidden id="blog-empty-filter">
+        No hay publicaciones de este tipo todavía.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const grid = document.getElementById("blog-grid");
+  const emptyFilter = document.getElementById("blog-empty-filter");
+  const cards = grid?.querySelectorAll<HTMLElement>(".blog-card") ?? [];
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".blog-filter");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const filter = btn.dataset.filter ?? "all";
+
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle("is-active", active);
+        b.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = filter === "all" || card.dataset.type === filter;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+
+      if (emptyFilter) {
+        emptyFilter.hidden = visible > 0 || filter === "all";
+      }
+    });
+  });
+</script>
+
+<style>
+  .page-hero__lead {
+    max-width: 40rem;
+    font-size: 1.0625rem;
+  }
+</style>

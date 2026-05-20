@@ -1,25 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AboutSectionIcon from "@/components/about/AboutSectionIcon.astro";
-import { aboutSections, aboutHeroImage } from "@/data/nosotros";
+import {
+  aboutHero,
+  aboutHeroImage,
+  aboutStory,
+  aboutManifesto,
+  aboutMission,
+  aboutVision,
+  aboutExtras,
+} from "@/data/nosotros";
 import "@/styles/nosotros-page.css";
 ---
 
 <BaseLayout
   title="Nosotros"
-  description="Tradición alfarera en Amagá. Ladrillo neoartesanal para fachada, estructura, pisos y cubiertas con NTC 4205."
+  description="Desde 1965: Ladrillera San Fernando, Alfarera Pueblo Viejo y hoy Clay House. Tradición alfarera en Amagá con innovación y NTC 4205."
 >
   <div class="nosotros-page">
     <section class="page-hero">
       <div class="container">
         <div class="about-hero">
           <div class="about-hero__copy">
-            <p class="eyebrow">Nuestra historia</p>
-            <h1>Cien años de barro, piezas para cada espacio</h1>
-            <p class="about-hero__lead">
-              Tradición alfarera del suroeste antioqueño con especificación técnica
-              para proyectos que buscan identidad en el material.
-            </p>
+            <p class="eyebrow">{aboutHero.eyebrow}</p>
+            <h1>{aboutHero.title}</h1>
+            <p class="about-hero__lead">{aboutHero.lead}</p>
           </div>
           <figure class="about-hero__frame">
             <img
@@ -35,11 +40,66 @@ import "@/styles/nosotros-page.css";
       </div>
     </section>
 
-    <section class="section section--cards">
+    <section class="section section--cards" id="historia">
       <div class="container">
-        <div class="about-grid">
+        <article class="about-card about-card--wide">
+          <p class="about-card__eyebrow">{aboutStory.eyebrow}</p>
+          <div class="about-card__head">
+            <AboutSectionIcon icon="history" />
+            <h2 class="about-card__title">{aboutStory.title}</h2>
+          </div>
+          <ol class="about-timeline">
+            {
+              aboutStory.milestones.map((item) => (
+                <li class="about-timeline__item">
+                  <span class="about-timeline__year">{item.year}</span>
+                  <p>{item.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+          <p class="about-story__closing">{aboutStory.closing}</p>
+        </article>
+
+        <article class="about-card about-card--wide about-card--manifesto" id="manifiesto">
+          <p class="about-card__eyebrow">{aboutManifesto.eyebrow}</p>
+          <div class="about-card__head">
+            <AboutSectionIcon icon="manifesto" />
+            <h2 class="about-card__title">{aboutManifesto.title}</h2>
+          </div>
+          <div class="about-card__body">
+            {aboutManifesto.paragraphs.map((text) => <p>{text}</p>)}
+          </div>
+          <div class="about-manifesto__pillars">
+            <p class="about-manifesto__intro">Este es nuestro manifiesto:</p>
+            <ul>
+              {aboutManifesto.pillars.map((line) => <li>{line}</li>)}
+            </ul>
+          </div>
+        </article>
+
+        <div class="about-grid about-grid--mv">
+          <article class="about-card about-card--mv" id="mision">
+            <p class="about-card__eyebrow">{aboutMission.eyebrow}</p>
+            <div class="about-card__head">
+              <AboutSectionIcon icon="mission" />
+              <h2 class="about-card__title">{aboutMission.title}</h2>
+            </div>
+            <p class="about-card__single">{aboutMission.text}</p>
+          </article>
+          <article class="about-card about-card--mv" id="vision">
+            <p class="about-card__eyebrow">{aboutVision.eyebrow}</p>
+            <div class="about-card__head">
+              <AboutSectionIcon icon="vision" />
+              <h2 class="about-card__title">{aboutVision.title}</h2>
+            </div>
+            <p class="about-card__single">{aboutVision.text}</p>
+          </article>
+        </div>
+
+        <div class="about-grid about-grid--extras">
           {
-            aboutSections.map((section) => (
+            aboutExtras.map((section) => (
               <article class="about-card" id={section.id}>
                 <p class="about-card__eyebrow">{section.eyebrow}</p>
                 <div class="about-card__head">
@@ -79,11 +139,8 @@ import "@/styles/nosotros-page.css";
 
     <section class="section">
       <div class="container quote-block">
-        <blockquote>Convirtiendo piezas en sueños.</blockquote>
-        <p>
-          Clay House existe para que arquitectos y constructores encuentren en el
-          ladrillo no un commodity, sino un material con historia, norma y alma.
-        </p>
+        <blockquote>{aboutManifesto.pillars[0]}</blockquote>
+        <p>{aboutManifesto.pillars[2]}</p>
         <a href="/contacto" class="btn btn--primary">Trabajemos juntos</a>
       </div>
     </section>

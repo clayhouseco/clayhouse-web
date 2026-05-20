@@ -1,0 +1,57 @@
+---
+import type { MediaEmbed } from "@/utils/mediaEmbed";
+
+interface Props {
+  embed: MediaEmbed;
+  title: string;
+}
+
+const { embed, title } = Astro.props;
+---
+
+<div class="blog-media">
+  {
+    embed.kind === "youtube" || embed.kind === "vimeo" ? (
+      <div class="blog-media__frame">
+        <iframe
+          src={embed.embedUrl}
+          title={title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        />
+      </div>
+    ) : null
+  }
+  {
+    embed.kind === "spotify" ? (
+      <div class="blog-media__frame blog-media__frame--audio">
+        <iframe
+          src={embed.embedUrl}
+          title={title}
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        />
+      </div>
+    ) : null
+  }
+  {
+    embed.kind === "anchor" ? (
+      <div class="blog-media__frame blog-media__frame--audio">
+        <iframe src={embed.embedUrl} title={title} loading="lazy" />
+      </div>
+    ) : null
+  }
+  {
+    embed.kind === "video-file" ? (
+      <video class="blog-media__video" controls playsinline preload="metadata" src={embed.src}>
+        <track kind="captions" />
+      </video>
+    ) : null
+  }
+  {
+    embed.kind === "audio-file" ? (
+      <audio class="blog-media__audio" controls preload="metadata" src={embed.src} />
+    ) : null
+  }
+</div>

@@ -1,6 +1,6 @@
 export type AboutIconId =
-  | "team"
   | "history"
+  | "manifesto"
   | "mission"
   | "vision"
   | "territory"
@@ -16,47 +16,64 @@ export type AboutSection = {
 
 export const aboutHeroImage = "/images/nosotros/hero-ladrillo.png";
 
-export const aboutSections: AboutSection[] = [
-  {
-    id: "sobre-nosotros",
-    eyebrow: "Quiénes somos",
-    title: "Sobre nosotros",
-    icon: "team",
-    paragraphs: [
-      "Somos Clay House: una ladrillera neoartesanal en Amagá, Antioquia, donde el oficio manual y la especificación técnica se encuentran para crear materiales con identidad territorial.",
-      "Hoy somos un showroom de materiales derivados de la arcilla con enfoque de alta gama: calidad estética, trazabilidad de origen y soluciones integrales para arquitectos, constructores y diseñadores.",
-    ],
-  },
-  {
-    id: "historia",
-    eyebrow: "Origen",
-    title: "Historia",
-    icon: "history",
-    paragraphs: [
-      "Desde 1965, en el corazón de la tradición ladrillera del suroeste antioqueño, nuestra historia comenzó como Ladrillera San Fernando: ladrillos macizos, atanores, tejas y pisos hechos con las manos y el conocimiento de generaciones.",
-      "Con el tiempo evolucionamos hacia Alfarera Pueblo Viejo y, en 2022, adoptamos el nombre Clay House para honrar el pasado y abrazar la innovación.",
-    ],
-  },
-  {
-    id: "mision",
-    eyebrow: "Propósito",
-    title: "Misión",
-    icon: "mission",
-    paragraphs: [
-      "Ofrecer piezas de barro cocido con estándar técnico, asesoría cercana y trazabilidad de origen, para que cada obra integre fachada, estructura, pisos y cubiertas con coherencia material.",
-      "Acompañamos a quien especifica con fichas, muestras y conocimiento del material — como un colega que conoce el ladrillo, no como un catálogo frío.",
-    ],
-  },
-  {
-    id: "vision",
-    eyebrow: "Horizonte",
-    title: "Visión",
-    icon: "vision",
-    paragraphs: [
-      "Ser la referencia en ladrillo neoartesanal en Colombia: tradición alfarera del suroeste antioqueño con cocción controlada, cumplimiento NTC 4205 y carácter artesanal en cada lote.",
-      "Neoartesanal no es nostalgia: es estándar contemporáneo con raíz territorial — convirtiendo piezas en sueños para proyectos que buscan diferenciación.",
-    ],
-  },
+export const aboutHero = {
+  eyebrow: "Conócenos",
+  title: "Sobre nosotros",
+  lead:
+    "Más de cinco décadas transformando arcilla en soluciones que honran nuestras raíces y se adaptan a las necesidades contemporáneas.",
+};
+
+/** Trayectoria oficial (1965 → Clay House) */
+export const aboutStory = {
+  eyebrow: "Trayectoria",
+  title: "Nuestra historia",
+  milestones: [
+    {
+      year: "1965",
+      text: "Nuestra trayectoria comienza con la creación de Ladrillera San Fernando: ladrillos macizos, atanores, tejas y pisos hechos a mano, con la esencia de la casa tradicional antioqueña para restaurar fachadas históricas y construir nuevas viviendas.",
+    },
+    {
+      year: "~1995",
+      text: "Transformamos nuestra identidad y adoptamos el nombre Alfarera Pueblo Viejo, destacando el carácter rústico y auténtico de nuestros materiales — desde el inicio, nuestra mayor distinción.",
+    },
+    {
+      year: "2022",
+      text: "Guiados por los desafíos del mercado y un firme compromiso con la innovación, lanzamos Clay House: tradición del oficio con enfoque moderno, herencia artesanal de la región y visión de futuro.",
+    },
+  ],
+  closing:
+    "Con más de cinco décadas de experiencia, seguimos transformando arcilla en soluciones que honran nuestras raíces y se adaptan a las necesidades contemporáneas.",
+};
+
+export const aboutManifesto = {
+  eyebrow: "Identidad",
+  title: "Manifiesto",
+  paragraphs: [
+    "En Clay House, creemos en el poder de la tierra como base de la creación. Cada pieza que producimos es un testimonio vivo de nuestra historia, un puente entre el pasado y el futuro, y una expresión de las manos que moldean nuestra identidad.",
+    "Somos guardianes de una tradición artesanal que honra la arquitectura rústica y auténtica de nuestra región, mientras miramos hacia adelante con innovación y visión. Transformamos la arcilla en algo más que ladrillos o tejas: la convertimos en historias, en sueños, en hogares.",
+    "Nos mueve la pasión por la calidad, el compromiso con la sostenibilidad y el deseo de aportar belleza y durabilidad a cada proyecto. Creemos en el valor del trabajo bien hecho, en los materiales que cuentan historias y en la conexión entre lo natural y lo humano.",
+  ],
+  pillars: [
+    "Hacemos más que productos, construimos legados.",
+    "Respetamos nuestras raíces, pero caminamos hacia el futuro.",
+    "Creamos con la tierra, para que tú crees con nosotros.",
+  ],
+};
+
+export const aboutMission = {
+  eyebrow: "Propósito",
+  title: "Nuestra misión",
+  text: "Fabricar productos de arcilla de alta calidad que preserven la tradición artesanal y el encanto rústico de la arquitectura regional, mientras innovamos en diseño y procesos sostenibles. Nuestro propósito es ofrecer soluciones únicas que combinen la herencia cultural con las demandas modernas de la construcción, aportando valor a los proyectos de nuestros clientes y fortaleciendo el desarrollo de nuestras comunidades.",
+};
+
+export const aboutVision = {
+  eyebrow: "Horizonte",
+  title: "Nuestra visión",
+  text: "Ser reconocidos como líderes en el mercado de productos de arcilla a nivel nacional e internacional, destacándonos por nuestra innovación, sostenibilidad y compromiso con la excelencia. Aspiramos a mantener viva la tradición artesanal, mientras evolucionamos como una marca icónica que inspira la construcción de espacios únicos, duraderos y llenos de historia.",
+};
+
+/** Complementos técnicos y territoriales (útiles para especificadores) */
+export const aboutExtras: AboutSection[] = [
   {
     id: "territorio",
     eyebrow: "Amagá",
@@ -73,8 +90,8 @@ export const aboutSections: AboutSection[] = [
     title: "Materiales para cada obra",
     icon: "catalog",
     paragraphs: [
-      "Nuestro catálogo está pensado por aplicación: fachadas a la vista, muros estructurales, enchapes decorativos, pisos de barro y cubiertas en teja.",
-      "La cocción se realiza en horno Hoffman, lo que nos permite lotes consistentes sin dejar de lado el carácter artesanal de cada pieza.",
+      "Nuestro catálogo está pensado por aplicación: fachadas a la vista, muros estructurales, enchapes decorativos, pisos de barro y cubiertas en teja. Cada referencia con ficha técnica y asesoría cuando aplica.",
+      "La cocción en horno Hoffman permite lotes consistentes sin renunciar al carácter artesanal de cada pieza.",
     ],
   },
 ];

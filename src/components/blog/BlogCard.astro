@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { blogTypeLabels, formatBlogDate } from "@/data/blog";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { title, description, type, pubDate, coverImage, duration, featured } = post.data;
+const href = `/blog/${post.id}/`;
+const typeLabel = blogTypeLabels[type];
+---
+
+<a href={href} class="blog-card" data-type={type}>
+  <div class="blog-card__media">
+    {
+      coverImage ? (
+        <img src={coverImage} alt="" loading="lazy" />
+      ) : (
+        <div class="blog-card__placeholder" aria-hidden="true">
+          <span>{typeLabel.charAt(0)}</span>
+        </div>
+      )
+    }
+    {featured && <span class="blog-card__badge">Destacado</span>}
+    <span class="blog-card__type">{typeLabel}</span>
+  </div>
+  <div class="blog-card__body">
+    <time class="blog-card__date" datetime={pubDate.toISOString()}>
+      {formatBlogDate(pubDate)}
+      {duration ? ` · ${duration}` : ""}
+    </time>
+    <h2 class="blog-card__title">{title}</h2>
+    <p class="blog-card__desc">{description}</p>
+    <span class="blog-card__link">Leer más →</span>
+  </div>
+</a>

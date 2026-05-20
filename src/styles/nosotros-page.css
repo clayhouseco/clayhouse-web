@@ -56,6 +56,120 @@
   gap: 1.5rem;
 }
 
+.about-grid--mv {
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 1.5rem;
+}
+
+.about-grid--extras {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.about-card--wide {
+  grid-column: 1 / -1;
+  margin-bottom: 1.5rem;
+}
+
+.about-card--manifesto {
+  background: linear-gradient(180deg, var(--color-white) 0%, #faf6f2 100%);
+}
+
+.about-card--mv .about-card__single {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.about-timeline {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.about-timeline__item {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(71, 36, 16, 0.08);
+}
+
+.about-timeline__item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.about-timeline__year {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-terracota);
+  letter-spacing: 0.02em;
+}
+
+.about-timeline__item p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+
+.about-story__closing {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-chocolate);
+  font-weight: 500;
+  padding-top: 0.25rem;
+}
+
+.about-manifesto__pillars {
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(71, 36, 16, 0.08);
+}
+
+.about-manifesto__intro {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-terracota);
+  margin: 0 0 0.75rem;
+}
+
+.about-manifesto__pillars ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.about-manifesto__pillars li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-chocolate);
+  font-weight: 500;
+}
+
+.about-manifesto__pillars li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--color-terracota);
+}
+
 .about-card {
   display: flex;
   flex-direction: column;
@@ -178,8 +292,13 @@
 }
 
 @media (max-width: 1024px) {
-  .about-grid {
+  .about-grid,
+  .about-grid--extras {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-grid--mv {
+    grid-template-columns: 1fr;
   }
 
   .about-hero {
@@ -204,9 +323,16 @@
 }
 
 @media (max-width: 640px) {
-  .about-grid {
+  .about-grid,
+  .about-grid--mv,
+  .about-grid--extras {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+
+  .about-timeline__item {
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0.75rem;
   }
 }
 
