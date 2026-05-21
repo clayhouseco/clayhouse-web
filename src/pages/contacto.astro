@@ -4,6 +4,7 @@ import ContactForm from "@/components/ContactForm.astro";
 import { site } from "@/data/site";
 import { products } from "@/data/products";
 import { catalogCategories, parseCategoryParam } from "@/data/catalogCategories";
+import { colors } from "@/data/colors";
 
 const referencia = Astro.url.searchParams.get("referencia");
 const productoQuery = Astro.url.searchParams.get("producto");
@@ -80,9 +81,43 @@ const thankYouPath = "/contacto/gracias/";
           WhatsApp
         </a>
 
-        <div class="samples-box">
-          <h3>Muestras físicas</h3>
-          <p>Seleccione hasta 5 tonalidades en el mensaje y las enviamos a su oficina.</p>
+        <div class="samples-picker" data-samples-picker>
+          <div class="samples-picker__header">
+            <h3>Caja de muestras gratis</h3>
+            <p>
+              Elija hasta <strong>5 tonalidades</strong>. Las marcadas se añaden a su mensaje al
+              enviar el formulario.
+            </p>
+          </div>
+          <ul class="samples-grid" role="list">
+            {
+              colors.map((color) => (
+                <li>
+                  <label class="sample-swatch" data-sample-label>
+                    <input
+                      type="checkbox"
+                      name="muestras_colores"
+                      value={color.name}
+                      data-sample-checkbox
+                    />
+                    <span class="sample-swatch__chip" style={`background:${color.hex};`} aria-hidden="true" />
+                    <span class="sample-swatch__info">
+                      <span class="sample-swatch__name">{color.name}</span>
+                      <span class="sample-swatch__desc">{color.description}</span>
+                    </span>
+                    <span class="sample-swatch__check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M5 12l4 4L19 6" />
+                      </svg>
+                    </span>
+                  </label>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="samples-picker__counter">
+            <span data-sample-counter>0</span> de 5 colores seleccionados
+          </p>
         </div>
 
         <div class="contact-map">
@@ -162,6 +197,75 @@ const thankYouPath = "/contacto/gracias/";
   });
 </script>
 
+<script>
+  const MAX_SAMPLES = 5;
+  const picker = document.querySelector<HTMLElement>("[data-samples-picker]");
+  const checkboxes = picker?.querySelectorAll<HTMLInputElement>("[data-sample-checkbox]");
+  const counter = picker?.querySelector<HTMLElement>("[data-sample-counter]");
+  const messageField = document.querySelector<HTMLTextAreaElement>(
+    '#contact-form textarea[name="mensaje"]'
+  );
+  const muestrasRadioSi = document.querySelector<HTMLInputElement>(
+    '#contact-form input[name="muestras"][value="si"]'
+  );
+
+  if (picker && checkboxes && counter) {
+    const COLOR_LINE_PREFIX = "Colores solicitados:";
+
+    function getSelectedColors(): string[] {
+      return Array.from(checkboxes!)
+        .filter((cb) => cb.checked)
+        .map((cb) => cb.value);
+    }
+
+    function updateMessageTextarea() {
+      if (!messageField) return;
+      const selected = getSelectedColors();
+      const current = messageField.value;
+      const cleaned = current
+        .split("\n")
+        .filter((line) => !line.startsWith(COLOR_LINE_PREFIX))
+        .join("\n")
+        .trim();
+
+      if (selected.length === 0) {
+        messageField.value = cleaned;
+        return;
+      }
+
+      const colorLine = `${COLOR_LINE_PREFIX} ${selected.join(", ")}`;
+      messageField.value = cleaned ? `${cleaned}\n\n${colorLine}` : colorLine;
+    }
+
+    function syncMuestrasRadio() {
+      if (!muestrasRadioSi) return;
+      if (getSelectedColors().length > 0 && !muestrasRadioSi.checked) {
+        muestrasRadioSi.checked = true;
+      }
+    }
+
+    function update() {
+      const selected = getSelectedColors();
+      counter!.textContent = String(selected.length);
+      counter!.parentElement?.classList.toggle(
+        "samples-picker__counter--full",
+        selected.length >= MAX_SAMPLES
+      );
+      checkboxes!.forEach((cb) => {
+        const isOver = !cb.checked && selected.length >= MAX_SAMPLES;
+        cb.disabled = isOver;
+        cb.closest("[data-sample-label]")?.classList.toggle("sample-swatch--disabled", isOver);
+        cb.closest("[data-sample-label]")?.classList.toggle("sample-swatch--checked", cb.checked);
+      });
+      updateMessageTextarea();
+      syncMuestrasRadio();
+    }
+
+    checkboxes.forEach((cb) => cb.addEventListener("change", update));
+    update();
+  }
+</script>
+
 <style>
   .contact-grid {
     display: grid;
@@ -185,22 +289,148 @@ const thankYouPath = "/contacto/gracias/";
     color: var(--color-terracota);
   }
 
-  .samples-box {
+  .samples-picker {
     margin-top: 2.5rem;
     padding: 1.5rem;
     background: var(--color-white);
     border-left: 3px solid var(--color-terracota);
+    border-radius: var(--radius-md);
   }
 
-  .samples-box h3 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+  .samples-picker__header h3 {
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
   }
 
-  .samples-box p {
+  .samples-picker__header p {
     font-size: 0.9375rem;
     color: var(--color-text-muted);
+    margin: 0 0 1.25rem;
+    line-height: 1.5;
+  }
+
+  .samples-grid {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: 0.6rem;
+  }
+
+  .sample-swatch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition:
+      border-color 0.2s var(--ease),
+      background 0.2s var(--ease),
+      transform 0.2s var(--ease);
+  }
+
+  .sample-swatch:hover {
+    border-color: rgba(124, 72, 44, 0.4);
+    background: var(--color-white);
+  }
+
+  .sample-swatch input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sample-swatch__chip {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(71, 36, 16, 0.18);
+  }
+
+  .sample-swatch__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .sample-swatch__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+    line-height: 1.2;
+  }
+
+  .sample-swatch__desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .sample-swatch__check {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--color-terracota);
+    color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 0.2s var(--ease),
+      transform 0.2s var(--ease);
+  }
+
+  .sample-swatch__check svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .sample-swatch--checked {
+    border-color: var(--color-terracota);
+    background: rgba(124, 72, 44, 0.06);
+  }
+
+  .sample-swatch--checked .sample-swatch__check {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .sample-swatch--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .samples-picker__counter {
     margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .samples-picker__counter--full {
+    color: var(--color-terracota);
+  }
+
+  .samples-picker__counter span {
+    font-weight: 700;
+    color: var(--color-chocolate);
   }
 
   .contact-map {

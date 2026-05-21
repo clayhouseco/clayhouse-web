@@ -1,5 +1,5 @@
 ---
-import { nav, site } from "@/data/site";
+import { primaryNav, site } from "@/data/site";
 import { logos } from "@/utils/media";
 
 const currentPath = Astro.url.pathname;
@@ -19,7 +19,7 @@ const currentPath = Astro.url.pathname;
     <nav class="header__nav" aria-label="Principal" id="header-nav">
       <ul>
         {
-          nav.map((item) => (
+          primaryNav.map((item) => (
             <li>
               <a
                 href={item.href}
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname;
           cotización
           <span class="header__cart-count" data-quote-header-count hidden>0</span>
         </button>
-        <a href="/contacto" class="header__cta btn btn--primary">solicitar</a>
+        <a href="/contacto" class="header__cta btn btn--primary">Cotizar</a>
       </div>
     </nav>
     <div class="header__actions">

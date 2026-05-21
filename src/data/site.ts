@@ -46,6 +46,16 @@ export const socialLinks: {
   },
 ];
 
+/** Navegación principal del header — reducida a 5 ítems para enfocar la conversión */
+export const primaryNav = [
+  { label: "Inicio", href: "/" },
+  { label: "Productos", href: "/productos" },
+  { label: "Nosotros", href: "/nosotros" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contacto", href: "/contacto" },
+] as const;
+
+/** Navegación completa, usada en el footer (incluye Descargas y Reseñas) */
 export const nav = [
   { label: "Inicio", href: "/" },
   { label: "Productos", href: "/productos" },
