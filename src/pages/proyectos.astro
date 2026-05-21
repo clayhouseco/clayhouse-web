@@ -1,0 +1,472 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { products } from "@/data/products";
+import { getProductAssets, getProductInspiration } from "@/data/productVariants";
+import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
+
+interface ProjectEntry {
+  id: string;
+  title: string;
+  productSlug: string;
+  productName: string;
+  productCategory: ProductCategory;
+  thumbnail: string;
+  alt: string;
+  imageCount: number;
+}
+
+const allProjects: ProjectEntry[] = [];
+const productsWithProjects = new Set<string>();
+
+for (const product of products) {
+  const manifest = getProductAssets(product.slug);
+  if (!manifest) continue;
+  const cards = getProductInspiration(manifest).filter(
+    (c) => c.category === "Proyecto" && c.images.length > 0
+  );
+  for (const card of cards) {
+    const first = card.images[0];
+    if (!first) continue;
+    allProjects.push({
+      id: `${product.slug}__${card.title}`.replace(/\s+/g, "-").toLowerCase(),
+      title: card.title,
+      productSlug: product.slug,
+      productName: product.name,
+      productCategory: product.category,
+      thumbnail: first.src,
+      alt: first.alt || card.title,
+      imageCount: card.images.length,
+    });
+    productsWithProjects.add(product.slug);
+  }
+}
+
+const categoriesWithProjects = catalogCategories.filter((cat) =>
+  allProjects.some((p) => p.productCategory === cat.id)
+);
+
+const productsForFilter = products
+  .filter((p) => productsWithProjects.has(p.slug))
+  .map((p) => ({ slug: p.slug, name: p.name, category: p.category }));
+
+const totalProjects = allProjects.length;
+---
+
+<BaseLayout
+  title="Proyectos"
+  description="Galería de proyectos construidos con materiales Clay House: fachadas, enchapes, pisos y tejas en barro cocido. Filtre por categoría o por producto para inspirarse."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Proyectos</p>
+      <h1>Obras hechas con Clay House</h1>
+      <p class="text-muted page-hero__lead">
+        {totalProjects} proyectos construidos con nuestros materiales. Filtre por categoría o por
+        producto para inspirarse.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="projects-filters" data-projects-filters>
+        <div class="projects-filters__group">
+          <span class="projects-filters__label">Categoría:</span>
+          <div class="projects-filters__pills">
+            <button type="button" class="filter-pill filter-pill--active" data-filter-category="all">
+              Todas
+            </button>
+            {
+              categoriesWithProjects.map((cat) => (
+                <button
+                  type="button"
+                  class="filter-pill"
+                  data-filter-category={cat.id}
+                >
+                  {cat.label}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="projects-filters__group">
+          <label class="projects-filters__label" for="filter-product">Producto:</label>
+          <select id="filter-product" class="projects-filters__select" data-filter-product>
+            <option value="all">Todos los productos</option>
+            {
+              productsForFilter.map((p) => (
+                <option value={p.slug} data-product-category={p.category}>
+                  {p.name}
+                </option>
+              ))
+            }
+          </select>
+        </div>
+      </div>
+
+      <p class="projects-count" data-projects-count>
+        Mostrando <strong>{totalProjects}</strong> de {totalProjects} proyectos
+      </p>
+
+      <div class="projects-grid" data-projects-grid>
+        {
+          allProjects.map((project) => (
+            <a
+              href={`/productos/${project.productSlug}/#inspiracion`}
+              class="project-card"
+              data-project
+              data-category={project.productCategory}
+              data-product={project.productSlug}
+              aria-label={`Ver ${project.title} en ${project.productName}`}
+            >
+              <div class="project-card__media">
+                <img src={project.thumbnail} alt={project.alt} loading="lazy" decoding="async" />
+                {project.imageCount > 1 && (
+                  <span class="project-card__count" aria-hidden="true">
+                    +{project.imageCount - 1} fotos
+                  </span>
+                )}
+                <span class="project-card__overlay" aria-hidden="true">
+                  <span class="project-card__cta">Ver proyecto →</span>
+                </span>
+              </div>
+              <div class="project-card__body">
+                <p class="project-card__category">{project.productCategory}</p>
+                <h3 class="project-card__title">{project.title}</h3>
+                <p class="project-card__product">{project.productName}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <p class="projects-empty" data-projects-empty hidden>
+        No hay proyectos que coincidan con su selección. Intente otra combinación.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container projects-cta">
+      <h2>¿Tiene un proyecto en mente?</h2>
+      <p class="text-muted">
+        Conversemos sobre la especificación, los acabados y los tiempos de entrega.
+      </p>
+      <p class="projects-cta__actions">
+        <a href="/contacto" class="btn btn--primary">Cotizar mi proyecto</a>
+        <a href="/productos" class="btn btn--ghost">Ver catálogo</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector<HTMLElement>("[data-projects-filters]");
+  const grid = document.querySelector<HTMLElement>("[data-projects-grid]");
+  const empty = document.querySelector<HTMLElement>("[data-projects-empty]");
+  const counter = document.querySelector<HTMLElement>("[data-projects-count]");
+  const productSelect = filters?.querySelector<HTMLSelectElement>("[data-filter-product]");
+  const cards = grid?.querySelectorAll<HTMLElement>("[data-project]");
+  const categoryButtons = filters?.querySelectorAll<HTMLButtonElement>("[data-filter-category]");
+
+  let activeCategory = "all";
+  let activeProduct = "all";
+  const totalCards = cards?.length ?? 0;
+
+  function applyFilters() {
+    if (!cards) return;
+    let visible = 0;
+    cards.forEach((card) => {
+      const matchesCategory =
+        activeCategory === "all" || card.dataset.category === activeCategory;
+      const matchesProduct =
+        activeProduct === "all" || card.dataset.product === activeProduct;
+      const isVisible = matchesCategory && matchesProduct;
+      card.hidden = !isVisible;
+      if (isVisible) visible += 1;
+    });
+
+    if (empty) empty.hidden = visible > 0;
+    if (counter) {
+      counter.innerHTML = `Mostrando <strong>${visible}</strong> de ${totalCards} proyectos`;
+    }
+  }
+
+  function syncProductOptions() {
+    if (!productSelect) return;
+    Array.from(productSelect.options).forEach((option) => {
+      if (option.value === "all") return;
+      const cat = option.dataset.productCategory;
+      const matches = activeCategory === "all" || cat === activeCategory;
+      option.hidden = !matches;
+      if (!matches && option.value === activeProduct) {
+        activeProduct = "all";
+        productSelect.value = "all";
+      }
+    });
+  }
+
+  categoryButtons?.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      categoryButtons.forEach((b) => b.classList.remove("filter-pill--active"));
+      btn.classList.add("filter-pill--active");
+      activeCategory = btn.dataset.filterCategory ?? "all";
+      syncProductOptions();
+      applyFilters();
+    });
+  });
+
+  productSelect?.addEventListener("change", () => {
+    activeProduct = productSelect.value;
+    applyFilters();
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const initialCategory = params.get("categoria");
+  const initialProduct = params.get("producto");
+  if (initialCategory) {
+    const btn = filters?.querySelector<HTMLButtonElement>(
+      `[data-filter-category="${initialCategory}"]`
+    );
+    btn?.click();
+  }
+  if (initialProduct && productSelect) {
+    productSelect.value = initialProduct;
+    productSelect.dispatchEvent(new Event("change"));
+  }
+</script>
+
+<style>
+  .projects-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    border-radius: var(--radius-lg);
+  }
+
+  .projects-filters__group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .projects-filters__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .projects-filters__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-pill {
+    padding: 0.5rem 0.95rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-chocolate);
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+      background 0.2s var(--ease),
+      border-color 0.2s var(--ease),
+      color 0.2s var(--ease);
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-terracota);
+    color: var(--color-terracota);
+  }
+
+  .filter-pill--active {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-bg);
+  }
+
+  .projects-filters__select {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-chocolate);
+    min-width: 14rem;
+  }
+
+  .projects-count {
+    margin: 0 0 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .projects-count strong {
+    color: var(--color-chocolate);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(71, 36, 16, 0.08);
+    box-shadow: 0 2px 12px rgba(71, 36, 16, 0.06);
+    color: inherit;
+    transition:
+      transform 0.3s var(--ease),
+      box-shadow 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124, 72, 44, 0.2);
+    box-shadow: 0 18px 40px rgba(71, 36, 16, 0.12);
+  }
+
+  .project-card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #ebe6e0;
+  }
+
+  .project-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .project-card:hover .project-card__media img {
+    transform: scale(1.04);
+  }
+
+  .project-card__count {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-bg);
+    background: rgba(71, 36, 16, 0.78);
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+
+  .project-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 1.25rem;
+    background: linear-gradient(to top, rgba(71, 36, 16, 0.82) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+
+  .project-card:hover .project-card__overlay {
+    opacity: 1;
+  }
+
+  .project-card__cta {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-bg);
+  }
+
+  .project-card__body {
+    padding: 1.15rem 1.25rem 1.25rem;
+  }
+
+  .project-card__category {
+    margin: 0 0 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .project-card__title {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-heading);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-chocolate);
+  }
+
+  .project-card__product {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .projects-empty {
+    margin: 2.5rem 0 0;
+    padding: 2rem;
+    text-align: center;
+    background: var(--color-white);
+    border: 1px dashed rgba(71, 36, 16, 0.15);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+  }
+
+  .projects-cta {
+    text-align: center;
+  }
+
+  .projects-cta h2 {
+    margin: 0 0 0.75rem;
+  }
+
+  .projects-cta__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .projects-filters {
+      padding: 1rem;
+    }
+
+    .projects-filters__group {
+      width: 100%;
+    }
+
+    .projects-filters__select {
+      min-width: 0;
+      flex: 1;
+    }
+  }
+</style>

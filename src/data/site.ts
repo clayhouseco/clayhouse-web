@@ -46,10 +46,11 @@ export const socialLinks: {
   },
 ];
 
-/** Navegación principal del header — reducida a 5 ítems para enfocar la conversión */
+/** Navegación principal del header */
 export const primaryNav = [
   { label: "Inicio", href: "/" },
   { label: "Productos", href: "/productos" },
+  { label: "Proyectos", href: "/proyectos" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Blog", href: "/blog" },
   { label: "Contacto", href: "/contacto" },
@@ -59,6 +60,7 @@ export const primaryNav = [
 export const nav = [
   { label: "Inicio", href: "/" },
   { label: "Productos", href: "/productos" },
+  { label: "Proyectos", href: "/proyectos" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Blog", href: "/blog" },
   { label: "Descargas", href: "/descargas" },
