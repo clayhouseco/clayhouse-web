@@ -75,81 +75,96 @@ const {
         </p>
       )
     }
-    <label>
-      Nombre completo *
-      <input type="text" name="nombre" required />
-    </label>
-    <label>
-      Empresa / Estudio
-      <input type="text" name="empresa" />
-    </label>
-    <label>
-      Rol *
-      <select name="rol" required>
-        <option value="">Seleccione…</option>
-        <option>Arquitecto</option>
-        <option>Constructor</option>
-        <option>Diseñador de interiores</option>
-        <option>Desarrollador</option>
-        <option>Otro</option>
-      </select>
-    </label>
-    <label>
-      Email *
-      <input type="email" name="email" required />
-    </label>
-    <label>
-      Teléfono *
-      <input type="tel" name="telefono" required />
-    </label>
+    <div class="form-row">
+      <label>
+        Nombre completo *
+        <input type="text" name="nombre" required />
+      </label>
+      <label>
+        Empresa / Estudio
+        <input type="text" name="empresa" />
+      </label>
+    </div>
+    <div class="form-row">
+      <label>
+        Rol *
+        <select name="rol" required>
+          <option value="">Seleccione…</option>
+          <option>Arquitecto</option>
+          <option>Constructor</option>
+          <option>Diseñador de interiores</option>
+          <option>Desarrollador</option>
+          <option>Otro</option>
+        </select>
+      </label>
+      <label>
+        Tipo de proyecto
+        <select name="tipo_proyecto">
+          <option value="">Seleccione…</option>
+          <option>Residencial</option>
+          <option>Comercial</option>
+          <option>Restauración patrimonial</option>
+          <option>Multifamiliar</option>
+          <option>Otro</option>
+        </select>
+      </label>
+    </div>
+    <div class="form-row">
+      <label>
+        Email *
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Teléfono *
+        <input type="tel" name="telefono" required />
+      </label>
+    </div>
     <label>
       Ciudad / País *
       <input type="text" name="ciudad" required />
     </label>
-    <label>
-      Tipo de proyecto
-      <select name="tipo_proyecto">
-        <option value="">Seleccione…</option>
-        <option>Residencial</option>
-        <option>Comercial</option>
-        <option>Restauración patrimonial</option>
-        <option>Multifamiliar</option>
-        <option>Otro</option>
-      </select>
-    </label>
-    <fieldset class="product-picker" data-product-picker>
-      <legend>Productos de interés</legend>
-      <p class="product-picker__hint">
-        Seleccione uno o varios. Si ya armó la cotización en el catálogo, los verá arriba en el resumen.
-      </p>
-      {
-        productsByCategory.map((group) => (
-          <div class="product-picker__group">
-            <p class="product-picker__cat">{group.label}</p>
-            <div class="product-picker__options">
-              {
-                group.products.map((p) => (
-                  <label class="checkbox">
-                    <input
-                      type="checkbox"
-                      name="productos_interes"
-                      value={p.name}
-                      data-slug={p.slug}
-                      checked={
-                        fromProduct?.slug === p.slug ||
-                        preselectedCategory === p.category ||
-                        undefined
-                      }
-                    />
-                    <span>{p.name}</span>
-                  </label>
-                ))
-              }
+    <details class="product-picker" data-product-picker open={Boolean(fromProduct || preselectedCategory)}>
+      <summary class="product-picker__summary">
+        <span>Productos de interés</span>
+        <span class="product-picker__chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </span>
+      </summary>
+      <div class="product-picker__body">
+        <p class="product-picker__hint">
+          Opcional. Si ya armó la cotización en el catálogo, los verá arriba en el resumen.
+        </p>
+        {
+          productsByCategory.map((group) => (
+            <div class="product-picker__group">
+              <p class="product-picker__cat">{group.label}</p>
+              <div class="product-picker__options">
+                {
+                  group.products.map((p) => (
+                    <label class="checkbox">
+                      <input
+                        type="checkbox"
+                        name="productos_interes"
+                        value={p.name}
+                        data-slug={p.slug}
+                        checked={
+                          fromProduct?.slug === p.slug ||
+                          preselectedCategory === p.category ||
+                          undefined
+                        }
+                      />
+                      <span>{p.name}</span>
+                    </label>
+                  ))
+                }
+              </div>
             </div>
-          </div>
-        ))
-      }
-    </fieldset>
+          ))
+        }
+      </div>
+    </details>
     <fieldset class="radio-group">
       <legend>¿Necesita muestras físicas?</legend>
       <div class="radio-group__options">
@@ -285,12 +300,22 @@ const {
   .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.1rem;
     background: var(--color-white);
-    padding: 2rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(71, 36, 16, 0.06);
+    border: 1px solid rgba(71, 36, 16, 0.06);
   }
 
-  .contact-form > label {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+  }
+
+  .contact-form label,
+  .form-row label {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
@@ -305,25 +330,65 @@ const {
     font-family: var(--font-body);
     font-size: 1rem;
     font-weight: 300;
-    padding: 0.75rem 1rem;
+    padding: 0.7rem 0.9rem;
     border: 1px solid rgba(71, 36, 16, 0.15);
     background: var(--color-bg);
     color: var(--color-chocolate);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
   }
 
-  .product-picker,
-  .radio-group {
-    border: none;
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-terracota);
+    box-shadow: 0 0 0 3px rgba(124, 72, 44, 0.12);
+  }
+
+  .product-picker {
     margin: 0;
     padding: 0;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
   }
 
-  .product-picker legend,
-  .radio-group legend {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    margin-bottom: 0.35rem;
-    padding: 0;
+  .product-picker__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .product-picker__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .product-picker__chevron {
+    display: inline-flex;
+    color: var(--color-terracota);
+    transition: transform 0.25s var(--ease);
+  }
+
+  .product-picker__chevron svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .product-picker[open] .product-picker__chevron {
+    transform: rotate(180deg);
+  }
+
+  .product-picker__body {
+    padding: 0 1rem 1rem;
   }
 
   .product-picker__hint {
@@ -331,6 +396,19 @@ const {
     font-size: 0.8125rem;
     font-weight: 300;
     color: var(--color-text-muted);
+  }
+
+  .radio-group {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .radio-group legend {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    padding: 0;
   }
 
   .product-picker__group {
@@ -462,6 +540,11 @@ const {
   @media (max-width: 768px) {
     .contact-form {
       padding: 1.25rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
     }
 
     .product-picker__options {
