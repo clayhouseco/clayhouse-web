@@ -18,3 +18,13 @@ clayhouse-dist.zip
 **/*.RAF
 **/*.raf
 .vercel
+
+# Carpeta de entrada — contenido en revisión.
+# Mantenemos en el repo solo la estructura (README, plantillas, .gitkeep).
+# El material concreto (fotos, info de productos/proyectos/blog) queda local.
+_inbox/productos/*
+_inbox/proyectos/*
+_inbox/blog/*
+!_inbox/productos/.gitkeep
+!_inbox/proyectos/.gitkeep
+!_inbox/blog/.gitkeep
