@@ -82,7 +82,7 @@ export function getQuoteCart(catalog?: Partial<QuoteCartItem>[]): QuoteCartItem[
 
 export function saveQuoteCart(items: QuoteCartItem[]): void {
   localStorage.setItem(QUOTE_CART_KEY, JSON.stringify(items));
-  window.dispatchEvent(new CustomEvent(QUOTE_CART_EVENT));
+  document.dispatchEvent(new CustomEvent(QUOTE_CART_EVENT));
 }
 
 export function addToQuoteCart(
