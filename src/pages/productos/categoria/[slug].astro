@@ -7,6 +7,7 @@ import {
   getCategorySlug,
 } from "@/data/catalogCategories";
 import { filterProductsByCategory } from "@/utils/catalog";
+import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import "@/styles/catalog-page.css";
 
 export function getStaticPaths() {
@@ -23,12 +24,19 @@ interface Props {
 const { categoryId } = Astro.props;
 const def = catalogCategories.find((c) => c.id === categoryId)!;
 const filtered = filterProductsByCategory(categoryId);
+
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Inicio", href: "/" },
+  { name: "Productos", href: "/productos/" },
+  { name: def.title },
+]);
 ---
 
 <BaseLayout
   title={`Productos — ${def.title}`}
   description={`${def.title} en barro cocido: ${def.description} Fabricación artesanal en Amagá, Antioquia.`}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">Catálogo</p>

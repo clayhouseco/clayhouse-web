@@ -20,6 +20,7 @@ import {
 } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
 import { buildProductJsonLd } from "@/utils/productSchema";
+import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
 
 export function getStaticPaths() {
@@ -97,11 +98,19 @@ const related = getRelatedProducts(product);
 const productReviews = getReviewsForProduct(product.name);
 const productJsonLd = buildProductJsonLd(product, product.image, productReviews);
 
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Inicio", href: "/" },
+  { name: "Productos", href: "/productos/" },
+  { name: product.category, href: getCategoryHref(product.category) },
+  { name: product.name },
+]);
+
 ---
 
 <BaseLayout title={product.seoTitle} description={product.seoDescription}>
   <article class="product-page">
     <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
     <div class="container product-page__breadcrumb">
       <a href="/">Clay House</a>
       <span aria-hidden="true">›</span>
