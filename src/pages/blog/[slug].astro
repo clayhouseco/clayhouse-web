@@ -5,6 +5,8 @@ import { getCollection, render } from "astro:content";
 import { blogTypeLabels, formatBlogDate } from "@/data/blog";
 import { products } from "@/data/products";
 import { resolveAudioEmbed, resolveVideoEmbed } from "@/utils/mediaEmbed";
+import { buildArticleJsonLd } from "@/utils/articleSchema";
+import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import "@/styles/blog-page.css";
 
 export async function getStaticPaths() {
@@ -45,9 +47,18 @@ const linkedProducts =
     .filter((p): p is NonNullable<typeof p> => Boolean(p)) ?? [];
 
 const ogImage = coverImage ?? undefined;
+
+const articleJsonLd = buildArticleJsonLd(post);
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Inicio", href: "/" },
+  { name: "Blog", href: "/blog/" },
+  { name: title },
+]);
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <article class="blog-post">
     <header class="blog-post-hero">
       <div class="container">
