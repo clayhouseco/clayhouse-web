@@ -62,3 +62,11 @@ export function getAverageRating(list: Review[] = reviews): number {
   const sum = list.reduce((acc, r) => acc + r.rating, 0);
   return Math.round((sum / list.length) * 10) / 10;
 }
+
+/** Reseñas que mencionan explícitamente el producto (por nombre exacto).
+ *  Usado para alimentar el Schema.org Product → AggregateRating + Review. */
+export function getReviewsForProduct(productName: string): Review[] {
+  return reviews.filter(
+    (r) => r.product && r.product.toLowerCase() === productName.toLowerCase()
+  );
+}

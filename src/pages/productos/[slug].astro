@@ -20,6 +20,7 @@ import {
 } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
 import { buildProductJsonLd } from "@/utils/productSchema";
+import { getReviewsForProduct } from "@/data/reviews";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -93,7 +94,8 @@ const recommendedUses = getRecommendedUses(product);
 const notRecommended = getNotRecommended(product);
 const related = getRelatedProducts(product);
 
-const productJsonLd = buildProductJsonLd(product, product.image);
+const productReviews = getReviewsForProduct(product.name);
+const productJsonLd = buildProductJsonLd(product, product.image, productReviews);
 
 ---
 
