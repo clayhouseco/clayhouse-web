@@ -20,7 +20,13 @@ const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? prod
       class="product-card__img"
       style={`--catalog-scale: ${getCatalogImageScale(product.slug)}`}
     >
-      <img src={getCatalogImage(product.slug, product.image)} alt={product.name} loading="lazy" />
+      <img
+        src={getCatalogImage(product.slug, product.image)}
+        alt={product.name}
+        width="600"
+        height="600"
+        loading="lazy"
+      />
     </div>
     <span class="product-card__cat">{product.category}</span>
     <h2>{product.name}</h2>

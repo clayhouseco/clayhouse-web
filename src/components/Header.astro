@@ -12,6 +12,8 @@ const currentPath = Astro.url.pathname;
         src={logos.header}
         alt={site.name}
         class="header__logo-img"
+        width="360"
+        height="70"
         onerror={`this.onerror=null;this.src='${logos.headerAlt}'`}
       />
       <span class="header__logo-text" hidden>{site.name}</span>

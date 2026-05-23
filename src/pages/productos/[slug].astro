@@ -331,7 +331,13 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
                     class="related-card__img product-card__img"
                     style={`--catalog-scale: ${getCatalogImageScale(p.slug)}`}
                   >
-                    <img src={getCatalogImage(p.slug, p.image)} alt={p.name} loading="lazy" />
+                    <img
+                      src={getCatalogImage(p.slug, p.image)}
+                      alt={p.name}
+                      width="600"
+                      height="600"
+                      loading="lazy"
+                    />
                   </div>
                   <p class="related-card__meta">{p.category}</p>
                   <h3 class="related-card__title">{p.name}</h3>

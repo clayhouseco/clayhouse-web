@@ -33,6 +33,8 @@ const { images } = Astro.props;
             <img
               src={img.src}
               alt={img.alt}
+              width="1200"
+              height="900"
               loading={i === 0 ? "eager" : "lazy"}
               decoding="async"
             />
@@ -67,7 +69,7 @@ const { images } = Astro.props;
           aria-selected={i === 0 ? "true" : "false"}
           aria-label={img.label}
         >
-          <img src={img.src} alt="" loading="lazy" decoding="async" />
+          <img src={img.src} alt="" width="120" height="120" loading="lazy" decoding="async" />
         </button>
       ))
     }

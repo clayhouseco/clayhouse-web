@@ -121,7 +121,14 @@ const totalProjects = allProjects.length;
               aria-label={`Ver ${project.title} en ${project.productName}`}
             >
               <div class="project-card__media">
-                <img src={project.thumbnail} alt={project.alt} loading="lazy" decoding="async" />
+                <img
+                  src={project.thumbnail}
+                  alt={project.alt}
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
                 {project.imageCount > 1 && (
                   <span class="project-card__count" aria-hidden="true">
                     +{project.imageCount - 1} fotos

@@ -101,6 +101,8 @@ const reviewsAverage = getAverageRating();
       <img
         src={heroImage}
         alt="Fachada Clay House en ladrillo Romano matizado"
+        width="1920"
+        height="1280"
         loading="eager"
         fetchpriority="high"
       />
@@ -157,7 +159,7 @@ const reviewsAverage = getAverageRating();
             <a href={cat.href} class="card category-card">
               {cat.badge && <span class="category-card__badge">{cat.badge}</span>}
               <div class="card__img">
-                <img src={cat.image} alt="" loading="lazy" />
+                <img src={cat.image} alt="" width="600" height="600" loading="lazy" />
               </div>
               <div class="category-card__body">
                 <h3>{cat.title}</h3>
