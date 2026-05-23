@@ -1,5 +1,5 @@
 import type { Product } from "@/data/products";
-import { products } from "@/data/products";
+import { products, sortProductsByPriority } from "@/data/products";
 import type { ProductCategory } from "@/data/catalogCategories";
 import { getCatalogCategoryHref } from "@/data/catalogCategories";
 
@@ -46,9 +46,10 @@ export function getNotRecommended(product: Product): string[] {
 }
 
 export function getRelatedProducts(product: Product, limit = 3): Product[] {
-  return products
-    .filter((p) => p.slug !== product.slug && p.category === product.category)
-    .slice(0, limit);
+  const sameCategory = products.filter(
+    (p) => p.slug !== product.slug && p.category === product.category
+  );
+  return sortProductsByPriority(sameCategory).slice(0, limit);
 }
 
 export function getCategoryHref(category: ProductCategory): string {

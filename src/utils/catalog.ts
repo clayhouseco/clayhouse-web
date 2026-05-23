@@ -1,5 +1,5 @@
 import type { Product } from "@/data/products";
-import { products } from "@/data/products";
+import { products, sortProductsByPriority } from "@/data/products";
 import {
   catalogCategories,
   type CatalogCategoryDef,
@@ -13,14 +13,14 @@ export function getCatalogCategoryDef(id: ProductCategory): CatalogCategoryDef |
 }
 
 export function filterProductsByCategory(id: ProductCategory): Product[] {
-  return products.filter((p) => p.category === id);
+  return sortProductsByPriority(products.filter((p) => p.category === id));
 }
 
 export function groupProductsByCategory(): { def: CatalogCategoryDef; products: Product[] }[] {
   return catalogCategories
     .map((def) => ({
       def,
-      products: products.filter((p) => p.category === def.id),
+      products: sortProductsByPriority(products.filter((p) => p.category === def.id)),
     }))
     .filter((g) => g.products.length > 0);
 }

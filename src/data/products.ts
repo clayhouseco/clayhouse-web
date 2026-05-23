@@ -534,11 +534,29 @@ export const products: Product[] = [
   },
 ];
 
+/** Productos que deben aparecer primero en listados (orden definido por su posición en el array). */
+export const priorityProductSlugs: readonly string[] = ["romano"];
+
+/** Ordena una lista de productos colocando primero los slugs prioritarios
+ *  (en el orden de priorityProductSlugs), y preservando el orden original para el resto. */
+export function sortProductsByPriority(list: Product[]): Product[] {
+  const priorityIndex = (slug: string) => {
+    const i = priorityProductSlugs.indexOf(slug);
+    return i === -1 ? Number.POSITIVE_INFINITY : i;
+  };
+  return [...list].sort((a, b) => {
+    const ia = priorityIndex(a.slug);
+    const ib = priorityIndex(b.slug);
+    if (ia !== ib) return ia - ib;
+    return 0;
+  });
+}
+
 export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
 }
 
 export function getFeaturedProducts(): Product[] {
-  return products.filter((p) => p.featured);
+  return sortProductsByPriority(products.filter((p) => p.featured));
 }
 
