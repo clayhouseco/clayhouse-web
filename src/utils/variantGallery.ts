@@ -26,9 +26,9 @@ interface ProductGalleryConfig {
 const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   romano: {
     heroProductByVariant: {
-      matizado: "Romano Matizado Claro.jpg",
-      "matizado-oscuro": "Romano Oscuro (tono 1).jpg",
-      natural: "Romano Natural.jpg",
+      "matizado claro": "Romano Matizado.png",
+      "matizado-oscuro": "Romano Matizado Oscuro.png",
+      natural: "Romano Natural.png",
     },
     sharedRootPattern: /^romano (dimensiones|ficha)/i,
     dimensionesPattern: /romano dimensiones/i,
@@ -47,8 +47,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   napolitano: {
     heroProductByVariant: {
-      rojo: "Napolitano Roj.jpg",
-      matizado: "Napolitano.jpg",
+      matizado: "Napolitano Oscuro.png",
+      natural: "Napolitano Claro.png",
     },
     sharedRootPattern: /^napolitano (dimensiones|ficha)/i,
     dimensionesPattern: /napolitano dimensiones/i,
@@ -57,9 +57,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   cartagena: {
     heroProductByVariant: {
-      claro: "Cartagena Claro.png",
-      matizado: "Cartagena Matizado.png",
-      oscuro: "Cartagena Oscuro.png",
+      natural: "Cartagena Claro.png",
+      "matizado claro": "Cartagena Matizado.png",
+      "matizado oscuro": "Cartagena Oscuro.png",
     },
     sharedRootPattern: /^cartagena (dimensiones|ficha)/i,
     dimensionesPattern: /cartagena dimensiones/i,
@@ -68,10 +68,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "macizo-campesino": {
     heroProductByVariant: {
-      claro: "Campesino Claro.png",
-      matizado: "Campesino matizado.png",
-      oscuro: "Campesino Oscuro.png",
-      natural: "Campesino.jpg",
+      "matizado claro": "Campesino Claro.png",
+      "matizado oscuro": "Campesino Oscuro.png",
     },
     sharedRootPattern: /^macizo campesino (dimensiones|ficha)/i,
     dimensionesPattern: /macizo campesino dimensiones/i,
@@ -127,14 +125,14 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "enchape-romano": {
     heroProductByVariant: {
-      natural: "Chapa Natural.jpg",
-      matizado: "Enchapematizado_Clayhouse.jpg",
-      "matizado oscuro": "Chapa Matizada Oscura (Tono 1).jpg",
+      natural: "Enchape Natural.png",
+      matizado: "Chapa Matizada Clara.png",
+      "matizado oscuro": "Enchape Matizado Oscuro.png",
     },
     sharedRootPattern: /^enchape romano (dimensiones|ficha)/i,
     dimensionesPattern: /enchape romano dimensiones/i,
     fichaPattern: /enchape romano ficha/i,
-    productFilePattern: /^chapa |^enchapematizado/i,
+    productFilePattern: /^chapa |^enchape |^enchapematizado/i,
   },
   "piso-30x30": {
     heroProductByVariant: {
@@ -147,12 +145,12 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "piso-10x30": {
     heroProductByVariant: {
-      ".": "DSC_9574.jpg",
+      ".": "piso 10x30.jpg",
     },
     sharedRootPattern: /^piso 10x30 /i,
     dimensionesPattern: /piso 10x30 dimensiones/i,
     fichaPattern: /piso 10x30 ficha/i,
-    productFilePattern: /^DSC_95/i,
+    productFilePattern: /^piso 10x30\.jpg|^DSC_95/i,
   },
   "teja-plana": {
     heroProductByVariant: {
@@ -162,6 +160,16 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     dimensionesPattern: /teja plana dimensiones/i,
     fichaPattern: /teja plana ficha/i,
     productFilePattern: /^teja plana ppal/i,
+  },
+  "bocadillo-prensado": {
+    heroProductByVariant: {
+      arena: "Bocadillo Prensado Palido.png",
+      rojo: "Bocadillo Prensado Rojo.png",
+    },
+    sharedRootPattern: /^bocadillo prensado (dimensiones|ficha)/i,
+    dimensionesPattern: /bocadillo prensado dimensiones/i,
+    fichaPattern: /bocadillo prensado ficha/i,
+    productFilePattern: /^bocadillo prensado/i,
   },
   "teja-colonial": {
     heroProductByVariant: {

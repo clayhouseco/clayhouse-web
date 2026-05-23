@@ -55,7 +55,12 @@ function buildManifest(
 }
 
 const romanoVariants: ProductColorVariant[] = [
-  { id: "matizado", label: "Matizado", colorLabel: "Matizado", folder: "matizado" },
+  {
+    id: "matizado-claro",
+    label: "Matizado claro",
+    colorLabel: "Matizado claro",
+    folder: "matizado claro",
+  },
   {
     id: "matizado-oscuro",
     label: "Matizado oscuro",
@@ -120,8 +125,8 @@ export const romanoAssets: ProductAssetManifest = {
  * 3. Registrar aquí y usar getProductAssets en la ficha
  */
 const napolitanoVariants: ProductColorVariant[] = [
-  { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
   { id: "matizado", label: "Matizado", colorLabel: "Matizado", folder: "matizado" },
+  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
 ];
 
 const napolitanoGalleries = getSplitVariantGalleryMap(
@@ -150,9 +155,19 @@ export const napolitanoAssets: ProductAssetManifest = {
 };
 
 const cartagenaVariants: ProductColorVariant[] = [
-  { id: "claro", label: "Claro", colorLabel: "Claro", folder: "claro" },
-  { id: "matizado", label: "Matizado", colorLabel: "Matizado", folder: "matizado" },
-  { id: "oscuro", label: "Oscuro", colorLabel: "Oscuro", folder: "oscuro" },
+  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
+  {
+    id: "matizado-claro",
+    label: "Matizado claro",
+    colorLabel: "Matizado claro",
+    folder: "matizado claro",
+  },
+  {
+    id: "matizado-oscuro",
+    label: "Matizado oscuro",
+    colorLabel: "Matizado oscuro",
+    folder: "matizado oscuro",
+  },
 ];
 
 const cartagenaGalleries = getSplitVariantGalleryMap(
@@ -181,10 +196,18 @@ export const cartagenaAssets: ProductAssetManifest = {
 };
 
 const macizoCampesinoVariants: ProductColorVariant[] = [
-  { id: "claro", label: "Claro", colorLabel: "Claro", folder: "claro" },
-  { id: "matizado", label: "Matizado", colorLabel: "Matizado", folder: "matizado" },
-  { id: "oscuro", label: "Oscuro", colorLabel: "Oscuro", folder: "oscuro" },
-  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
+  {
+    id: "matizado-claro",
+    label: "Matizado claro",
+    colorLabel: "Matizado claro",
+    folder: "matizado claro",
+  },
+  {
+    id: "matizado-oscuro",
+    label: "Matizado oscuro",
+    colorLabel: "Matizado oscuro",
+    folder: "matizado oscuro",
+  },
 ];
 
 const macizoBrixVariants: ProductColorVariant[] = [
@@ -285,6 +308,11 @@ const piso10x30Variants: ProductColorVariant[] = [
   { id: "producto", label: "Piso 10×30", colorLabel: "Tabaco, Natural", folder: "." },
 ];
 
+const bocadilloPrensadoVariants: ProductColorVariant[] = [
+  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
+  { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
+];
+
 const tejaColonialVariants: ProductColorVariant[] = [
   {
     id: "roja",
@@ -333,6 +361,11 @@ export const tejaColonialAssets = buildManifest(
   "Teja Colonial",
   tejaColonialVariants
 );
+export const bocadilloPrensadoAssets = buildManifest(
+  "bocadillo-prensado",
+  "Bocadillo Prensado",
+  bocadilloPrensadoVariants
+);
 
 const manifests: Record<string, ProductAssetManifest> = {
   romano: romanoAssets,
@@ -349,6 +382,7 @@ const manifests: Record<string, ProductAssetManifest> = {
   "piso-10x30": piso10x30Assets,
   "teja-plana": tejaPlanaAssets,
   "teja-colonial": tejaColonialAssets,
+  "bocadillo-prensado": bocadilloPrensadoAssets,
 };
 
 export function getProductAssets(slug: string): ProductAssetManifest | undefined {

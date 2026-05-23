@@ -1,4 +1,4 @@
-import { assetUrl, fichaPdf, productFolderImage } from "@/utils/paths";
+import { assetUrl, downloadUrl, fichaPdf, productFolderImage } from "@/utils/paths";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -97,12 +97,12 @@ export const products: Product[] = [
       "Muros perimetrales a la vista",
       "Remodelaciones con lenguaje clásico-contemporáneo",
     ],
-    color: "Rojo, Matizado claro, Matizado oscuro",
+    color: "Matizado, Natural",
     texture: "Texturizado",
     featured: true,
     seoTitle: "Ladrillo Napolitano | Clay House",
     seoDescription: "Ladrillo Napolitano para fachada. Clay House, Amagá.",
-    image: productFolderImage("napolitano", "rojo/Napolitano Roj.jpg"),
+    image: productFolderImage("napolitano", "matizado/Napolitano Oscuro.png"),
     pricePerUnit: "$ 2.090",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -134,12 +134,12 @@ export const products: Product[] = [
       "Muros a la vista en vivienda campestre",
       "Cerramientos y muros de acento",
     ],
-    color: "Matizado, Matizado oscuro, Natural",
+    color: "Matizado claro, Matizado oscuro, Natural",
     texture: "Liso y corcho",
     featured: true,
     seoTitle: "Ladrillo Romano | Clay House Amagá",
     seoDescription: "Ladrillo Romano de fachada. Amagá, Colombia.",
-    image: productFolderImage("romano", "matizado/Romano Matizado Claro.jpg"),
+    image: productFolderImage("romano", "matizado claro/Romano Matizado.png"),
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -171,13 +171,13 @@ export const products: Product[] = [
       "Muros estructurales interiores con revoque",
       "Divisiones internas y obra residencial",
     ],
-    color: "Claro, Matizado, Oscuro",
+    color: "Natural, Matizado claro, Matizado oscuro",
     texture: "Texturizado",
     featured: true,
     seoTitle: "Ladrillo Cartagena | Clay House Amagá",
     seoDescription:
       "Ladrillo Cartagena para fachada. Tonos claro, matizado y oscuro. Clay House, Amagá.",
-    image: productFolderImage("cartagena", "claro/Cartagena Claro.png"),
+    image: productFolderImage("cartagena", "natural/Cartagena Claro.png"),
     pricePerUnit: "$ 2.700",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -209,12 +209,12 @@ export const products: Product[] = [
       "Construcción tradicional y campestre",
       "Fachadas con acabado macizo",
     ],
-    color: "Claro, Matizado, Oscuro, Natural",
+    color: "Matizado claro, Matizado oscuro",
     texture: "Macizo liso",
     featured: true,
     seoTitle: "Macizo Campesino | Clay House",
     seoDescription: "Ladrillo macizo campesino. Amagá, Antioquia.",
-    image: productFolderImage("macizo-campesino", "claro/Campesino Claro.png"),
+    image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro.png"),
     pricePerUnit: "$ 1.650",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -259,6 +259,30 @@ export const products: Product[] = [
       { label: "Tipo de uso", value: "Estructural" },
     ],
     technicalPdf: fichaPdf("Macizo Brix.pdf"),
+  },
+  {
+    name: "Bocadillo Prensado",
+    slug: "bocadillo-prensado",
+    category: "Fachadas",
+    shortDescription:
+      "Pieza prensada de formato compacto, disponible en arena y rojo. Acabado homogéneo para fachadas con detalle fino.",
+    description:
+      "El Bocadillo Prensado es una pieza compacta fabricada por prensado en arcilla cocida. Su formato reducido permite composiciones detalladas en fachadas y muros divisorios, con una superficie homogénea y tonos firmes propios del barro local.\n\nFunciona en proyectos que buscan textura controlada y un aparejo fino, tanto en vivienda como en espacios comerciales. Disponible en color arena y rojo.",
+    applications: [
+      "Fachadas con detalle fino",
+      "Muros divisorios y de acento",
+      "Remates y entrecalles",
+      "Proyectos con aparejo de formato pequeño",
+    ],
+    color: "Arena, Rojo",
+    texture: "Prensado",
+    featured: false,
+    seoTitle: "Bocadillo Prensado | Clay House Amagá",
+    seoDescription:
+      "Ladrillo Bocadillo Prensado en arcilla cocida. Colores arena y rojo. Clay House Amagá.",
+    image: productFolderImage("bocadillo-prensado", "rojo/Bocadillo Prensado Rojo.png"),
+    priceUnitLabel: "unidad",
+    technicalPdf: downloadUrl("Manual de Fachadas Clay House.pdf"),
   },
   {
     name: "Ladrillo Rayado Vertical",
@@ -368,12 +392,12 @@ export const products: Product[] = [
       "Baños y cocinas (según especificación)",
       "Muros de acento en comercio y vivienda",
     ],
-    color: "Natural, Matizado, Oscuro",
+    color: "Natural, Matizado, Matizado oscuro",
     texture: "Romano",
     featured: false,
     seoTitle: "Enchape Romano | Clay House",
     seoDescription: "Enchape romano Clay House.",
-    image: productFolderImage("enchape-romano", "natural/Chapa Natural.jpg"),
+    image: productFolderImage("enchape-romano", "natural/Enchape Natural.png"),
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
     dimensions: {
@@ -439,7 +463,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Piso de barro 10x30 | Clay House",
     seoDescription: "Piso 10x30 de barro cocido. Clay House, Amagá.",
-    image: productFolderImage("piso-10x30", "DSC_9574.jpg"),
+    image: productFolderImage("piso-10x30", "piso 10x30.jpg"),
     pricePerUnit: "$ 80.000",
     priceUnitLabel: "m²",
     dimensions: {
