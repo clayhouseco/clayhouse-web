@@ -154,12 +154,13 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "teja-plana": {
     heroProductByVariant: {
-      ".": "teja plana ppal.png",
+      chocolate: "Teja Plana Chocolate Lisa.png",
+      natural: "Teja Plana Natural.png",
     },
-    sharedRootPattern: /^teja plana /i,
-    dimensionesPattern: /teja plana dimensiones/i,
-    fichaPattern: /teja plana ficha/i,
-    productFilePattern: /^teja plana ppal/i,
+    sharedRootPattern: /^$/,
+    dimensionesPattern: /teja plana(?: \S+)? dimensiones/i,
+    fichaPattern: /teja plana(?: \S+)? ficha/i,
+    productFilePattern: /^teja plana (natural|chocolate)/i,
   },
   "bocadillo-prensado": {
     heroProductByVariant: {

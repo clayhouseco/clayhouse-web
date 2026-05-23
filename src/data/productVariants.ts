@@ -299,8 +299,14 @@ const tejaPlanaVariants: ProductColorVariant[] = [
     id: "chocolate",
     label: "Chocolate",
     colorLabel: "Chocolate",
-    folder: ".",
+    folder: "chocolate",
     pricePerUnit: "$ 60.000",
+  },
+  {
+    id: "natural",
+    label: "Natural",
+    colorLabel: "Natural",
+    folder: "natural",
   },
 ];
 
