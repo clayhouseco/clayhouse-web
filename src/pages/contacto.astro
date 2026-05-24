@@ -26,6 +26,9 @@ function buildDefaultMessage() {
   if (area && unidades && area > 0 && unidades > 0) {
     return `Me interesa cotizar ${fromProduct.name}. Estimación de la calculadora: ${area} m² (~${unidades.toLocaleString("es-CO")} unidades, incluye 5% de desperdicio). Confírmenme disponibilidad y precio por volumen.`;
   }
+  if (area && area > 0) {
+    return `Me interesa cotizar ${fromProduct.name}. Necesito cubrir ${area} m² aproximadamente. Confírmenme disponibilidad y precio por volumen.`;
+  }
   return `Me interesa cotizar ${fromProduct.name}.`;
 }
 

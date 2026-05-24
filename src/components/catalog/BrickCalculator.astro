@@ -15,19 +15,32 @@ function parsePriceCOP(price?: string): number | null {
   return digits ? parseInt(digits, 10) : null;
 }
 
+/** Productos calculables:
+ *   - Modo "unidad": precio por unidad + rendimiento numérico (Romano, Toscano, etc.)
+ *   - Modo "m2": precio por m² (enchapes, pisos, teja plana) — no requiere rendimiento
+ */
 const calculableProducts = sortProductsByPriority(products)
-  .map((p) => ({
-    slug: p.slug,
-    name: p.name,
-    unitsPerSqm: parseRendimiento(p.dimensions?.rendimiento),
-    pricePerUnit: parsePriceCOP(p.pricePerUnit),
-    priceLabel: p.pricePerUnit,
-  }))
-  .filter((p) => p.unitsPerSqm !== null && p.pricePerUnit !== null);
+  .map((p) => {
+    const price = parsePriceCOP(p.pricePerUnit);
+    const unitsPerSqm = parseRendimiento(p.dimensions?.rendimiento);
+    const isPerSqm = (p.priceUnitLabel ?? "").toLowerCase().includes("m²");
+    if (!price) return null;
+    if (!isPerSqm && unitsPerSqm === null) return null;
+    return {
+      slug: p.slug,
+      name: p.name,
+      mode: isPerSqm ? ("m2" as const) : ("unidad" as const),
+      unitsPerSqm,
+      pricePerUnit: price,
+      priceLabel: p.pricePerUnit ?? "",
+    };
+  })
+  .filter((p): p is NonNullable<typeof p> => p !== null);
 
 const calculatorPayload = calculableProducts.map((p) => ({
   slug: p.slug,
   name: p.name,
+  mode: p.mode,
   unitsPerSqm: p.unitsPerSqm,
   pricePerUnit: p.pricePerUnit,
 }));
@@ -51,7 +64,7 @@ const calculatorPayload = calculableProducts.map((p) => ({
         {
           calculableProducts.map((p) => (
             <option value={p.slug}>
-              {p.name} · {p.priceLabel} / unidad
+              {p.name} · {p.priceLabel} / {p.mode === "m2" ? "m²" : "unidad"}
             </option>
           ))
         }
@@ -97,7 +110,8 @@ const calculatorPayload = calculableProducts.map((p) => ({
   interface CalcProduct {
     slug: string;
     name: string;
-    unitsPerSqm: number;
+    mode: "unidad" | "m2";
+    unitsPerSqm: number | null;
     pricePerUnit: number;
   }
 
@@ -128,30 +142,38 @@ const calculatorPayload = calculableProducts.map((p) => ({
     if (!productSel || !areaInput || !unitsOut || !unitsNote || !totalOut || !cta) return;
     const product = products.find((p) => p.slug === productSel.value);
     const area = parseFloat(areaInput.value);
+    const unitsRow = unitsOut.closest(".brick-calc__result") as HTMLElement | null;
 
     if (!product || !area || area <= 0) {
       unitsOut.textContent = "—";
       unitsNote.textContent = "";
       totalOut.textContent = "—";
+      if (unitsRow) unitsRow.hidden = false;
       cta.href = "/contacto";
       cta.setAttribute("aria-disabled", "true");
       cta.classList.add("brick-calc__cta--disabled");
       return;
     }
 
-    const baseUnits = product.unitsPerSqm * area;
-    const unitsWithBuffer = Math.ceil(baseUnits * 1.05);
-    const totalCop = unitsWithBuffer * product.pricePerUnit;
+    const params = new URLSearchParams({ producto: product.slug, area: String(area) });
 
-    unitsOut.textContent = format(unitsWithBuffer);
-    unitsNote.textContent = `${product.unitsPerSqm} und/m² × ${area} m² + 5% desperdicio`;
-    totalOut.textContent = formatCOP(totalCop);
+    if (product.mode === "m2") {
+      // Modo precio por m²: directo, sin estimar piezas
+      const totalCop = product.pricePerUnit * area * 1.05;
+      if (unitsRow) unitsRow.hidden = true;
+      totalOut.textContent = formatCOP(totalCop);
+    } else if (product.unitsPerSqm) {
+      // Modo precio por unidad: estima piezas + 5% desperdicio
+      const baseUnits = product.unitsPerSqm * area;
+      const unitsWithBuffer = Math.ceil(baseUnits * 1.05);
+      const totalCop = unitsWithBuffer * product.pricePerUnit;
+      if (unitsRow) unitsRow.hidden = false;
+      unitsOut.textContent = format(unitsWithBuffer);
+      unitsNote.textContent = `${product.unitsPerSqm} und/m² × ${area} m² + 5% desperdicio`;
+      totalOut.textContent = formatCOP(totalCop);
+      params.set("unidades", String(unitsWithBuffer));
+    }
 
-    const params = new URLSearchParams({
-      producto: product.slug,
-      area: String(area),
-      unidades: String(unitsWithBuffer),
-    });
     cta.href = `/contacto?${params.toString()}`;
     cta.setAttribute("aria-disabled", "false");
     cta.classList.remove("brick-calc__cta--disabled");
@@ -248,6 +270,16 @@ const calculatorPayload = calculableProducts.map((p) => ({
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  /* hidden attribute pierde contra display:flex sin esta regla */
+  .brick-calc__result[hidden] {
+    display: none;
+  }
+
+  /* Cuando solo se muestra la columna de costo (modo m²), céntrala */
+  .brick-calc__results:has(.brick-calc__result[hidden]) {
+    grid-template-columns: 1fr;
   }
 
   .brick-calc__result-label {
