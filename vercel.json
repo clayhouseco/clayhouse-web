@@ -37,6 +37,16 @@
     { "source": "/carrito-de-compras", "destination": "/contacto", "permanent": true },
     { "source": "/carrito-de-compras/", "destination": "/contacto", "permanent": true },
     { "source": "/mi-cuenta", "destination": "/contacto", "permanent": true },
-    { "source": "/mi-cuenta/", "destination": "/contacto", "permanent": true }
+    { "source": "/mi-cuenta/", "destination": "/contacto", "permanent": true },
+    {
+      "source": "/blog/como-especificar-barro-cocido-en-obra",
+      "destination": "/blog/especificacion-de-ladrillo-en-obra",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-especificar-barro-cocido-en-obra/",
+      "destination": "/blog/especificacion-de-ladrillo-en-obra",
+      "permanent": true
+    }
   ]
 }
