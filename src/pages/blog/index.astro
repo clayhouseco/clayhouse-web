@@ -9,6 +9,9 @@ const allPosts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const featuredPost = allPosts[0] ?? null;
+const restPosts = allPosts.slice(1);
+
 const postCountByType = allPosts.reduce(
   (acc, post) => {
     acc[post.data.type] = (acc[post.data.type] ?? 0) + 1;
@@ -26,18 +29,18 @@ const visibleBlogFilters = blogFilters.filter(
   title="Blog"
   description="Proyectos de obra, artículos técnicos y videos sobre barro cocido. Aprenda sobre fachadas, ladrillo artesanal y especificación con Clay House."
 >
-  <section class="page-hero">
+  <section class="page-hero blog-hero">
     <div class="container">
-      <p class="eyebrow">Actualidad</p>
-      <h1>Blog y proyectos</h1>
+      <p class="eyebrow">Historias</p>
+      <h1>El oficio del barro,<br />en contexto</h1>
       <p class="text-muted page-hero__lead">
-        Obras, reflexiones y contenido en video o audio que no siempre encajan en una
-        ficha de producto — aquí compartimos el trabajo en contexto.
+        Obras, materiales, técnica y reflexiones sobre el barro cocido. Lo que no cabe en una
+        ficha de producto vive aquí.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section blog-section">
     <div class="container">
       <div class="blog-filters" role="tablist" aria-label="Filtrar publicaciones">
         {
@@ -55,31 +58,66 @@ const visibleBlogFilters = blogFilters.filter(
         }
       </div>
 
-      <div class="blog-grid" id="blog-grid">
-        {
-          allPosts.length > 0 ? (
-            allPosts.map((post) => <BlogCard post={post} />)
-          ) : (
-            <p class="blog-empty">
-              Próximamente publicaremos proyectos y contenido aquí. Mientras tanto, explore el{" "}
-              <a href="/productos">catálogo</a>.
-            </p>
-          )
-        }
-      </div>
+      {
+        featuredPost && (
+          <div class="blog-featured-wrap" data-featured-wrap>
+            <p class="blog-section__eyebrow">Última publicación</p>
+            <BlogCard post={featuredPost} variant="featured" />
+          </div>
+        )
+      }
+
+      {
+        restPosts.length > 0 && (
+          <div class="blog-rest-wrap">
+            <p class="blog-section__eyebrow">Más historias</p>
+            <div class="blog-grid" id="blog-grid">
+              {restPosts.map((post) => <BlogCard post={post} />)}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        allPosts.length === 0 && (
+          <p class="blog-empty">
+            Próximamente publicaremos proyectos y contenido aquí. Mientras tanto, explore el{" "}
+            <a href="/productos">catálogo</a>.
+          </p>
+        )
+      }
 
       <p class="blog-empty blog-empty--filtered" hidden id="blog-empty-filter">
         No hay publicaciones de este tipo todavía.
       </p>
     </div>
   </section>
+
+  <section class="section section--alt blog-cta-section">
+    <div class="container blog-cta">
+      <p class="eyebrow">Conversemos</p>
+      <h2>¿Está especificando barro cocido en obra?</h2>
+      <p class="text-muted">
+        Cotización, fichas técnicas y asesoría para arquitectos y constructores. Respondemos en
+        menos de 24 horas.
+      </p>
+      <p class="blog-cta__actions">
+        <a href="/contacto" class="btn btn--primary">Cotizar mi proyecto</a>
+        <a href="/proyectos" class="btn btn--ghost">Ver obras reales</a>
+      </p>
+    </div>
+  </section>
 </BaseLayout>
 
 <script>
+  const featuredWrap = document.querySelector<HTMLElement>("[data-featured-wrap]");
   const grid = document.getElementById("blog-grid");
   const emptyFilter = document.getElementById("blog-empty-filter");
-  const cards = grid?.querySelectorAll<HTMLElement>(".blog-card") ?? [];
   const buttons = document.querySelectorAll<HTMLButtonElement>(".blog-filter");
+  const allCards = [
+    ...(featuredWrap?.querySelectorAll<HTMLElement>(".blog-card") ?? []),
+    ...(grid?.querySelectorAll<HTMLElement>(".blog-card") ?? []),
+  ];
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -92,11 +130,15 @@ const visibleBlogFilters = blogFilters.filter(
       });
 
       let visible = 0;
-      cards.forEach((card) => {
+      allCards.forEach((card) => {
         const show = filter === "all" || card.dataset.type === filter;
         card.hidden = !show;
         if (show) visible += 1;
       });
+
+      // Si el destacado quedó oculto, esconder también su eyebrow
+      const featuredVisible = featuredWrap?.querySelector<HTMLElement>(".blog-card:not([hidden])");
+      if (featuredWrap) featuredWrap.hidden = !featuredVisible;
 
       if (emptyFilter) {
         emptyFilter.hidden = visible > 0 || filter === "all";
@@ -104,10 +146,3 @@ const visibleBlogFilters = blogFilters.filter(
     });
   });
 </script>
-
-<style>
-  .page-hero__lead {
-    max-width: 40rem;
-    font-size: 1.0625rem;
-  }
-</style>

@@ -4,19 +4,32 @@ import { blogTypeLabels, formatBlogDate } from "@/data/blog";
 
 interface Props {
   post: CollectionEntry<"blog">;
+  /** "featured" para la entrada principal del listado (más grande, con texto al lado). */
+  variant?: "default" | "featured";
 }
 
-const { post } = Astro.props;
-const { title, description, type, pubDate, coverImage, duration, featured } = post.data;
+const { post, variant = "default" } = Astro.props;
+const { title, description, type, pubDate, coverImage, duration, featured, tags } = post.data;
 const href = `/blog/${post.id}/`;
 const typeLabel = blogTypeLabels[type];
+const primaryTopic = tags && tags.length > 0 ? tags[0] : null;
 ---
 
-<a href={href} class="blog-card" data-type={type}>
+<a
+  href={href}
+  class:list={["blog-card", variant === "featured" && "blog-card--featured"]}
+  data-type={type}
+>
   <div class="blog-card__media">
     {
       coverImage ? (
-        <img src={coverImage} alt="" width="1600" height="900" loading="lazy" />
+        <img
+          src={coverImage}
+          alt=""
+          width={variant === "featured" ? "1600" : "800"}
+          height={variant === "featured" ? "1000" : "500"}
+          loading={variant === "featured" ? "eager" : "lazy"}
+        />
       ) : (
         <div class="blog-card__placeholder" aria-hidden="true">
           <span>{typeLabel.charAt(0)}</span>
@@ -27,10 +40,13 @@ const typeLabel = blogTypeLabels[type];
     <span class="blog-card__type">{typeLabel}</span>
   </div>
   <div class="blog-card__body">
-    <time class="blog-card__date" datetime={pubDate.toISOString()}>
-      {formatBlogDate(pubDate)}
-      {duration ? ` · ${duration}` : ""}
-    </time>
+    <div class="blog-card__meta">
+      {primaryTopic && <span class="blog-card__topic">{primaryTopic}</span>}
+      <time class="blog-card__date" datetime={pubDate.toISOString()}>
+        {formatBlogDate(pubDate)}
+        {duration ? ` · ${duration}` : ""}
+      </time>
+    </div>
     <h2 class="blog-card__title">{title}</h2>
     <p class="blog-card__desc">{description}</p>
     <span class="blog-card__link">Leer más →</span>
