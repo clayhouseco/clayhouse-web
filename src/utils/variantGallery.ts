@@ -37,11 +37,12 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   toscano: {
     heroProductByVariant: {
-      arena: "Toscano Arena.png",
-      oscuro: "Toscano Oscuro.png",
+      natural: "toscano natural.png",
+      "matizado claro": "toscano matizado claro.png",
+      "matizado oscuro": "toscano matizado oscuro.png",
     },
-    sharedRootPattern: /^toscano (dimensiones|ficha)/i,
-    dimensionesPattern: /toscano dimensiones/i,
+    sharedRootPattern: /^(toscano |isometrico toscano)/i,
+    dimensionesPattern: /isometrico toscano|toscano dimensiones/i,
     fichaPattern: /toscano ficha/i,
     productFilePattern: /^toscano /i,
   },

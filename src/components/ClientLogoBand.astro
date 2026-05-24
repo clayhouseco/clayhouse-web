@@ -1,6 +1,25 @@
 ---
+import fs from "node:fs";
+import path from "node:path";
 import { brandClients, projectPartners } from "@/data/clients";
 import type { BrandEntry } from "@/data/clients";
+
+/** Resuelve un logo en /public/images/clientes/{id}.{svg|png|jpg|webp} si existe.
+ *  Si no, devuelve undefined (la franja muestra el nombre como wordmark). */
+const LOGOS_DIR = path.resolve("public/images/clientes");
+const EXTS = ["svg", "png", "jpg", "webp"] as const;
+
+function resolveLogo(entry: BrandEntry): string | undefined {
+  if (entry.logo) return entry.logo;
+  for (const ext of EXTS) {
+    const file = path.join(LOGOS_DIR, `${entry.id}.${ext}`);
+    if (fs.existsSync(file)) return `/images/clientes/${entry.id}.${ext}`;
+  }
+  return undefined;
+}
+
+const resolvedBrandClients = brandClients.map((c) => ({ ...c, logo: resolveLogo(c) }));
+const resolvedProjectPartners = projectPartners.map((c) => ({ ...c, logo: resolveLogo(c) }));
 
 interface RowConfig {
   id: string;
@@ -16,7 +35,7 @@ const rows: RowConfig[] = [
     id: "clientes",
     eyebrow: "Confían en nosotros",
     title: "Clientes",
-    items: [...brandClients, ...brandClients],
+    items: [...resolvedBrandClients, ...resolvedBrandClients],
     direction: "normal",
     restRatio: 0.3,
   },
@@ -24,7 +43,7 @@ const rows: RowConfig[] = [
     id: "proyectos",
     eyebrow: "En obra",
     title: "Proyectos",
-    items: [...projectPartners, ...projectPartners],
+    items: [...resolvedProjectPartners, ...resolvedProjectPartners],
     direction: "reverse",
     restRatio: 0.7,
   },

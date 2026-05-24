@@ -47,7 +47,7 @@ export function getNotRecommended(product: Product): string[] {
 
 export function getRelatedProducts(product: Product, limit = 3): Product[] {
   const sameCategory = products.filter(
-    (p) => p.slug !== product.slug && p.category === product.category
+    (p) => p.slug !== product.slug && p.category === product.category && !p.hidden
   );
   return sortProductsByPriority(sameCategory).slice(0, limit);
 }

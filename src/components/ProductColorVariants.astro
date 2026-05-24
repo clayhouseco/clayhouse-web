@@ -105,6 +105,15 @@ const showSelector = variants.length > 1;
         if (split) setHeroGallery(split);
       });
     });
+
+    // Pre-seleccionar variante si llega por URL: /productos/{slug}?color={id}
+    const urlColor = new URLSearchParams(window.location.search).get("color");
+    if (urlColor) {
+      const target = root.querySelector<HTMLButtonElement>(
+        `.color-variant[data-variant-id="${CSS.escape(urlColor)}"]`
+      );
+      target?.click();
+    }
   }
 
   document.querySelectorAll<HTMLElement>("[data-color-variants]").forEach(initColorVariants);

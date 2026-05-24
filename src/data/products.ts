@@ -29,6 +29,9 @@ export interface Product {
   color: string;
   texture: string;
   featured: boolean;
+  /** Si true, no aparece en listados (catálogo, destacados, relacionados, formulario, proyectos).
+   *  La página /productos/{slug} sigue accesible para no romper enlaces externos. */
+  hidden?: boolean;
   seoTitle: string;
   seoDescription: string;
   image: string;
@@ -59,13 +62,13 @@ export const products: Product[] = [
       "Proyectos minimalistas y contemporáneos",
       "Patios y zonas sociales con diseño atemporal",
     ],
-    color: "Arena, Oscuro",
+    color: "Natural, Matizado claro, Matizado oscuro",
     texture: "Texturizado",
     featured: true,
     seoTitle: "Ladrillo Toscano | Clay House Amagá",
     seoDescription:
       "Ladrillo Toscano para fachada e interiores. Tonos arena y oscuro. Clay House, Amagá.",
-    image: productFolderImage("toscano", "arena/Toscano Arena.png"),
+    image: productFolderImage("toscano", "natural/toscano natural.png"),
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -99,7 +102,8 @@ export const products: Product[] = [
     ],
     color: "Matizado, Natural",
     texture: "Texturizado",
-    featured: true,
+    featured: false,
+    hidden: true,
     seoTitle: "Ladrillo Napolitano | Clay House",
     seoDescription: "Ladrillo Napolitano para fachada. Clay House, Amagá.",
     image: productFolderImage("napolitano", "matizado/Napolitano Oscuro.png"),
@@ -135,7 +139,7 @@ export const products: Product[] = [
       "Cerramientos y muros de acento",
     ],
     color: "Matizado claro, Matizado oscuro, Natural",
-    texture: "Liso y corcho",
+    texture: "Corcho",
     featured: true,
     seoTitle: "Ladrillo Romano | Clay House Amagá",
     seoDescription: "Ladrillo Romano de fachada. Amagá, Colombia.",
@@ -143,8 +147,8 @@ export const products: Product[] = [
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
     dimensions: {
-      largo: "30 cm",
-      ancho: "15 cm",
+      largo: "27,5 cm",
+      ancho: "13,5 cm",
       alto: "6 cm",
       pesoAprox: "2,6 kg",
       rendimiento: "60 und/m²",
@@ -556,7 +560,12 @@ export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
 }
 
+/** Productos visibles en listados (excluye los hidden:true). */
+export function getVisibleProducts(): Product[] {
+  return products.filter((p) => !p.hidden);
+}
+
 export function getFeaturedProducts(): Product[] {
-  return sortProductsByPriority(products.filter((p) => p.featured));
+  return sortProductsByPriority(products.filter((p) => p.featured && !p.hidden));
 }
 

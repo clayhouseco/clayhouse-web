@@ -36,7 +36,7 @@ const defaultMessage = buildDefaultMessage();
 
 const productsByCategory = catalogCategories.map((cat) => ({
   label: cat.label,
-  products: sortProductsByPriority(products.filter((p) => p.category === cat.id)),
+  products: sortProductsByPriority(products.filter((p) => p.category === cat.id && !p.hidden)),
 }));
 
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();

@@ -78,8 +78,19 @@ const romanoInspiration = buildProjectsInspirationGallery(
 );
 
 const toscanoVariants: ProductColorVariant[] = [
-  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
-  { id: "oscuro", label: "Oscuro", colorLabel: "Oscuro", folder: "oscuro" },
+  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
+  {
+    id: "matizado-claro",
+    label: "Matizado claro",
+    colorLabel: "Matizado claro",
+    folder: "matizado claro",
+  },
+  {
+    id: "matizado-oscuro",
+    label: "Matizado oscuro",
+    colorLabel: "Matizado oscuro",
+    folder: "matizado oscuro",
+  },
 ];
 
 const toscanoGalleries = getSplitVariantGalleryMap("toscano", toscanoVariants, "Ladrillo Toscano");
