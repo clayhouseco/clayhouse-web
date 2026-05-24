@@ -401,6 +401,31 @@
   margin: 2.5rem 0;
 }
 
+.blog-prose :global(img) {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem 0;
+  border-radius: var(--radius-md);
+  background: #f2ebe3;
+}
+
+.blog-prose :global(figure) {
+  margin: 2rem 0;
+}
+
+.blog-prose :global(figure img) {
+  margin: 0;
+}
+
+.blog-prose :global(figcaption) {
+  margin-top: 0.65rem;
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
 .blog-media {
   margin: 0 0 2rem;
 }

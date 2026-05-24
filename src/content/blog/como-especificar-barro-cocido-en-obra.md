@@ -13,6 +13,11 @@ Especificar barro cocido bien no es elegir un color en un catálogo. Es decidir 
 
 ## 1. Empezar por el tipo de uso, no por la foto
 
+<figure>
+  <img src="/images/products/romano/proyectos/Plaza de Mercado Envigado Romano/DSCF2762-1.jpg" alt="Plaza de Mercado de Envigado: fachada extensa en Ladrillo Romano matizado" loading="lazy" />
+  <figcaption>Plaza de Mercado de Envigado — Ladrillo Romano en fachada de gran formato.</figcaption>
+</figure>
+
 Lo primero es definir si el barro va en **fachada a la vista**, **muro divisorio**, **piso**, **enchape** o **cubierta**. Cada uso pide pieza distinta:
 
 - **Fachada**: ladrillo macizo o perforado con cara vista (Romano, Toscano, Napolitano, Cartagena, Macizo Campesino).
@@ -29,6 +34,11 @@ Para fachadas y muros estructurales el ladrillo debe cumplir **NTC 4205-2 (perfo
 
 ## 3. Dimensiones, rendimiento y peso
 
+<figure>
+  <img src="/images/products/romano/romano dimensiones.png" alt="Diagrama de dimensiones del Ladrillo Romano: alto, ancho, largo y peso." loading="lazy" />
+  <figcaption>Ficha de dimensiones del Ladrillo Romano. Cada referencia trae su diagrama equivalente.</figcaption>
+</figure>
+
 Tres cifras que el calculista necesita ver desde el primer cruce:
 
 - **Alto × ancho × largo** en centímetros.
@@ -44,6 +54,11 @@ El aparejo (soga, tizón, sogas alternas) define ritmo y costo. Para Romano y Na
 Recomendamos **modular los huecos** en múltiplos de la pieza desde planos: evita corte excesivo y conserva la lectura del aparejo. Si el proyecto se modula sobre Romano (29 cm de largo + 1 cm de junta = módulo 30 cm), las ventanas y puertas deberían cuadrarse a esa malla.
 
 ## 5. Color y matizado: gestionar la expectativa
+
+<figure>
+  <img src="/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (22).jpg" alt="Casa en Retiro: fachada en Ladrillo Romano matizado mostrando variación natural de tono entre piezas." loading="lazy" />
+  <figcaption>Casa Retiro — el matizado natural del Romano se lee como una sola superficie pese a las variaciones entre piezas.</figcaption>
+</figure>
 
 El barro cocido **no es uniforme**. Cada lote tiene leves variaciones por la posición de la pieza dentro del horno. En Clay House conservamos esas variaciones porque son parte de la materialidad del barro local. La especificación debería:
 

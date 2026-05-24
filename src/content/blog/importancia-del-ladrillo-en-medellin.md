@@ -12,11 +12,21 @@ relatedProducts: ["romano", "macizo-campesino"]
 
 Medellín tiene un acento construido. Las laderas del Valle de Aburrá se leen en barro cocido: fachadas a la vista, frontones, escaleras y cornisas que llevan ese tono rojizo-matizado que solo da el horno. No es un detalle decorativo; es la materialidad que organiza el paisaje urbano paisa desde mediados del siglo XX.
 
+<figure>
+  <img src="/images/products/romano/proyectos/Edificio El Solar/CH-24.jpg" alt="Edificio El Solar en Medellín con fachada en Ladrillo Romano." loading="lazy" />
+  <figcaption>Edificio El Solar — fachada contemporánea en Medellín con Ladrillo Romano.</figcaption>
+</figure>
+
 ## Por qué el ladrillo sigue siendo paisa
 
 Antioquia tiene arcillas de la cuenca del Sinifaná con propiedades muy específicas: alta plasticidad, contenido mineral estable y un color que vira hacia el rojizo cálido al cocer. Esa materia prima local fue lo que permitió que la tradición ladrillera echara raíces en el suroeste antioqueño y desde ahí se distribuyera al resto del departamento.
 
 Cuando un arquitecto en Envigado, Sabaneta o El Poblado especifica fachada en ladrillo, está hablando con un material que tiene **cantera local, fabricación cercana y memoria visual reconocible** por el cliente. Esa es una ventaja que difícilmente se replica con materiales importados o sintéticos.
+
+<figure>
+  <img src="/images/products/romano/proyectos/Edificio Aurora Romano Corcho/Copia de CH-16.jpg" alt="Edificio Aurora con fachada en Ladrillo Romano Corcho en Medellín." loading="lazy" />
+  <figcaption>Edificio Aurora — Romano Corcho aplicado en vivienda multifamiliar.</figcaption>
+</figure>
 
 ## Tradición que no es nostalgia
 

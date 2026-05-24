@@ -11,6 +11,11 @@ tags: ["proceso", "Amagá", "barro cocido"]
 
 Cada pieza de Clay House nace de la arcilla de la cuenca del Sinifaná. Este recorrido corto muestra los cuatro momentos del proceso neoartesanal y por qué cada lote conserva el carácter del barro local.
 
+<figure>
+  <img src="/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (1).jpg" alt="Detalle de fachada en Ladrillo Romano matizado mostrando la textura natural del barro cocido." loading="lazy" />
+  <figcaption>Detalle de aparejo en Romano matizado — el resultado del proceso, en obra.</figcaption>
+</figure>
+
 ## Extracción
 
 La arcilla viene de canteras cercanas al taller en Amagá. La seleccionamos por color, plasticidad y contenido mineral antes de llevarla a planta. Sin buena materia prima no hay buena pieza, y la cercanía de la cantera nos permite trabajar el barro fresco.
@@ -26,6 +31,11 @@ Antes del horno, las piezas reposan bajo techo entre 7 y 14 días según referen
 ## Cocción
 
 Horno a alta temperatura con control por lote. El tono final depende de la posición de la pieza dentro del horno, por eso conservamos las leves variaciones de matizado: cada pared cuenta su propio recorrido por el fuego.
+
+<figure>
+  <img src="/images/products/romano/proyectos/Plaza de Mercado Envigado Romano/DSCF2831.jpg" alt="Plaza de Mercado de Envigado terminada con fachada extensa en Ladrillo Romano." loading="lazy" />
+  <figcaption>Plaza de Mercado de Envigado — miles de piezas Romano cocidas y aparejadas en obra pública.</figcaption>
+</figure>
 
 ---
 
