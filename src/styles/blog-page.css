@@ -349,45 +349,45 @@
   font-size: 1.0625rem;
 }
 
-.blog-prose :global(h2) {
+.blog-prose h2 {
   margin-top: 2.5rem;
   font-size: 1.5rem;
   color: var(--color-chocolate);
 }
 
-.blog-prose :global(h3) {
+.blog-prose h3 {
   margin-top: 1.75rem;
   font-size: 1.2rem;
   color: var(--color-chocolate);
 }
 
-.blog-prose :global(p),
-.blog-prose :global(li) {
+.blog-prose p,
+.blog-prose li {
   color: var(--color-text-muted);
   line-height: 1.75;
 }
 
-.blog-prose :global(strong) {
+.blog-prose strong {
   color: var(--color-chocolate);
 }
 
-.blog-prose :global(a) {
+.blog-prose a {
   color: var(--color-terracota);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.blog-prose :global(a):hover {
+.blog-prose a:hover {
   color: var(--color-coral);
 }
 
-.blog-prose :global(ul),
-.blog-prose :global(ol) {
+.blog-prose ul,
+.blog-prose ol {
   padding-left: 1.25rem;
   margin-bottom: 1rem;
 }
 
-.blog-prose :global(blockquote) {
+.blog-prose blockquote {
   border-left: 3px solid var(--color-terracota);
   margin: 1.5rem 0;
   padding: 0.25rem 1.25rem;
@@ -395,13 +395,13 @@
   color: var(--color-chocolate);
 }
 
-.blog-prose :global(hr) {
+.blog-prose hr {
   border: none;
   border-top: 1px solid rgba(71, 36, 16, 0.12);
   margin: 2.5rem 0;
 }
 
-.blog-prose :global(img) {
+.blog-prose img {
   width: 100%;
   height: auto;
   display: block;
@@ -410,15 +410,15 @@
   background: #f2ebe3;
 }
 
-.blog-prose :global(figure) {
+.blog-prose figure {
   margin: 2rem 0;
 }
 
-.blog-prose :global(figure img) {
+.blog-prose figure img {
   margin: 0;
 }
 
-.blog-prose :global(figcaption) {
+.blog-prose figcaption {
   margin-top: 0.65rem;
   font-size: 0.8125rem;
   font-style: italic;

@@ -1,9 +1,9 @@
 ---
-title: "Cómo especificar barro cocido en un proyecto de obra"
-description: "Guía práctica para arquitectos y constructores: tipo de pieza, norma NTC 4205, dimensiones, juntas y mantenimiento del barro cocido en fachada e interiores."
+title: "Especificación de barro cocido en obra: guía para arquitectos y constructores"
+description: "Los seis frentes que toda especificación debe cubrir: tipo de pieza, norma NTC 4205, dimensiones, aparejo, color y mantenimiento."
 pubDate: 2026-05-24
 type: articulo
-coverImage: "/images/products/romano/proyectos/Plaza de Mercado Envigado Romano/DSCF2720.jpg"
+coverImage: "/images/products/romano/proyectos/casa-retiro-matizado/Casa Retiro matizado_2.jpg"
 featured: true
 tags: ["especificación", "NTC 4205", "fachadas"]
 relatedProducts: ["romano", "toscano", "cartagena"]
