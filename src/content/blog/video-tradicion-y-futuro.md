@@ -4,7 +4,7 @@ description: "Videoblog sobre el oficio alfarero en Amagá: del barro local a pi
 pubDate: 2025-03-01
 type: video
 coverImage: "/images/nosotros/hero-ladrillo.png"
-videoUrl: "/images/Videos/La tradición que construye el futuro.mp4"
+videoUrl: "https://www.youtube.com/shorts/vO0brjwa7So"
 duration: "3 min"
 tags: ["proceso", "Amagá", "videoblog"]
 ---
