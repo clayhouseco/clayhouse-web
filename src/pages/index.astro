@@ -56,23 +56,19 @@ const processVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${processVi
 const processLogo = logos.header;
 const featuredProjects = [
   {
+    src: assetUrl("/images/home/redescubre/Pergamino.jpg"),
+    alt: "Pergamino Café con ladrillo Clay House",
+    label: "Pergamino",
+  },
+  {
+    src: assetUrl("/images/home/redescubre/Mundo Verde.jpg"),
+    alt: "Mundo Verde con ladrillo Clay House",
+    label: "Mundo Verde",
+  },
+  {
     src: assetUrl("/images/home/starbucks-fachada.png"),
     alt: "Fachada Starbucks con enchape Romano Clay House",
     label: "Starbucks",
-  },
-  {
-    src: assetUrl(
-      "/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (22).jpg"
-    ),
-    alt: "Vivienda con fachada en Ladrillo Romano matizado",
-    label: "Casa Retiro",
-  },
-  {
-    src: assetUrl(
-      "/images/products/romano/proyectos/Plaza de Mercado Envigado Romano/DSCF2720.jpg"
-    ),
-    alt: "Plaza de Mercado Envigado con Ladrillo Romano",
-    label: "Plaza Envigado",
   },
   {
     src: assetUrl(
@@ -129,9 +125,11 @@ const reviewsAverage = getAverageRating();
       <div class="hero__overlay"></div>
     </div>
     <div class="hero__content container">
+      <p class="hero__eyebrow">Desde 1965 · Amagá, Antioquia · NTC 4205</p>
       <h1 class="hero__title">
         Convirtiendo piezas<br />en sueños
       </h1>
+      <p class="hero__sub">Ladrillo neoartesanal para arquitectos y constructores.</p>
       <p class="hero__lead">
         Ladrillos, pisos, tejas y enchapes hechos a mano en Amagá. Materiales atemporales,
         finos y duraderos para arquitectos y constructores.
@@ -499,6 +497,18 @@ const reviewsAverage = getAverageRating();
     letter-spacing: -0.025em;
     color: var(--color-bg);
     font-weight: 500;
+  }
+
+  .hero__sub {
+    margin: 0 0 1.5rem;
+    max-width: 32rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.125rem, 1.6vw, 1.4rem);
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--color-bg);
+    opacity: 0.95;
   }
 
   .hero__lead {
