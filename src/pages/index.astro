@@ -145,6 +145,19 @@ const reviewsAverage = getAverageRating();
     </div>
   </section>
 
+  <section class="section section--alt">
+    <div class="container">
+      <p class="eyebrow text-center">Inspiración</p>
+      <h2 class="text-center">Productos destacados</h2>
+      <div class="product-grid product-grid--featured">
+        {featured.map((p) => <CatalogProductCard product={p} />)}
+      </div>
+      <p class="text-center" style="margin-top: 2.5rem">
+        <a href="/productos" class="btn btn--primary">Ver todos los productos</a>
+      </p>
+    </div>
+  </section>
+
   <ClientLogoBand />
 
   <section class="section section--alt">
@@ -170,19 +183,6 @@ const reviewsAverage = getAverageRating();
           ))
         }
       </div>
-    </div>
-  </section>
-
-  <section class="section section--alt">
-    <div class="container">
-      <p class="eyebrow text-center">Inspiración</p>
-      <h2 class="text-center">Productos destacados</h2>
-      <div class="product-grid product-grid--featured">
-        {featured.map((p) => <CatalogProductCard product={p} />)}
-      </div>
-      <p class="text-center" style="margin-top: 2.5rem">
-        <a href="/productos" class="btn btn--primary">Ver todos los productos</a>
-      </p>
     </div>
   </section>
 
