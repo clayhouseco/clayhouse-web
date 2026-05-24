@@ -208,15 +208,17 @@ const reviewsAverage = getAverageRating();
   <section class="section section--alt">
     <div class="container split-feature split-feature--floating split-feature--reverse">
       <article class="split-feature__panel split-feature__panel--media split-feature__media--video" data-video-wrap>
-        <div class="video-poster" data-video-poster>
-          <img src={processLogo} alt="Clay House" class="video-poster__logo" width="280" height="61" />
-          <button type="button" class="video-poster__play" aria-label="Reproducir video del proceso" data-video-play>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M8 5v14l11-7L8 5z"></path>
-            </svg>
-          </button>
+        <div class="video-shell">
+          <div class="video-poster" data-video-poster>
+            <img src={processLogo} alt="Clay House" class="video-poster__logo" width="280" height="61" />
+            <button type="button" class="video-poster__play" aria-label="Reproducir video del proceso" data-video-play>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7L8 5z"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="video-frame" data-video-frame data-embed-url={processVideoEmbedUrl} aria-live="polite"></div>
         </div>
-        <div class="video-frame" data-video-frame data-embed-url={processVideoEmbedUrl} aria-live="polite"></div>
       </article>
 
       <article class="split-feature__panel split-feature__panel--copy">
@@ -614,7 +616,12 @@ const reviewsAverage = getAverageRating();
   }
 
   .split-feature__panel--media.split-feature__media--video {
-    background: var(--color-white);
+    background: var(--color-chocolate);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    min-height: 32rem;
   }
 
   .split-feature__card {
@@ -735,18 +742,15 @@ const reviewsAverage = getAverageRating();
     display: block;
   }
 
-  .split-feature__media--video {
-    background: var(--color-bg);
+  .video-shell {
     position: relative;
-  }
-
-  .split-feature__media--video video {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 18rem;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius-md);
+    overflow: hidden;
     background: #1a120c;
-    position: relative;
-    z-index: 0;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
   }
 
   .video-frame {

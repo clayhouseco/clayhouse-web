@@ -1,16 +1,32 @@
 ---
-title: "La tradición que construye el futuro"
-description: "Videoblog sobre el oficio alfarero en Amagá: del barro local a piezas listas para especificar."
-pubDate: 2025-03-01
+title: "Nuestro proceso: del barro de Amagá a la pieza terminada"
+description: "Cómo trabajamos el barro local en Amagá: extracción, formado, secado y cocción artesanal con control de lote."
+pubDate: 2026-05-23
 type: video
 coverImage: "/images/nosotros/hero-ladrillo.png"
-videoUrl: "https://www.youtube.com/shorts/vO0brjwa7So"
-duration: "3 min"
-tags: ["proceso", "Amagá", "videoblog"]
+videoUrl: "https://www.youtube.com/shorts/JO_wpXbQ9x0"
+duration: "1 min"
+tags: ["proceso", "Amagá", "barro cocido"]
 ---
 
-En este video recorremos el taller y la lógica de producción neoartesanal: extracción de arcilla en la cuenca del Sinifaná, preparación, moldeado y cocción con control de lote.
+Cada pieza de Clay House nace de la arcilla de la cuenca del Sinifaná. Este recorrido corto muestra los cuatro momentos del proceso neoartesanal y por qué cada lote conserva el carácter del barro local.
 
-Puede usar el reproductor superior o ver el mismo contenido en la [página de inicio](/).
+## Extracción
 
-Para integrar un video de YouTube o Vimeo en una entrada nueva, basta con pegar el enlace en el campo `videoUrl` del archivo de la publicación.
+La arcilla viene de canteras cercanas al taller en Amagá. La seleccionamos por color, plasticidad y contenido mineral antes de llevarla a planta. Sin buena materia prima no hay buena pieza, y la cercanía de la cantera nos permite trabajar el barro fresco.
+
+## Formado
+
+Mezcla y prensado a presión controlada para asegurar dimensiones uniformes sin perder la textura natural del barro. Es donde definimos formato, perfil y la cara vista de cada referencia: Romano, Toscano, Cartagena, Bocadillo, Milano y los demás.
+
+## Secado
+
+Antes del horno, las piezas reposan bajo techo entre 7 y 14 días según referencia. Es la parte que más paciencia exige: si no se respeta, el barro se cuartea en cocción y el lote se pierde.
+
+## Cocción
+
+Horno a alta temperatura con control por lote. El tono final depende de la posición de la pieza dentro del horno, por eso conservamos las leves variaciones de matizado: cada pared cuenta su propio recorrido por el fuego.
+
+---
+
+Si está especificando barro cocido en obra, [solicite una cotización](/contacto) o [revise el catálogo completo](/productos). Si quiere ver el material en proyectos reales, en [/proyectos](/proyectos) puede filtrar por categoría o por referencia.
