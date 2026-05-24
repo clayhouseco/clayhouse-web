@@ -4,6 +4,7 @@ import ProductGallery, { type GalleryImage } from "@/components/ProductGallery.a
 import ProductInspiration from "@/components/ProductInspiration.astro";
 import ProductColorVariants from "@/components/ProductColorVariants.astro";
 import ProductUseIcon from "@/components/ProductUseIcon.astro";
+import ProductInlineCalc from "@/components/catalog/ProductInlineCalc.astro";
 import { products, getProduct } from "@/data/products";
 import {
   getRecommendedUses,
@@ -172,6 +173,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
                 </p>
               )
             }
+            <ProductInlineCalc product={product} />
             <label class="product-page__qty">
               <span>Cantidad</span>
               <input

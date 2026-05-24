@@ -1,0 +1,250 @@
+---
+import type { Product } from "@/data/products";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+
+function parseRendimiento(value?: string): number | null {
+  if (!value) return null;
+  const m = value.match(/(\d+)\s*und/i);
+  return m ? parseInt(m[1], 10) : null;
+}
+
+const unitsPerSqm = parseRendimiento(product.dimensions?.rendimiento);
+const isPerSqm = (product.priceUnitLabel ?? "").toLowerCase().includes("m²");
+
+/** Calculadora solo aplica si:
+ *   - El producto se vende por unidad Y tiene rendimiento numérico (Romano, Toscano, etc.)
+ *   El caso de "vendido por m²" no requiere calculadora: el usuario pone m² directo en Cantidad.
+ */
+const showCalc = !isPerSqm && unitsPerSqm !== null;
+---
+
+{
+  showCalc && (
+    <details class="product-calc" data-product-calc>
+      <summary class="product-calc__summary">
+        <span class="product-calc__summary-icon" aria-hidden="true">📐</span>
+        <span>¿No sabe cuántas piezas? Calcular por m²</span>
+        <svg class="product-calc__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </summary>
+      <div class="product-calc__body">
+        <p class="product-calc__hint">
+          Rendimiento de referencia:{" "}
+          <strong>{unitsPerSqm} und/m²</strong>. Aplicamos 5% de desperdicio recomendado.
+        </p>
+        <div class="product-calc__row">
+          <label class="product-calc__field">
+            <span class="product-calc__label">Área a cubrir (m²)</span>
+            <input
+              type="number"
+              min="1"
+              step="1"
+              inputmode="numeric"
+              placeholder="Ej. 120"
+              data-calc-area
+              data-units-per-sqm={unitsPerSqm}
+            />
+          </label>
+          <button type="button" class="btn btn--outline product-calc__apply" data-calc-apply>
+            Calcular y aplicar →
+          </button>
+        </div>
+        <p class="product-calc__result" data-calc-result aria-live="polite"></p>
+      </div>
+    </details>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>("[data-product-calc]").forEach((root) => {
+    const areaInput = root.querySelector<HTMLInputElement>("[data-calc-area]");
+    const applyBtn = root.querySelector<HTMLButtonElement>("[data-calc-apply]");
+    const result = root.querySelector<HTMLElement>("[data-calc-result]");
+    const qtyInput = document.querySelector<HTMLInputElement>("[data-qty-input]");
+    if (!areaInput || !applyBtn || !result || !qtyInput) return;
+
+    const unitsPerSqm = parseFloat(areaInput.dataset.unitsPerSqm ?? "0");
+    if (!unitsPerSqm) return;
+
+    function apply() {
+      const area = parseFloat(areaInput!.value);
+      if (!area || area <= 0) {
+        result!.textContent = "Ingrese un área válida en m².";
+        result!.dataset.state = "error";
+        return;
+      }
+      const units = Math.ceil(area * unitsPerSqm * 1.05);
+      qtyInput!.value = String(units);
+      qtyInput!.dispatchEvent(new Event("input", { bubbles: true }));
+      qtyInput!.dispatchEvent(new Event("change", { bubbles: true }));
+      result!.innerHTML = `<strong>${units.toLocaleString("es-CO")} piezas</strong> aplicadas al campo Cantidad. Incluye 5% de desperdicio.`;
+      result!.dataset.state = "ok";
+
+      // Resalta brevemente el campo Cantidad para que se note el cambio
+      qtyInput!.classList.add("product-page__qty-input--flash");
+      setTimeout(() => qtyInput!.classList.remove("product-page__qty-input--flash"), 1400);
+    }
+
+    applyBtn.addEventListener("click", apply);
+    areaInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        apply();
+      }
+    });
+  });
+</script>
+
+<style>
+  .product-calc {
+    margin: 0 0 1rem;
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    overflow: hidden;
+    transition: border-color 0.2s var(--ease);
+  }
+
+  .product-calc[open] {
+    border-color: rgba(124, 72, 44, 0.3);
+  }
+
+  .product-calc__summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .product-calc__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .product-calc__summary-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .product-calc__chevron {
+    margin-left: auto;
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-terracota);
+    transition: transform 0.25s var(--ease);
+    flex-shrink: 0;
+  }
+
+  .product-calc[open] .product-calc__chevron {
+    transform: rotate(180deg);
+  }
+
+  .product-calc__body {
+    padding: 0.25rem 1rem 1rem;
+  }
+
+  .product-calc__hint {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .product-calc__hint strong {
+    color: var(--color-chocolate);
+  }
+
+  .product-calc__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    align-items: end;
+  }
+
+  .product-calc__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .product-calc__label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .product-calc__field input {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid rgba(71, 36, 16, 0.18);
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .product-calc__field input:focus {
+    outline: none;
+    border-color: var(--color-terracota);
+    box-shadow: 0 0 0 3px rgba(124, 72, 44, 0.12);
+  }
+
+  .product-calc__apply {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .product-calc__result {
+    margin: 0.85rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+  }
+
+  .product-calc__result[data-state="ok"] {
+    color: var(--color-chocolate);
+  }
+
+  .product-calc__result[data-state="ok"] strong {
+    color: var(--color-terracota);
+  }
+
+  .product-calc__result[data-state="error"] {
+    color: var(--color-coral);
+  }
+
+  /* Animación del input cantidad cuando se llena desde la calculadora */
+  :global(.product-page__qty-input--flash) {
+    animation: qty-flash 1.4s var(--ease);
+  }
+
+  @keyframes qty-flash {
+    0% {
+      background: rgba(242, 161, 65, 0.45);
+      box-shadow: 0 0 0 3px rgba(242, 161, 65, 0.35);
+    }
+    100% {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .product-calc__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
