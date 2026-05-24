@@ -8,6 +8,8 @@ import { catalogCategories, parseCategoryParam } from "@/data/catalogCategories"
 const referencia = Astro.url.searchParams.get("referencia");
 const productoQuery = Astro.url.searchParams.get("producto");
 const categoriaQuery = Astro.url.searchParams.get("categoria");
+const areaQuery = Astro.url.searchParams.get("area");
+const unidadesQuery = Astro.url.searchParams.get("unidades");
 
 const fromProduct = referencia
   ? products.find((p) => p.slug === referencia)
@@ -17,7 +19,17 @@ const fromProduct = referencia
 
 const preselectedCategory = parseCategoryParam(categoriaQuery);
 
-const defaultMessage = fromProduct ? `Me interesa cotizar ${fromProduct.name}.` : "";
+function buildDefaultMessage() {
+  if (!fromProduct) return "";
+  const area = areaQuery ? parseFloat(areaQuery) : null;
+  const unidades = unidadesQuery ? parseInt(unidadesQuery, 10) : null;
+  if (area && unidades && area > 0 && unidades > 0) {
+    return `Me interesa cotizar ${fromProduct.name}. Estimación de la calculadora: ${area} m² (~${unidades.toLocaleString("es-CO")} unidades, incluye 5% de desperdicio). Confírmenme disponibilidad y precio por volumen.`;
+  }
+  return `Me interesa cotizar ${fromProduct.name}.`;
+}
+
+const defaultMessage = buildDefaultMessage();
 
 const productsByCategory = catalogCategories.map((cat) => ({
   label: cat.label,
