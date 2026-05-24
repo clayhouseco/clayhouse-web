@@ -383,7 +383,7 @@ const reviewsAverage = getAverageRating();
       if (frame.querySelector("iframe")) return;
       const iframe = document.createElement("iframe");
       const separator = embedBase.includes("?") ? "&" : "?";
-      iframe.src = `${embedBase}${separator}autoplay=1&rel=0&modestbranding=1`;
+      iframe.src = `${embedBase}${separator}autoplay=1&rel=0&modestbranding=1&controls=1&playsinline=1`;
       iframe.title = "Video del proceso Clay House";
       iframe.setAttribute(
         "allow",
@@ -825,16 +825,24 @@ const reviewsAverage = getAverageRating();
   }
 
   .video-frame {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: 0;
     background: #1a120c;
-    position: relative;
+    overflow: hidden;
     z-index: 0;
   }
 
-  .video-frame iframe {
-    width: 100%;
+  /* Scale-and-clip: YouTube renderiza un player 16:9 incluso para Shorts.
+   * Hacemos el iframe ~316% más ancho que el contenedor (= (16/9)^2) y centrado,
+   * para que la franja 9:16 del centro (el Short) llene exactamente el marco.
+   * :global() porque el iframe lo inyecta JS y no recibe el data-astro-cid. */
+  .video-frame :global(iframe) {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 316.05%;
     height: 100%;
+    transform: translateX(-50%);
     border: 0;
     display: block;
   }
