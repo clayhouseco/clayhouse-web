@@ -82,23 +82,49 @@ const rows: RowConfig[] = [
 
           <div class="client-band__viewport" data-client-viewport>
             <div class="client-band__track" data-client-track>
-              {row.items.map((entry, index) => (
-                <div class="client-band__item">
-                  {entry.logo ? (
-                    <img
-                      src={entry.logo}
-                      alt={entry.name}
-                      class="client-band__img"
-                      width="200"
-                      height="80"
-                      loading={index < 3 ? "eager" : "lazy"}
-                      decoding="async"
-                    />
-                  ) : (
-                    <span class="client-band__wordmark">{entry.name}</span>
-                  )}
-                </div>
-              ))}
+              {row.items.map((entry, index) => {
+                const eager = index < 3;
+                /* Si trae image (proyectos), renderizamos thumbnail con caption */
+                if (entry.image) {
+                  return (
+                    <a
+                      class="client-band__item client-band__item--project"
+                      href={entry.href ?? "/proyectos"}
+                      aria-label={entry.name}
+                    >
+                      <span class="client-band__thumb">
+                        <img
+                          src={entry.image}
+                          alt={entry.name}
+                          width="320"
+                          height="240"
+                          loading={eager ? "eager" : "lazy"}
+                          decoding="async"
+                        />
+                      </span>
+                      <span class="client-band__thumb-label">{entry.name}</span>
+                    </a>
+                  );
+                }
+                /* Logo de cliente o wordmark */
+                return (
+                  <div class="client-band__item">
+                    {entry.logo ? (
+                      <img
+                        src={entry.logo}
+                        alt={entry.name}
+                        class="client-band__img"
+                        width="200"
+                        height="80"
+                        loading={eager ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                    ) : (
+                      <span class="client-band__wordmark">{entry.name}</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -304,6 +330,50 @@ const rows: RowConfig[] = [
     height: auto;
     object-fit: contain;
     filter: grayscale(0.15) contrast(1.05);
+  }
+
+  /* Variant: proyecto (thumbnail con foto y caption) */
+  .client-band__item--project {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: clamp(11rem, 16vw, 13rem);
+    min-width: clamp(11rem, 16vw, 13rem);
+    max-width: clamp(11rem, 16vw, 13rem);
+    height: auto;
+    padding: 0.5rem 0.5rem 0.85rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .client-band__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: calc(var(--radius-md) - 0.25rem);
+    background: #f2ebe3;
+  }
+
+  .client-band__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .client-band__item--project:hover .client-band__thumb img {
+    transform: scale(1.04);
+  }
+
+  .client-band__thumb-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-align: center;
+    color: var(--color-chocolate);
+    line-height: 1.2;
   }
 
   .client-band__wordmark {

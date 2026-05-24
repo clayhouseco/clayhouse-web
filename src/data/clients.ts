@@ -3,6 +3,10 @@ export interface BrandEntry {
   name: string;
   /** Ruta en /public (ej. /images/clientes/starbucks.svg); sin logo → wordmark */
   logo?: string;
+  /** Para proyectos: foto representativa de la obra (sobreescribe logo si está) */
+  image?: string;
+  /** Link opcional al producto/categoría asociado (para proyectos) */
+  href?: string;
 }
 
 /** Marcas y clientes comerciales.
@@ -21,14 +25,51 @@ export const brandClients: BrandEntry[] = [
   { id: "lenos-y-carbon", name: "Leños y Carbón" },
   { id: "starbucks", name: "Starbucks" },
   { id: "dos-santos", name: "Dos Santos" },
+  { id: "area", name: "Ar_ea" },
+  { id: "base-taller", name: "Base Taller" },
+  { id: "conexo", name: "Conexo" },
+  { id: "inge-sas", name: "Inge SAS" },
 ];
 
-/** Proyectos de obra y arquitectura */
+/** Proyectos de obra y arquitectura — usan foto en lugar de logo */
 export const projectPartners: BrandEntry[] = [
-  { id: "casa-retiro", name: "Casa Retiro" },
-  { id: "plaza-envigado", name: "Plaza de Mercado Envigado" },
-  { id: "bar-provenza", name: "Bar Provenza" },
-  { id: "boschetto", name: "Boschetto" },
-  { id: "casa-senderos", name: "Casa Senderos" },
-  { id: "edificio-solar", name: "Edificio El Solar" },
+  {
+    id: "casa-retiro",
+    name: "Casa Retiro",
+    image: "/images/products/romano/proyectos/casa-retiro-matizado/Casa Retiro matizado_2.jpg",
+    href: "/productos/romano",
+  },
+  {
+    id: "plaza-envigado",
+    name: "Plaza de Mercado Envigado",
+    image: "/images/products/romano/proyectos/Plaza de Mercado Envigado Romano/DSCF2720.jpg",
+    href: "/productos/romano",
+  },
+  {
+    id: "bar-provenza",
+    name: "Bar Provenza",
+    image:
+      "/images/products/enchape-romano/proyectos/Bar Provenza Enchape Romano/1A872775-D341-430A-9047-790315D81686 2.JPG",
+    href: "/productos/enchape-romano",
+  },
+  {
+    id: "boschetto",
+    name: "Boschetto",
+    image:
+      "/images/products/macizo-brix/proyectos/Boschetto Macizo/DJI_20250512120419_0043_D.JPG",
+    href: "/productos/macizo-brix",
+  },
+  {
+    id: "casa-senderos",
+    name: "Casa Senderos",
+    image:
+      "/images/products/romano/proyectos/casa-senderos-romano-oscuro/Casa Senderos romano oscuro_2.jpg",
+    href: "/productos/romano",
+  },
+  {
+    id: "edificio-solar",
+    name: "Edificio El Solar",
+    image: "/images/products/romano/proyectos/Edificio El Solar/CH-01.jpg",
+    href: "/productos/romano",
+  },
 ];
