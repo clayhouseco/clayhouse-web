@@ -1,6 +1,6 @@
 ---
 title: "La importancia del ladrillo en la arquitectura de Medellín"
-description: "Por qué el barro cocido es parte del lenguaje arquitectónico paisa, y cómo se mantiene vigente en la obra contemporánea del Valle de Aburrá."
+description: "Por qué el ladrillo es parte del lenguaje arquitectónico paisa, y cómo se mantiene vigente en la obra contemporánea del Valle de Aburrá."
 pubDate: 2025-10-25
 type: video
 coverImage: "/images/products/romano/proyectos/Edificio El Solar/CH-01.jpg"
@@ -10,7 +10,7 @@ tags: ["Medellín", "arquitectura", "patrimonio"]
 relatedProducts: ["romano", "macizo-campesino"]
 ---
 
-Medellín tiene un acento construido. Las laderas del Valle de Aburrá se leen en barro cocido: fachadas a la vista, frontones, escaleras y cornisas que llevan ese tono rojizo-matizado que solo da el horno. No es un detalle decorativo; es la materialidad que organiza el paisaje urbano paisa desde mediados del siglo XX.
+Medellín tiene un acento construido. Las laderas del Valle de Aburrá se leen en ladrillo: fachadas a la vista, frontones, escaleras y cornisas que llevan ese tono rojizo-matizado que solo da el horno. No es un detalle decorativo; es la materialidad que organiza el paisaje urbano paisa desde mediados del siglo XX.
 
 <figure>
   <img src="/images/products/romano/proyectos/Edificio El Solar/CH-24.jpg" alt="Edificio El Solar en Medellín con fachada en Ladrillo Romano." loading="lazy" />
@@ -30,7 +30,7 @@ Cuando un arquitecto en Envigado, Sabaneta o El Poblado especifica fachada en la
 
 ## Tradición que no es nostalgia
 
-El barro cocido no se quedó en los años setenta. Lo vemos hoy en obra de autor contemporánea: edificios multifamiliares con fachadas ventiladas en Cartagena matizado, viviendas en El Retiro con Romano oscuro, espacios comerciales que usan enchape para citar al ladrillo sin la carga estructural.
+El ladrillo no se quedó en los años setenta. Lo vemos hoy en obra de autor contemporánea: edificios multifamiliares con fachadas ventiladas en Cartagena matizado, viviendas en El Retiro con Romano oscuro, espacios comerciales que usan enchape para citar al ladrillo sin la carga estructural.
 
 La pieza misma evolucionó: ahora hay formatos prensados, rayados con textura, enchapes delgados para reformas. Pero el **gesto material** es el mismo: una pieza que se enciende con la luz de la tarde y le da carácter al edificio sin necesidad de ornamento.
 
@@ -42,4 +42,4 @@ No reemplazamos al ladrillo industrial. Lo complementamos para los proyectos que
 
 ---
 
-¿Tiene un proyecto en Medellín o el Valle de Aburrá donde el barro cocido pueda aportar? [Conversemos](/contacto). Y si quiere ver obras reales, en [/proyectos](/proyectos) puede filtrar por categoría o producto.
+¿Tiene un proyecto en Medellín o el Valle de Aburrá donde el ladrillo pueda aportar? [Conversemos](/contacto). Y si quiere ver obras reales, en [/proyectos](/proyectos) puede filtrar por categoría o producto.

@@ -28,3 +28,4 @@ _inbox/blog/*
 !_inbox/productos/.gitkeep
 !_inbox/proyectos/.gitkeep
 !_inbox/blog/.gitkeep
+.vscode/

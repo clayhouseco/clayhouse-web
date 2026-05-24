@@ -37,7 +37,7 @@ El equipo en obra recibió **muestras físicas** antes de pedir el lote definiti
 
 <figure>
   <img src="/images/products/romano/proyectos/casa-senderos-romano-oscuro/Casa_Senderosdelretiro_Clayhouse (10).jpg" alt="Casa Senderos del Retiro: vista del proyecto terminado." loading="lazy" />
-  <figcaption>El barro cocido reacciona a la luz cálida y queda integrado al paisaje del Retiro.</figcaption>
+  <figcaption>El ladrillo reacciona a la luz cálida y queda integrado al paisaje del Retiro.</figcaption>
 </figure>
 
 Este tipo de entrada **no reemplaza** la galería del producto en el catálogo: aquí contamos la historia de la obra. Si su proyecto tiene requisitos similares, podemos acompañar la especificación desde la muestra — [escríbanos](/contacto) y le pasamos cotización y muestras físicas.

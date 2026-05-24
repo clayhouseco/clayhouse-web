@@ -6,13 +6,13 @@ type: video
 coverImage: "/images/nosotros/hero-ladrillo.png"
 videoUrl: "https://www.youtube.com/shorts/JO_wpXbQ9x0"
 duration: "1 min"
-tags: ["proceso", "Amagá", "barro cocido"]
+tags: ["proceso", "Amagá", "ladrillo"]
 ---
 
 Cada pieza de Clay House nace de la arcilla de la cuenca del Sinifaná. Este recorrido corto muestra los cuatro momentos del proceso neoartesanal y por qué cada lote conserva el carácter del barro local.
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (1).jpg" alt="Detalle de fachada en Ladrillo Romano matizado mostrando la textura natural del barro cocido." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (1).jpg" alt="Detalle de fachada en Ladrillo Romano matizado mostrando la textura natural del ladrillo." loading="lazy" />
   <figcaption>Detalle de aparejo en Romano matizado — el resultado del proceso, en obra.</figcaption>
 </figure>
 
@@ -39,4 +39,4 @@ Horno a alta temperatura con control por lote. El tono final depende de la posic
 
 ---
 
-Si está especificando barro cocido en obra, [solicite una cotización](/contacto) o [revise el catálogo completo](/productos). Si quiere ver el material en proyectos reales, en [/proyectos](/proyectos) puede filtrar por categoría o por referencia.
+Si está especificando ladrillo en obra, [solicite una cotización](/contacto) o [revise el catálogo completo](/productos). Si quiere ver el material en proyectos reales, en [/proyectos](/proyectos) puede filtrar por categoría o por referencia.

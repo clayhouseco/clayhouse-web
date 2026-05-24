@@ -91,7 +91,7 @@ export const products: Product[] = [
     shortDescription:
       "Proporción alargada y ritmo vertical para fachadas con presencia elegante y acabado artesanal.",
     description:
-      "El Ladrillo Napolitano aporta verticalidad y refinamiento a los cerramientos a la vista. Su formato alargado crea un ritmo ordenado en el aparejo, con tonalidades rojizas y matizadas que enriquecen la fachada sin perder sobriedad.\n\nEs una referencia versátil para vivienda de autor, locales comerciales y proyectos que combinan tradición ladrillera con lenguaje arquitectónico actual. Funciona especialmente bien en muros de gran altura y en composiciones donde la luz resalta la textura del barro cocido.",
+      "El Ladrillo Napolitano aporta verticalidad y refinamiento a los cerramientos a la vista. Su formato alargado crea un ritmo ordenado en el aparejo, con tonalidades rojizas y matizadas que enriquecen la fachada sin perder sobriedad.\n\nEs una referencia versátil para vivienda de autor, locales comerciales y proyectos que combinan tradición ladrillera con lenguaje arquitectónico actual. Funciona especialmente bien en muros de gran altura y en composiciones donde la luz resalta la textura del ladrillo.",
     applications: [
       "Fachadas de vivienda y comercio",
       "Muros perimetrales a la vista",
@@ -357,7 +357,7 @@ export const products: Product[] = [
     slug: "enchape-rustico",
     category: "Enchapes",
     shortDescription:
-      "Revestimiento de barro con acabado rústico para transformar muros interiores y exteriores.",
+      "Revestimiento de ladrillo con acabado rústico para transformar muros interiores y exteriores.",
     description:
       "El Enchape Rústico añade calidez y textura a superficies que necesitan carácter. Su formato delgado permite revestir muros existentes o diseñar planos nuevos con apariencia artesanal y tonos tierra naturales.\n\nMuy usado en salas, restaurantes, hoteles y fachadas de acento. Una solución decorativa versátil para proyectos residenciales y comerciales con atmósfera acogedora.",
     applications: [
@@ -369,7 +369,7 @@ export const products: Product[] = [
     texture: "Rústico",
     featured: false,
     seoTitle: "Enchape Rústico | Clay House",
-    seoDescription: "Enchape rústico de barro cocido.",
+    seoDescription: "Enchape rústico de ladrillo.",
     image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto.jpg"),
     pricePerUnit: "$ 85.000",
     priceUnitLabel: "m²",
@@ -418,7 +418,7 @@ export const products: Product[] = [
     shortDescription:
       "Piso de barro 30×30 cm con acabado artesanal para espacios cálidos y luminosos.",
     description:
-      "El Piso 30×30 de barro cocido aporta calidez y continuidad visual a interiores y exteriores cubiertos. Tono natural con la nobleza del material tierra bajo los pies.\n\nIdeal para salones, comedores, patios cubiertos y hotelería con identidad regional. Consulte asesoría de instalación para zonas húmedas y exteriores según su proyecto.",
+      "El Piso 30×30 de ladrillo aporta calidez y continuidad visual a interiores y exteriores cubiertos. Tono natural con la nobleza del material tierra bajo los pies.\n\nIdeal para salones, comedores, patios cubiertos y hotelería con identidad regional. Consulte asesoría de instalación para zonas húmedas y exteriores según su proyecto.",
     applications: [
       "Salones y comedores",
       "Patios cubiertos y galerías",
@@ -429,7 +429,7 @@ export const products: Product[] = [
     texture: "Rústico",
     featured: false,
     seoTitle: "Piso de barro 30x30 | Clay House",
-    seoDescription: "Piso 30x30 de barro cocido. Amagá.",
+    seoDescription: "Piso 30x30 de ladrillo. Amagá.",
     image: productFolderImage("piso-30x30", "DSC_9524.jpg"),
     pricePerUnit: "$ 88.500",
     priceUnitLabel: "m²",
@@ -452,7 +452,7 @@ export const products: Product[] = [
     shortDescription:
       "Piso de barro en formato alargado 10×30 cm para recorridos lineales y detalle artesanal.",
     description:
-      "El Piso 10×30 de barro cocido aporta ritmo longitudinal a interiores y exteriores cubiertos. Su formato estrecho permite composiciones en espiga, franjas o continuidad visual en pasillos, galerías y zonas sociales.\n\nIdeal para proyectos que buscan calidez material con una lectura distinta al cuadrado 30×30. Consulte asesoría de instalación según pendientes, juntas y zonas húmedas.",
+      "El Piso 10×30 de ladrillo aporta ritmo longitudinal a interiores y exteriores cubiertos. Su formato estrecho permite composiciones en espiga, franjas o continuidad visual en pasillos, galerías y zonas sociales.\n\nIdeal para proyectos que buscan calidez material con una lectura distinta al cuadrado 30×30. Consulte asesoría de instalación según pendientes, juntas y zonas húmedas.",
     applications: [
       "Pasillos, galerías y circulaciones",
       "Patios cubiertos y terrazas",
@@ -462,7 +462,7 @@ export const products: Product[] = [
     texture: "Rústico",
     featured: false,
     seoTitle: "Piso de barro 10x30 | Clay House",
-    seoDescription: "Piso 10x30 de barro cocido. Clay House, Amagá.",
+    seoDescription: "Piso 10x30 de ladrillo. Clay House, Amagá.",
     image: productFolderImage("piso-10x30", "piso 10x30.jpg"),
     pricePerUnit: "$ 80.000",
     priceUnitLabel: "m²",
@@ -495,7 +495,7 @@ export const products: Product[] = [
     texture: "Plana",
     featured: false,
     seoTitle: "Teja Plana | Clay House Amagá",
-    seoDescription: "Teja plana de barro cocido.",
+    seoDescription: "Teja plana de ladrillo.",
     image: productFolderImage("teja-plana", "chocolate/Teja Plana Chocolate Lisa.png"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",
@@ -512,7 +512,7 @@ export const products: Product[] = [
     shortDescription:
       "Teja colonial de barro para cubiertas tradicionales con perfil clásico y presencia.",
     description:
-      "La Teja Colonial define cubiertas con carácter patrimonial y calidez del barro cocido. Su perfil curvo aporta volumen y sombra en vivienda campestre, casas de campo y proyectos que valoran la tradición constructiva antioqueña.\n\nRequiere pendiente y detalle de instalación según el diseño del arquitecto.",
+      "La Teja Colonial define cubiertas con carácter patrimonial y calidez del ladrillo. Su perfil curvo aporta volumen y sombra en vivienda campestre, casas de campo y proyectos que valoran la tradición constructiva antioqueña.\n\nRequiere pendiente y detalle de instalación según el diseño del arquitecto.",
     applications: [
       "Cubiertas visibles en vivienda campestre",
       "Proyectos patrimoniales y turísticos",
@@ -522,7 +522,7 @@ export const products: Product[] = [
     texture: "Colonial",
     featured: false,
     seoTitle: "Teja Colonial | Clay House Amagá",
-    seoDescription: "Teja colonial de barro cocido. Clay House, Amagá.",
+    seoDescription: "Teja colonial de ladrillo. Clay House, Amagá.",
     image: productFolderImage("teja-colonial", "roja/DSC_9435.jpg"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",

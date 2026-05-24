@@ -1,5 +1,5 @@
 ---
-title: "Especificación de barro cocido en obra: guía para arquitectos y constructores"
+title: "Especificación de ladrillo en obra: guía para arquitectos y constructores"
 description: "Los seis frentes que toda especificación debe cubrir: tipo de pieza, norma NTC 4205, dimensiones, aparejo, color y mantenimiento."
 pubDate: 2026-05-24
 type: articulo
@@ -9,7 +9,7 @@ tags: ["especificación", "NTC 4205", "fachadas"]
 relatedProducts: ["romano", "toscano", "cartagena"]
 ---
 
-Especificar barro cocido bien no es elegir un color en un catálogo. Es decidir qué tipo de pieza entra en obra, qué norma cumple, cómo se va a aparejar y qué espera el cliente del material en cinco, diez o cincuenta años. Esta guía resume cómo lo enfocamos con los arquitectos y constructores que trabajan con Clay House.
+Especificar ladrillo bien no es elegir un color en un catálogo. Es decidir qué tipo de pieza entra en obra, qué norma cumple, cómo se va a aparejar y qué espera el cliente del material en cinco, diez o cincuenta años. Esta guía resume cómo lo enfocamos con los arquitectos y constructores que trabajan con Clay House.
 
 ## 1. Empezar por el tipo de uso, no por la foto
 
@@ -18,11 +18,11 @@ Especificar barro cocido bien no es elegir un color en un catálogo. Es decidir 
   <figcaption>Plaza de Mercado de Envigado — Ladrillo Romano en fachada de gran formato.</figcaption>
 </figure>
 
-Lo primero es definir si el barro va en **fachada a la vista**, **muro divisorio**, **piso**, **enchape** o **cubierta**. Cada uso pide pieza distinta:
+Lo primero es definir si el ladrillo va en **fachada a la vista**, **muro divisorio**, **piso**, **enchape** o **cubierta**. Cada uso pide pieza distinta:
 
 - **Fachada**: ladrillo macizo o perforado con cara vista (Romano, Toscano, Napolitano, Cartagena, Macizo Campesino).
 - **Divisorios**: rayados con textura para muros con relieve (Rayado Vertical / Horizontal).
-- **Pisos**: piezas de barro cocido para interior o exterior cubierto (Piso 30×30, Piso 10×30).
+- **Pisos**: piezas de ladrillo para interior o exterior cubierto (Piso 30×30, Piso 10×30).
 - **Enchapes**: revestimientos delgados para muros existentes o detalles (Enchape Romano, Enchape Rústico).
 - **Techos**: tejas para cubiertas visibles (Teja Plana, Teja Colonial, Teja S).
 
@@ -60,7 +60,7 @@ Recomendamos **modular los huecos** en múltiplos de la pieza desde planos: evit
   <figcaption>Casa Retiro — el matizado natural del Romano se lee como una sola superficie pese a las variaciones entre piezas.</figcaption>
 </figure>
 
-El barro cocido **no es uniforme**. Cada lote tiene leves variaciones por la posición de la pieza dentro del horno. En Clay House conservamos esas variaciones porque son parte de la materialidad del barro local. La especificación debería:
+El ladrillo **no es uniforme**. Cada lote tiene leves variaciones por la posición de la pieza dentro del horno. En Clay House conservamos esas variaciones porque son parte de la materialidad del barro local. La especificación debería:
 
 - Indicar **rango de tono aceptable** (matizado claro / matizado oscuro / natural).
 - Pedir **mezcla en obra** de lotes en sitio antes de pegar.
@@ -68,7 +68,7 @@ El barro cocido **no es uniforme**. Cada lote tiene leves variaciones por la pos
 
 ## 6. Mantenimiento esperado
 
-El barro cocido cumple décadas sin tratamiento si se especificó bien. Recomendaciones de mantenimiento que valen la pena dejar en el manual de operación del edificio:
+El ladrillo cumple décadas sin tratamiento si se especificó bien. Recomendaciones de mantenimiento que valen la pena dejar en el manual de operación del edificio:
 
 - Lavado con agua a baja presión cada 2-3 años.
 - Inspección visual de juntas anualmente; reposicionar mortero donde haya retracción.
