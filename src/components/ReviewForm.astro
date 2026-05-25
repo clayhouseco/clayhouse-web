@@ -11,8 +11,8 @@ const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
 const formspreeReady =
   Boolean(formspreeId) && formspreeId !== "your_form_id" && !formspreeId.startsWith("your_");
 const formAction = formspreeReady ? `https://formspree.io/f/${formspreeId}` : undefined;
-const thankYouUrl = new URL("/reseñas/gracias/", site.url).href;
-const thankYouPath = "/reseñas/gracias/";
+const thankYouUrl = new URL("/resenas/gracias/", site.url).href;
+const thankYouPath = "/resenas/gracias/";
 ---
 
 <div class="review-form-wrap">

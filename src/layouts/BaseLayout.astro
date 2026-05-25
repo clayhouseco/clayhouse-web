@@ -17,9 +17,20 @@ interface Props {
   ogImage?: string;
   /** En /contacto no se muestra el panel lateral de cotización (evita duplicar el flujo) */
   hideQuoteCart?: boolean;
+  /** Imagen LCP de la página (se hace preload con fetchpriority=high) */
+  preloadImage?: string;
+  /** Tipo MIME del preload image, p.ej. "image/jpeg" o "image/webp" */
+  preloadImageType?: string;
 }
 
-const { title, description = site.description, ogImage, hideQuoteCart = false } = Astro.props;
+const {
+  title,
+  description = site.description,
+  ogImage,
+  hideQuoteCart = false,
+  preloadImage,
+  preloadImageType,
+} = Astro.props;
 const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
 
 const canonicalPath = Astro.url.pathname.replace(/\/$/, "") || "/";
@@ -44,6 +55,18 @@ const ogImageUrl = ogImagePath.startsWith("http")
     <link rel="icon" href="/icons/favicon-16.png" type="image/png" sizes="16x16" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin />
+    <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
+    <link rel="dns-prefetch" href="https://wa.me" />
+    {preloadImage && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadImage}
+        type={preloadImageType}
+        fetchpriority="high"
+      />
+    )}
     <meta name="theme-color" content="#472410" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />

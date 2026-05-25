@@ -111,7 +111,12 @@ const featuredReviews = getFeaturedReviews(3);
 const reviewsAverage = getAverageRating();
 ---
 
-<BaseLayout title={site.name} description={site.description}>
+<BaseLayout
+  title={site.name}
+  description={site.description}
+  preloadImage={heroImage}
+  preloadImageType="image/jpeg"
+>
   <section class="hero">
     <div class="hero__media">
       <img
@@ -156,6 +161,12 @@ const reviewsAverage = getAverageRating();
             <path d="M5 12l4 4L19 6" />
           </svg>
           Asesoría técnica incluida
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 12l4 4L19 6" />
+          </svg>
+          Producción artesanal · entrega 4–8 semanas
         </li>
       </ul>
     </div>
@@ -306,8 +317,8 @@ const reviewsAverage = getAverageRating();
         )
       }
       <p class="reviews-teaser__cta">
-        <a href="/reseñas/" class="btn btn--primary">Ver todas las reseñas</a>
-        <a href="/reseñas/#dejar-resena" class="btn btn--ghost">Dejar mi reseña</a>
+        <a href="/resenas/" class="btn btn--primary">Ver todas las reseñas</a>
+        <a href="/resenas/#dejar-resena" class="btn btn--ghost">Dejar mi reseña</a>
       </p>
     </div>
   </section>

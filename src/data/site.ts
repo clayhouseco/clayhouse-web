@@ -64,6 +64,6 @@ export const nav = [
   { label: "Nosotros", href: "/nosotros" },
   { label: "Blog", href: "/blog" },
   { label: "Descargas", href: "/descargas" },
-  { label: "Reseñas", href: "/reseñas" },
+  { label: "Reseñas", href: "/resenas" },
   { label: "Contacto", href: "/contacto" },
 ] as const;
