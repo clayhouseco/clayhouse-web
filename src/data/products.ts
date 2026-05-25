@@ -45,6 +45,8 @@ export interface Product {
   /** Filas extra de ficha técnica */
   specs?: ProductSpec[];
   technicalPdf: string;
+  /** Imagen de la ficha técnica para vista previa inline (formato landscape, PNG/JPG) */
+  technicalPreview?: string;
 }
 
 export const products: Product[] = [
@@ -86,6 +88,7 @@ export const products: Product[] = [
       { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
     technicalPdf: fichaPdf("Toscano.pdf"),
+    technicalPreview: fichaPdf("Toscano.png"),
   },
   {
     name: "Ladrillo Napolitano",
@@ -161,6 +164,7 @@ export const products: Product[] = [
       { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
     technicalPdf: fichaPdf("Romano.pdf"),
+    technicalPreview: fichaPdf("Romano.png"),
   },
   {
     name: "Ladrillo Cartagena",
@@ -263,6 +267,7 @@ export const products: Product[] = [
       { label: "Tipo de uso", value: "Estructural" },
     ],
     technicalPdf: fichaPdf("Macizo Brix.pdf"),
+    technicalPreview: fichaPdf("Macizo Brix.png"),
   },
   {
     name: "Bocadillo Prensado",
