@@ -7,7 +7,7 @@
   --color-bg: #fffbf9;
   --color-white: #ffffff;
   --color-text-muted: rgba(71, 36, 16, 0.65);
-  --font-heading: "Inter", system-ui, sans-serif;
+  --font-heading: "Archivo", system-ui, sans-serif;
   --font-body: "Montserrat", system-ui, sans-serif;
   --max-width: 1280px;
   --section-pad: clamp(4rem, 10vw, 7.5rem);
@@ -95,7 +95,7 @@ h3,
 h4 {
   font-family: var(--font-heading);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: -0.01em;
   line-height: 1.1;
   margin: 0 0 1rem;
 }

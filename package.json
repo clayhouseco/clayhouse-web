@@ -21,6 +21,7 @@
     "verify:products": "npm run build && node scripts/verify-product-assets.mjs romano && node scripts/verify-product-assets.mjs toscano && node scripts/verify-product-assets.mjs napolitano && node scripts/verify-product-assets.mjs cartagena && node scripts/verify-product-assets.mjs macizo-campesino && node scripts/verify-product-assets.mjs macizo-brix && node scripts/verify-product-assets.mjs rayados-verticales && node scripts/verify-product-assets.mjs rayados-horizontales && node scripts/verify-product-assets.mjs enchape-rustico && node scripts/verify-product-assets.mjs enchape-romano && node scripts/verify-product-assets.mjs piso-30x30 && node scripts/verify-product-assets.mjs piso-10x30 && node scripts/verify-product-assets.mjs teja-plana && node scripts/verify-product-assets.mjs teja-colonial"
   },
   "dependencies": {
+    "@fontsource/archivo": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/montserrat": "^5.2.8",
     "astro": "^6.3.3"
