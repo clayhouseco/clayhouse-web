@@ -37,6 +37,13 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   description={`${def.title} en ladrillo: ${def.description} Fabricación artesanal en Amagá, Antioquia.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <div class="container category-page__breadcrumb">
+    <a href="/">Clay House</a>
+    <span aria-hidden="true">›</span>
+    <a href="/productos/">Productos</a>
+    <span aria-hidden="true">›</span>
+    <span>{def.title}</span>
+  </div>
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">Catálogo</p>
@@ -70,3 +77,29 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .category-page__breadcrumb {
+    padding: 6.5rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+  }
+
+  .category-page__breadcrumb a:hover {
+    color: var(--color-terracota);
+  }
+
+  .category-page__breadcrumb + :global(.page-hero) {
+    padding-top: 1.5rem;
+  }
+
+  @media (max-width: 520px) {
+    .category-page__breadcrumb {
+      padding-top: 5.5rem;
+    }
+  }
+</style>
