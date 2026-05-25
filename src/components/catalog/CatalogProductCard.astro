@@ -46,6 +46,8 @@ const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? prod
     data-price={product.pricePerUnit ?? "Consultar"}
     data-texture={product.texture}
     data-url={`/productos/${product.slug}/`}
+    data-track="producto_agregado"
+    data-track-label={product.name}
   >
     Agregar a cotización
   </button>

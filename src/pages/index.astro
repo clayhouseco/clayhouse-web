@@ -14,6 +14,12 @@ import ReviewCard from "@/components/ReviewCard.astro";
 import StarRating from "@/components/StarRating.astro";
 import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
 import "@/styles/reviews-page.css";
+import { Image, getImage } from "astro:assets";
+import heroImageSrc from "@/assets/images/hero/hero-romano.jpg";
+import redescubrePergamino from "@/assets/images/redescubre/pergamino.jpg";
+import redescubreMundoVerde from "@/assets/images/redescubre/mundo-verde.jpg";
+
+const heroOptimized = await getImage({ src: heroImageSrc, format: "avif", width: 1920 });
 
 const featured = getFeaturedProducts();
 
@@ -48,20 +54,21 @@ const categories = catalogCategories.map((cat) => {
   };
 });
 
-const heroImage = assetUrl(
-  "/images/products/romano/proyectos/casa-retiro-matizado/Casa_ladrilloromano_Clayhouse (22).jpg"
-);
+const heroImage = heroOptimized.src;
 const processVideoId = "vO0brjwa7So";
 const processVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${processVideoId}`;
 const processLogo = logos.header;
+const pergaminoOpt = await getImage({ src: redescubrePergamino, format: "webp", width: 1200 });
+const mundoVerdeOpt = await getImage({ src: redescubreMundoVerde, format: "webp", width: 1200 });
+
 const featuredProjects = [
   {
-    src: assetUrl("/images/home/redescubre/Pergamino.jpg"),
+    src: pergaminoOpt.src,
     alt: "Pergamino Café con ladrillo Clay House",
     label: "Pergamino",
   },
   {
-    src: assetUrl("/images/home/redescubre/Mundo Verde.jpg"),
+    src: mundoVerdeOpt.src,
     alt: "Mundo Verde con ladrillo Clay House",
     label: "Mundo Verde",
   },
@@ -114,61 +121,31 @@ const reviewsAverage = getAverageRating();
 <BaseLayout
   title={site.name}
   description={site.description}
-  preloadImage={heroImage}
-  preloadImageType="image/jpeg"
+  preloadImage={heroOptimized.src}
+  preloadImageType="image/avif"
 >
   <section class="hero">
     <div class="hero__media">
-      <img
-        src={heroImage}
+      <Image
+        src={heroImageSrc}
         alt="Fachada Clay House en ladrillo Romano matizado"
-        width="1920"
-        height="1280"
+        widths={[640, 960, 1280, 1920]}
+        sizes="100vw"
+        formats={["avif", "webp"]}
         loading="eager"
         fetchpriority="high"
+        width={1920}
+        height={1280}
       />
       <div class="hero__overlay"></div>
     </div>
     <div class="hero__content container">
-      <p class="hero__eyebrow">Desde 1965 · Amagá, Antioquia · NTC 4205</p>
-      <h1 class="hero__title">
-        Convirtiendo piezas<br />en sueños
-      </h1>
-      <p class="hero__sub">Ladrillo neoartesanal para arquitectos y constructores.</p>
-      <p class="hero__lead">
-        Ladrillos, pisos, tejas y enchapes hechos a mano en Amagá. Materiales atemporales,
-        finos y duraderos para arquitectos y constructores.
-      </p>
+      <h1 class="hero__title">Tradición, diseño e innovación.</h1>
+      <p class="hero__sub">Reinventando el barro desde 1965.</p>
       <div class="hero__actions">
-        <a href="/contacto" class="btn btn--light">Cotizar mi proyecto</a>
+        <a href="/contacto" class="btn btn--light" data-track="cotizar_click" data-track-location="hero">Cotizar mi proyecto</a>
         <a href="/productos" class="btn btn--ghost">Ver catálogo</a>
       </div>
-      <ul class="hero__trust" aria-label="Garantías">
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M5 12l4 4L19 6" />
-          </svg>
-          Respuesta en 24 horas
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M5 12l4 4L19 6" />
-          </svg>
-          Muestras a su estudio
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M5 12l4 4L19 6" />
-          </svg>
-          Asesoría técnica incluida
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M5 12l4 4L19 6" />
-          </svg>
-          Producción artesanal · entrega 4–8 semanas
-        </li>
-      </ul>
     </div>
   </section>
 
@@ -455,10 +432,10 @@ const reviewsAverage = getAverageRating();
   /* ---------------- HERO ---------------- */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 85vh;
     display: flex;
-    align-items: flex-end;
-    padding-bottom: clamp(4rem, 12vh, 8rem);
+    align-items: center;
+    justify-content: center;
     margin-top: 0;
   }
 
@@ -477,90 +454,65 @@ const reviewsAverage = getAverageRating();
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      to top,
-      rgba(71, 36, 16, 0.7) 0%,
-      rgba(71, 36, 16, 0.35) 55%,
-      rgba(71, 36, 16, 0.15) 100%
+      180deg,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0.45) 100%
     );
   }
 
   .hero__content {
     position: relative;
     z-index: 1;
-    color: var(--color-bg);
-    max-width: 48rem;
-  }
-
-  .hero__eyebrow {
-    margin: 0 0 1.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-bg);
-    opacity: 0.85;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: clamp(6rem, 14vh, 10rem);
   }
 
   .hero__title {
-    margin: 0 0 1.5rem;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    line-height: 1;
-    letter-spacing: -0.025em;
-    color: var(--color-bg);
-    font-weight: 500;
+    margin: 0;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    font-weight: 800;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
   }
 
   .hero__sub {
-    margin: 0 0 1.5rem;
-    max-width: 32rem;
-    font-family: var(--font-heading);
-    font-size: clamp(1.125rem, 1.6vw, 1.4rem);
-    font-weight: 500;
-    font-style: italic;
-    line-height: 1.35;
-    color: var(--color-bg);
-    opacity: 0.95;
-  }
-
-  .hero__lead {
-    max-width: 32rem;
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    margin-bottom: 2.25rem;
-    color: var(--color-bg);
-    opacity: 0.92;
+    margin: 1.5rem 0 0;
+    font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.92);
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
+    margin-top: 3rem;
   }
 
-  .hero__trust {
-    list-style: none;
-    margin: 2rem 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.85rem 1.75rem;
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: var(--color-bg);
-    opacity: 0.92;
-  }
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 75vh;
+    }
 
-  .hero__trust li {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+    .hero__title {
+      font-size: clamp(2.25rem, 9vw, 3.5rem);
+    }
 
-  .hero__trust svg {
-    width: 1.05rem;
-    height: 1.05rem;
-    flex-shrink: 0;
-    color: var(--color-coral, #f99a91);
+    .hero__sub {
+      margin-top: 1rem;
+      font-size: clamp(1rem, 4vw, 1.25rem);
+    }
+
+    .hero__actions {
+      margin-top: 2rem;
+    }
   }
 
   .btn--light {
@@ -1361,20 +1313,6 @@ const reviewsAverage = getAverageRating();
   }
 
   @media (max-width: 768px) {
-    .hero {
-      min-height: 100svh;
-      padding-bottom: 3rem;
-    }
-
-    .hero__title {
-      font-size: clamp(2rem, 9vw, 2.75rem);
-    }
-
-    .hero__lead {
-      font-size: 1rem;
-      margin-bottom: 1.75rem;
-    }
-
     .hero__actions {
       flex-direction: column;
       align-items: stretch;

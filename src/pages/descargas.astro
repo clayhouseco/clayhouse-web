@@ -84,7 +84,7 @@ const heroFeatures = [
                     Archivo: <code>{doc.filename}</code>
                   </p>
                   <div class="download-card__action">
-                    <a href={doc.file} class="btn btn--primary" download>
+                    <a href={doc.file} class="btn btn--primary" download data-track="ficha_descargada" data-track-label={doc.title}>
                       Descargar PDF
                     </a>
                   </div>
@@ -147,7 +147,7 @@ const heroFeatures = [
                           </div>
                           <p>{d.description}</p>
                           <div class="download-card__action">
-                            <a href={d.file} class="btn btn--primary" download>
+                            <a href={d.file} class="btn btn--primary" download data-track="ficha_descargada" data-track-label={d.title}>
                               Descargar PDF
                             </a>
                           </div>
