@@ -143,19 +143,14 @@ const reviewsAverage = getAverageRating();
       <h1 class="hero__title">tradición, diseño e innovación.</h1>
       <p class="hero__sub">Reinventando el barro desde 1965.</p>
       <div class="hero__actions">
-        <a href="/contacto" class="btn btn--light" data-track="cotizar_click" data-track-location="hero">Cotizar mi proyecto</a>
-        <a href="/productos" class="btn btn--ghost">Ver catálogo</a>
+        <a href="/productos" class="btn btn--light">Ver catálogo</a>
       </div>
     </div>
   </section>
 
   <section class="section section--alt">
     <div class="container">
-      <p class="eyebrow text-center">Línea Romano</p>
-      <h2 class="text-center">Nuestro ladrillo insignia</h2>
-      <p class="text-center text-muted section-intro">
-        Tres tonalidades del Ladrillo Romano para adaptarse a cualquier proyecto.
-      </p>
+      <h2 class="text-center section-title-solo">Nuestro ladrillo insignia</h2>
       <div class="romano-showcase">
         {
           romanoShowcase.map((variant) => (
@@ -184,15 +179,9 @@ const reviewsAverage = getAverageRating();
     </div>
   </section>
 
-  <ClientLogoBand />
-
   <section class="section section--alt">
     <div class="container">
-      <p class="eyebrow text-center">Categorías</p>
-      <h2 class="text-center">Materiales para cada aplicación</h2>
-      <p class="text-center text-muted section-intro">
-        Fachadas, pisos, tejas y enchapes hechos a mano en Amagá.
-      </p>
+      <h2 class="text-center section-title-solo">Nuestra apuesta de productos únicos</h2>
       <div class="grid-categories">
         {
           categories.map((cat) => (
@@ -211,6 +200,8 @@ const reviewsAverage = getAverageRating();
       </div>
     </div>
   </section>
+
+  <ClientLogoBand />
 
   <section class="section">
     <div class="container split-feature split-feature--rounded">
@@ -271,11 +262,7 @@ const reviewsAverage = getAverageRating();
 
   <section class="section section--alt">
     <div class="container">
-      <p class="eyebrow text-center">Clientes</p>
-      <h2 class="text-center">Experiencias de compra</h2>
-      <p class="text-center text-muted section-intro">
-        Arquitectos y constructores que ya trabajaron con Clay House.
-      </p>
+      <h2 class="text-center section-title-solo">Reseñas</h2>
       {
         featuredReviews.length > 0 && (
           <p class="text-center reviews-hero__inline-wrap">
@@ -351,47 +338,7 @@ const reviewsAverage = getAverageRating();
     </div>
   </section>
 
-  <section class="section final-cta">
-    <div class="container final-cta__inner">
-      <div class="final-cta__copy">
-        <p class="final-cta__eyebrow">Empiece su proyecto</p>
-        <h2 class="final-cta__title">Cuéntenos qué necesita.<br />Le respondemos en 24 horas.</h2>
-        <p class="final-cta__text">
-          Cotización personalizada, fichas técnicas y caja de muestras en su estudio. Sin compromiso.
-        </p>
-        <ul class="final-cta__bullets">
-          <li>Asesoría técnica de un especialista</li>
-          <li>Muestras físicas enviadas a su oficina</li>
-          <li>Entrega en obra entre 4 y 8 semanas</li>
-        </ul>
-      </div>
-      <form
-        class="final-cta__form"
-        action="/contacto"
-        method="get"
-        aria-label="Inicio rápido de cotización"
-      >
-        <p class="final-cta__form-title">Inicie su cotización</p>
-        <label>
-          Nombre
-          <input type="text" name="nombre" required placeholder="Su nombre" />
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" required placeholder="correo@ejemplo.com" />
-        </label>
-        <label>
-          Ciudad
-          <input type="text" name="ciudad" required placeholder="Ciudad / País" />
-        </label>
-        <button type="submit" class="btn btn--light">Continuar mi cotización</button>
-        <p class="final-cta__form-legal">
-          Continuará en el formulario completo. También puede escribirnos por
-          <a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a>.
-        </p>
-      </form>
-    </div>
-  </section>
+
 </BaseLayout>
 
 <script>
@@ -1165,142 +1112,6 @@ const reviewsAverage = getAverageRating();
     line-height: 1.55;
   }
 
-  /* ---------------- FINAL CTA ---------------- */
-  .final-cta {
-    background: var(--color-chocolate);
-    color: var(--color-bg);
-  }
-
-  .final-cta__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-  }
-
-  .final-cta__eyebrow {
-    margin: 0 0 1rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-coral, #f99a91);
-  }
-
-  .final-cta__title {
-    margin: 0 0 1.25rem;
-    font-size: clamp(1.85rem, 3.6vw, 2.75rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--color-bg);
-    font-weight: 500;
-  }
-
-  .final-cta__text {
-    margin: 0 0 1.75rem;
-    max-width: 30rem;
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    color: rgba(255, 251, 249, 0.88);
-  }
-
-  .final-cta__bullets {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.5rem;
-    font-size: 0.9375rem;
-    color: rgba(255, 251, 249, 0.92);
-  }
-
-  .final-cta__bullets li {
-    position: relative;
-    padding-left: 1.4rem;
-  }
-
-  .final-cta__bullets li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 50%;
-    background: var(--color-coral, #f99a91);
-  }
-
-  .final-cta__form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--color-bg);
-    color: var(--color-chocolate);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-  }
-
-  .final-cta__form-title {
-    margin: 0 0 0.25rem;
-    font-family: var(--font-heading);
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--color-chocolate);
-  }
-
-  .final-cta__form label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--color-chocolate);
-  }
-
-  .final-cta__form input {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    font-weight: 300;
-    padding: 0.75rem 1rem;
-    border: 1px solid rgba(71, 36, 16, 0.15);
-    background: var(--color-white);
-    color: var(--color-chocolate);
-    border-radius: var(--radius-sm);
-  }
-
-  .final-cta__form input:focus {
-    outline: 2px solid var(--color-terracota);
-    outline-offset: 1px;
-    border-color: var(--color-terracota);
-  }
-
-  .final-cta__form .btn {
-    margin-top: 0.35rem;
-    background: var(--color-terracota);
-    color: var(--color-bg);
-    border-color: var(--color-terracota);
-  }
-
-  .final-cta__form .btn:hover {
-    background: var(--color-chocolate);
-    color: var(--color-bg);
-    border-color: var(--color-chocolate);
-  }
-
-  .final-cta__form-legal {
-    margin: 0.25rem 0 0;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    line-height: 1.5;
-  }
-
-  .final-cta__form-legal a {
-    color: var(--color-terracota);
-    font-weight: 500;
-  }
-
   /* ---------------- RESPONSIVO ---------------- */
   @media (max-width: 1024px) {
     .grid-categories {
@@ -1349,10 +1160,6 @@ const reviewsAverage = getAverageRating();
 
     .grid-3,
     .services-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .final-cta__inner {
       grid-template-columns: 1fr;
     }
   }
