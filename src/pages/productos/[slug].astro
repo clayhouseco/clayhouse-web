@@ -24,6 +24,7 @@ import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
 import { site } from "@/data/site";
+import { getRendimientoTable } from "@/utils/productPricing";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -81,12 +82,17 @@ const dimensionesLine = product.dimensions
       .join(" × ")
   : null;
 
+const rendimientoTable = getRendimientoTable(product);
+
 const specRows = [
   { label: "Textura", value: product.texture },
   { label: "Color", value: product.color },
   dimensionesLine && { label: "Dimensiones", value: dimensionesLine },
   product.dimensions?.pesoAprox && { label: "Peso", value: product.dimensions.pesoAprox },
-  product.dimensions?.rendimiento && {
+  // Solo mostramos la fila Rendimiento si NO hay tabla calculable (ej. Cartagena
+  // con dimensiones variables). Si hay tabla, la sección Rendimiento de abajo
+  // reemplaza esta fila con los 3 escenarios.
+  !rendimientoTable && product.dimensions?.rendimiento && {
     label: "Rendimiento",
     value: product.dimensions.rendimiento,
   },
@@ -136,6 +142,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
           </div>
           <nav class="product-page__quick-nav" aria-label="Secciones del producto">
             <a href="#especificaciones" class="quick-pill">Especificaciones</a>
+            {rendimientoTable && (
+              <a href="#rendimiento" class="quick-pill">Rendimiento</a>
+            )}
             <a href="#usos" class="quick-pill">Usos</a>
             <a href="#descargables" class="quick-pill">Fichas</a>
             {
@@ -235,6 +244,43 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </div>
               ))}
             </dl>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      rendimientoTable && (
+        <section class="product-page__block" id="rendimiento">
+          <div class="container product-page__panel rendimiento-panel">
+            <header class="rendimiento-panel__header">
+              <h2 class="product-page__h2 product-page__h2--large">Rendimiento por m²</h2>
+              <p class="rendimiento-panel__lead">
+                Las piezas necesarias dependen del espesor de pega. Compare los
+                escenarios para cotizar al mismo criterio que su constructor.
+              </p>
+            </header>
+            <div class="rendimiento-grid">
+              {rendimientoTable.map((row, i) => (
+                <article class={`rendimiento-card${i === 1 ? " rendimiento-card--featured" : ""}`}>
+                  {i === 1 && (
+                    <span class="rendimiento-card__badge">Pega de referencia</span>
+                  )}
+                  <p class="rendimiento-card__label">{row.label}</p>
+                  <p class="rendimiento-card__units">
+                    <span class="rendimiento-card__units-value">{row.unitsPerM2}</span>
+                    <span class="rendimiento-card__units-unit">und/m²</span>
+                  </p>
+                  {row.pricePerM2 && (
+                    <p class="rendimiento-card__price">{row.pricePerM2}</p>
+                  )}
+                </article>
+              ))}
+            </div>
+            <p class="rendimiento-panel__note">
+              Cálculo de referencia con las dimensiones nominales del producto.
+              No incluye desperdicio (sumar ~5%) ni piezas para cortes o esquinas.
+            </p>
           </div>
         </section>
       )
@@ -704,6 +750,132 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     background: var(--color-terracota);
     border-color: rgba(255, 255, 255, 0.1);
     color: var(--color-bg);
+  }
+
+  .rendimiento-panel {
+    background: var(--color-white);
+    border: 2px solid rgba(124, 72, 44, 0.35);
+    border-left: 4px solid var(--color-terracota);
+  }
+
+  .rendimiento-panel__header {
+    margin-bottom: 1.5rem;
+  }
+
+  .rendimiento-panel__lead {
+    margin: 0;
+    max-width: 48rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+
+  .rendimiento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .rendimiento-card {
+    position: relative;
+    padding: 1.5rem 1.25rem 1.4rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .rendimiento-card--featured {
+    background: var(--color-chocolate);
+    border-color: var(--color-chocolate);
+    color: var(--color-bg);
+  }
+
+  .rendimiento-card__badge {
+    position: absolute;
+    top: -0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.7rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--color-terracota);
+    color: var(--color-bg);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .rendimiento-card__label {
+    margin: 0 0 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .rendimiento-card--featured .rendimiento-card__label {
+    color: var(--color-salmon);
+  }
+
+  .rendimiento-card__units {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.35rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .rendimiento-card__units-value {
+    font-family: var(--font-heading);
+    font-size: clamp(1.85rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-chocolate);
+  }
+
+  .rendimiento-card--featured .rendimiento-card__units-value {
+    color: var(--color-bg);
+  }
+
+  .rendimiento-card__units-unit {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .rendimiento-card--featured .rendimiento-card__units-unit {
+    color: rgba(255, 251, 249, 0.75);
+  }
+
+  .rendimiento-card__price {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+  }
+
+  .rendimiento-card--featured .rendimiento-card__price {
+    color: var(--color-bg);
+  }
+
+  .rendimiento-panel__note {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 720px) {
+    .rendimiento-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
   }
 
   .product-page__panel--dark .product-page__h2,
