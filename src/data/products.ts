@@ -57,7 +57,7 @@ export const products: Product[] = [
     shortDescription:
       "Acabado limpio y elegante en tonos tierra claros. Ideal para fachadas y espacios con estilo cálido, minimalista y atemporal.",
     description:
-      "Acabado limpio en tonos tierra claros para fachadas cálidas y minimalistas.",
+      "Acabado limpio en diferentes tonos para fachadas cálidas y minimalistas.",
     applications: [
       "Fachadas modernas residenciales y comerciales",
       "Interiores decorativos y muros de acento",
@@ -65,7 +65,7 @@ export const products: Product[] = [
       "Patios y zonas sociales con diseño atemporal",
     ],
     color: "Natural, Matizado claro, Matizado oscuro",
-    texture: "Texturizado",
+    texture: "Tallada",
     featured: true,
     seoTitle: "Ladrillo Toscano | Clay House Amagá",
     seoDescription:
