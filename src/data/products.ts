@@ -306,8 +306,8 @@ export const products: Product[] = [
       "Cerramientos y muros de acceso",
       "Locales comerciales con textura vertical",
     ],
-    color: "Rojizo Amagá",
-    texture: "Rayado vertical",
+    color: "Natural",
+    texture: "Rayado",
     featured: false,
     seoTitle: "Ladrillo Rayado Vertical | Clay House",
     seoDescription: "Ladrillo rayado vertical para fachada.",
@@ -318,8 +318,9 @@ export const products: Product[] = [
     pricePerUnit: "$ 2.360",
     priceUnitLabel: "unidad",
     dimensions: {
+      largo: "40 cm",
       ancho: "10 / 12 / 15 cm",
-      espesor: "Según formato",
+      alto: "20 cm",
     },
     specs: [
       { label: "Norma", value: "NTC 4205" },
@@ -340,8 +341,8 @@ export const products: Product[] = [
       "Vivienda urbana y campestre",
       "Restaurantes y espacios gastronómicos",
     ],
-    color: "Rojizo",
-    texture: "Rayado horizontal",
+    color: "Natural",
+    texture: "Rayado",
     featured: false,
     seoTitle: "Ladrillo Rayado Horizontal | Clay House",
     seoDescription: "Ladrillo rayado horizontal. Clay House.",
@@ -352,8 +353,9 @@ export const products: Product[] = [
     pricePerUnit: "$ 1.790",
     priceUnitLabel: "unidad",
     dimensions: {
+      largo: "40 cm",
       ancho: "10 / 12 / 15 cm",
-      espesor: "Según formato",
+      alto: "20 cm",
     },
     specs: [
       { label: "Norma", value: "NTC 4205" },
