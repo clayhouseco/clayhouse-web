@@ -82,8 +82,11 @@ const currentPath = Astro.url.pathname;
   const toggle = document.querySelector(".header__toggle");
   const nav = document.querySelector(".header__nav");
 
+  const header = document.querySelector(".header");
+
   function setNavOpen(open: boolean) {
     nav?.classList.toggle("header__nav--open", open);
+    header?.classList.toggle("header--nav-open", open);
     toggle?.setAttribute("aria-expanded", String(open));
     toggle?.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
     document.body.classList.toggle("nav-open", open);
@@ -189,6 +192,44 @@ const currentPath = Astro.url.pathname;
 
   .header--transparent .header__logo-img {
     filter: brightness(0) invert(1);
+  }
+
+  @media (max-width: 768px) {
+    .header--transparent.header--nav-open {
+      background: var(--color-bg);
+      backdrop-filter: blur(12px);
+    }
+
+    .header--transparent.header--nav-open .header__link {
+      color: var(--color-chocolate);
+      opacity: 0.7;
+    }
+
+    .header--transparent.header--nav-open .header__link:hover,
+    .header--transparent.header--nav-open .header__link--active {
+      color: var(--color-terracota);
+      opacity: 1;
+    }
+
+    .header--transparent.header--nav-open .header__toggle span {
+      background: var(--color-chocolate);
+    }
+
+    .header--transparent.header--nav-open .header__logo-img {
+      filter: none;
+    }
+
+    .header--transparent.header--nav-open .header__cta {
+      background: var(--color-terracota);
+      border-color: var(--color-terracota);
+      color: var(--color-white);
+    }
+
+    .header--transparent.header--nav-open .header__cart-btn {
+      border-color: rgba(71, 36, 16, 0.2);
+      background: var(--color-white);
+      color: var(--color-chocolate);
+    }
   }
 
   .header__inner {
