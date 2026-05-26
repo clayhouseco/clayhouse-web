@@ -126,7 +126,7 @@ const currentPath = Astro.url.pathname;
 
 <script>
   const header = document.querySelector<HTMLElement>(".header");
-  const hero = document.querySelector<HTMLElement>(".hero");
+  const hero = document.querySelector<HTMLElement>(".hero, .page-hero--image");
 
   if (header && hero) {
     header.classList.add("header--transparent");
