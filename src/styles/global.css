@@ -222,11 +222,10 @@ p {
 
 .section-title-solo {
   margin: 0 auto 2.5rem;
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-  max-width: 24ch;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
 }
 
 .page-hero__lead {
