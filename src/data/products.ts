@@ -135,13 +135,13 @@ export const products: Product[] = [
     shortDescription:
       "Perfil romano con volumen y juego de sombras. Referencia clásica para fachadas con carácter.",
     description:
-      "El ladrillo Romano combina carácter artesanal y diseño contemporáneo para crear espacios con personalidad y calidez. Su formato estilizado aporta ritmo visual y textura a los proyectos arquitectónicos, permitiendo composiciones elegantes tanto en interiores como en exteriores. Disponible en tonalidades Matizado, Matizado Oscuro y Natural, ofrece versatilidad para adaptarse a diferentes estilos, desde ambientes cálidos y orgánicos hasta propuestas más sobrias y sofisticadas.",
+      "Diseño rústico con texturas versátiles para espacios modernos y clásicos.",
     applications: [
       "Fachadas patrimoniales y contemporáneas",
       "Muros a la vista en vivienda campestre",
       "Cerramientos y muros de acento",
     ],
-    color: "Matizado claro, Matizado oscuro, Natural",
+    color: "Natural, Matizado claro, Matizado oscuro",
     texture: "Corcho",
     featured: true,
     seoTitle: "Ladrillo Romano | Clay House Amagá",

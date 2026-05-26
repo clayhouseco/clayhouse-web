@@ -157,11 +157,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
         <aside class="product-page__info-card">
           <h1>{product.name}</h1>
-          <p class="product-page__meta">
-            <span>{product.category}</span>
-            <span class="product-page__meta-dot" aria-hidden="true">·</span>
-            <span data-product-color>{displayColor}</span>
-          </p>
+          <span data-product-color hidden>{displayColor}</span>
           {
             assets && (
               <ProductColorVariants
@@ -570,21 +566,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
   .product-page__info-card h1 {
     font-size: clamp(1.75rem, 3vw, 2.25rem);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
     line-height: 1.15;
-  }
-
-  .product-page__meta {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-terracota);
-    margin: 0 0 1.25rem;
-  }
-
-  .product-page__meta-dot {
-    opacity: 0.5;
+    text-align: center;
   }
 
   .product-page__description {

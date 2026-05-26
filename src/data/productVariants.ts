@@ -55,6 +55,7 @@ function buildManifest(
 }
 
 const romanoVariants: ProductColorVariant[] = [
+  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
   {
     id: "matizado-claro",
     label: "Matizado claro",
@@ -67,7 +68,6 @@ const romanoVariants: ProductColorVariant[] = [
     colorLabel: "Matizado oscuro",
     folder: "matizado-oscuro",
   },
-  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
 ];
 
 const romanoGalleries = getSplitVariantGalleryMap("romano", romanoVariants, "Ladrillo Romano");
