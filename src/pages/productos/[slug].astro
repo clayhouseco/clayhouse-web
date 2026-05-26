@@ -4,7 +4,6 @@ import ProductGallery, { type GalleryImage } from "@/components/ProductGallery.a
 import ProductInspiration from "@/components/ProductInspiration.astro";
 import ProductColorVariants from "@/components/ProductColorVariants.astro";
 import ProductUseIcon from "@/components/ProductUseIcon.astro";
-import ProductInlineCalc from "@/components/catalog/ProductInlineCalc.astro";
 import { products, getProduct } from "@/data/products";
 import {
   getRecommendedUses,
@@ -84,6 +83,9 @@ const dimensionesLine = product.dimensions
 
 const rendimientoTable = getRendimientoTable(product);
 
+/** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
+const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
+
 const specRows = [
   { label: "Textura", value: product.texture },
   { label: "Color", value: product.color },
@@ -156,7 +158,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         </div>
 
         <aside class="product-page__info-card">
-          <h1>{product.name}</h1>
+          <h1>{displayName}</h1>
           <span data-product-color hidden>{displayColor}</span>
           {
             assets && (
@@ -184,7 +186,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </p>
               )
             }
-            <ProductInlineCalc product={product} />
             <label class="product-page__qty">
               <span>Cantidad</span>
               <input
@@ -273,9 +274,52 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </article>
               ))}
             </div>
+            <div class="rendi-calc" data-rendi-calc>
+              <p class="rendi-calc__title">Calcule para su obra</p>
+              <div class="rendi-calc__row">
+                <div class="rendi-calc__field">
+                  <label class="rendi-calc__field-label" for={`rendi-joint-${product.slug}`}>
+                    Espesor de pega
+                  </label>
+                  <select id={`rendi-joint-${product.slug}`} class="rendi-calc__select" data-rendi-joint>
+                    {rendimientoTable.map((row, i) => (
+                      <option value={row.unitsPerM2} selected={i === 1}>
+                        {row.label} ({row.unitsPerM2} und/m²)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div class="rendi-calc__field">
+                  <label class="rendi-calc__field-label" for={`rendi-area-${product.slug}`}>
+                    Área a cubrir (m²)
+                  </label>
+                  <input
+                    id={`rendi-area-${product.slug}`}
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="Ej. 120"
+                    class="rendi-calc__input"
+                    data-rendi-area
+                  />
+                </div>
+                <div class="rendi-calc__result" data-rendi-result aria-live="polite">
+                  <span class="rendi-calc__result-label">Total piezas</span>
+                  <span class="rendi-calc__result-value" data-rendi-total>—</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="btn btn--outline rendi-calc__apply"
+                data-rendi-apply
+              >
+                Aplicar a cantidad ↑
+              </button>
+            </div>
             <p class="rendimiento-panel__note">
-              Cálculo de referencia con las dimensiones nominales del producto.
-              No incluye desperdicio (sumar ~5%) ni piezas para cortes o esquinas.
+              Cálculo con las dimensiones nominales del producto e incluye 5% de
+              desperdicio recomendado para cortes y piezas de obra.
             </p>
           </div>
         </section>
@@ -472,6 +516,42 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       primary?.click();
     });
   });
+
+  // Calculadora de rendimiento por m² con selector de pega
+  document.querySelectorAll<HTMLElement>("[data-rendi-calc]").forEach((root) => {
+    const jointEl = root.querySelector<HTMLSelectElement>("[data-rendi-joint]");
+    const areaEl = root.querySelector<HTMLInputElement>("[data-rendi-area]");
+    const totalEl = root.querySelector<HTMLElement>("[data-rendi-total]");
+    const applyBtn = root.querySelector<HTMLButtonElement>("[data-rendi-apply]");
+    const qtyInput = document.querySelector<HTMLInputElement>("[data-qty-input]");
+    if (!jointEl || !areaEl || !totalEl) return;
+
+    function compute(): number | null {
+      const upm2 = parseFloat(jointEl!.value || "0");
+      const area = parseFloat(areaEl!.value || "0");
+      if (!upm2 || !area || area <= 0) return null;
+      return Math.ceil(area * upm2 * 1.05);
+    }
+
+    function update() {
+      const total = compute();
+      totalEl!.textContent = total === null ? "—" : total.toLocaleString("es-CO");
+    }
+
+    jointEl.addEventListener("change", update);
+    areaEl.addEventListener("input", update);
+
+    applyBtn?.addEventListener("click", () => {
+      const total = compute();
+      if (!total || !qtyInput) return;
+      qtyInput.value = String(total);
+      qtyInput.dispatchEvent(new Event("input", { bubbles: true }));
+      qtyInput.dispatchEvent(new Event("change", { bubbles: true }));
+      qtyInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      qtyInput.classList.add("product-page__qty-input--flash");
+      setTimeout(() => qtyInput.classList.remove("product-page__qty-input--flash"), 1400);
+    });
+  });
 </script>
 
 <style>
@@ -565,9 +645,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   }
 
   .product-page__info-card h1 {
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    margin-bottom: 1.25rem;
-    line-height: 1.15;
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
     text-align: center;
   }
 
@@ -849,10 +931,132 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   }
 
   .rendimiento-panel__note {
-    margin: 0;
+    margin: 1.25rem 0 0;
     font-size: 0.8125rem;
     color: var(--color-text-muted);
     line-height: 1.55;
+  }
+
+  .rendi-calc {
+    margin-top: 1.5rem;
+    padding: 1.4rem 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
+  }
+
+  .rendi-calc__title {
+    margin: 0 0 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .rendi-calc__row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+
+  .rendi-calc__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .rendi-calc__field-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .rendi-calc__select,
+  .rendi-calc__input {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid rgba(71, 36, 16, 0.18);
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .rendi-calc__select:focus,
+  .rendi-calc__input:focus {
+    outline: none;
+    border-color: var(--color-terracota);
+    box-shadow: 0 0 0 3px rgba(124, 72, 44, 0.12);
+  }
+
+  .rendi-calc__result {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+    padding: 0.65rem 1.1rem;
+    background: var(--color-chocolate);
+    color: var(--color-bg);
+    border-radius: var(--radius-sm);
+    min-width: 9rem;
+  }
+
+  .rendi-calc__result-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-salmon);
+  }
+
+  .rendi-calc__result-value {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .rendi-calc__apply {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    padding-block: 0.75rem;
+  }
+
+  @media (max-width: 720px) {
+    .rendi-calc__row {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .rendi-calc__result {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  :global(.product-page__qty-input--flash) {
+    animation: qty-flash 1.4s var(--ease);
+  }
+
+  @keyframes qty-flash {
+    0% {
+      background: rgba(242, 161, 65, 0.45);
+      box-shadow: 0 0 0 3px rgba(242, 161, 65, 0.35);
+    }
+    100% {
+      background: transparent;
+      box-shadow: none;
+    }
   }
 
   @media (max-width: 720px) {
