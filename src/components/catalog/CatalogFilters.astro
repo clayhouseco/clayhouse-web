@@ -4,6 +4,7 @@ import {
   getCatalogCategoryHref,
   type ProductCategory,
 } from "@/data/catalogCategories";
+import { getCatalogCoverImage } from "@/utils/catalog";
 
 interface Props {
   activeCategory?: ProductCategory | null;
@@ -14,7 +15,7 @@ const { activeCategory = null } = Astro.props;
 
 <nav class="cat-filters" aria-label="Categorías de productos">
   <a href="/productos" class:list={["cat-filter", !activeCategory && "cat-filter--active"]}>
-    <span class="cat-filter__icon" aria-hidden="true">
+    <span class="cat-filter__thumb cat-filter__thumb--grid" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <rect x="3" y="3" width="7" height="7" rx="1" />
         <rect x="14" y="3" width="7" height="7" rx="1" />
@@ -30,48 +31,15 @@ const { activeCategory = null } = Astro.props;
         href={getCatalogCategoryHref(cat.id)}
         class:list={["cat-filter", activeCategory === cat.id && "cat-filter--active"]}
       >
-        <span class="cat-filter__icon" aria-hidden="true">
-          {cat.id === "Fachadas" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
-              <path d="M5 21V4h14v17" />
-              <rect x="7.5" y="7" width="3" height="3" />
-              <rect x="13.5" y="7" width="3" height="3" />
-              <rect x="7.5" y="12" width="3" height="3" />
-              <rect x="13.5" y="12" width="3" height="3" />
-              <path d="M10 21v-4h4v4" />
-              <path d="M3 21h18" stroke-linecap="round" />
-            </svg>
-          )}
-          {cat.id === "Divisorios" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
-              <rect x="3" y="5" width="8" height="14" rx="1" />
-              <rect x="13" y="5" width="8" height="14" rx="1" />
-              <path d="M12 3v18" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          )}
-          {cat.id === "Pisos" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
-              <path d="M2 12l10-5 10 5-10 5z" />
-              <path d="M12 7v10" />
-              <path d="M7 9.5l5 2.5 5-2.5" />
-            </svg>
-          )}
-          {cat.id === "Enchapes" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
-              <path d="M3 7h14v10H3z" />
-              <path d="M17 7l4-2v10l-4 2" />
-              <path d="M3 7l4-2h14" />
-              <path d="M3 12h14" />
-              <path d="M9 7v5M13 12v5" />
-            </svg>
-          )}
-          {cat.id === "Techos" && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
-              <path d="M2 13L12 4l10 9" />
-              <path d="M5 12v8h14v-8" />
-              <path d="M7 10l-1 2M11 8l-1 2M14 8l1 2M18 10l1 2" stroke-linecap="round" />
-            </svg>
-          )}
+        <span class="cat-filter__thumb" aria-hidden="true">
+          <img
+            src={getCatalogCoverImage(cat)}
+            alt=""
+            width="120"
+            height="120"
+            loading="lazy"
+            decoding="async"
+          />
         </span>
         <span class="cat-filter__label">{cat.label}</span>
       </a>
@@ -91,14 +59,15 @@ const { activeCategory = null } = Astro.props;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.55rem;
-    padding: 1.1rem 0.5rem 1rem;
+    gap: 0.6rem;
+    padding: 0.85rem 0.5rem 0.85rem;
     background: var(--color-white);
     border: 1px solid rgba(71, 36, 16, 0.1);
     border-radius: var(--radius-md);
     color: var(--color-chocolate);
     text-decoration: none;
-    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.2s, color 0.2s;
+    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease),
+      box-shadow 0.25s var(--ease), background 0.2s, color 0.2s;
   }
 
   .cat-filter:hover {
@@ -113,23 +82,42 @@ const { activeCategory = null } = Astro.props;
     color: var(--color-bg);
   }
 
-  .cat-filter__icon {
+  .cat-filter__thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    color: var(--color-terracota);
-    transition: color 0.2s var(--ease);
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.06);
   }
 
-  .cat-filter--active .cat-filter__icon {
-    color: var(--color-bg);
-  }
-
-  .cat-filter__icon svg {
+  .cat-filter__thumb img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cat-filter__thumb--grid {
+    color: var(--color-terracota);
+    background: var(--color-bg);
+  }
+
+  .cat-filter__thumb--grid svg {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .cat-filter--active .cat-filter__thumb {
+    border-color: rgba(255, 251, 249, 0.25);
+  }
+
+  .cat-filter--active .cat-filter__thumb--grid {
+    background: rgba(255, 251, 249, 0.15);
+    color: var(--color-bg);
   }
 
   .cat-filter__label {
@@ -148,12 +136,18 @@ const { activeCategory = null } = Astro.props;
     }
 
     .cat-filter {
-      padding: 0.85rem 0.4rem 0.75rem;
+      padding: 0.7rem 0.4rem;
+      gap: 0.5rem;
     }
 
-    .cat-filter__icon {
-      width: 1.85rem;
-      height: 1.85rem;
+    .cat-filter__thumb {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .cat-filter__thumb--grid svg {
+      width: 1.6rem;
+      height: 1.6rem;
     }
 
     .cat-filter__label {
