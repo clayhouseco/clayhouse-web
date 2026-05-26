@@ -13,11 +13,12 @@ function formatCop(amount: number): string {
   }).format(amount);
 }
 
-/** Parsea dimensiones tipo "27,5 cm" → 27.5 (centímetros). Rechaza valores
- *  con "/" (ej. "5 / 6 cm") porque no son medidas únicas calculables. */
+/** Parsea dimensiones tipo "27,5 cm" → 27.5 (centímetros). Cuando el producto
+ *  trae varios formatos en un solo string ("5 / 6 cm"), toma el primer valor —
+ *  el resultado es una estimación conservadora (más piezas/m²) y el cliente
+ *  confirma el formato exacto en cotización. */
 function parseCm(value?: string): number | null {
   if (!value) return null;
-  if (value.includes("/")) return null;
   const match = value.match(/(\d+(?:[.,]\d+)?)/);
   if (!match) return null;
   return Number.parseFloat(match[1].replace(",", "."));

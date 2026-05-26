@@ -57,7 +57,7 @@ export const products: Product[] = [
     shortDescription:
       "Acabado limpio y elegante en tonos tierra claros. Ideal para fachadas y espacios con estilo cálido, minimalista y atemporal.",
     description:
-      "El Ladrillo Toscano Claro se destaca por su acabado limpio, uniforme y elegante, ideal para proyectos arquitectónicos que buscan un estilo cálido, minimalista y atemporal. Fabricado en arcilla cocida, este producto ofrece una textura suave y tonalidades tierra claras que aportan luminosidad y sofisticación a cualquier espacio.\n\nSu apariencia natural y homogénea lo convierte en una excelente opción para fachadas modernas, interiores decorativos y proyectos residenciales o comerciales con diseño contemporáneo. También disponible en tono oscuro. Comparte perforación interior con el Ladrillo Romano; las dimensiones y la cara vista definen su carácter toscano.",
+      "Acabado limpio en tonos tierra claros para fachadas cálidas y minimalistas.",
     applications: [
       "Fachadas modernas residenciales y comerciales",
       "Interiores decorativos y muros de acento",
@@ -97,7 +97,7 @@ export const products: Product[] = [
     shortDescription:
       "Proporción alargada y ritmo vertical para fachadas con presencia elegante y acabado artesanal.",
     description:
-      "El Ladrillo Napolitano aporta verticalidad y refinamiento a los cerramientos a la vista. Su formato alargado crea un ritmo ordenado en el aparejo, con tonalidades rojizas y matizadas que enriquecen la fachada sin perder sobriedad.\n\nEs una referencia versátil para vivienda de autor, locales comerciales y proyectos que combinan tradición ladrillera con lenguaje arquitectónico actual. Funciona especialmente bien en muros de gran altura y en composiciones donde la luz resalta la textura del ladrillo.",
+      "Formato alargado con ritmo vertical para fachadas refinadas y de gran altura.",
     applications: [
       "Fachadas de vivienda y comercio",
       "Muros perimetrales a la vista",
@@ -173,7 +173,7 @@ export const products: Product[] = [
     shortDescription:
       "Tonos claro, matizado y oscuro para fachadas con identidad, contraste y calidez regional.",
     description:
-      "El Ladrillo Cartagena ofrece una paleta amplia para composiciones monocromáticas o contrastadas. Su acabado texturizado y perforación vertical permiten proyectos con carácter costero-contemporáneo o fachadas sobrias con puntos de luz y sombra bien definidos.\n\nFabricado en arcilla cocida natural, combina resistencia, durabilidad y variaciones artesanales propias del barro. Funciona en vivienda, restaurantes y espacios comerciales que buscan personalidad sin renunciar al cumplimiento NTC 4205.",
+      "Paleta amplia y acabado texturizado para fachadas con identidad costera contemporánea.",
     applications: [
       "Fachadas residenciales y comerciales",
       "Muros estructurales interiores con revoque",
@@ -210,7 +210,7 @@ export const products: Product[] = [
     shortDescription:
       "Macizo con carácter artesanal para muros estructurales y acabados con textura auténtica de barro.",
     description:
-      "El Macizo Campesino combina resistencia estructural con una estética honesta y terracota. Su superficie lisa y tonos naturales lo hacen apto para obra tradicional y para proyectos que quieren mostrar el material sin artificios.\n\nRecomendado en cercas, muros de contención visibles, vivienda campestre y fachadas donde el macizo es protagonista. Un ladrillo versátil para quien busca solidez y calidez en el mismo material.",
+      "Solidez y calidez en tono terracota para obra tradicional y muros estructurales a la vista.",
     applications: [
       "Muros estructurales y de carga",
       "Cercas y muros perimetrales",
@@ -243,7 +243,7 @@ export const products: Product[] = [
     shortDescription:
       "Formato macizo optimizado para obra moderna con buen rendimiento y acabado uniforme.",
     description:
-      "El Macizo Brix está pensado para proyectos que exigen precisión dimensional y eficiencia en obra. Su apariencia rojiza uniforme permite muros estructurales con acabado limpio y predecible.\n\nAdecuado para vivienda urbana, ampliaciones y edificaciones bajo especificación técnica. Una solución confiable cuando el diseño requiere estructura y estética coherente en todo el muro.",
+      "Precisión dimensional y acabado uniforme para obra moderna con estructura visible.",
     applications: [
       "Muros estructurales en vivienda y edificios",
       "Ampliaciones y obra nueva",
@@ -276,7 +276,7 @@ export const products: Product[] = [
     shortDescription:
       "Pieza prensada de formato compacto, disponible en arena y rojo. Acabado homogéneo para fachadas con detalle fino.",
     description:
-      "El Bocadillo Prensado es una pieza compacta fabricada por prensado en arcilla cocida. Su formato reducido permite composiciones detalladas en fachadas y muros divisorios, con una superficie homogénea y tonos firmes propios del barro local.\n\nFunciona en proyectos que buscan textura controlada y un aparejo fino, tanto en vivienda como en espacios comerciales. Disponible en color arena y rojo.",
+      "Pieza compacta en arena o rojo para composiciones finas en fachadas y divisorios.",
     applications: [
       "Fachadas con detalle fino",
       "Muros divisorios y de acento",
@@ -300,7 +300,7 @@ export const products: Product[] = [
     shortDescription:
       "Textura vertical para muros divisorios y cerramientos con ritmo y juego de luz.",
     description:
-      "El Ladrillo Rayado Vertical introduce ritmo y profundidad en el plano del muro. Los surcos verticales captan la luz a lo largo del día, aportando dinamismo a divisiones interiores, cerramientos y fachadas de acento.\n\nExcelente para muros divisorios, ingresos y cerramientos que buscan identidad sin recurrir a color adicional. Una pieza expresiva para arquitectura contemporánea en Antioquia y el Eje Cafetero.",
+      "Surcos verticales que aportan ritmo y juego de luz a divisiones y cerramientos.",
     applications: [
       "Muros divisorios interiores y exteriores",
       "Cerramientos y muros de acceso",
@@ -334,7 +334,7 @@ export const products: Product[] = [
     shortDescription:
       "Rayado horizontal para divisiones y muros largos con lectura material cálida.",
     description:
-      "El Ladrillo Rayado Horizontal suaviza la escala del muro y enfatiza su longitud. Ideal para muros divisorios extensos, restaurantes y vivienda donde se busca calidez material con lectura horizontal clara.\n\nCombina bien con otras referencias Clay House en bandas o franjas. Su textura aporta interés táctil y visual sin competir con vanos amplios ni carpintería minimalista.",
+      "Surcos horizontales que enfatizan la longitud del muro con calidez material.",
     applications: [
       "Muros divisorios y cerramientos largos",
       "Vivienda urbana y campestre",
@@ -368,7 +368,7 @@ export const products: Product[] = [
     shortDescription:
       "Revestimiento de ladrillo con acabado rústico para transformar muros interiores y exteriores.",
     description:
-      "El Enchape Rústico añade calidez y textura a superficies que necesitan carácter. Su formato delgado permite revestir muros existentes o diseñar planos nuevos con apariencia artesanal y tonos tierra naturales.\n\nMuy usado en salas, restaurantes, hoteles y fachadas de acento. Una solución decorativa versátil para proyectos residenciales y comerciales con atmósfera acogedora.",
+      "Revestimiento delgado con acabado artesanal para muros con carácter y calidez.",
     applications: [
       "Salas, comedores y zonas sociales",
       "Fachadas de acento y muros de entrada",
@@ -395,7 +395,7 @@ export const products: Product[] = [
     shortDescription:
       "Perfil romano en formato delgado para detalles con profundidad y acabado premium.",
     description:
-      "El Enchape Romano aporta sombra y ritmo en columnas, rodapiés y muros de acento. Su perfil alargado crea un relieve sutil que eleva la percepción de calidad en interiores y exteriores.\n\nIndicado para baños, cocinas, chimeneas y zonas comerciales con diseño cuidado. Un revestimiento que dialoga con la línea de fachada Romano y Toscano en proyectos integrales.",
+      "Perfil alargado en versión enchape para columnas, rodapiés y muros de acento.",
     applications: [
       "Columnas, chimeneas y detalles",
       "Baños y cocinas (según especificación)",
@@ -427,7 +427,7 @@ export const products: Product[] = [
     shortDescription:
       "Piso de barro 30×30 cm con acabado artesanal para espacios cálidos y luminosos.",
     description:
-      "El Piso 30×30 de ladrillo aporta calidez y continuidad visual a interiores y exteriores cubiertos. Tono natural con la nobleza del material tierra bajo los pies.\n\nIdeal para salones, comedores, patios cubiertos y hotelería con identidad regional. Consulte asesoría de instalación para zonas húmedas y exteriores según su proyecto.",
+      "Calidez del barro en formato cuadrado para interiores y exteriores cubiertos.",
     applications: [
       "Salones y comedores",
       "Patios cubiertos y galerías",
@@ -461,7 +461,7 @@ export const products: Product[] = [
     shortDescription:
       "Piso de barro en formato alargado 10×30 cm para recorridos lineales y detalle artesanal.",
     description:
-      "El Piso 10×30 de ladrillo aporta ritmo longitudinal a interiores y exteriores cubiertos. Su formato estrecho permite composiciones en espiga, franjas o continuidad visual en pasillos, galerías y zonas sociales.\n\nIdeal para proyectos que buscan calidez material con una lectura distinta al cuadrado 30×30. Consulte asesoría de instalación según pendientes, juntas y zonas húmedas.",
+      "Formato estrecho con ritmo longitudinal para pasillos, galerías y zonas sociales.",
     applications: [
       "Pasillos, galerías y circulaciones",
       "Patios cubiertos y terrazas",
@@ -494,7 +494,7 @@ export const products: Product[] = [
     shortDescription:
       "Teja plana de barro para cubiertas visibles con estética tradicional y contemporánea.",
     description:
-      "La Teja Plana define cubiertas con carácter y presencia material. Tono chocolate que aporta calidez a vivienda campestre, pérgolas y proyectos turísticos que valoran la tradición del barro.\n\nRecomendada para techos visibles desde el jardín o la calle. Requiere pendiente y detalle de instalación según el diseño del arquitecto; nuestro equipo puede orientar la especificación.",
+      "Cubierta plana en chocolate para vivienda campestre y proyectos con tradición del barro.",
     applications: [
       "Cubiertas visibles en vivienda campestre",
       "Pérgolas y cubiertas de terraza",
@@ -521,7 +521,7 @@ export const products: Product[] = [
     shortDescription:
       "Teja colonial de barro para cubiertas tradicionales con perfil clásico y presencia.",
     description:
-      "La Teja Colonial define cubiertas con carácter patrimonial y calidez del ladrillo. Su perfil curvo aporta volumen y sombra en vivienda campestre, casas de campo y proyectos que valoran la tradición constructiva antioqueña.\n\nRequiere pendiente y detalle de instalación según el diseño del arquitecto.",
+      "Perfil curvo tradicional para cubiertas con carácter patrimonial y calidez del ladrillo.",
     applications: [
       "Cubiertas visibles en vivienda campestre",
       "Proyectos patrimoniales y turísticos",
