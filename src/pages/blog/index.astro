@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogCard from "@/components/blog/BlogCard.astro";
 import { getCollection } from "astro:content";
 import { blogFilters } from "@/data/blog";
+import { Image } from "astro:assets";
+import heroImg from "@/assets/images/hero/Dos Santos.jpg";
 import "@/styles/blog-page.css";
 
 const allPosts = (await getCollection("blog"))
@@ -29,13 +31,25 @@ const visibleBlogFilters = blogFilters.filter(
   title="Blog"
   description="Proyectos de obra, artículos técnicos y videos sobre ladrillo. Aprenda sobre fachadas, ladrillo artesanal y especificación con Clay House."
 >
-  <section class="page-hero blog-hero">
-    <div class="container">
-      <p class="eyebrow">Historias</p>
-      <h1>El oficio del barro,<br />en contexto</h1>
-      <p class="text-muted page-hero__lead">
-        Obras, materiales, técnica y reflexiones sobre el ladrillo. Lo que no cabe en una
-        ficha de producto vive aquí.
+  <section class="page-hero page-hero--image blog-hero">
+    <div class="page-hero__media">
+      <Image
+        src={heroImg}
+        alt="Dos Santos Cantina con enchape Clay House"
+        widths={[640, 960, 1280, 1920]}
+        sizes="100vw"
+        formats={["avif", "webp"]}
+        loading="eager"
+        fetchpriority="high"
+        width={1920}
+        height={1280}
+      />
+      <div class="page-hero__overlay"></div>
+    </div>
+    <div class="container page-hero__content">
+      <h1>blog</h1>
+      <p class="page-hero__lead">
+        Algunas reflexiones sobre el ladrillo
       </p>
     </div>
   </section>
