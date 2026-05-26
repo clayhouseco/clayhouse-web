@@ -90,8 +90,7 @@ const { activeCategory = null } = Astro.props;
     height: 3.5rem;
     border-radius: var(--radius-md);
     overflow: hidden;
-    background: var(--color-bg);
-    border: 1px solid rgba(71, 36, 16, 0.06);
+    background: transparent;
   }
 
   .cat-filter__thumb img {
@@ -103,7 +102,7 @@ const { activeCategory = null } = Astro.props;
 
   .cat-filter__thumb--grid {
     color: var(--color-terracota);
-    background: var(--color-bg);
+    background: rgba(181, 106, 74, 0.1);
   }
 
   .cat-filter__thumb--grid svg {
@@ -111,12 +110,8 @@ const { activeCategory = null } = Astro.props;
     height: 1.85rem;
   }
 
-  .cat-filter--active .cat-filter__thumb {
-    border-color: rgba(255, 251, 249, 0.25);
-  }
-
   .cat-filter--active .cat-filter__thumb--grid {
-    background: rgba(255, 251, 249, 0.15);
+    background: rgba(255, 251, 249, 0.18);
     color: var(--color-bg);
   }
 

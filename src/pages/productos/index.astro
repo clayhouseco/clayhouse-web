@@ -3,7 +3,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import CatalogFilters from "@/components/catalog/CatalogFilters.astro";
 import ProductGrid from "@/components/catalog/ProductGrid.astro";
 import PricingGuide from "@/components/catalog/PricingGuide.astro";
-import { getCatalogCategoryHref } from "@/data/catalogCategories";
 import { groupProductsByCategory } from "@/utils/catalog";
 import { Image } from "astro:assets";
 import heroImg from "@/assets/images/hero/DSC08873.jpg";
@@ -55,13 +54,7 @@ const grouped = groupProductsByCategory();
       {
         grouped.map((group) => (
           <section class="catalog-group">
-            <header class="catalog-group__header">
-              <h2 class="catalog-group__title">{group.def.title}</h2>
-              <p class="catalog-group__desc">{group.def.description}</p>
-              <a href={getCatalogCategoryHref(group.def.id)} class="link-arrow">
-                ver solo {group.def.label.toLowerCase()} →
-              </a>
-            </header>
+            <h2 class="section-title-solo">{group.def.label.toLowerCase()}</h2>
             <ProductGrid products={group.products} />
           </section>
         ))
