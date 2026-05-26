@@ -10,6 +10,8 @@ import {
   aboutVision,
   aboutExtras,
 } from "@/data/nosotros";
+import { Image } from "astro:assets";
+import heroImg from "@/assets/images/hero/dos-santos.jpg";
 import "@/styles/nosotros-page.css";
 ---
 
@@ -18,25 +20,26 @@ import "@/styles/nosotros-page.css";
   description="Desde 1965 fabricando ladrillo en Amagá. De Ladrillera San Fernando a Clay House: tradición alfarera con innovación y cumplimiento NTC 4205."
 >
   <div class="nosotros-page">
-    <section class="page-hero">
-      <div class="container">
-        <div class="about-hero">
-          <div class="about-hero__copy">
-            <p class="eyebrow">{aboutHero.eyebrow}</p>
-            <h1>{aboutHero.title}</h1>
-            <p class="about-hero__lead">{aboutHero.lead}</p>
-          </div>
-          <figure class="about-hero__frame">
-            <img
-              src={aboutHeroImage}
-              alt="Detalle de ladrillo con identidad Clay House"
-              width="640"
-              height="800"
-              loading="eager"
-              decoding="async"
-            />
-          </figure>
-        </div>
+    <section class="page-hero page-hero--image">
+      <div class="page-hero__media">
+        <Image
+          src={heroImg}
+          alt="Dos Santos Cantina con enchape Clay House"
+          widths={[640, 960, 1280, 1920]}
+          sizes="100vw"
+          formats={["avif", "webp"]}
+          loading="eager"
+          fetchpriority="high"
+          width={1920}
+          height={1280}
+        />
+        <div class="page-hero__overlay"></div>
+      </div>
+      <div class="container page-hero__content">
+        <h1>nosotros</h1>
+        <p class="page-hero__lead">
+          Más de cinco décadas transformando arcilla. Conócenos
+        </p>
       </div>
     </section>
 

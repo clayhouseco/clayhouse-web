@@ -4,7 +4,7 @@ import { products, sortProductsByPriority } from "@/data/products";
 import { getProductAssets, getProductInspiration } from "@/data/productVariants";
 import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
 import { Image } from "astro:assets";
-import heroImg from "@/assets/images/hero/Plaza de Envigado.jpg";
+import heroImg from "@/assets/images/hero/Edificio 8k.jpg";
 
 interface ProjectEntry {
   id: string;
@@ -62,7 +62,7 @@ const totalProjects = allProjects.length;
     <div class="page-hero__media">
       <Image
         src={heroImg}
-        alt="Plaza de Mercado de Envigado con ladrillo Clay House"
+        alt="Edificio en ladrillo — Clay House"
         widths={[640, 960, 1280, 1920]}
         sizes="100vw"
         formats={["avif", "webp"]}
