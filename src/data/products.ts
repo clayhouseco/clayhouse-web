@@ -173,7 +173,7 @@ export const products: Product[] = [
     shortDescription:
       "Tonos claro, matizado y oscuro para fachadas con identidad, contraste y calidez regional.",
     description:
-      "Paleta amplia y acabado texturizado para fachadas con identidad costera contemporánea.",
+      "Acabado rústico hecho a mano para fachadas con la textura natural del barro.",
     applications: [
       "Fachadas residenciales y comerciales",
       "Muros estructurales interiores con revoque",
@@ -195,7 +195,7 @@ export const products: Product[] = [
       pesoAprox: "1,6 kg",
     },
     specs: [
-      { label: "Norma", value: "NTC 4205 / NTC 3829" },
+      { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Fachada y muro" },
       { label: "Tolerancia dimensional", value: "± 4%" },
       { label: "Absorción de agua", value: "Promedio 14% · Individual 17%" },
