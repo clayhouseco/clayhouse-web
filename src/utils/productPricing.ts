@@ -41,3 +41,15 @@ export function getReferencePriceLabel(product: Product): string | null {
   const unit = product.priceUnitLabel ?? "unidad";
   return `Desde ${price}/${unit} + IVA (precio referencia, sin envío)`;
 }
+
+/** Igual que getReferencePriceLabel pero devuelve el monto principal y la
+ *  nota (IVA + disclaimer) separados, para dar jerarquía visual al precio. */
+export function getReferencePriceParts(
+  product: Product
+): { amount: string; note: string } | null {
+  const label = getReferencePriceLabel(product);
+  if (!label) return null;
+  const idx = label.indexOf(" + IVA");
+  if (idx === -1) return { amount: label, note: "" };
+  return { amount: label.slice(0, idx).trim(), note: label.slice(idx + 1).trim() };
+}

@@ -1,7 +1,7 @@
 ---
 import type { Product } from "@/data/products";
 import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
-import { getReferencePriceLabel } from "@/utils/productPricing";
+import { getReferencePriceParts } from "@/utils/productPricing";
 
 interface Props {
   product: Product;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { product, defaultColor } = Astro.props;
-const priceLabel = getReferencePriceLabel(product);
+const price = getReferencePriceParts(product);
 const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? product.color;
 ---
 
@@ -30,8 +30,14 @@ const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? prod
     </div>
     <span class="product-card__cat">{product.category}</span>
     <h2>{product.name}</h2>
-    <p class="product-card__desc">{product.shortDescription}</p>
-    {priceLabel && <p class="product-card__price">{priceLabel}</p>}
+    {
+      price && (
+        <p class="product-card__price">
+          <span class="product-card__price-amount">{price.amount}</span>
+          {price.note && <span class="product-card__price-note">{price.note}</span>}
+        </p>
+      )
+    }
   </a>
   <button
     type="button"
