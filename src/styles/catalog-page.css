@@ -8,30 +8,6 @@
   font-size: 1.125rem;
 }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.filter {
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border: 1px solid rgba(71, 36, 16, 0.15);
-  transition: all 0.2s;
-}
-
-.filter:hover,
-.filter--active {
-  background: var(--color-terracota);
-  border-color: var(--color-terracota);
-  color: white;
-}
-
 .filter-note {
   margin: -1.5rem 0 2rem;
   font-size: 0.875rem;

@@ -12,16 +12,157 @@ interface Props {
 const { activeCategory = null } = Astro.props;
 ---
 
-<div class="filters">
-  <a href="/productos" class:list={["filter", !activeCategory && "filter--active"]}>Todos</a>
+<nav class="cat-filters" aria-label="Categorías de productos">
+  <a href="/productos" class:list={["cat-filter", !activeCategory && "cat-filter--active"]}>
+    <span class="cat-filter__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    </span>
+    <span class="cat-filter__label">Todos</span>
+  </a>
   {
     catalogCategories.map((cat) => (
       <a
         href={getCatalogCategoryHref(cat.id)}
-        class:list={["filter", activeCategory === cat.id && "filter--active"]}
+        class:list={["cat-filter", activeCategory === cat.id && "cat-filter--active"]}
       >
-        {cat.label}
+        <span class="cat-filter__icon" aria-hidden="true">
+          {cat.id === "Fachadas" && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="1" />
+              <rect x="6" y="6" width="3" height="3" />
+              <rect x="11" y="6" width="3" height="3" />
+              <rect x="15" y="6" width="3" height="3" />
+              <rect x="6" y="11" width="3" height="3" />
+              <rect x="11" y="11" width="3" height="3" />
+              <rect x="15" y="11" width="3" height="3" />
+              <rect x="9" y="16" width="6" height="5" />
+            </svg>
+          )}
+          {cat.id === "Divisorios" && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M5 3v18M9.5 3v18M14 3v18M18.5 3v18" stroke-linecap="round" />
+            </svg>
+          )}
+          {cat.id === "Pisos" && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 4h18M3 9h18M3 14h18M3 19h18" />
+              <path d="M9 4v5M16 9v5M9 14v5" />
+            </svg>
+          )}
+          {cat.id === "Enchapes" && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="4" width="8" height="3" rx="0.5" />
+              <rect x="13" y="4" width="8" height="3" rx="0.5" />
+              <rect x="3" y="10" width="5" height="3" rx="0.5" />
+              <rect x="10" y="10" width="11" height="3" rx="0.5" />
+              <rect x="3" y="16" width="8" height="3" rx="0.5" />
+              <rect x="13" y="16" width="8" height="3" rx="0.5" />
+            </svg>
+          )}
+          {cat.id === "Techos" && (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 12L12 4l9 8" stroke-linejoin="round" />
+              <path d="M5 11v9h14v-9" stroke-linejoin="round" />
+              <path d="M8 16h2M14 16h2" stroke-linecap="round" />
+            </svg>
+          )}
+        </span>
+        <span class="cat-filter__label">{cat.label}</span>
       </a>
     ))
   }
-</div>
+</nav>
+
+<style>
+  .cat-filters {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .cat-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 1.1rem 0.5rem 1rem;
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--color-chocolate);
+    text-decoration: none;
+    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.2s, color 0.2s;
+  }
+
+  .cat-filter:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-terracota);
+    box-shadow: 0 10px 24px rgba(71, 36, 16, 0.1);
+  }
+
+  .cat-filter--active {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-bg);
+  }
+
+  .cat-filter__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--color-terracota);
+    transition: color 0.2s var(--ease);
+  }
+
+  .cat-filter--active .cat-filter__icon {
+    color: var(--color-bg);
+  }
+
+  .cat-filter__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .cat-filter__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 720px) {
+    .cat-filters {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .cat-filter {
+      padding: 0.85rem 0.4rem 0.75rem;
+    }
+
+    .cat-filter__icon {
+      width: 1.85rem;
+      height: 1.85rem;
+    }
+
+    .cat-filter__label {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .cat-filters {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

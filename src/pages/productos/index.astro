@@ -44,8 +44,6 @@ const grouped = groupProductsByCategory();
     <div class="container">
       <CatalogFilters />
 
-      <PricingGuide />
-
       {
         color && (
           <p class="filter-note">
@@ -68,6 +66,8 @@ const grouped = groupProductsByCategory();
           </section>
         ))
       }
+
+      <PricingGuide />
 
       <aside class="catalog-cta">
         <h3>¿No encuentra su referencia?</h3>
