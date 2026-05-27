@@ -23,7 +23,11 @@ import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
 import { site } from "@/data/site";
-import { getRendimientoTable, getRendimientoTablesByVariant } from "@/utils/productPricing";
+import {
+  getRendimientoTable,
+  getRendimientoTablesByVariant,
+  getFloorRendimientoTable,
+} from "@/utils/productPricing";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -87,6 +91,7 @@ const rendimientoVariants = assets
 const rendimientoTable = rendimientoVariants
   ? rendimientoVariants[0].table
   : getRendimientoTable(product);
+const floorTable = getFloorRendimientoTable(product);
 
 /** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
 const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
@@ -97,9 +102,9 @@ const specRows = [
   dimensionesLine && { label: "Dimensiones", value: dimensionesLine },
   product.dimensions?.pesoAprox && { label: "Peso", value: product.dimensions.pesoAprox },
   // Solo mostramos la fila Rendimiento si NO hay tabla calculable (ej. Cartagena
-  // con dimensiones variables). Si hay tabla, la sección Rendimiento de abajo
-  // reemplaza esta fila con los 3 escenarios.
-  !rendimientoTable && product.dimensions?.rendimiento && {
+  // con dimensiones variables). Si hay tabla (de ladrillo o piso), la sección
+  // Rendimiento de abajo reemplaza esta fila con los escenarios completos.
+  !rendimientoTable && !floorTable && product.dimensions?.rendimiento && {
     label: "Rendimiento",
     value: product.dimensions.rendimiento,
   },
@@ -149,7 +154,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
           </div>
           <nav class="product-page__quick-nav" aria-label="Secciones del producto">
             <a href="#especificaciones" class="quick-pill">Especificaciones</a>
-            {rendimientoTable && (
+            {(rendimientoTable || floorTable) && (
               <a href="#rendimiento" class="quick-pill">Rendimiento</a>
             )}
             <a href="#usos" class="quick-pill">Usos</a>
@@ -379,6 +384,124 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             <p class="rendimiento-panel__note">
               Cálculo con las dimensiones nominales del producto e incluye 5% de
               desperdicio recomendado para cortes y piezas de obra.
+            </p>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      floorTable && (
+        <section class="product-page__block" id="rendimiento">
+          <div class="container product-page__panel rendimiento-panel">
+            <header class="rendimiento-panel__header">
+              <h2 class="product-page__h2 product-page__h2--large">Rendimiento por m²</h2>
+              <p class="rendimiento-panel__lead">
+                Las piezas de piso por m² dependen del espesor de pega. Estos son
+                los escenarios típicos en obra; el material se cotiza por m².
+              </p>
+            </header>
+            <div class="rendimiento-grid rendimiento-grid--floor">
+              {floorTable.map((row) => (
+                <article class="rendimiento-card">
+                  <div class="rendimiento-card__icon" aria-hidden="true">
+                    {row.jointMm === 3 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="19.47" height="13.6" />
+                        <rect x="20.27" y="0" width="19.47" height="13.6" />
+                        <rect x="40.53" y="0" width="19.47" height="13.6" />
+                        <rect x="0" y="14.4" width="19.47" height="13.6" />
+                        <rect x="20.27" y="14.4" width="19.47" height="13.6" />
+                        <rect x="40.53" y="14.4" width="19.47" height="13.6" />
+                      </svg>
+                    )}
+                    {row.jointMm === 5 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="19.2" height="13.4" />
+                        <rect x="20.4" y="0" width="19.2" height="13.4" />
+                        <rect x="40.8" y="0" width="19.2" height="13.4" />
+                        <rect x="0" y="14.6" width="19.2" height="13.4" />
+                        <rect x="20.4" y="14.6" width="19.2" height="13.4" />
+                        <rect x="40.8" y="14.6" width="19.2" height="13.4" />
+                      </svg>
+                    )}
+                    {row.jointMm === 8 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="18.87" height="13.15" />
+                        <rect x="20.57" y="0" width="18.87" height="13.15" />
+                        <rect x="41.13" y="0" width="18.87" height="13.15" />
+                        <rect x="0" y="14.85" width="18.87" height="13.15" />
+                        <rect x="20.57" y="14.85" width="18.87" height="13.15" />
+                        <rect x="41.13" y="14.85" width="18.87" height="13.15" />
+                      </svg>
+                    )}
+                    {row.jointMm === 10 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="18.47" height="12.85" />
+                        <rect x="20.77" y="0" width="18.47" height="12.85" />
+                        <rect x="41.53" y="0" width="18.47" height="12.85" />
+                        <rect x="0" y="15.15" width="18.47" height="12.85" />
+                        <rect x="20.77" y="15.15" width="18.47" height="12.85" />
+                        <rect x="41.53" y="15.15" width="18.47" height="12.85" />
+                      </svg>
+                    )}
+                  </div>
+                  <p class="rendimiento-card__label">{row.label}</p>
+                  <p class="rendimiento-card__units">
+                    <span class="rendimiento-card__units-value">{row.unitsPerM2}</span>
+                    <span class="rendimiento-card__units-unit">und/m²</span>
+                  </p>
+                </article>
+              ))}
+            </div>
+            <div class="floor-calc" data-floor-calc>
+              <p class="rendi-calc__title">Calcule para su obra</p>
+              <div class="rendi-calc__row">
+                <div class="rendi-calc__field">
+                  <label class="rendi-calc__field-label" for={`floor-joint-${product.slug}`}>
+                    Espesor de pega
+                  </label>
+                  <select id={`floor-joint-${product.slug}`} class="rendi-calc__select" data-floor-joint>
+                    {floorTable.map((row, i) => (
+                      <option value={row.unitsPerM2} selected={i === 1}>
+                        {row.label} ({row.unitsPerM2} und/m²)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div class="rendi-calc__field">
+                  <label class="rendi-calc__field-label" for={`floor-area-${product.slug}`}>
+                    Área a cubrir (m²)
+                  </label>
+                  <input
+                    id={`floor-area-${product.slug}`}
+                    type="number"
+                    min="1"
+                    step="0.5"
+                    inputmode="decimal"
+                    placeholder="Ej. 25"
+                    class="rendi-calc__input"
+                    data-floor-area
+                  />
+                </div>
+                <div class="rendi-calc__result" aria-live="polite">
+                  <span class="rendi-calc__result-label">Total m²</span>
+                  <span class="rendi-calc__result-value" data-floor-total>—</span>
+                  <span class="floor-calc__secondary" data-floor-pieces></span>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="btn btn--outline rendi-calc__apply"
+                data-floor-apply
+              >
+                Aplicar a cantidad ↑
+              </button>
+            </div>
+            <p class="rendimiento-panel__note">
+              Cálculo nominal por cara largo × ancho. Sumamos 5% de desperdicio
+              al m² aplicado en cantidad; las piezas son una referencia para
+              planeación de obra.
             </p>
           </div>
         </section>
@@ -643,6 +766,56 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       const total = compute();
       if (!total || !qtyInput) return;
       qtyInput.value = String(total);
+      qtyInput.dispatchEvent(new Event("input", { bubbles: true }));
+      qtyInput.dispatchEvent(new Event("change", { bubbles: true }));
+      qtyInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      qtyInput.classList.add("product-page__qty-input--flash");
+      setTimeout(() => qtyInput.classList.remove("product-page__qty-input--flash"), 1400);
+    });
+  });
+
+  // Calculadora para pisos: usa m² como unidad de venta. Independiente del
+  // calculador de ladrillos para no acoplarse a su lógica de variantes.
+  document.querySelectorAll<HTMLElement>("[data-floor-calc]").forEach((root) => {
+    const jointEl = root.querySelector<HTMLSelectElement>("[data-floor-joint]");
+    const areaEl = root.querySelector<HTMLInputElement>("[data-floor-area]");
+    const totalEl = root.querySelector<HTMLElement>("[data-floor-total]");
+    const piecesEl = root.querySelector<HTMLElement>("[data-floor-pieces]");
+    const applyBtn = root.querySelector<HTMLButtonElement>("[data-floor-apply]");
+    const qtyInput = document.querySelector<HTMLInputElement>("[data-qty-input]");
+    if (!jointEl || !areaEl || !totalEl) return;
+
+    function compute() {
+      const area = parseFloat(areaEl!.value || "0");
+      const upm2 = parseFloat(jointEl!.value || "0");
+      if (!area || area <= 0) return null;
+      const m2 = Math.ceil(area * 1.05 * 10) / 10; // 1 decimal
+      const pieces = upm2 ? Math.ceil(area * upm2 * 1.05) : 0;
+      return { m2, pieces };
+    }
+
+    function update() {
+      const r = compute();
+      if (!r) {
+        totalEl!.textContent = "—";
+        if (piecesEl) piecesEl.textContent = "";
+        return;
+      }
+      totalEl!.textContent = r.m2.toLocaleString("es-CO");
+      if (piecesEl) {
+        piecesEl.textContent = r.pieces
+          ? `≈ ${r.pieces.toLocaleString("es-CO")} piezas`
+          : "";
+      }
+    }
+
+    jointEl.addEventListener("change", update);
+    areaEl.addEventListener("input", update);
+
+    applyBtn?.addEventListener("click", () => {
+      const r = compute();
+      if (!r || !qtyInput) return;
+      qtyInput.value = String(r.m2);
       qtyInput.dispatchEvent(new Event("input", { bubbles: true }));
       qtyInput.dispatchEvent(new Event("change", { bubbles: true }));
       qtyInput.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1189,6 +1362,41 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       grid-template-columns: 1fr;
       gap: 1.25rem;
     }
+  }
+
+  /* Grid del panel de pisos: 4 cards en lugar de 3. Variante propia para no
+   * tocar la grilla de ladrillos. */
+  .rendimiento-grid--floor {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @media (max-width: 900px) {
+    .rendimiento-grid--floor {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .rendimiento-grid--floor {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Calculadora del piso: mismo look que la de ladrillo pero con su propio
+   * scope para evitar colisiones de JS y poder iterar separadamente. */
+  .floor-calc {
+    margin-top: 1.5rem;
+    padding: 1.4rem 1.5rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
+  }
+
+  .floor-calc__secondary {
+    font-size: 0.75rem;
+    color: var(--color-salmon);
+    margin-top: 0.15rem;
+    min-height: 1em;
   }
 
   .product-page__panel--dark .product-page__h2,
