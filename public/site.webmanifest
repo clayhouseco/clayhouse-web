@@ -9,18 +9,18 @@
   "lang": "es-CO",
   "icons": [
     {
-      "src": "/icons/favicon-32.png",
+      "src": "/icons/favicon-32.png?v=2",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/apple-touch-icon.png?v=2",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo-clayhouse.png",
+      "src": "/icons/ch-512.png?v=2",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
