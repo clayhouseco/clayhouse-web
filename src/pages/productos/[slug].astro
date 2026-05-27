@@ -23,11 +23,7 @@ import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
 import { site } from "@/data/site";
-import {
-  getRendimientoTable,
-  getRendimientoTablesByVariant,
-  getFloorRendimientoTable,
-} from "@/utils/productPricing";
+import { getRendimientoTable, getRendimientoTablesByVariant } from "@/utils/productPricing";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -85,18 +81,12 @@ const dimensionesLine = product.dimensions
       .join(" × ")
   : null;
 
-const isFloor = product.category === "Pisos";
-const rendimientoVariants = !isFloor && assets
+const rendimientoVariants = assets
   ? getRendimientoTablesByVariant(product, assets.variants)
   : null;
-const rendimientoTable = isFloor
-  ? getFloorRendimientoTable(product)
-  : rendimientoVariants
-    ? rendimientoVariants[0].table
-    : getRendimientoTable(product);
-/** Índice de la fila destacada como "Pega de referencia". Solo aplica a
- *  ladrillos (la card del centro). En pisos no destacamos ninguna. */
-const featuredRowIdx = !isFloor && rendimientoTable && rendimientoTable.length === 3 ? 1 : -1;
+const rendimientoTable = rendimientoVariants
+  ? rendimientoVariants[0].table
+  : getRendimientoTable(product);
 
 /** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
 const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
@@ -267,7 +257,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
           <div
             class="container product-page__panel rendimiento-panel"
             data-rendimiento-root
-            data-rendi-mode={isFloor ? "floor" : "brick"}
             data-variants={rendimientoVariants ? JSON.stringify(rendimientoVariants) : null}
           >
             <header class="rendimiento-panel__header">
@@ -278,39 +267,53 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               </p>
             </header>
             <div class="rendimiento-grid">
-              {rendimientoTable.map((row, i) => {
-                const gap = Number(row.iconGap.toFixed(2));
-                const w = Number(((60 - 2 * gap) / 3).toFixed(2));
-                const h = Number(((28 - gap) / 2).toFixed(2));
-                return (
-                  <article
-                    class={`rendimiento-card${i === featuredRowIdx ? " rendimiento-card--featured" : ""}`}
-                    data-rendi-card
-                  >
-                    {i === featuredRowIdx && (
-                      <span class="rendimiento-card__badge">Pega de referencia</span>
-                    )}
-                    <div class="rendimiento-card__icon" aria-hidden="true">
+              {rendimientoTable.map((row, i) => (
+                <article class={`rendimiento-card${i === 1 ? " rendimiento-card--featured" : ""}`} data-rendi-card>
+                  {i === 1 && (
+                    <span class="rendimiento-card__badge">Pega de referencia</span>
+                  )}
+                  <div class="rendimiento-card__icon" aria-hidden="true">
+                    {row.jointCm === 0 && (
                       <svg viewBox="0 0 60 30" fill="currentColor">
-                        <rect x="0" y="0" width={w} height={h} />
-                        <rect x={w + gap} y="0" width={w} height={h} />
-                        <rect x={2 * (w + gap)} y="0" width={w} height={h} />
-                        <rect x="0" y={h + gap} width={w} height={h} />
-                        <rect x={w + gap} y={h + gap} width={w} height={h} />
-                        <rect x={2 * (w + gap)} y={h + gap} width={w} height={h} />
+                        <rect x="0" y="0" width="20" height="14" />
+                        <rect x="20" y="0" width="20" height="14" />
+                        <rect x="40" y="0" width="20" height="14" />
+                        <rect x="0" y="14" width="20" height="14" />
+                        <rect x="20" y="14" width="20" height="14" />
+                        <rect x="40" y="14" width="20" height="14" />
                       </svg>
-                    </div>
-                    <p class="rendimiento-card__label">{row.label}</p>
-                    <p class="rendimiento-card__units">
-                      <span class="rendimiento-card__units-value" data-rendi-units>{row.unitsPerM2}</span>
-                      <span class="rendimiento-card__units-unit">und/m²</span>
-                    </p>
-                    {row.pricePerM2 && (
-                      <p class="rendimiento-card__price" data-rendi-price>{row.pricePerM2}</p>
                     )}
-                  </article>
-                );
-              })}
+                    {row.jointCm === 1 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="18.5" height="12.75" />
+                        <rect x="20.75" y="0" width="18.5" height="12.75" />
+                        <rect x="41.5" y="0" width="18.5" height="12.75" />
+                        <rect x="0" y="15.25" width="18.5" height="12.75" />
+                        <rect x="20.75" y="15.25" width="18.5" height="12.75" />
+                        <rect x="41.5" y="15.25" width="18.5" height="12.75" />
+                      </svg>
+                    )}
+                    {row.jointCm === 2 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="16.75" height="11.5" />
+                        <rect x="21.625" y="0" width="16.75" height="11.5" />
+                        <rect x="43.25" y="0" width="16.75" height="11.5" />
+                        <rect x="0" y="18.5" width="16.75" height="11.5" />
+                        <rect x="21.625" y="18.5" width="16.75" height="11.5" />
+                        <rect x="43.25" y="18.5" width="16.75" height="11.5" />
+                      </svg>
+                    )}
+                  </div>
+                  <p class="rendimiento-card__label">{row.label}</p>
+                  <p class="rendimiento-card__units">
+                    <span class="rendimiento-card__units-value" data-rendi-units>{row.unitsPerM2}</span>
+                    <span class="rendimiento-card__units-unit">und/m²</span>
+                  </p>
+                  {row.pricePerM2 && (
+                    <p class="rendimiento-card__price" data-rendi-price>{row.pricePerM2}</p>
+                  )}
+                </article>
+              ))}
             </div>
             <div class="rendi-calc" data-rendi-calc>
               <p class="rendi-calc__title">Calcule para su obra</p>
@@ -361,11 +364,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   />
                 </div>
                 <div class="rendi-calc__result" data-rendi-result aria-live="polite">
-                  <span class="rendi-calc__result-label">{isFloor ? "Total m²" : "Total piezas"}</span>
+                  <span class="rendi-calc__result-label">Total piezas</span>
                   <span class="rendi-calc__result-value" data-rendi-total>—</span>
-                  {isFloor && (
-                    <span class="rendi-calc__result-secondary" data-rendi-secondary></span>
-                  )}
                 </div>
               </div>
               <button
@@ -596,8 +596,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     const variants: RendiVariant[] = panel?.dataset.variants
       ? (JSON.parse(panel.dataset.variants) as RendiVariant[])
       : [];
-    const isFloorMode = panel?.dataset.rendiMode === "floor";
-    const secondaryEl = root.querySelector<HTMLElement>("[data-rendi-secondary]");
 
     function applyVariant(variant: RendiVariant) {
       if (!panel) return;
@@ -621,36 +619,16 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       });
     }
 
-    /** Devuelve el valor a aplicar en el campo Cantidad (piezas para ladrillo,
-     *  m² con desperdicio para piso) o null si los inputs no son válidos. */
     function compute(): number | null {
       const upm2 = parseFloat(jointEl!.value || "0");
       const area = parseFloat(areaEl!.value || "0");
       if (!upm2 || !area || area <= 0) return null;
-      if (isFloorMode) {
-        // Piso se cotiza por m²: aplicamos 5% de desperdicio sobre el área.
-        return Math.ceil(area * 1.05);
-      }
-      // Ladrillo: piezas totales = área × piezas/m² × 1.05
       return Math.ceil(area * upm2 * 1.05);
     }
 
     function update() {
       const total = compute();
-      if (total === null) {
-        totalEl!.textContent = "—";
-        if (secondaryEl) secondaryEl.textContent = "";
-        return;
-      }
-      totalEl!.textContent = total.toLocaleString("es-CO");
-      if (isFloorMode && secondaryEl) {
-        const upm2 = parseFloat(jointEl!.value || "0");
-        const area = parseFloat(areaEl!.value || "0");
-        if (upm2 && area > 0) {
-          const pieces = Math.ceil(area * upm2 * 1.05);
-          secondaryEl.textContent = `≈ ${pieces.toLocaleString("es-CO")} piezas`;
-        }
-      }
+      totalEl!.textContent = total === null ? "—" : total.toLocaleString("es-CO");
     }
 
     formatEl?.addEventListener("change", () => {
@@ -958,7 +936,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
   .rendimiento-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     margin-bottom: 1.25rem;
   }
@@ -1165,13 +1143,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     letter-spacing: -0.01em;
   }
 
-  .rendi-calc__result-secondary {
-    font-size: 0.75rem;
-    color: var(--color-salmon);
-    margin-top: 0.15rem;
-    min-height: 1em;
-  }
-
   .rendi-calc__apply {
     width: 100%;
     border-radius: var(--radius-sm);
@@ -1217,10 +1188,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     .rendimiento-grid {
       grid-template-columns: 1fr;
       gap: 1.25rem;
-    }
-
-    .rendimiento-card__icon {
-      width: 3rem;
     }
   }
 
