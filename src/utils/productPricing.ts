@@ -50,12 +50,17 @@ export function getReferencePriceParts(
 export interface RendimientoRow {
   /** Etiqueta humana del escenario (ej. "Junta perdida", "Pega 1 cm") */
   label: string;
-  /** Espesor de la junta en cm (0, 1, 2) — útil como dato data-* */
+  /** Espesor de la junta en cm (puede ser fraccional para escenarios en mm) */
   jointCm: number;
   /** Unidades por m² (redondeado al entero superior, para obra real) */
   unitsPerM2: number;
-  /** Precio por m² ya formateado en COP, o null si no hay pricePerUnit */
+  /** Precio por m² ya formateado en COP, o null si no hay pricePerUnit o el
+   *  producto se vende ya por m² (pisos, enchapes, tejas planas) */
   pricePerM2: string | null;
+  /** Tamaño relativo del gap en el ícono SVG (unidades del viewBox 60×30).
+   *  Permite que un mismo template renderice las cards de ladrillo
+   *  (0, 1.5, 3) y de piso (0.7, 1.2, 1.8, 2.4) sin ramas extra. */
+  iconGap: number;
 }
 
 /** Calcula cuántas piezas/m² requiere el producto según el espesor de junta.
@@ -76,16 +81,22 @@ export function getRendimientoTable(product: Product): RendimientoRow[] | null {
   const fmtPrice = (units: number) =>
     unitAmount ? `${formatCop(units * unitAmount)}/m²` : null;
 
-  const scenarios: { label: string; jointCm: number }[] = [
-    { label: "Junta perdida", jointCm: 0 },
-    { label: "Pega 1 cm", jointCm: 1 },
-    { label: "Pega 2 cm", jointCm: 2 },
+  const scenarios: { label: string; jointCm: number; iconGap: number }[] = [
+    { label: "Junta perdida", jointCm: 0, iconGap: 0 },
+    { label: "Pega 1 cm", jointCm: 1, iconGap: 1.5 },
+    { label: "Pega 2 cm", jointCm: 2, iconGap: 3 },
   ];
 
-  return scenarios.map(({ label, jointCm }) => {
+  return scenarios.map(({ label, jointCm, iconGap }) => {
     const j = jointCm / 100;
     const units = Math.ceil(1 / ((largoM + j) * (altoM + j)));
-    return { label, jointCm, unitsPerM2: units, pricePerM2: fmtPrice(units) };
+    return {
+      label,
+      jointCm,
+      unitsPerM2: units,
+      pricePerM2: fmtPrice(units),
+      iconGap,
+    };
   });
 }
 
@@ -126,4 +137,38 @@ export function getRendimientoTablesByVariant(
     if (table) result.push({ variantId: v.id, label: v.label, table });
   }
   return result.length >= 2 ? result : null;
+}
+
+/** Rendimiento para pisos. La pega del piso se mide en milímetros (3, 5, 8,
+ *  10 mm) y la superficie de cálculo es la cara visible largo × ancho (no
+ *  largo × alto, porque "alto" para un piso es el espesor de la pieza). El
+ *  precio por m² no se muestra: los pisos ya se cotizan por m² y no varía
+ *  con la pega. */
+export function getFloorRendimientoTable(product: Product): RendimientoRow[] | null {
+  if (product.category !== "Pisos") return null;
+  const largoCm = parseCm(product.dimensions?.largo);
+  const anchoCm = parseCm(product.dimensions?.ancho);
+  if (!largoCm || !anchoCm) return null;
+
+  const largoM = largoCm / 100;
+  const anchoM = anchoCm / 100;
+
+  const scenarios: { label: string; jointMm: number; iconGap: number }[] = [
+    { label: "Pega 3 mm", jointMm: 3, iconGap: 0.7 },
+    { label: "Pega 5 mm", jointMm: 5, iconGap: 1.2 },
+    { label: "Pega 8 mm", jointMm: 8, iconGap: 1.8 },
+    { label: "Pega 10 mm", jointMm: 10, iconGap: 2.4 },
+  ];
+
+  return scenarios.map(({ label, jointMm, iconGap }) => {
+    const j = jointMm / 1000;
+    const units = Math.ceil(1 / ((largoM + j) * (anchoM + j)));
+    return {
+      label,
+      jointCm: jointMm / 10,
+      unitsPerM2: units,
+      pricePerM2: null,
+      iconGap,
+    };
+  });
 }
