@@ -133,7 +133,9 @@ export interface FloorRendimientoRow {
   label: string;
   /** Espesor en mm (3, 5, 8, 10) — usado como discriminante del ícono */
   jointMm: number;
-  /** Piezas por m² redondeadas hacia arriba */
+  /** Piezas por m² con 1 decimal. Para pisos grandes (30×30) las diferencias
+   *  entre escenarios de mm son fraccionales y Math.ceil las aplanaba todas
+   *  al mismo entero; mostrar un decimal preserva la información. */
   unitsPerM2: number;
 }
 
@@ -160,7 +162,8 @@ export function getFloorRendimientoTable(
 
   return scenarios.map(({ label, jointMm }) => {
     const j = jointMm / 1000;
-    const units = Math.ceil(1 / ((largoM + j) * (anchoM + j)));
+    const raw = 1 / ((largoM + j) * (anchoM + j));
+    const units = Math.round(raw * 10) / 10;
     return { label, jointMm, unitsPerM2: units };
   });
 }

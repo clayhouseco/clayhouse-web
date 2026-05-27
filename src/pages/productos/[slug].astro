@@ -448,7 +448,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   </div>
                   <p class="rendimiento-card__label">{row.label}</p>
                   <p class="rendimiento-card__units">
-                    <span class="rendimiento-card__units-value">{row.unitsPerM2}</span>
+                    <span class="rendimiento-card__units-value">
+                      {row.unitsPerM2.toLocaleString("es-CO", { maximumFractionDigits: 1 })}
+                    </span>
                     <span class="rendimiento-card__units-unit">und/m²</span>
                   </p>
                 </article>
@@ -464,7 +466,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   <select id={`floor-joint-${product.slug}`} class="rendi-calc__select" data-floor-joint>
                     {floorTable.map((row, i) => (
                       <option value={row.unitsPerM2} selected={i === 1}>
-                        {row.label} ({row.unitsPerM2} und/m²)
+                        {row.label} ({row.unitsPerM2.toLocaleString("es-CO", { maximumFractionDigits: 1 })} und/m²)
                       </option>
                     ))}
                   </select>
