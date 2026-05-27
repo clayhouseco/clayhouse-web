@@ -487,9 +487,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   />
                 </div>
                 <div class="rendi-calc__result" aria-live="polite">
-                  <span class="rendi-calc__result-label">Total m²</span>
-                  <span class="rendi-calc__result-value" data-floor-total>—</span>
-                  <span class="floor-calc__secondary" data-floor-pieces></span>
+                  <span class="rendi-calc__result-label">Total piezas</span>
+                  <span class="rendi-calc__result-value" data-floor-pieces>—</span>
                 </div>
               </div>
               <button
@@ -776,39 +775,32 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     });
   });
 
-  // Calculadora para pisos: usa m² como unidad de venta. Independiente del
-  // calculador de ladrillos para no acoplarse a su lógica de variantes.
+  // Calculadora para pisos: el visual muestra TOTAL PIEZAS (como ladrillo),
+  // pero el "Aplicar a cantidad" llena el campo con m² porque el precio del
+  // piso se cotiza por m². Las piezas son la referencia visual; el m² es
+  // lo que importa para el carrito.
   document.querySelectorAll<HTMLElement>("[data-floor-calc]").forEach((root) => {
     const jointEl = root.querySelector<HTMLSelectElement>("[data-floor-joint]");
     const areaEl = root.querySelector<HTMLInputElement>("[data-floor-area]");
-    const totalEl = root.querySelector<HTMLElement>("[data-floor-total]");
     const piecesEl = root.querySelector<HTMLElement>("[data-floor-pieces]");
     const applyBtn = root.querySelector<HTMLButtonElement>("[data-floor-apply]");
     const qtyInput = document.querySelector<HTMLInputElement>("[data-qty-input]");
-    if (!jointEl || !areaEl || !totalEl) return;
+    if (!jointEl || !areaEl || !piecesEl) return;
 
     function compute() {
       const area = parseFloat(areaEl!.value || "0");
       const upm2 = parseFloat(jointEl!.value || "0");
       if (!area || area <= 0) return null;
-      const m2 = Math.ceil(area * 1.05 * 10) / 10; // 1 decimal
+      const m2 = Math.ceil(area * 1.05 * 10) / 10; // m² con 5% de desperdicio
       const pieces = upm2 ? Math.ceil(area * upm2 * 1.05) : 0;
       return { m2, pieces };
     }
 
     function update() {
       const r = compute();
-      if (!r) {
-        totalEl!.textContent = "—";
-        if (piecesEl) piecesEl.textContent = "";
-        return;
-      }
-      totalEl!.textContent = r.m2.toLocaleString("es-CO");
-      if (piecesEl) {
-        piecesEl.textContent = r.pieces
-          ? `≈ ${r.pieces.toLocaleString("es-CO")} piezas`
-          : "";
-      }
+      piecesEl!.textContent = r && r.pieces
+        ? r.pieces.toLocaleString("es-CO")
+        : "—";
     }
 
     jointEl.addEventListener("change", update);
@@ -1392,13 +1384,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     background: var(--color-bg);
     border: 1px solid rgba(71, 36, 16, 0.1);
     border-radius: var(--radius-md);
-  }
-
-  .floor-calc__secondary {
-    font-size: 0.75rem;
-    color: var(--color-salmon);
-    margin-top: 0.15rem;
-    min-height: 1em;
   }
 
   .product-page__panel--dark .product-page__h2,
