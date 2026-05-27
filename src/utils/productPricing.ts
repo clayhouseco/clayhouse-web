@@ -88,3 +88,42 @@ export function getRendimientoTable(product: Product): RendimientoRow[] | null {
     return { label, jointCm, unitsPerM2: units, pricePerM2: fmtPrice(units) };
   });
 }
+
+export interface RendimientoVariantData {
+  variantId: string;
+  label: string;
+  table: RendimientoRow[];
+}
+
+/** Cuando un producto tiene variantes con dimensiones/precio distintos
+ *  (ej. Macizo en formato 5×10×20 y 6×12×24), devuelve una tabla de
+ *  rendimiento por variante. Si ninguna variante sobrescribe las dims,
+ *  devuelve null (se usa getRendimientoTable normal). */
+export function getRendimientoTablesByVariant(
+  product: Product,
+  variants: ReadonlyArray<{
+    id: string;
+    label: string;
+    pricePerUnit?: string;
+    dimensions?: { largo: string; alto: string };
+  }>
+): RendimientoVariantData[] | null {
+  const overriders = variants.filter((v) => v.dimensions);
+  if (overriders.length < 2) return null;
+
+  const result: RendimientoVariantData[] = [];
+  for (const v of overriders) {
+    const composite: Product = {
+      ...product,
+      pricePerUnit: v.pricePerUnit ?? product.pricePerUnit,
+      dimensions: {
+        ...(product.dimensions ?? {}),
+        largo: v.dimensions!.largo,
+        alto: v.dimensions!.alto,
+      },
+    };
+    const table = getRendimientoTable(composite);
+    if (table) result.push({ variantId: v.id, label: v.label, table });
+  }
+  return result.length >= 2 ? result : null;
+}

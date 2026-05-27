@@ -23,7 +23,7 @@ import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
 import { site } from "@/data/site";
-import { getRendimientoTable } from "@/utils/productPricing";
+import { getRendimientoTable, getRendimientoTablesByVariant } from "@/utils/productPricing";
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug } }));
@@ -81,7 +81,12 @@ const dimensionesLine = product.dimensions
       .join(" × ")
   : null;
 
-const rendimientoTable = getRendimientoTable(product);
+const rendimientoVariants = assets
+  ? getRendimientoTablesByVariant(product, assets.variants)
+  : null;
+const rendimientoTable = rendimientoVariants
+  ? rendimientoVariants[0].table
+  : getRendimientoTable(product);
 
 /** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
 const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
@@ -249,7 +254,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     {
       rendimientoTable && (
         <section class="product-page__block" id="rendimiento">
-          <div class="container product-page__panel rendimiento-panel">
+          <div
+            class="container product-page__panel rendimiento-panel"
+            data-rendimiento-root
+            data-variants={rendimientoVariants ? JSON.stringify(rendimientoVariants) : null}
+          >
             <header class="rendimiento-panel__header">
               <h2 class="product-page__h2 product-page__h2--large">Rendimiento por m²</h2>
               <p class="rendimiento-panel__lead">
@@ -259,17 +268,17 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             </header>
             <div class="rendimiento-grid">
               {rendimientoTable.map((row, i) => (
-                <article class={`rendimiento-card${i === 1 ? " rendimiento-card--featured" : ""}`}>
+                <article class={`rendimiento-card${i === 1 ? " rendimiento-card--featured" : ""}`} data-rendi-card>
                   {i === 1 && (
                     <span class="rendimiento-card__badge">Pega de referencia</span>
                   )}
                   <p class="rendimiento-card__label">{row.label}</p>
                   <p class="rendimiento-card__units">
-                    <span class="rendimiento-card__units-value">{row.unitsPerM2}</span>
+                    <span class="rendimiento-card__units-value" data-rendi-units>{row.unitsPerM2}</span>
                     <span class="rendimiento-card__units-unit">und/m²</span>
                   </p>
                   {row.pricePerM2 && (
-                    <p class="rendimiento-card__price">{row.pricePerM2}</p>
+                    <p class="rendimiento-card__price" data-rendi-price>{row.pricePerM2}</p>
                   )}
                 </article>
               ))}
@@ -277,6 +286,24 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             <div class="rendi-calc" data-rendi-calc>
               <p class="rendi-calc__title">Calcule para su obra</p>
               <div class="rendi-calc__row">
+                {
+                  rendimientoVariants && (
+                    <div class="rendi-calc__field">
+                      <label class="rendi-calc__field-label" for={`rendi-format-${product.slug}`}>
+                        Formato
+                      </label>
+                      <select
+                        id={`rendi-format-${product.slug}`}
+                        class="rendi-calc__select"
+                        data-rendi-format
+                      >
+                        {rendimientoVariants.map((v) => (
+                          <option value={v.variantId}>{v.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )
+                }
                 <div class="rendi-calc__field">
                   <label class="rendi-calc__field-label" for={`rendi-joint-${product.slug}`}>
                     Espesor de pega
@@ -512,13 +539,53 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   });
 
   // Calculadora de rendimiento por m² con selector de pega
+  interface RendiRow {
+    label: string;
+    jointCm: number;
+    unitsPerM2: number;
+    pricePerM2: string | null;
+  }
+  interface RendiVariant {
+    variantId: string;
+    label: string;
+    table: RendiRow[];
+  }
+
   document.querySelectorAll<HTMLElement>("[data-rendi-calc]").forEach((root) => {
+    const panel = root.closest<HTMLElement>("[data-rendimiento-root]");
+    const formatEl = root.querySelector<HTMLSelectElement>("[data-rendi-format]");
     const jointEl = root.querySelector<HTMLSelectElement>("[data-rendi-joint]");
     const areaEl = root.querySelector<HTMLInputElement>("[data-rendi-area]");
     const totalEl = root.querySelector<HTMLElement>("[data-rendi-total]");
     const applyBtn = root.querySelector<HTMLButtonElement>("[data-rendi-apply]");
     const qtyInput = document.querySelector<HTMLInputElement>("[data-qty-input]");
     if (!jointEl || !areaEl || !totalEl) return;
+
+    const variants: RendiVariant[] = panel?.dataset.variants
+      ? (JSON.parse(panel.dataset.variants) as RendiVariant[])
+      : [];
+
+    function applyVariant(variant: RendiVariant) {
+      if (!panel) return;
+      // Actualiza las 3 tarjetas
+      const cards = panel.querySelectorAll<HTMLElement>("[data-rendi-card]");
+      cards.forEach((card, i) => {
+        const row = variant.table[i];
+        if (!row) return;
+        const u = card.querySelector<HTMLElement>("[data-rendi-units]");
+        const p = card.querySelector<HTMLElement>("[data-rendi-price]");
+        if (u) u.textContent = String(row.unitsPerM2);
+        if (p && row.pricePerM2) p.textContent = row.pricePerM2;
+      });
+      // Actualiza las opciones del select de pega (mismo orden de filas)
+      const options = jointEl!.querySelectorAll<HTMLOptionElement>("option");
+      options.forEach((opt, i) => {
+        const row = variant.table[i];
+        if (!row) return;
+        opt.value = String(row.unitsPerM2);
+        opt.textContent = `${row.label} (${row.unitsPerM2} und/m²)`;
+      });
+    }
 
     function compute(): number | null {
       const upm2 = parseFloat(jointEl!.value || "0");
@@ -532,6 +599,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       totalEl!.textContent = total === null ? "—" : total.toLocaleString("es-CO");
     }
 
+    formatEl?.addEventListener("change", () => {
+      const v = variants.find((x) => x.variantId === formatEl!.value);
+      if (v) applyVariant(v);
+      update();
+    });
     jointEl.addEventListener("change", update);
     areaEl.addEventListener("input", update);
 
@@ -949,8 +1021,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   }
 
   .rendi-calc__row {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr auto;
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     align-items: end;
     margin-bottom: 1rem;
@@ -960,6 +1032,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
+    flex: 1 1 11rem;
     min-width: 0;
   }
 
@@ -999,6 +1072,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     background: var(--color-chocolate);
     color: var(--color-bg);
     border-radius: var(--radius-sm);
+    flex: 0 1 auto;
     min-width: 9rem;
   }
 
@@ -1026,8 +1100,13 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
   @media (max-width: 720px) {
     .rendi-calc__row {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: stretch;
       gap: 0.85rem;
+    }
+
+    .rendi-calc__field {
+      flex: 1 1 auto;
     }
 
     .rendi-calc__result {
@@ -1035,6 +1114,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       justify-content: space-between;
       align-items: center;
       padding: 0.75rem 1rem;
+      min-width: 0;
     }
   }
 

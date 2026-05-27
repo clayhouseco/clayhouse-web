@@ -237,7 +237,7 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("Macizo Campesino.pdf"),
   },
   {
-    name: "Macizo Brix",
+    name: "Macizo",
     slug: "macizo-brix",
     category: "Fachadas",
     shortDescription:

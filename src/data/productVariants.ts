@@ -14,6 +14,10 @@ export interface ProductColorVariant {
   folder: string;
   /** Precio por unidad para esta variante (ej. "$ 1.500") */
   pricePerUnit?: string;
+  /** Dimensiones específicas del formato (cuando una variante representa
+   *  un tamaño distinto, ej. 5×10×20 vs 6×12×24 en Macizo). Solo necesita
+   *  largo y alto para el cálculo de rendimiento por m². */
+  dimensions?: { largo: string; alto: string };
 }
 
 export interface ProductDownload {
@@ -228,6 +232,7 @@ const macizoBrixVariants: ProductColorVariant[] = [
     colorLabel: "5×10×20 cm",
     folder: "pieza",
     pricePerUnit: "$ 1.500",
+    dimensions: { largo: "20 cm", alto: "5 cm" },
   },
   {
     id: "6x12x24",
@@ -235,6 +240,7 @@ const macizoBrixVariants: ProductColorVariant[] = [
     colorLabel: "6×12×24 cm",
     folder: "pieza",
     pricePerUnit: "$ 1.850",
+    dimensions: { largo: "24 cm", alto: "6 cm" },
   },
 ];
 
