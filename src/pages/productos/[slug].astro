@@ -279,9 +279,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             </header>
             <div class="rendimiento-grid">
               {rendimientoTable.map((row, i) => {
-                const gap = row.iconGap;
-                const w = (60 - 2 * gap) / 3;
-                const h = (28 - gap) / 2;
+                const gap = Number(row.iconGap.toFixed(2));
+                const w = Number(((60 - 2 * gap) / 3).toFixed(2));
+                const h = Number(((28 - gap) / 2).toFixed(2));
                 return (
                   <article
                     class={`rendimiento-card${i === featuredRowIdx ? " rendimiento-card--featured" : ""}`}
