@@ -3,11 +3,26 @@ import { site, nav, socialLinks } from "@/data/site";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
 import { logos } from "@/utils/media";
 import FooterSocialIcon from "@/components/FooterSocialIcon.astro";
+import { Image } from "astro:assets";
+import footerBg from "@/assets/images/footer/footer-pisos.jpg";
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
+  <div class="footer__bg" aria-hidden="true">
+    <Image
+      src={footerBg}
+      alt=""
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      formats={["avif", "webp"]}
+      loading="lazy"
+      width={1920}
+      height={1280}
+    />
+    <div class="footer__overlay"></div>
+  </div>
   <div class="container footer__inner">
     <div class="footer__grid">
       <article class="footer__card footer__card--brand">
@@ -93,12 +108,39 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
+    position: relative;
+    isolation: isolate;
     background: var(--color-chocolate);
     color: var(--color-chocolate);
     padding-block: clamp(3rem, 8vw, 4.5rem) 0;
+    overflow: hidden;
+  }
+
+  .footer__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .footer__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .footer__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(35, 18, 8, 0.78) 0%,
+      rgba(35, 18, 8, 0.92) 100%
+    );
   }
 
   .footer__inner {
+    position: relative;
     display: block;
   }
 
@@ -275,6 +317,7 @@ const year = new Date().getFullYear();
   }
 
   .footer__bottom {
+    position: relative;
     padding: 1.75rem 0 2rem;
     font-size: 0.8125rem;
     color: rgba(255, 251, 249, 0.55);
