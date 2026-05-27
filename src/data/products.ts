@@ -227,8 +227,8 @@ export const products: Product[] = [
     priceUnitLabel: "unidad",
     dimensions: {
       alto: "6 cm",
-      ancho: "12 cm",
-      largo: "24 cm",
+      ancho: "10 cm",
+      largo: "20 cm",
     },
     specs: [
       { label: "Norma", value: "NTC 4205" },
