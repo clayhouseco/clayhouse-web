@@ -264,8 +264,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             data-rendimiento-root
             data-variants={rendimientoVariants ? JSON.stringify(rendimientoVariants) : null}
           >
-            <header class="rendimiento-panel__header">
-              <h2 class="product-page__h2 product-page__h2--large">Rendimiento por m²</h2>
+            <header class="rendimiento-panel__header rendimiento-panel__header--center">
+              <h2 class="product-page__h2 product-page__h2--large">Calculadora de m²</h2>
               <p class="rendimiento-panel__lead">
                 Las piezas necesarias dependen del espesor de pega. Compare los
                 escenarios para cotizar al mismo criterio que su constructor.
@@ -382,8 +382,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               </button>
             </div>
             <p class="rendimiento-panel__note">
-              Cálculo con las dimensiones nominales del producto e incluye 5% de
-              desperdicio recomendado para cortes y piezas de obra.
+              <strong>Cálculo nominal por cara largo × ancho. Sumamos 5% de
+              desperdicio al m² aplicado en cantidad.</strong>
             </p>
           </div>
         </section>
@@ -394,8 +394,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       floorTable && (
         <section class="product-page__block" id="rendimiento">
           <div class="container product-page__panel rendimiento-panel">
-            <header class="rendimiento-panel__header">
-              <h2 class="product-page__h2 product-page__h2--large">Rendimiento por m²</h2>
+            <header class="rendimiento-panel__header rendimiento-panel__header--center">
+              <h2 class="product-page__h2 product-page__h2--large">Calculadora de m²</h2>
               <p class="rendimiento-panel__lead">
                 Las piezas de piso por m² dependen del espesor de pega. Estos son
                 los escenarios típicos en obra; el material se cotiza por m².
@@ -500,9 +500,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               </button>
             </div>
             <p class="rendimiento-panel__note">
-              Cálculo nominal por cara largo × ancho. Sumamos 5% de desperdicio
-              al m² aplicado en cantidad; las piezas son una referencia para
-              planeación de obra.
+              <strong>Cálculo nominal por cara largo × ancho. Sumamos 5% de
+              desperdicio al m² aplicado en cantidad.</strong>
             </p>
           </div>
         </section>
@@ -791,11 +790,10 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       const area = parseFloat(areaEl!.value || "0");
       const upm2 = parseFloat(jointEl!.value || "0");
       if (!area || area <= 0) return null;
-      // m² aplicado al carrito incluye 5% de desperdicio.
+      // Tanto m² como piezas incluyen 5% de desperdicio recomendado para
+      // que el visual sea consistente con el de ladrillos.
       const m2 = Math.ceil(area * 1.05 * 10) / 10;
-      // Piezas en pantalla son la referencia teórica (rendimiento × área),
-      // sin sumar desperdicio para no confundir con el cálculo del carrito.
-      const pieces = upm2 ? Math.ceil(area * upm2) : 0;
+      const pieces = upm2 ? Math.ceil(area * upm2 * 1.05) : 0;
       return { m2, pieces };
     }
 
@@ -1094,6 +1092,14 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
   .rendimiento-panel__header {
     margin-bottom: 1.5rem;
+  }
+
+  .rendimiento-panel__header--center {
+    text-align: center;
+  }
+
+  .rendimiento-panel__header--center .rendimiento-panel__lead {
+    margin-inline: auto;
   }
 
   .rendimiento-panel__lead {
