@@ -791,8 +791,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       const area = parseFloat(areaEl!.value || "0");
       const upm2 = parseFloat(jointEl!.value || "0");
       if (!area || area <= 0) return null;
-      const m2 = Math.ceil(area * 1.05 * 10) / 10; // m² con 5% de desperdicio
-      const pieces = upm2 ? Math.ceil(area * upm2 * 1.05) : 0;
+      // m² aplicado al carrito incluye 5% de desperdicio.
+      const m2 = Math.ceil(area * 1.05 * 10) / 10;
+      // Piezas en pantalla son la referencia teórica (rendimiento × área),
+      // sin sumar desperdicio para no confundir con el cálculo del carrito.
+      const pieces = upm2 ? Math.ceil(area * upm2) : 0;
       return { m2, pieces };
     }
 
