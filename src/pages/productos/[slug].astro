@@ -272,6 +272,38 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   {i === 1 && (
                     <span class="rendimiento-card__badge">Pega de referencia</span>
                   )}
+                  <div class="rendimiento-card__icon" aria-hidden="true">
+                    {row.jointCm === 0 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="20" height="14" />
+                        <rect x="20" y="0" width="20" height="14" />
+                        <rect x="40" y="0" width="20" height="14" />
+                        <rect x="0" y="14" width="20" height="14" />
+                        <rect x="20" y="14" width="20" height="14" />
+                        <rect x="40" y="14" width="20" height="14" />
+                      </svg>
+                    )}
+                    {row.jointCm === 1 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="18.5" height="12.75" />
+                        <rect x="20.75" y="0" width="18.5" height="12.75" />
+                        <rect x="41.5" y="0" width="18.5" height="12.75" />
+                        <rect x="0" y="15.25" width="18.5" height="12.75" />
+                        <rect x="20.75" y="15.25" width="18.5" height="12.75" />
+                        <rect x="41.5" y="15.25" width="18.5" height="12.75" />
+                      </svg>
+                    )}
+                    {row.jointCm === 2 && (
+                      <svg viewBox="0 0 60 30" fill="currentColor">
+                        <rect x="0" y="0" width="16.75" height="11.5" />
+                        <rect x="21.625" y="0" width="16.75" height="11.5" />
+                        <rect x="43.25" y="0" width="16.75" height="11.5" />
+                        <rect x="0" y="18.5" width="16.75" height="11.5" />
+                        <rect x="21.625" y="18.5" width="16.75" height="11.5" />
+                        <rect x="43.25" y="18.5" width="16.75" height="11.5" />
+                      </svg>
+                    )}
+                  </div>
                   <p class="rendimiento-card__label">{row.label}</p>
                   <p class="rendimiento-card__units">
                     <span class="rendimiento-card__units-value" data-rendi-units>{row.unitsPerM2}</span>
@@ -938,6 +970,25 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     color: var(--color-bg);
     border-radius: 999px;
     white-space: nowrap;
+  }
+
+  .rendimiento-card__icon {
+    width: 3.5rem;
+    height: auto;
+    margin: 0 auto 0.85rem;
+    color: var(--color-terracota);
+    opacity: 0.85;
+  }
+
+  .rendimiento-card__icon svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .rendimiento-card--featured .rendimiento-card__icon {
+    color: var(--color-salmon);
+    opacity: 1;
   }
 
   .rendimiento-card__label {
