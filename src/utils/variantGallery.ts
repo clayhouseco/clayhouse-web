@@ -383,7 +383,22 @@ function isRenderFile(filename: string): boolean {
   return /^render \d+\.png$/i.test(filename);
 }
 
+/** Títulos especiales: las carpetas en kebab-case se titulan capitalizando
+ *  cada palabra, pero eso destroza iniciales (casa-jt → "Casa Jt"). Acá se
+ *  fuerza el título exacto para esos casos. */
+const PROJECT_TITLES: Record<string, string> = {
+  "casa-jt": "Casa JT",
+  "casa-zq": "Casa ZQ",
+  "casa-hdb": "Casa HDB",
+  "edificio-8k": "Edificio 8K",
+  "action-sport-padel": "Action Sport Pádel",
+  "living-3450": "Living 3450",
+  "plaza-mercado-envigado": "Plaza de Mercado Envigado",
+};
+
 function projectFolderTitle(dirname: string): string {
+  const override = PROJECT_TITLES[dirname.toLowerCase()];
+  if (override) return override;
   return dirname
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
