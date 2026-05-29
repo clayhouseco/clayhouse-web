@@ -6,6 +6,11 @@ import { catalogCategories, type ProductCategory } from "@/data/catalogCategorie
 import { Image } from "astro:assets";
 import heroImg from "@/assets/images/hero/Edificio 8k.jpg";
 
+interface ProjectImage {
+  src: string;
+  alt: string;
+}
+
 interface ProjectEntry {
   id: string;
   title: string;
@@ -15,6 +20,7 @@ interface ProjectEntry {
   thumbnail: string;
   alt: string;
   imageCount: number;
+  images: ProjectImage[];
 }
 
 const allProjects: ProjectEntry[] = [];
@@ -38,10 +44,19 @@ for (const product of sortProductsByPriority(products.filter((p) => !p.hidden)))
       thumbnail: first.src,
       alt: first.alt || card.title,
       imageCount: card.images.length,
+      images: card.images.map((img) => ({ src: img.src, alt: img.alt || card.title })),
     });
     productsWithProjects.add(product.slug);
   }
 }
+
+/** Mapa id → datos del proyecto para alimentar el visor (lightbox) desde JS. */
+const projectsData = Object.fromEntries(
+  allProjects.map((p) => [
+    p.id,
+    { title: p.title, productName: p.productName, productSlug: p.productSlug, images: p.images },
+  ])
+);
 
 const categoriesWithProjects = catalogCategories.filter((cat) =>
   allProjects.some((p) => p.productCategory === cat.id)
@@ -126,13 +141,14 @@ const totalProjects = allProjects.length;
       <div class="projects-grid" data-projects-grid>
         {
           allProjects.map((project) => (
-            <a
-              href={`/productos/${project.productSlug}/#inspiracion`}
+            <button
+              type="button"
               class="project-card"
               data-project
+              data-project-id={project.id}
               data-category={project.productCategory}
               data-product={project.productSlug}
-              aria-label={`Ver ${project.title} en ${project.productName}`}
+              aria-label={`Ver fotos de ${project.title}`}
             >
               <div class="project-card__media">
                 <img
@@ -157,7 +173,7 @@ const totalProjects = allProjects.length;
                 <h3 class="project-card__title">{project.title}</h3>
                 <p class="project-card__product">{project.productName}</p>
               </div>
-            </a>
+            </button>
           ))
         }
       </div>
@@ -180,6 +196,38 @@ const totalProjects = allProjects.length;
       </p>
     </div>
   </section>
+
+  <script type="application/json" id="projects-data" set:html={JSON.stringify(projectsData)} />
+
+  <div class="project-viewer" data-viewer hidden aria-hidden="true">
+    <div class="project-viewer__backdrop" data-viewer-close></div>
+    <div class="project-viewer__dialog" role="dialog" aria-modal="true" aria-labelledby="viewer-title">
+      <button type="button" class="project-viewer__close" data-viewer-close aria-label="Cerrar">
+        ×
+      </button>
+      <div class="project-viewer__stage">
+        <button type="button" class="project-viewer__nav project-viewer__nav--prev" data-viewer-prev aria-label="Anterior">
+          ‹
+        </button>
+        <figure class="project-viewer__figure">
+          <img data-viewer-img src="" alt="" />
+        </figure>
+        <button type="button" class="project-viewer__nav project-viewer__nav--next" data-viewer-next aria-label="Siguiente">
+          ›
+        </button>
+      </div>
+      <div class="project-viewer__bar">
+        <div class="project-viewer__meta">
+          <h2 class="project-viewer__title" id="viewer-title" data-viewer-title></h2>
+          <p class="project-viewer__product" data-viewer-product></p>
+        </div>
+        <div class="project-viewer__bar-right">
+          <span class="project-viewer__counter" data-viewer-counter></span>
+          <a class="project-viewer__link" data-viewer-link href="#">Ver producto →</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </BaseLayout>
 
 <script>
@@ -256,6 +304,99 @@ const totalProjects = allProjects.length;
     productSelect.value = initialProduct;
     productSelect.dispatchEvent(new Event("change"));
   }
+
+  // ---- Visor de proyectos (lightbox dentro de /proyectos) ----
+  interface ViewerImage { src: string; alt: string }
+  interface ViewerProject {
+    title: string;
+    productName: string;
+    productSlug: string;
+    images: ViewerImage[];
+  }
+
+  const dataEl = document.getElementById("projects-data");
+  const projectsData: Record<string, ViewerProject> = dataEl
+    ? JSON.parse(dataEl.textContent || "{}")
+    : {};
+
+  const viewer = document.querySelector<HTMLElement>("[data-viewer]");
+  const viewerImg = viewer?.querySelector<HTMLImageElement>("[data-viewer-img]");
+  const viewerTitle = viewer?.querySelector<HTMLElement>("[data-viewer-title]");
+  const viewerProduct = viewer?.querySelector<HTMLElement>("[data-viewer-product]");
+  const viewerCounter = viewer?.querySelector<HTMLElement>("[data-viewer-counter]");
+  const viewerLink = viewer?.querySelector<HTMLAnchorElement>("[data-viewer-link]");
+  const prevBtn = viewer?.querySelector<HTMLButtonElement>("[data-viewer-prev]");
+  const nextBtn = viewer?.querySelector<HTMLButtonElement>("[data-viewer-next]");
+
+  let current: ViewerProject | null = null;
+  let index = 0;
+  let lastFocused: HTMLElement | null = null;
+
+  function renderImage() {
+    if (!current || !viewerImg) return;
+    const img = current.images[index];
+    if (!img) return;
+    viewerImg.src = img.src;
+    viewerImg.alt = img.alt;
+    if (viewerCounter) {
+      viewerCounter.textContent = `${index + 1} / ${current.images.length}`;
+    }
+    const multi = current.images.length > 1;
+    if (prevBtn) prevBtn.hidden = !multi;
+    if (nextBtn) nextBtn.hidden = !multi;
+  }
+
+  function openViewer(id: string, trigger: HTMLElement) {
+    const project = projectsData[id];
+    if (!project || !viewer) return;
+    current = project;
+    index = 0;
+    lastFocused = trigger;
+    if (viewerTitle) viewerTitle.textContent = project.title;
+    if (viewerProduct) viewerProduct.textContent = project.productName;
+    if (viewerLink) viewerLink.href = `/productos/${project.productSlug}/`;
+    renderImage();
+    viewer.hidden = false;
+    viewer.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    viewer.querySelector<HTMLButtonElement>("[data-viewer-close]")?.focus();
+  }
+
+  function closeViewer() {
+    if (!viewer) return;
+    viewer.hidden = true;
+    viewer.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    current = null;
+    lastFocused?.focus();
+  }
+
+  function step(delta: number) {
+    if (!current) return;
+    const n = current.images.length;
+    index = (index + delta + n) % n;
+    renderImage();
+  }
+
+  cards?.forEach((card) => {
+    card.addEventListener("click", () => {
+      const id = card.dataset.projectId;
+      if (id) openViewer(id, card);
+    });
+  });
+
+  viewer?.querySelectorAll<HTMLElement>("[data-viewer-close]").forEach((el) => {
+    el.addEventListener("click", closeViewer);
+  });
+  prevBtn?.addEventListener("click", () => step(-1));
+  nextBtn?.addEventListener("click", () => step(1));
+
+  document.addEventListener("keydown", (e) => {
+    if (viewer?.hidden) return;
+    if (e.key === "Escape") closeViewer();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
 </script>
 
 <style>
@@ -415,6 +556,12 @@ const totalProjects = allProjects.length;
   .project-card {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
     background: var(--color-white);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -425,6 +572,11 @@ const totalProjects = allProjects.length;
       transform 0.3s var(--ease),
       box-shadow 0.3s var(--ease),
       border-color 0.3s var(--ease);
+  }
+
+  .project-card:focus-visible {
+    outline: 2px solid var(--color-terracota);
+    outline-offset: 3px;
   }
 
   .project-card:hover {
@@ -554,6 +706,193 @@ const totalProjects = allProjects.length;
     .projects-filters__select {
       min-width: 0;
       flex: 1;
+    }
+  }
+
+  /* ---------------- VISOR (lightbox) ---------------- */
+  .project-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 4vw, 3rem);
+  }
+
+  .project-viewer[hidden] {
+    display: none;
+  }
+
+  .project-viewer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(35, 18, 8, 0.88);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .project-viewer__dialog {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 1100px);
+    max-height: 92vh;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .project-viewer__close {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    z-index: 3;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--color-bg);
+    background: rgba(35, 18, 8, 0.55);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s var(--ease);
+  }
+
+  .project-viewer__close:hover {
+    background: rgba(35, 18, 8, 0.85);
+  }
+
+  .project-viewer__stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a120c;
+    min-height: 0;
+    flex: 1;
+  }
+
+  .project-viewer__figure {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-viewer__figure img {
+    max-width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  .project-viewer__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--color-chocolate);
+    background: rgba(255, 251, 249, 0.9);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .project-viewer__nav:hover {
+    background: var(--color-bg);
+  }
+
+  .project-viewer__nav--prev {
+    left: 0.85rem;
+  }
+
+  .project-viewer__nav--next {
+    right: 0.85rem;
+  }
+
+  .project-viewer__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-white);
+    border-top: 1px solid rgba(71, 36, 16, 0.08);
+  }
+
+  .project-viewer__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+    line-height: 1.2;
+  }
+
+  .project-viewer__product {
+    margin: 0.15rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .project-viewer__bar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .project-viewer__counter {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .project-viewer__link {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-terracota);
+    white-space: nowrap;
+  }
+
+  .project-viewer__link:hover {
+    color: var(--color-coral);
+  }
+
+  @media (max-width: 640px) {
+    .project-viewer__nav {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.5rem;
+    }
+
+    .project-viewer__figure img {
+      max-height: 65vh;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card:hover {
+      transform: none;
     }
   }
 </style>
