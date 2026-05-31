@@ -64,6 +64,14 @@ const {
         <>
           <input type="hidden" name="_subject" value="Nueva solicitud — Clay House" />
           <input type="hidden" name="_next" value={thankYouUrl} />
+          <input
+            type="text"
+            name="_gotcha"
+            tabindex="-1"
+            autocomplete="off"
+            class="contact-form__honeypot"
+            aria-hidden="true"
+          />
         </>
       )
     }
@@ -184,12 +192,30 @@ const {
         {defaultMessage}
       </textarea>
     </label>
-    <button type="submit" class="btn btn--primary">
+    <button
+      type="submit"
+      class="btn btn--primary"
+      data-track={formAction ? "generate_lead" : "whatsapp_click"}
+      data-track-location="contacto_form"
+    >
       {formAction ? "enviar solicitud" : "enviar por WhatsApp"}
     </button>
     <p class="form-legal">Al enviar acepta el tratamiento de sus datos para fines comerciales.</p>
   </form>
 </div>
+
+<style>
+  /* Honeypot: invisible para humanos, los bots sí lo llenan y Formspree
+   * descarta el envío si viene con contenido. */
+  .contact-form__honeypot {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+</style>
 
 <script>
   import { QUOTE_CART_EVENT, buildQuoteMessage, formatCartLine, getQuoteCart } from "@/utils/quoteCart";
