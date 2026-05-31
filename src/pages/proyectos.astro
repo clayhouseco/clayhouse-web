@@ -262,18 +262,41 @@ const totalProjects = allProjects.length;
     }
   }
 
+  // Cachea las opciones originales del select de productos. Los browsers
+  // ignoran <option hidden>, así que para filtrar de verdad hay que
+  // quitarlas del DOM y reinsertarlas cuando cambia la categoría.
+  const productOptionsMaster = productSelect
+    ? Array.from(productSelect.options)
+        .filter((opt) => opt.value !== "all")
+        .map((opt) => ({
+          value: opt.value,
+          label: opt.textContent ?? opt.value,
+          category: opt.dataset.productCategory ?? "",
+        }))
+    : [];
+
   function syncProductOptions() {
     if (!productSelect) return;
-    Array.from(productSelect.options).forEach((option) => {
-      if (option.value === "all") return;
-      const cat = option.dataset.productCategory;
-      const matches = activeCategory === "all" || cat === activeCategory;
-      option.hidden = !matches;
-      if (!matches && option.value === activeProduct) {
-        activeProduct = "all";
-        productSelect.value = "all";
-      }
-    });
+    // Conserva la opción "Todos los productos" y reconstruye el resto.
+    const allOpt = Array.from(productSelect.options).find((o) => o.value === "all");
+    productSelect.innerHTML = "";
+    if (allOpt) productSelect.appendChild(allOpt);
+    for (const item of productOptionsMaster) {
+      if (activeCategory !== "all" && item.category !== activeCategory) continue;
+      const opt = document.createElement("option");
+      opt.value = item.value;
+      opt.textContent = item.label;
+      opt.dataset.productCategory = item.category;
+      productSelect.appendChild(opt);
+    }
+    // Si la categoría dejó fuera al producto activo, vuelve a "Todos".
+    if (
+      activeProduct !== "all" &&
+      !Array.from(productSelect.options).some((o) => o.value === activeProduct)
+    ) {
+      activeProduct = "all";
+    }
+    productSelect.value = activeProduct;
   }
 
   categoryButtons?.forEach((btn) => {
