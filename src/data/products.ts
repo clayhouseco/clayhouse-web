@@ -534,7 +534,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Teja Colonial | Clay House Amagá",
     seoDescription: "Teja colonial de ladrillo. Clay House, Amagá.",
-    image: productFolderImage("teja-colonial", "roja/DSC_9435.jpg"),
+    image: productFolderImage("teja-colonial", "roja/teja colonial natural.png"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",
     specs: [

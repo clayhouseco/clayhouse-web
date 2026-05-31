@@ -175,12 +175,12 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "teja-colonial": {
     heroProductByVariant: {
-      roja: "DSC_9435.jpg",
+      roja: "teja colonial natural.png",
     },
     sharedRootPattern: /^teja colonial (dimensiones|ficha)/i,
     dimensionesPattern: /teja colonial dimensiones/i,
     fichaPattern: /teja colonial ficha/i,
-    productFilePattern: /^DSC_94/i,
+    productFilePattern: /^teja colonial natural/i,
   },
 };
 
