@@ -40,8 +40,8 @@ export const localBusinessJsonLd = {
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 6.0397,
-    longitude: -75.7035,
+    latitude: 6.0444695,
+    longitude: -75.695905,
   },
   openingHoursSpecification,
   areaServed: {
