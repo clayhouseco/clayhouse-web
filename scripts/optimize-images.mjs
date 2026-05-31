@@ -14,10 +14,13 @@ import path from "node:path";
 import sharp from "sharp";
 
 const ROOT = path.resolve("public/images");
-const MAX_WIDTH = 2000;
-const QUALITY_JPG = 82;
-const QUALITY_PNG = 82;
-const MIN_KB = 200; // ignora archivos pequeños
+// Tope dimensional ajustado al uso real: el visor de proyectos llega a ~1500px
+// de ancho a pantalla completa; las demás superficies son menores. Bajar de
+// 2000 a 1600 quita peso sin pérdida visible.
+const MAX_WIDTH = 1600;
+const QUALITY_JPG = 80;
+const QUALITY_PNG = 80;
+const MIN_KB = 150;
 const DRY_RUN = process.argv.includes("--dry-run");
 
 const VALID_EXTS = new Set([".jpg", ".jpeg", ".png"]);
