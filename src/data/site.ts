@@ -17,13 +17,13 @@ export const site = {
   lng: -75.695905,
   hours:
     "Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m.",
-  /** Mapa embebido buscando por nombre del negocio para que Maps muestre
-   *  la ficha de Clay House (foto, horario, reseñas) en vez del pin solo. */
+  /** Mapa embebido con el CID real de Clay House en Google Maps (1204017223360503098)
+   *  → debería mostrar la ficha del negocio sin API key. */
   mapsEmbedUrl:
-    "https://maps.google.com/maps?q=Clay+House,+Amag%C3%A1&hl=es&z=17&output=embed",
-  /** Indicaciones en Google Maps buscando el negocio por nombre y ubicación. */
+    "https://maps.google.com/maps?cid=1204017223360503098&hl=es&z=17&output=embed",
+  /** Indicaciones en Google Maps al CID real del negocio. */
   mapsDirectionsUrl:
-    "https://www.google.com/maps/dir/?api=1&destination=Clay+House,+Amag%C3%A1,+Antioquia",
+    "https://www.google.com/maps/dir/?api=1&destination=Clay+House&destination_cid=1204017223360503098",
   /** Navegación en Waze con coordenadas exactas. */
   wazeUrl: "https://waze.com/ul?ll=6.0444695,-75.695905&navigate=yes",
 } as const;
