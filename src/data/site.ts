@@ -12,13 +12,19 @@ export const site = {
   phoneHref: "tel:+573206723365",
   whatsapp: "https://wa.me/573206723365",
   address: "Km 2, vía Amagá - Angelópolis, Amagá, Antioquia, Colombia",
+  /** Coordenadas para el embed del mapa y para Waze (lat, lng). */
+  lat: 6.0397,
+  lng: -75.7035,
   hours:
     "Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m.",
-  /** Mapa embebido (sin API key) y enlace a indicaciones en Google Maps */
+  /** Mapa embebido (sin API key). Usamos coordenadas para asegurar el pin. */
   mapsEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.184!2d-75.7035!3d6.0397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e44286b5f7f2f0d%3A0x0!2sKm%202%2C%20v%C3%ADa%20Amag%C3%A1%20-%20Angel%C3%B3polis%2C%20Amag%C3%A1!5e0!3m2!1ses!2sco!4v1!5m2!1ses!2sco",
+    "https://maps.google.com/maps?q=6.0397,-75.7035&hl=es&z=15&output=embed",
+  /** Indicaciones en Google Maps usando las coordenadas directas. */
   mapsDirectionsUrl:
-    "https://www.google.com/maps/dir/?api=1&destination=Clay+House,+Km+2,+vía+Amagá+-+Angelópolis,+Amagá,+Antioquia,+Colombia",
+    "https://www.google.com/maps/dir/?api=1&destination=6.0397,-75.7035",
+  /** Navegación en Waze (abre la app o web). */
+  wazeUrl: "https://waze.com/ul?ll=6.0397,-75.7035&navigate=yes",
 } as const;
 
 export type SocialId =

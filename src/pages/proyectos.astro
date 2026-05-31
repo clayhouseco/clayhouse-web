@@ -579,6 +579,12 @@ const totalProjects = allProjects.length;
     outline-offset: 3px;
   }
 
+  /* Fuerza ocultamiento sobre el display:flex de arriba. Sin esto el atributo
+   * [hidden] no funciona y los filtros no esconden las tarjetas. */
+  .project-card[hidden] {
+    display: none;
+  }
+
   .project-card:hover {
     transform: translateY(-4px);
     border-color: rgba(124, 72, 44, 0.2);

@@ -83,7 +83,7 @@ const thankYouPath = "/contacto/gracias/";
       <div class="contact-info">
         <h2>Datos de contacto</h2>
         <ul class="contact-cards" role="list">
-          <li class="contact-card">
+          <li class="contact-card contact-card--full">
             <span class="contact-card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z" />
@@ -93,6 +93,33 @@ const thankYouPath = "/contacto/gracias/";
             <div>
               <p class="contact-card__label">Dirección</p>
               <p class="contact-card__value">{site.address}</p>
+              <div class="contact-card__actions">
+                <a
+                  href={site.mapsDirectionsUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="contact-card__action"
+                >
+                  Google Maps
+                </a>
+                <a
+                  href={site.wazeUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="contact-card__action"
+                >
+                  Waze
+                </a>
+                <button
+                  type="button"
+                  class="contact-card__action contact-card__action--copy"
+                  data-copy-address
+                  data-address={site.address}
+                  aria-label="Copiar dirección"
+                >
+                  Copiar
+                </button>
+              </div>
             </div>
           </li>
           <li class="contact-card">
@@ -223,6 +250,31 @@ const thankYouPath = "/contacto/gracias/";
 
     window.open(`${whatsappUrl}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
     window.location.href = thankYouPath;
+  });
+</script>
+
+<script>
+  // Copiar dirección al portapapeles con feedback visual
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-address]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const address = btn.dataset.address ?? "";
+      if (!address) return;
+      try {
+        await navigator.clipboard.writeText(address);
+        const original = btn.textContent;
+        btn.textContent = "¡Copiado!";
+        btn.classList.add("contact-card__action--copied");
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove("contact-card__action--copied");
+        }, 1600);
+      } catch {
+        btn.textContent = "Error";
+        setTimeout(() => {
+          btn.textContent = "Copiar";
+        }, 1600);
+      }
+    });
   });
 </script>
 
@@ -375,6 +427,49 @@ const thankYouPath = "/contacto/gracias/";
 
   .contact-card a:hover {
     color: var(--color-coral);
+  }
+
+  /* La tarjeta de dirección ocupa las 2 columnas y aloja los botones */
+  .contact-card--full {
+    grid-column: 1 / -1;
+  }
+
+  .contact-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.65rem;
+  }
+
+  .contact-card__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+    background: var(--color-bg);
+    border: 1px solid rgba(124, 72, 44, 0.25);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+
+  .contact-card__action:hover {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-bg);
+  }
+
+  .contact-card__action--copied {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-bg);
   }
 
   .contact-info__whatsapp {
