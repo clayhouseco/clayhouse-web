@@ -168,8 +168,14 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         </div>
 
         <aside class="product-page__info-card">
-          <h1>{displayName}</h1>
-          <span data-product-color hidden>{displayColor}</span>
+          <header class="product-page__header">
+            <h1>{displayName}</h1>
+            <span data-product-color hidden>{displayColor}</span>
+            <div class="product-page__description">
+              {product.description.split("\n\n").map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          </header>
+
           {
             assets && (
               <ProductColorVariants
@@ -181,11 +187,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               />
             )
           }
-          <div class="product-page__description">
-            {product.description.split("\n\n").map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-          <p class="product-page__delivery">Plazo de entrega: consultar según volumen y referencia</p>
-          <div class="product-page__order" data-product-order>
+
+          <div class="product-page__price-block">
+            <p class="product-page__delivery">Plazo de entrega: consultar según volumen y referencia</p>
             {
               displayPrice && (
                 <p class="product-page__price" data-product-price>
@@ -196,6 +200,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </p>
               )
             }
+          </div>
+
+          <div class="product-page__order" data-product-order>
             <label class="product-page__qty">
               <span>Cantidad</span>
               <input
@@ -941,7 +948,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--color-text-muted);
-    margin: 0 0 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .product-page__price-block {
+    margin-bottom: 1.25rem;
   }
 
   .product-page__order {
@@ -1741,13 +1752,32 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   }
 
   @media (max-width: 900px) {
+    /* Mobile: una sola columna y reordenamos para que el flujo de lectura sea:
+     * 1. nombre + descripción (header)
+     * 2. variantes de color
+     * 3. galería de imágenes
+     * 4. precio
+     * 5. cantidad + agregar
+     *
+     * Truco: el aside.product-page__info-card pasa a display:contents para
+     * que sus hijos participen directamente en el flex del hero-grid y se
+     * puedan reordenar con `order` junto con la galería. */
     .product-page__hero-grid {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
     }
 
     .product-page__info-card {
-      position: static;
+      display: contents;
     }
+
+    .product-page__header { order: 1; }
+    /* ProductColorVariants renderiza con .color-variants como wrapper */
+    .product-page__hero-grid :global(.color-variants) { order: 2; }
+    .product-page__gallery-col { order: 3; }
+    .product-page__price-block { order: 4; }
+    .product-page__order { order: 5; }
 
     .product-page__two-col,
     .highlights-grid {
