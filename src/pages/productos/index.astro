@@ -2,7 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CatalogFilters from "@/components/catalog/CatalogFilters.astro";
 import ProductGrid from "@/components/catalog/ProductGrid.astro";
-import PricingGuide from "@/components/catalog/PricingGuide.astro";
 import { groupProductsByCategory } from "@/utils/catalog";
 import { Image } from "astro:assets";
 import heroImg from "@/assets/images/hero/DSC08873.jpg";
@@ -60,13 +59,6 @@ const grouped = groupProductsByCategory();
         ))
       }
 
-      <PricingGuide />
-
-      <aside class="catalog-cta">
-        <h3>¿No encuentra su referencia?</h3>
-        <p>Desarrollamos piezas a medida según plano de arquitecto.</p>
-        <a href="/contacto" class="btn btn--primary">solicitar cotización</a>
-      </aside>
     </div>
   </section>
 
