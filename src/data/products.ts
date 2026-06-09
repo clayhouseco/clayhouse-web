@@ -1,4 +1,4 @@
-import { assetUrl, downloadUrl, fichaPdf, productFolderImage } from "@/utils/paths";
+import { downloadUrl, fichaPdf, productFolderImage } from "@/utils/paths";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -45,8 +45,6 @@ export interface Product {
   /** Filas extra de ficha técnica */
   specs?: ProductSpec[];
   technicalPdf: string;
-  /** Imagen de la ficha técnica para vista previa inline (formato landscape, PNG/JPG) */
-  technicalPreview?: string;
 }
 
 export const products: Product[] = [
@@ -87,8 +85,7 @@ export const products: Product[] = [
       { label: "Absorción de agua", value: "Promedio 13% · Individual 17%" },
       { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
-    technicalPdf: fichaPdf("Toscano.pdf"),
-    technicalPreview: fichaPdf("Toscano.png"),
+    technicalPdf: fichaPdf("toscano"),
   },
   {
     name: "Ladrillo Napolitano",
@@ -126,7 +123,7 @@ export const products: Product[] = [
       { label: "Absorción de agua", value: "Promedio 13% · Individual 17%" },
       { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
-    technicalPdf: fichaPdf("Napolitano.pdf"),
+    technicalPdf: fichaPdf("napolitano"),
   },
   {
     name: "Ladrillo Romano",
@@ -163,8 +160,7 @@ export const products: Product[] = [
       { label: "Absorción de agua", value: "Promedio 13% · Individual 17%" },
       { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
-    technicalPdf: fichaPdf("Romano.pdf"),
-    technicalPreview: fichaPdf("Romano.png"),
+    technicalPdf: fichaPdf("romano"),
   },
   {
     name: "Ladrillo Cartagena",
@@ -201,7 +197,7 @@ export const products: Product[] = [
       { label: "Absorción de agua", value: "Promedio 14% · Individual 17%" },
       { label: "Resistencia a la compresión", value: "Promedio 14 MPa · Individual 10 MPa" },
     ],
-    technicalPdf: fichaPdf("Cartagena.pdf"),
+    technicalPdf: fichaPdf("cartagena"),
   },
   {
     name: "Macizo Campesino",
@@ -234,7 +230,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Estructural y fachada" },
     ],
-    technicalPdf: fichaPdf("Macizo Campesino.pdf"),
+    technicalPdf: fichaPdf("macizo-campesino"),
   },
   {
     name: "Macizo",
@@ -266,8 +262,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Estructural" },
     ],
-    technicalPdf: fichaPdf("Macizo Brix.pdf"),
-    technicalPreview: fichaPdf("Macizo Brix.png"),
+    technicalPdf: fichaPdf("macizo-brix"),
   },
   {
     name: "Bocadillo Prensado",
@@ -326,7 +321,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Divisorios y cerramientos" },
     ],
-    technicalPdf: fichaPdf("Rayados Verticales.pdf"),
+    technicalPdf: fichaPdf("rayados-verticales"),
   },
   {
     name: "Ladrillo Rayado Horizontal",
@@ -361,7 +356,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Divisorios y cerramientos" },
     ],
-    technicalPdf: fichaPdf("Rayados Horizontales.pdf"),
+    technicalPdf: fichaPdf("rayados-horizontales"),
   },
   {
     name: "Enchape Rústico",
@@ -388,7 +383,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Revestimiento interior y exterior" },
     ],
-    technicalPdf: fichaPdf("Enchape Rustico.pdf"),
+    technicalPdf: fichaPdf("enchape-rustico"),
   },
   {
     name: "Enchape Romano",
@@ -420,7 +415,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Revestimiento y detalle" },
     ],
-    technicalPdf: fichaPdf("Enchape Romano.pdf"),
+    technicalPdf: fichaPdf("enchape-romano"),
   },
   {
     name: "Piso 30×30",
@@ -454,7 +449,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Piso interior y exterior cubierto" },
     ],
-    technicalPdf: fichaPdf("Piso 30x30.pdf"),
+    technicalPdf: fichaPdf("piso-30x30"),
   },
   {
     name: "Piso 10×30",
@@ -487,7 +482,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Piso interior y exterior cubierto" },
     ],
-    technicalPdf: assetUrl("/Fichas Tecnicas/Viejos/Fichas Técnicas Piso 10-30.pdf"),
+    technicalPdf: fichaPdf("piso-10x30"),
   },
   {
     name: "Teja Plana",
@@ -514,7 +509,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Cubierta visible" },
     ],
-    technicalPdf: fichaPdf("Teja Plana.pdf"),
+    technicalPdf: fichaPdf("teja-plana"),
   },
   {
     name: "Teja Colonial",
@@ -541,7 +536,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Cubierta visible" },
     ],
-    technicalPdf: assetUrl("/Fichas Tecnicas/Viejos/Fichas Técnicas Teja.pdf"),
+    technicalPdf: fichaPdf("teja-colonial"),
   },
 ];
 

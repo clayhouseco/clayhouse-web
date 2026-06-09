@@ -6,7 +6,7 @@ Coloque aquí archivos con **nombres legibles** (sin `doc_final_v3.pdf`):
 |---------|------------------|
 | `Manual de Fachadas Clay House.pdf` | Catálogo general y guía de instalación de fachadas |
 
-Fichas técnicas por producto están en `/public/Fichas Tecnicas/` con el nombre del producto (ej. `Romano.pdf`, `Enchape Romano.pdf`).
+Fichas técnicas por producto viven en la carpeta de cada producto como `ficha.pdf` (ej. `/public/images/products/romano/ficha.pdf`).
 
 Opcionales para ampliar `/descargas` en `src/data/generalDownloads.ts`:
 

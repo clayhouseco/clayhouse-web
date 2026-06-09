@@ -26,8 +26,9 @@ export function productFolderImage(slug: string, filename: string): string {
   return `/images/products/${slug}/${filename}`;
 }
 
-export function fichaPdf(filename: string): string {
-  return assetUrl(`/Fichas Tecnicas/${filename}`);
+/** PDF de ficha técnica dentro de la carpeta del producto (slug → ficha.pdf) */
+export function fichaPdf(slug: string): string {
+  return assetUrl(`/images/products/${slug}/ficha.pdf`);
 }
 
 export function downloadUrl(filename: string): string {

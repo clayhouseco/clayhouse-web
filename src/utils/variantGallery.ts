@@ -340,9 +340,8 @@ export function splitHeroGallery(
     });
 
   const dimensiones = images.find((img) => dimensionesPattern.test(file(img)));
-  const ficha = fichaPattern ? images.find((img) => fichaPattern.test(file(img))) : undefined;
 
-  const hero = [product, dimensiones, ficha].filter(Boolean) as GalleryImage[];
+  const hero = [product, dimensiones].filter(Boolean) as GalleryImage[];
   const heroSrcs = new Set(hero.map((img) => img.src));
 
   return {

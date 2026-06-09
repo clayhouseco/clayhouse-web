@@ -560,26 +560,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     <section class="product-page__block product-page__block--alt" id="descargables">
       <div class="container product-page__panel product-page__panel--downloads">
         <h2 class="product-page__h2">Descargables</h2>
-        {
-          product.technicalPreview && (
-            <a
-              href={product.technicalPreview}
-              target="_blank"
-              rel="noopener"
-              class="ficha-preview"
-              aria-label={`Ver ficha técnica de ${product.name} a tamaño completo`}
-            >
-              <img
-                src={product.technicalPreview}
-                alt={`Ficha técnica de ${product.name}`}
-                width="1264"
-                height="843"
-                loading="lazy"
-              />
-              <span class="ficha-preview__hint">Click para ver en grande</span>
-            </a>
-          )
-        }
         <ul class="download-list">
           <li>
             <a href={product.technicalPdf} target="_blank" rel="noopener" class="download-link">
@@ -1522,44 +1502,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     font-size: 0.9375rem;
     line-height: 1.65;
     color: var(--color-text-muted);
-  }
-
-  .ficha-preview {
-    display: block;
-    position: relative;
-    margin: 0 0 1.25rem;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-bg);
-    border: 1px solid rgba(71, 36, 16, 0.1);
-    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
-  }
-
-  .ficha-preview:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(71, 36, 16, 0.12);
-  }
-
-  .ficha-preview img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .ficha-preview__hint {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    padding: 0.35rem 0.7rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-bg);
-    background: rgba(71, 36, 16, 0.85);
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
   }
 
   .download-list {
