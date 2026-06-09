@@ -26,9 +26,9 @@ interface ProductGalleryConfig {
 const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   romano: {
     heroProductByVariant: {
-      "matizado claro": "Romano Matizado.png",
-      "matizado-oscuro": "Romano Matizado Oscuro.png",
-      natural: "Romano Natural.png",
+      "matizado claro": "Romano Matizado.webp",
+      "matizado-oscuro": "Romano Matizado Oscuro.webp",
+      natural: "Romano Natural.webp",
     },
     sharedRootPattern: /^romano (dimensiones|ficha)/i,
     dimensionesPattern: /romano dimensiones/i,
@@ -37,9 +37,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   toscano: {
     heroProductByVariant: {
-      natural: "toscano natural.png",
-      "matizado claro": "toscano matizado claro.png",
-      "matizado oscuro": "toscano matizado oscuro.png",
+      natural: "toscano natural.webp",
+      "matizado claro": "toscano matizado claro.webp",
+      "matizado oscuro": "toscano matizado oscuro.webp",
     },
     sharedRootPattern: /^(toscano |isometrico toscano)/i,
     dimensionesPattern: /isometrico toscano|toscano dimensiones/i,
@@ -48,8 +48,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   napolitano: {
     heroProductByVariant: {
-      matizado: "Napolitano Oscuro.png",
-      natural: "Napolitano Claro.png",
+      matizado: "Napolitano Oscuro.webp",
+      natural: "Napolitano Claro.webp",
     },
     sharedRootPattern: /^napolitano (dimensiones|ficha)/i,
     dimensionesPattern: /napolitano dimensiones/i,
@@ -58,9 +58,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   cartagena: {
     heroProductByVariant: {
-      natural: "Cartagena Claro.png",
-      "matizado claro": "Cartagena Matizado.png",
-      "matizado oscuro": "Cartagena Oscuro.png",
+      natural: "Cartagena Claro.webp",
+      "matizado claro": "Cartagena Matizado.webp",
+      "matizado oscuro": "Cartagena Oscuro.webp",
     },
     sharedRootPattern: /^cartagena (dimensiones|ficha)/i,
     dimensionesPattern: /cartagena dimensiones/i,
@@ -69,8 +69,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "macizo-campesino": {
     heroProductByVariant: {
-      "matizado claro": "Campesino Claro.png",
-      "matizado oscuro": "Campesino Oscuro.png",
+      "matizado claro": "Campesino Claro.webp",
+      "matizado oscuro": "Campesino Oscuro.webp",
     },
     sharedRootPattern: /^macizo campesino (dimensiones|ficha)/i,
     dimensionesPattern: /macizo campesino dimensiones/i,
@@ -96,9 +96,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "rayados-verticales": {
     heroProductByVariant: {
-      "rayado 10-vertical": "rayado 10 vertical apilados.png",
-      "rayado 12-vertical": "rayado 12 vertical apilado.png",
-      "rayado 15-vertical": "rayado 15 vertical apilados.png",
+      "rayado 10-vertical": "rayado 10 vertical apilados.webp",
+      "rayado 12-vertical": "rayado 12 vertical apilado.webp",
+      "rayado 15-vertical": "rayado 15 vertical apilados.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /dimensiones/i,
@@ -107,9 +107,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "rayados-horizontales": {
     heroProductByVariant: {
-      "rayado 10-horizontal": "rayado 10 imagen.png",
-      "rayado 12-horizontal": "rayado 12 horizontal apilados.png",
-      "rayado 15-horizontal": "rayado 15 horizontal apilados.png",
+      "rayado 10-horizontal": "rayado 10 imagen.webp",
+      "rayado 12-horizontal": "rayado 12 horizontal apilados.webp",
+      "rayado 15-horizontal": "rayado 15 horizontal apilados.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /dimensiones/i,
@@ -126,9 +126,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "enchape-romano": {
     heroProductByVariant: {
-      natural: "Enchape Natural.png",
-      matizado: "Chapa Matizada Clara.png",
-      "matizado oscuro": "Enchape Matizado Oscuro.png",
+      natural: "Enchape Natural.webp",
+      matizado: "Chapa Matizada Clara.webp",
+      "matizado oscuro": "Enchape Matizado Oscuro.webp",
     },
     sharedRootPattern: /^enchape romano (dimensiones|ficha)/i,
     dimensionesPattern: /enchape romano dimensiones/i,
@@ -155,8 +155,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "teja-plana": {
     heroProductByVariant: {
-      chocolate: "Teja Plana Chocolate Lisa.png",
-      natural: "Teja Plana Natural.png",
+      chocolate: "Teja Plana Chocolate Lisa.webp",
+      natural: "Teja Plana Natural.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /teja plana(?: \S+)? dimensiones/i,
@@ -165,8 +165,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "bocadillo-prensado": {
     heroProductByVariant: {
-      arena: "Bocadillo Prensado Palido.png",
-      rojo: "Bocadillo Prensado Rojo.png",
+      arena: "Bocadillo Prensado Palido.webp",
+      rojo: "Bocadillo Prensado Rojo.webp",
     },
     sharedRootPattern: /^bocadillo prensado (dimensiones|ficha)/i,
     dimensionesPattern: /bocadillo prensado dimensiones/i,
@@ -175,7 +175,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "teja-colonial": {
     heroProductByVariant: {
-      roja: "teja colonial natural.png",
+      roja: "teja colonial natural.webp",
     },
     sharedRootPattern: /^teja colonial (dimensiones|ficha)/i,
     dimensionesPattern: /teja colonial dimensiones/i,
@@ -191,7 +191,7 @@ function labelForFilename(filename: string): string {
   if (/\bunitario\b/.test(n)) return "Pieza unitaria";
   if (/fachada/.test(n)) return "En obra";
   if (/render/.test(n)) return "Otras ideas";
-  if (/^romano |^toscano |^napolitano|^cartagena |^campesino|^teja |^chapa |enchapematizado|rayado \d|natural|matizado|arena|oscuro|claro|roj|tabaco|chocolate|brix|apilad|imagen\.png/i.test(n) && !/casa|living|dsc_|gemini|dos santos|starbucks|milano|referencias|cubiertas/i.test(n))
+  if (/^romano |^toscano |^napolitano|^cartagena |^campesino|^teja |^chapa |enchapematizado|rayado \d|natural|matizado|arena|oscuro|claro|roj|tabaco|chocolate|brix|apilad|imagen\.(?:png|webp)/i.test(n) && !/casa|living|dsc_|gemini|dos santos|starbucks|milano|referencias|cubiertas/i.test(n))
     return "Producto";
   if (/casa|living|ecommerce|edificio|ch-|dos santos|starbucks|milano|referencias|cubiertas|dsc_/.test(n))
     return "Proyecto";
@@ -200,7 +200,7 @@ function labelForFilename(filename: string): string {
 
 function sortKey(filename: string): number {
   const n = filename.toLowerCase();
-  if (/render|^romano |^toscano |^cartagena |^campesino|rayado \d|arena|oscuro|natural|matizado|claro|tabaco|chocolate|apilad|imagen\.png|^DSC_93|^DSC_95|^teja /i.test(n) && !/dimensiones|ficha|casa|living|dsc_|gemini|dos santos|starbucks|referencias|cubiertas/i.test(n))
+  if (/render|^romano |^toscano |^cartagena |^campesino|rayado \d|arena|oscuro|natural|matizado|claro|tabaco|chocolate|apilad|imagen\.(?:png|webp)|^DSC_93|^DSC_95|^teja /i.test(n) && !/dimensiones|ficha|casa|living|dsc_|gemini|dos santos|starbucks|referencias|cubiertas/i.test(n))
     return 0;
   if (/dimensiones/.test(n)) return 2;
   if (/ficha/.test(n)) return 3;
@@ -379,7 +379,7 @@ export interface InspirationCard {
 }
 
 function isRenderFile(filename: string): boolean {
-  return /^render \d+\.png$/i.test(filename);
+  return /^render \d+\.(?:png|webp)$/i.test(filename);
 }
 
 /** Títulos especiales: las carpetas en kebab-case se titulan capitalizando

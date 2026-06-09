@@ -35,7 +35,7 @@ Para fachadas y muros estructurales el ladrillo debe cumplir **NTC 4205-2 (perfo
 ## 3. Dimensiones, rendimiento y peso
 
 <figure>
-  <img src="/images/products/romano/romano dimensiones.png" alt="Diagrama de dimensiones del Ladrillo Romano: alto, ancho, largo y peso." loading="lazy" />
+  <img src="/images/products/romano/romano dimensiones.webp" alt="Diagrama de dimensiones del Ladrillo Romano: alto, ancho, largo y peso." loading="lazy" />
   <figcaption>Ficha de dimensiones del Ladrillo Romano. Cada referencia trae su diagrama equivalente.</figcaption>
 </figure>
 

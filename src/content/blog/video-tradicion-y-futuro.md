@@ -3,7 +3,7 @@ title: "Nuestro proceso: del barro de Amagá a la pieza terminada"
 description: "Cómo trabajamos el barro local en Amagá: extracción, formado, secado y cocción artesanal con control de lote."
 pubDate: 2026-05-23
 type: video
-coverImage: "/images/nosotros/hero-ladrillo.png"
+coverImage: "/images/nosotros/hero-ladrillo.webp"
 videoUrl: "https://www.youtube.com/shorts/JO_wpXbQ9x0"
 duration: "1 min"
 tags: ["proceso", "Amagá", "ladrillo"]

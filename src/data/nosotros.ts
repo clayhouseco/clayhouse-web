@@ -14,7 +14,7 @@ export type AboutSection = {
   paragraphs: string[];
 };
 
-export const aboutHeroImage = "/images/nosotros/hero-ladrillo.png";
+export const aboutHeroImage = "/images/nosotros/hero-ladrillo.webp";
 
 export const aboutHero = {
   eyebrow: "Conócenos",

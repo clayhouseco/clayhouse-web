@@ -68,7 +68,7 @@ export const products: Product[] = [
     seoTitle: "Ladrillo Toscano | Clay House Amagá",
     seoDescription:
       "Ladrillo Toscano para fachada e interiores. Tonos arena y oscuro. Clay House, Amagá.",
-    image: productFolderImage("toscano", "natural/toscano natural.png"),
+    image: productFolderImage("toscano", "natural/toscano natural.webp"),
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -106,7 +106,7 @@ export const products: Product[] = [
     hidden: true,
     seoTitle: "Ladrillo Napolitano | Clay House",
     seoDescription: "Ladrillo Napolitano para fachada. Clay House, Amagá.",
-    image: productFolderImage("napolitano", "matizado/Napolitano Oscuro.png"),
+    image: productFolderImage("napolitano", "matizado/Napolitano Oscuro.webp"),
     pricePerUnit: "$ 2.090",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -143,7 +143,7 @@ export const products: Product[] = [
     featured: true,
     seoTitle: "Ladrillo Romano | Clay House Amagá",
     seoDescription: "Ladrillo Romano de fachada. Amagá, Colombia.",
-    image: productFolderImage("romano", "matizado claro/Romano Matizado.png"),
+    image: productFolderImage("romano", "matizado claro/Romano Matizado.webp"),
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -181,7 +181,7 @@ export const products: Product[] = [
     seoTitle: "Ladrillo Cartagena | Clay House Amagá",
     seoDescription:
       "Ladrillo Cartagena para fachada. Tonos claro, matizado y oscuro. Clay House, Amagá.",
-    image: productFolderImage("cartagena", "natural/Cartagena Claro.png"),
+    image: productFolderImage("cartagena", "natural/Cartagena Claro.webp"),
     pricePerUnit: "$ 2.700",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -218,7 +218,7 @@ export const products: Product[] = [
     featured: true,
     seoTitle: "Macizo Campesino | Clay House",
     seoDescription: "Ladrillo macizo campesino. Amagá, Antioquia.",
-    image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro.png"),
+    image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro.webp"),
     pricePerUnit: "$ 1.650",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -284,7 +284,7 @@ export const products: Product[] = [
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
       "Ladrillo Bocadillo Prensado en arcilla cocida. Colores arena y rojo. Clay House Amagá.",
-    image: productFolderImage("bocadillo-prensado", "rojo/Bocadillo Prensado Rojo.png"),
+    image: productFolderImage("bocadillo-prensado", "rojo/bocadillo-prensado-rojo.webp"),
     priceUnitLabel: "unidad",
     technicalPdf: downloadUrl("Manual de Fachadas Clay House.pdf"),
   },
@@ -308,7 +308,7 @@ export const products: Product[] = [
     seoDescription: "Ladrillo rayado vertical para fachada.",
     image: productFolderImage(
       "rayados-verticales",
-      "rayado 12-vertical/rayado 12 vertical apilado.png"
+      "rayado 12-vertical/rayado 12 vertical apilado.webp"
     ),
     pricePerUnit: "$ 2.360",
     priceUnitLabel: "unidad",
@@ -343,7 +343,7 @@ export const products: Product[] = [
     seoDescription: "Ladrillo rayado horizontal. Clay House.",
     image: productFolderImage(
       "rayados-horizontales",
-      "rayado 12-horizontal/rayado 12 horizontal apilados.png"
+      "rayado 12-horizontal/rayado 12 horizontal apilados.webp"
     ),
     pricePerUnit: "$ 1.790",
     priceUnitLabel: "unidad",
@@ -403,7 +403,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Enchape Romano | Clay House",
     seoDescription: "Enchape romano Clay House.",
-    image: productFolderImage("enchape-romano", "natural/Enchape Natural.png"),
+    image: productFolderImage("enchape-romano", "natural/Enchape Natural.webp"),
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
     dimensions: {
@@ -502,7 +502,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Teja Plana | Clay House Amagá",
     seoDescription: "Teja plana de ladrillo.",
-    image: productFolderImage("teja-plana", "chocolate/Teja Plana Chocolate Lisa.png"),
+    image: productFolderImage("teja-plana", "chocolate/Teja Plana Chocolate Lisa.webp"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",
     specs: [
@@ -529,7 +529,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Teja Colonial | Clay House Amagá",
     seoDescription: "Teja colonial de ladrillo. Clay House, Amagá.",
-    image: productFolderImage("teja-colonial", "roja/teja colonial natural.png"),
+    image: productFolderImage("teja-colonial", "roja/teja colonial natural.webp"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",
     specs: [

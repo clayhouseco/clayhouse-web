@@ -61,7 +61,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     description: "Teja Plana y Teja Colonial para cubiertas visibles en ladrillo.",
     order: 5,
     coverProductSlug: "teja-plana",
-    coverFallback: "/images/products/teja-plana/teja plana ppal.png",
+    coverFallback: "/images/products/teja-plana/natural/Teja Plana Natural.webp",
   },
 ];
 
