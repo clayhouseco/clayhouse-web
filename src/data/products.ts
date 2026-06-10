@@ -67,7 +67,7 @@ export const products: Product[] = [
     featured: true,
     seoTitle: "Ladrillo Toscano | Clay House Amagá",
     seoDescription:
-      "Ladrillo Toscano para fachada e interiores. Tonos arena y oscuro. Clay House, Amagá.",
+      "Ladrillo Toscano de arcilla para fachadas e interiores: acabado limpio y elegante en tonos tierra claros, estilo cálido y atemporal. Clay House, Amagá.",
     image: productFolderImage("toscano", "natural/toscano natural.webp"),
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
@@ -105,7 +105,8 @@ export const products: Product[] = [
     featured: false,
     hidden: true,
     seoTitle: "Ladrillo Napolitano | Clay House",
-    seoDescription: "Ladrillo Napolitano para fachada. Clay House, Amagá.",
+    seoDescription:
+      "Ladrillo Napolitano de proporción alargada y ritmo vertical para fachadas con presencia elegante y acabado artesanal. Clay House, Amagá, Colombia.",
     image: productFolderImage("napolitano", "matizado/Napolitano Oscuro.webp"),
     pricePerUnit: "$ 2.090",
     priceUnitLabel: "unidad",
@@ -142,7 +143,8 @@ export const products: Product[] = [
     texture: "Corcho",
     featured: true,
     seoTitle: "Ladrillo Romano | Clay House Amagá",
-    seoDescription: "Ladrillo Romano de fachada. Amagá, Colombia.",
+    seoDescription:
+      "Ladrillo Romano de fachada con volumen y juego de sombras: la referencia clásica para fachadas con carácter. Fabricado en Amagá por Clay House.",
     image: productFolderImage("romano", "matizado claro/Romano Matizado.webp"),
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
@@ -180,7 +182,7 @@ export const products: Product[] = [
     featured: true,
     seoTitle: "Ladrillo Cartagena | Clay House Amagá",
     seoDescription:
-      "Ladrillo Cartagena para fachada. Tonos claro, matizado y oscuro. Clay House, Amagá.",
+      "Ladrillo Cartagena para fachada en tonos claro, matizado y oscuro: identidad, contraste y calidez regional. Clay House, Amagá, Antioquia.",
     image: productFolderImage("cartagena", "natural/Cartagena Claro.webp"),
     pricePerUnit: "$ 2.700",
     priceUnitLabel: "unidad",
@@ -217,7 +219,8 @@ export const products: Product[] = [
     texture: "Macizo liso",
     featured: true,
     seoTitle: "Macizo Campesino | Clay House",
-    seoDescription: "Ladrillo macizo campesino. Amagá, Antioquia.",
+    seoDescription:
+      "Ladrillo macizo campesino con carácter artesanal para muros estructurales y acabados con textura auténtica de barro. Clay House, Amagá.",
     image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro.webp"),
     pricePerUnit: "$ 1.650",
     priceUnitLabel: "unidad",
@@ -249,7 +252,8 @@ export const products: Product[] = [
     texture: "Macizo",
     featured: false,
     seoTitle: "Macizo Brix | Clay House",
-    seoDescription: "Ladrillo macizo Brix. Clay House Amagá.",
+    seoDescription:
+      "Ladrillo macizo Brix en formato optimizado para obra moderna: buen rendimiento y acabado uniforme. Fabricado en Amagá por Clay House.",
     image: productFolderImage("macizo-brix", "pieza/DSC_9310.jpg"),
     pricePerUnit: "$ 1.500",
     priceUnitLabel: "unidad",
@@ -283,9 +287,23 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
-      "Ladrillo Bocadillo Prensado en arcilla cocida. Colores arena y rojo. Clay House Amagá.",
+      "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores arena y rojo. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
     image: productFolderImage("bocadillo-prensado", "rojo/bocadillo-prensado-rojo.webp"),
     priceUnitLabel: "unidad",
+    dimensions: {
+      largo: "24,5 cm",
+      ancho: "12 cm",
+      alto: "6 cm",
+      pesoAprox: "2,3 kg",
+      rendimiento: "56 und/m²",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205-3" },
+      { label: "Tipo de uso", value: "Fachada" },
+      { label: "Tolerancia dimensional", value: "± 2%" },
+      { label: "Absorción de agua", value: "Promedio 13%" },
+      { label: "Resistencia a la compresión", value: "Clase I · Mínimo 21 MPa" },
+    ],
     technicalPdf: downloadUrl("Manual de Fachadas Clay House.pdf"),
   },
   {
@@ -305,7 +323,8 @@ export const products: Product[] = [
     texture: "Rayado",
     featured: false,
     seoTitle: "Ladrillo Rayado Vertical | Clay House",
-    seoDescription: "Ladrillo rayado vertical para fachada.",
+    seoDescription:
+      "Ladrillo rayado vertical con textura para muros divisorios y cerramientos con ritmo y juego de luz. Clay House, Amagá, Antioquia.",
     image: productFolderImage(
       "rayados-verticales",
       "rayado 12-vertical/rayado 12 vertical apilado.webp"
@@ -340,7 +359,8 @@ export const products: Product[] = [
     texture: "Rayado",
     featured: false,
     seoTitle: "Ladrillo Rayado Horizontal | Clay House",
-    seoDescription: "Ladrillo rayado horizontal. Clay House.",
+    seoDescription:
+      "Ladrillo rayado horizontal para divisiones y muros largos con lectura material cálida. Clay House, Amagá, Antioquia.",
     image: productFolderImage(
       "rayados-horizontales",
       "rayado 12-horizontal/rayado 12 horizontal apilados.webp"
@@ -375,7 +395,8 @@ export const products: Product[] = [
     texture: "Rústico",
     featured: false,
     seoTitle: "Enchape Rústico | Clay House",
-    seoDescription: "Enchape rústico de ladrillo.",
+    seoDescription:
+      "Enchape de ladrillo con acabado rústico para revestir y transformar muros interiores y exteriores. Clay House, Amagá, Antioquia.",
     image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto.jpg"),
     pricePerUnit: "$ 85.000",
     priceUnitLabel: "m²",
@@ -402,7 +423,8 @@ export const products: Product[] = [
     texture: "Romano",
     featured: false,
     seoTitle: "Enchape Romano | Clay House",
-    seoDescription: "Enchape romano Clay House.",
+    seoDescription:
+      "Enchape Romano en formato delgado con perfil romano para revestimientos con profundidad y acabado premium. Clay House, Amagá.",
     image: productFolderImage("enchape-romano", "natural/Enchape Natural.webp"),
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
@@ -435,7 +457,8 @@ export const products: Product[] = [
     texture: "Rústico",
     featured: false,
     seoTitle: "Piso de barro 30x30 | Clay House",
-    seoDescription: "Piso 30x30 de ladrillo. Amagá.",
+    seoDescription:
+      "Piso de barro 30×30 cm con acabado artesanal para interiores y exteriores cálidos y luminosos. Clay House, Amagá, Antioquia.",
     image: productFolderImage("piso-30x30", "DSC_9524.jpg"),
     pricePerUnit: "$ 88.500",
     priceUnitLabel: "m²",
@@ -468,7 +491,8 @@ export const products: Product[] = [
     texture: "Rústico",
     featured: false,
     seoTitle: "Piso de barro 10x30 | Clay House",
-    seoDescription: "Piso 10x30 de ladrillo. Clay House, Amagá.",
+    seoDescription:
+      "Piso de barro en formato alargado 10×30 cm para recorridos lineales con detalle artesanal. Clay House, Amagá, Antioquia.",
     image: productFolderImage("piso-10x30", "piso 10x30.jpg"),
     pricePerUnit: "$ 80.000",
     priceUnitLabel: "m²",
@@ -501,7 +525,8 @@ export const products: Product[] = [
     texture: "Plana",
     featured: false,
     seoTitle: "Teja Plana | Clay House Amagá",
-    seoDescription: "Teja plana de ladrillo.",
+    seoDescription:
+      "Teja plana de barro para cubiertas visibles con estética tradicional y contemporánea. Clay House, Amagá, Antioquia.",
     image: productFolderImage("teja-plana", "chocolate/Teja Plana Chocolate Lisa.webp"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",
@@ -528,7 +553,8 @@ export const products: Product[] = [
     texture: "Colonial",
     featured: false,
     seoTitle: "Teja Colonial | Clay House Amagá",
-    seoDescription: "Teja colonial de ladrillo. Clay House, Amagá.",
+    seoDescription:
+      "Teja colonial de barro para cubiertas tradicionales con perfil clásico y gran presencia. Clay House, Amagá, Antioquia.",
     image: productFolderImage("teja-colonial", "roja/teja colonial natural.webp"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",

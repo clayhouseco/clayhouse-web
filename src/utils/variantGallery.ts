@@ -165,13 +165,12 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "bocadillo-prensado": {
     heroProductByVariant: {
-      arena: "Bocadillo Prensado Palido.webp",
-      rojo: "Bocadillo Prensado Rojo.webp",
+      arena: "bocadillo-prensado-arena.webp",
+      rojo: "bocadillo-prensado-rojo.webp",
     },
-    sharedRootPattern: /^bocadillo prensado (dimensiones|ficha)/i,
+    sharedRootPattern: /^$/,
     dimensionesPattern: /bocadillo prensado dimensiones/i,
-    fichaPattern: /bocadillo prensado ficha/i,
-    productFilePattern: /^bocadillo prensado/i,
+    productFilePattern: /^bocadillo-prensado/i,
   },
   "teja-colonial": {
     heroProductByVariant: {
