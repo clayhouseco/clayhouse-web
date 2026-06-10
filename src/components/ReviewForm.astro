@@ -1,11 +1,35 @@
 ---
 import { site } from "@/data/site";
+import { getVisibleProducts } from "@/data/products";
+import { catalogCategories } from "@/data/catalogCategories";
 
 interface Props {
   id?: string;
 }
 
 const { id = "review-form" } = Astro.props;
+
+/** Tipos de cliente / rol para la lista desplegable de reseñas */
+const clientRoles = [
+  "Arquitecto / Arquitecta",
+  "Constructor / Constructora",
+  "Ingeniero civil",
+  "Contratista / Maestro de obra",
+  "Diseñador / Interiorista",
+  "Cliente final / Propietario",
+  "Revendedor / Distribuidor",
+  "Depósito / Ferretería",
+  "Otro",
+];
+
+/** Productos del catálogo agrupados por categoría para el desplegable */
+const reviewProducts = getVisibleProducts();
+const productGroups = catalogCategories
+  .map((cat) => ({
+    title: cat.title,
+    items: reviewProducts.filter((p) => p.category === cat.id),
+  }))
+  .filter((group) => group.items.length > 0);
 
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
 const formspreeReady =
@@ -39,8 +63,11 @@ const thankYouPath = "/resenas/gracias/";
     </label>
 
     <label>
-      Empresa o rol (opcional)
-      <input type="text" name="empresa_rol" placeholder="Ej. Arquitecto, Constructora…" />
+      Tipo de cliente o rol (opcional)
+      <select name="empresa_rol">
+        <option value="">Seleccione…</option>
+        {clientRoles.map((role) => <option value={role}>{role}</option>)}
+      </select>
     </label>
 
     <label>
@@ -64,7 +91,18 @@ const thankYouPath = "/resenas/gracias/";
 
     <label>
       Producto (opcional)
-      <input type="text" name="producto" placeholder="Ej. Ladrillo Romano, Enchape…" />
+      <select name="producto">
+        <option value="">Seleccione…</option>
+        {
+          productGroups.map((group) => (
+            <optgroup label={group.title}>
+              {group.items.map((product) => (
+                <option value={product.name}>{product.name}</option>
+              ))}
+            </optgroup>
+          ))
+        }
+      </select>
     </label>
 
     <label>
@@ -148,6 +186,7 @@ const thankYouPath = "/resenas/gracias/";
 
   .review-form input[type="text"],
   .review-form input[type="email"],
+  .review-form select,
   .review-form textarea {
     font-family: var(--font-body);
     font-size: 1rem;
@@ -156,6 +195,12 @@ const thankYouPath = "/resenas/gracias/";
     border: 1px solid rgba(71, 36, 16, 0.15);
     border-radius: var(--radius-sm);
     background: var(--color-bg);
+  }
+
+  .review-form select {
+    cursor: pointer;
+    /* altura consistente con los inputs pese al control nativo */
+    min-height: 2.75rem;
   }
 
   .review-form textarea {
