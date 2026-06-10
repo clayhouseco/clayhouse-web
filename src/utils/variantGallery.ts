@@ -167,6 +167,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     heroProductByVariant: {
       arena: "bocadillo-prensado-arena.webp",
       rojo: "bocadillo-prensado-rojo.webp",
+      chocolate: "bocadillo-prensado-chocolate.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /bocadillo prensado dimensiones/i,

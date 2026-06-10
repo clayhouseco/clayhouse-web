@@ -334,6 +334,7 @@ const piso10x30Variants: ProductColorVariant[] = [
 const bocadilloPrensadoVariants: ProductColorVariant[] = [
   { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
   { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
+  { id: "chocolate", label: "Chocolate", colorLabel: "Chocolate", folder: "chocolate" },
 ];
 
 const tejaColonialVariants: ProductColorVariant[] = [

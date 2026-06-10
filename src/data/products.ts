@@ -273,21 +273,21 @@ export const products: Product[] = [
     slug: "bocadillo-prensado",
     category: "Fachadas",
     shortDescription:
-      "Pieza prensada de formato compacto, disponible en arena y rojo. Acabado homogéneo para fachadas con detalle fino.",
+      "Pieza prensada de formato compacto, disponible en arena, rojo y chocolate. Acabado homogéneo para fachadas con detalle fino.",
     description:
-      "Pieza compacta en arena o rojo para composiciones finas en fachadas y divisorios.",
+      "Pieza compacta en arena, rojo o chocolate para composiciones finas en fachadas y divisorios.",
     applications: [
       "Fachadas con detalle fino",
       "Muros divisorios y de acento",
       "Remates y entrecalles",
       "Proyectos con aparejo de formato pequeño",
     ],
-    color: "Arena, Rojo",
+    color: "Arena, Rojo, Chocolate",
     texture: "Prensado",
     featured: false,
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
-      "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores arena y rojo. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
+      "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores arena, rojo y chocolate. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
     image: productFolderImage("bocadillo-prensado", "rojo/bocadillo-prensado-rojo.webp"),
     priceUnitLabel: "unidad",
     dimensions: {
