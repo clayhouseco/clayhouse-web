@@ -313,17 +313,18 @@ const piso30Variants: ProductColorVariant[] = [
 
 const tejaPlanaVariants: ProductColorVariant[] = [
   {
+    id: "natural",
+    label: "Natural",
+    colorLabel: "Natural",
+    folder: "natural",
+    pricePerUnit: "$ 60.000",
+  },
+  {
     id: "chocolate",
     label: "Chocolate",
     colorLabel: "Chocolate",
     folder: "chocolate",
     pricePerUnit: "$ 60.000",
-  },
-  {
-    id: "natural",
-    label: "Natural",
-    colorLabel: "Natural",
-    folder: "natural",
   },
 ];
 

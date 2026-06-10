@@ -521,13 +521,13 @@ export const products: Product[] = [
       "Pérgolas y cubiertas de terraza",
       "Proyectos patrimoniales y turísticos",
     ],
-    color: "Chocolate, Natural",
+    color: "Natural, Chocolate",
     texture: "Plana",
     featured: false,
     seoTitle: "Teja Plana | Clay House Amagá",
     seoDescription:
       "Teja plana de barro para cubiertas visibles con estética tradicional y contemporánea. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("teja-plana", "chocolate/Teja Plana Chocolate Lisa.webp"),
+    image: productFolderImage("teja-plana", "natural/Teja Plana Natural.webp"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",
     specs: [
