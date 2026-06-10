@@ -12,7 +12,7 @@ tags: ["proceso", "Amagá", "ladrillo"]
 Cada pieza de Clay House nace de la arcilla de la cuenca del Sinifaná. Este recorrido corto muestra los cuatro momentos del proceso neoartesanal y por qué cada lote conserva el carácter del barro local.
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-retiro/Casa_ladrilloromano_Clayhouse (1).jpg" alt="Detalle de fachada en Ladrillo Romano matizado mostrando la textura natural del ladrillo." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-retiro/casa-EF-06.jpg" alt="Detalle en Ladrillo Romano mostrando la textura natural del ladrillo." loading="lazy" />
   <figcaption>Detalle de aparejo en Romano matizado — el resultado del proceso, en obra.</figcaption>
 </figure>
 
@@ -33,7 +33,7 @@ Antes del horno, las piezas reposan bajo techo entre 7 y 14 días según referen
 Horno a alta temperatura con control por lote. El tono final depende de la posición de la pieza dentro del horno, por eso conservamos las leves variaciones de matizado: cada pared cuenta su propio recorrido por el fuego.
 
 <figure>
-  <img src="/images/products/romano/proyectos/plaza-mercado-envigado/DSCF2831.jpg" alt="Plaza de Mercado de Envigado terminada con fachada extensa en Ladrillo Romano." loading="lazy" />
+  <img src="/images/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06.jpg" alt="Plaza de Mercado de Envigado terminada con fachada extensa en Ladrillo Romano." loading="lazy" />
   <figcaption>Plaza de Mercado de Envigado — miles de piezas Romano cocidas y aparejadas en obra pública.</figcaption>
 </figure>
 

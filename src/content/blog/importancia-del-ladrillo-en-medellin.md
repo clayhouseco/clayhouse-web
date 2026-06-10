@@ -24,8 +24,8 @@ Antioquia tiene arcillas de la cuenca del Sinifaná con propiedades muy específ
 Cuando un arquitecto en Envigado, Sabaneta o El Poblado especifica fachada en ladrillo, está hablando con un material que tiene **cantera local, fabricación cercana y memoria visual reconocible** por el cliente. Esa es una ventaja que difícilmente se replica con materiales importados o sintéticos.
 
 <figure>
-  <img src="/images/products/romano/proyectos/edificio-aurora/Copia de CH-16.jpg" alt="Edificio Aurora con fachada en Ladrillo Romano Corcho en Medellín." loading="lazy" />
-  <figcaption>Edificio Aurora — Romano Corcho aplicado en vivienda multifamiliar.</figcaption>
+  <img src="/images/products/romano/proyectos/edificio-8k/edificio-8k-suites-01.JPG" alt="Edificio 8K Suites con fachada en Ladrillo Romano en Medellín." loading="lazy" />
+  <figcaption>Edificio 8K Suites — Ladrillo Romano en fachada de vivienda multifamiliar en Medellín.</figcaption>
 </figure>
 
 ## Tradición que no es nostalgia

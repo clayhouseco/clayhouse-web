@@ -25,7 +25,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
       "Ladrillos de fachada y macizos a la vista: Romano, Toscano, Napolitano, Cartagena y línea Campesino / Brix.",
     order: 1,
     coverProductSlug: "romano",
-    coverFallback: "/images/products/romano/proyectos/casa-retiro/Casa_ladrilloromano_Clayhouse (22).jpg",
+    coverFallback: "/images/products/romano/proyectos/casa-retiro/casa-EF-03.jpg",
   },
   {
     id: "Divisorios",

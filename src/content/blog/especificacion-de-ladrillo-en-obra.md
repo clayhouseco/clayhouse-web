@@ -3,7 +3,7 @@ title: "Especificación de ladrillo en obra: guía para arquitectos y constructo
 description: "Los seis frentes que toda especificación debe cubrir: tipo de pieza, norma NTC 4205, dimensiones, aparejo, color y mantenimiento."
 pubDate: 2026-05-24
 type: articulo
-coverImage: "/images/products/romano/proyectos/casa-retiro/Casa Retiro matizado_2.jpg"
+coverImage: "/images/products/romano/proyectos/casa-retiro/casa-EF-03.jpg"
 featured: true
 tags: ["especificación", "NTC 4205", "fachadas"]
 relatedProducts: ["romano", "toscano", "cartagena"]
@@ -14,7 +14,7 @@ Especificar ladrillo bien no es elegir un color en un catálogo. Es decidir qué
 ## 1. Empezar por el tipo de uso, no por la foto
 
 <figure>
-  <img src="/images/products/romano/proyectos/plaza-mercado-envigado/DSCF2762-1.jpg" alt="Plaza de Mercado de Envigado: fachada extensa en Ladrillo Romano matizado" loading="lazy" />
+  <img src="/images/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06.jpg" alt="Plaza de Mercado de Envigado: fachada extensa en Ladrillo Romano matizado" loading="lazy" />
   <figcaption>Plaza de Mercado de Envigado — Ladrillo Romano en fachada de gran formato.</figcaption>
 </figure>
 
@@ -56,7 +56,7 @@ Recomendamos **modular los huecos** en múltiplos de la pieza desde planos: evit
 ## 5. Color y matizado: gestionar la expectativa
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-retiro/Casa_ladrilloromano_Clayhouse (22).jpg" alt="Casa en Retiro: fachada en Ladrillo Romano matizado mostrando variación natural de tono entre piezas." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-retiro/casa-EF-02.jpg" alt="Casa en Retiro: muro en Ladrillo Romano mostrando variación natural de tono entre piezas." loading="lazy" />
   <figcaption>Casa Retiro — el matizado natural del Romano se lee como una sola superficie pese a las variaciones entre piezas.</figcaption>
 </figure>
 

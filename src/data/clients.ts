@@ -36,34 +36,34 @@ export const projectPartners: BrandEntry[] = [
   {
     id: "casa-retiro",
     name: "Casa Retiro",
-    image: "/images/products/romano/proyectos/casa-retiro/Casa Retiro matizado_2.jpg",
+    image: "/images/products/romano/proyectos/casa-retiro/casa-EF-01.jpg",
     href: "/productos/romano",
   },
   {
     id: "plaza-envigado",
     name: "Plaza de Mercado Envigado",
-    image: "/images/products/romano/proyectos/plaza-mercado-envigado/DSCF2720.jpg",
+    image: "/images/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-01.jpg",
     href: "/productos/romano",
   },
   {
-    id: "bar-provenza",
-    name: "Bar Provenza",
+    id: "dos-santos",
+    name: "Dos Santos",
     image:
-      "/images/products/enchape-romano/proyectos/bar-provenza/1A872775-D341-430A-9047-790315D81686 2.JPG",
+      "/images/products/enchape-romano/proyectos/dos-santos/dos-santos-01.jpg",
     href: "/productos/enchape-romano",
   },
   {
     id: "boschetto",
     name: "Boschetto",
     image:
-      "/images/products/macizo-brix/proyectos/boschetto/DJI_20250512120419_0043_D.JPG",
+      "/images/products/macizo-brix/proyectos/boschetto/boschetto-01.jpg",
     href: "/productos/macizo-brix",
   },
   {
     id: "casa-senderos",
     name: "Casa Senderos",
     image:
-      "/images/products/romano/proyectos/casa-senderos/Casa Senderos romano oscuro_2.jpg",
+      "/images/products/romano/proyectos/casa-senderos/casa-SDV-20.jpg",
     href: "/productos/romano",
   },
   {
