@@ -3,7 +3,7 @@ title: "La importancia del ladrillo en la arquitectura de Medellín"
 description: "Por qué el ladrillo es parte del lenguaje arquitectónico paisa, y cómo se mantiene vigente en la obra contemporánea del Valle de Aburrá."
 pubDate: 2025-10-25
 type: video
-coverImage: "/images/products/romano/proyectos/edificio-el-solar/CH-01.jpg"
+coverImage: "/images/products/romano/proyectos/edificio-el-solar/edificio-el-solar-13.jpg"
 videoUrl: "https://www.youtube.com/shorts/k5V7gtQVKUY"
 duration: "1 min"
 tags: ["Medellín", "arquitectura", "patrimonio"]
@@ -13,7 +13,7 @@ relatedProducts: ["romano", "macizo-campesino"]
 Medellín tiene un acento construido. Las laderas del Valle de Aburrá se leen en ladrillo: fachadas a la vista, frontones, escaleras y cornisas que llevan ese tono rojizo-matizado que solo da el horno. No es un detalle decorativo; es la materialidad que organiza el paisaje urbano paisa desde mediados del siglo XX.
 
 <figure>
-  <img src="/images/products/romano/proyectos/edificio-el-solar/CH-24.jpg" alt="Edificio El Solar en Medellín con fachada en Ladrillo Romano." loading="lazy" />
+  <img src="/images/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01.jpg" alt="Edificio El Solar en Medellín con fachada en Ladrillo Romano." loading="lazy" />
   <figcaption>Edificio El Solar — fachada contemporánea en Medellín con Ladrillo Romano.</figcaption>
 </figure>
 

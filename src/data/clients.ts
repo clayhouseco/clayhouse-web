@@ -69,7 +69,7 @@ export const projectPartners: BrandEntry[] = [
   {
     id: "edificio-solar",
     name: "Edificio El Solar",
-    image: "/images/products/romano/proyectos/edificio-el-solar/CH-01.jpg",
+    image: "/images/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01.jpg",
     href: "/productos/romano",
   },
 ];
