@@ -6,17 +6,90 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   title="Gracias por su reseña"
   description="Hemos recibido su reseña. Clay House la revisará antes de publicarla."
 >
-  <section class="page-hero page-hero--center">
-    <div class="container">
+  <section class="thanks">
+    <div class="container thanks__inner">
+      <span class="thanks__badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </span>
       <p class="eyebrow">Reseñas</p>
-      <h1>Gracias por compartir</h1>
-      <p class="text-muted page-hero__lead">
-        Recibimos su reseña. La revisaremos y, si todo está en orden, la publicaremos en unos días.
+      <h1 class="thanks__title">¡Gracias por compartir!</h1>
+      <p class="thanks__lead">
+        Recibimos su reseña. La revisamos antes de publicarla para mantener la
+        calidad del sitio — si todo está en orden, aparecerá pronto.
       </p>
-      <p style="margin-top: 2rem">
+      <div class="thanks__actions">
         <a href="/resenas/" class="btn btn--primary">Volver a reseñas</a>
-        <a href="/" class="btn btn--ghost" style="margin-left: 0.75rem">Inicio</a>
-      </p>
+        <a href="/" class="btn btn--ghost">Ir al inicio</a>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .thanks {
+    display: flex;
+    align-items: center;
+    min-height: clamp(60vh, 70vh, 760px);
+    padding: clamp(3rem, 8vw, 6rem) 0;
+    text-align: center;
+  }
+
+  .thanks__inner {
+    max-width: 34rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .thanks__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 999px;
+    color: var(--color-bg, #fff);
+    background: var(--color-terracota);
+    box-shadow: 0 10px 30px rgba(124, 72, 44, 0.28);
+    margin-bottom: 1.75rem;
+    animation: thanks-pop 0.45s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  .thanks__title {
+    margin: 0.25rem 0 0;
+  }
+
+  .thanks__lead {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 1rem 0 0;
+  }
+
+  .thanks__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2.25rem;
+  }
+
+  @keyframes thanks-pop {
+    0% {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .thanks__badge {
+      animation: none;
+    }
+  }
+</style>
