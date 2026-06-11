@@ -23,6 +23,23 @@
   gap: 2rem;
 }
 
+/* Con 1 o 2 productos, centramos el grupo en vez de pegarlo a la izquierda
+   (solo en escritorio; en tablet/móvil se apilan y llenan el ancho). */
+@media (min-width: 901px) {
+  .product-grid[data-count="1"],
+  .product-grid[data-count="2"] {
+    justify-content: center;
+  }
+
+  .product-grid[data-count="1"] {
+    grid-template-columns: minmax(0, 24rem);
+  }
+
+  .product-grid[data-count="2"] {
+    grid-template-columns: repeat(2, minmax(0, 24rem));
+  }
+}
+
 .product-card {
   display: flex;
   flex-direction: column;

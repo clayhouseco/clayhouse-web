@@ -9,6 +9,6 @@ interface Props {
 const { products } = Astro.props;
 ---
 
-<div class="product-grid">
+<div class="product-grid" data-count={products.length}>
   {products.map((p) => <CatalogProductCard product={p} />)}
 </div>
