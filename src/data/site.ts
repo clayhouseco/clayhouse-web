@@ -26,6 +26,11 @@ export const site = {
     "https://www.google.com/maps/dir/?api=1&destination=Clay+House&destination_cid=1204017223360503098",
   /** Navegación en Waze con coordenadas exactas. */
   wazeUrl: "https://waze.com/ul?ll=6.0444695,-75.695905&navigate=yes",
+  /** Endpoint de Google Apps Script para reseñas (Sheet "Reseñas Clay House").
+   *  doPost = recibe el formulario; doGet?callback= = devuelve las aprobadas (JSONP).
+   *  No es secreto. Si se vuelve a crear el deployment, actualizar esta URL. */
+  reviewsEndpoint:
+    "https://script.google.com/macros/s/AKfycbzpaa2dsvGIvPP-sFStBRwmen3JoOv26N8LpOGmhG5WRWztxEG_wz6c59NDcdb28ox9Cw/exec",
 } as const;
 
 export type SocialId =

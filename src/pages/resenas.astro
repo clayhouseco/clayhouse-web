@@ -4,6 +4,7 @@ import ReviewCard from "@/components/ReviewCard.astro";
 import ReviewForm from "@/components/ReviewForm.astro";
 import StarRating from "@/components/StarRating.astro";
 import { reviews, getAverageRating } from "@/data/reviews";
+import { site } from "@/data/site";
 import "@/styles/reviews-page.css";
 
 const average = getAverageRating();
@@ -26,7 +27,7 @@ const sorted = [...reviews].sort(
       </p>
       {
         reviews.length > 0 && (
-          <div class="reviews-hero__stats">
+          <div class="reviews-hero__stats" data-reviews-stats>
             <div class="reviews-hero__score">
               <StarRating rating={average} label={`Promedio ${average} de 5`} />
               <strong>{average}</strong>
@@ -40,7 +41,7 @@ const sorted = [...reviews].sort(
 
   <section class="section">
     <div class="container reviews-layout">
-      <div class="reviews-list-col">
+      <div class="reviews-list-col" data-reviews-col>
         <h2 class="visually-hidden">Reseñas publicadas</h2>
         {
           sorted.length > 0 ? (
@@ -69,4 +70,91 @@ const sorted = [...reviews].sort(
       </aside>
     </div>
   </section>
+
+  <script define:vars={{ endpoint: site.reviewsEndpoint }}>
+    (function () {
+      const col = document.querySelector("[data-reviews-col]");
+      const statsBox = document.querySelector("[data-reviews-stats]");
+      if (!col) return;
+
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function stars(rating, sm, label) {
+        const r = Math.min(5, Math.max(0, Math.round(Number(rating) || 0)));
+        let out = "";
+        for (let i = 0; i < 5; i++) {
+          out +=
+            '<span class="star-rating__star' +
+            (i < r ? " star-rating__star--on" : "") +
+            '" aria-hidden="true">★</span>';
+        }
+        const cls = "star-rating" + (sm ? " star-rating--sm" : "");
+        const aria = label || r + " de 5 estrellas";
+        return '<div class="' + cls + '" role="img" aria-label="' + esc(aria) + '">' + out + "</div>";
+      }
+
+      function card(rev) {
+        const d = rev.fecha ? new Date(rev.fecha) : null;
+        const valid = d && !isNaN(d.getTime());
+        const iso = valid ? d.toISOString().slice(0, 10) : "";
+        const label = valid
+          ? d.toLocaleDateString("es-CO", { year: "numeric", month: "long" })
+          : "";
+        return (
+          '<article class="review-card">' +
+          '<div class="review-card__head">' +
+          stars(rev.calificacion, true) +
+          (iso
+            ? '<time class="review-card__date" datetime="' + iso + '">' + esc(label) + "</time>"
+            : "") +
+          "</div>" +
+          '<blockquote class="review-card__text">“' + esc(rev.resena) + "”</blockquote>" +
+          '<footer class="review-card__author">' +
+          "<strong>" + esc(rev.nombre) + "</strong>" +
+          (rev.rol ? "<span>" + esc(rev.rol) + "</span>" : "") +
+          (rev.producto
+            ? '<span class="review-card__product">' + esc(rev.producto) + "</span>"
+            : "") +
+          "</footer>" +
+          "</article>"
+        );
+      }
+
+      window.__clayReviews = function (list) {
+        if (!Array.isArray(list) || list.length === 0) return; // mantiene el fallback estático
+        list.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+        col.innerHTML =
+          '<h2 class="visually-hidden">Reseñas publicadas</h2>' +
+          '<div class="reviews-list">' +
+          list.map(card).join("") +
+          "</div>";
+        if (statsBox) {
+          const avg =
+            Math.round(
+              (list.reduce((s, r) => s + (Number(r.calificacion) || 0), 0) / list.length) * 10
+            ) / 10;
+          const plural = list.length === 1 ? "" : "s";
+          statsBox.innerHTML =
+            '<div class="reviews-hero__score">' +
+            stars(avg, false, "Promedio " + avg + " de 5") +
+            "<strong>" + avg + "</strong>" +
+            "</div>" +
+            '<p class="reviews-hero__count">' +
+            list.length + " reseña" + plural + " publicada" + plural +
+            "</p>";
+        }
+      };
+
+      const s = document.createElement("script");
+      s.src = endpoint + "?callback=__clayReviews&_=" + Date.now();
+      document.head.appendChild(s);
+    })();
+  </script>
 </BaseLayout>
