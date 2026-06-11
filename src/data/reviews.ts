@@ -10,46 +10,17 @@ export interface Review {
   featured?: boolean;
 }
 
-/** Reseñas publicadas (añada aquí las aprobadas tras recibirlas por Formspree) */
+/** Reseñas publicadas y aprobadas. */
 export const reviews: Review[] = [
   {
     id: "r1",
-    author: "María Fernanda López",
-    role: "Arquitecta · Medellín",
+    author: "David Medina",
+    role: "Cliente final",
     rating: 5,
-    text: "La cotización fue clara desde el primer contacto, las muestras llegaron a tiempo y el ladrillo Romano en obra superó lo que esperábamos en textura y tono.",
-    date: "2025-11-12",
+    text: "Muy bien todo, excelente.",
+    date: "2026-06-11",
     product: "Ladrillo Romano",
     featured: true,
-  },
-  {
-    id: "r2",
-    author: "Constructora Altiplano",
-    role: "Obra comercial · Envigado",
-    rating: 5,
-    text: "Buen acompañamiento en especificación y entregas. El enchape para fachada de retail se instaló sin sorpresas y el cliente quedó muy satisfecho con el acabado.",
-    date: "2025-10-03",
-    product: "Enchape Romano",
-    featured: true,
-  },
-  {
-    id: "r3",
-    author: "Andrés Giraldo",
-    role: "Desarrollador inmobiliario",
-    rating: 4,
-    text: "Proceso de compra ordenado: respuesta rápida por WhatsApp, ficha técnica útil para licencias y lotes consistentes en color entre entregas.",
-    date: "2025-08-20",
-    featured: true,
-  },
-  {
-    id: "r4",
-    author: "Estudio Materia",
-    role: "Interiorismo · Cali",
-    rating: 5,
-    text: "Pedimos muestras de varias tonalidades y el equipo ayudó a definir la paleta. La comunicación durante la obra fue excelente.",
-    date: "2025-06-15",
-    product: "Ladrillo Toscano",
-    featured: false,
   },
 ];
 
