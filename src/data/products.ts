@@ -382,6 +382,8 @@ export const products: Product[] = [
     name: "Enchape Rústico",
     slug: "enchape-rustico",
     category: "Enchapes",
+    // Oculto temporalmente: poco stock; reactivar al tener fotos e info.
+    hidden: true,
     shortDescription:
       "Revestimiento de ladrillo con acabado rústico para transformar muros interiores y exteriores.",
     description:

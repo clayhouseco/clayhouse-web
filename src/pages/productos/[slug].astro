@@ -4,7 +4,7 @@ import ProductGallery, { type GalleryImage } from "@/components/ProductGallery.a
 import ProductInspiration from "@/components/ProductInspiration.astro";
 import ProductColorVariants from "@/components/ProductColorVariants.astro";
 import ProductUseIcon from "@/components/ProductUseIcon.astro";
-import { products, getProduct } from "@/data/products";
+import { getVisibleProducts, getProduct } from "@/data/products";
 import {
   getRecommendedUses,
   getNotRecommended,
@@ -30,7 +30,8 @@ import {
 } from "@/utils/productPricing";
 
 export function getStaticPaths() {
-  return products.map((p) => ({ params: { slug: p.slug } }));
+  // Solo productos visibles: los hidden:true no generan página (ni URL directa).
+  return getVisibleProducts().map((p) => ({ params: { slug: p.slug } }));
 }
 
 const { slug } = Astro.params;
