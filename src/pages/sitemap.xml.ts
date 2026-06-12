@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
-import { products } from "@/data/products";
+import { getVisibleProducts } from "@/data/products";
 import { catalogCategories, getCategorySlug } from "@/data/catalogCategories";
 import { site } from "@/data/site";
 
@@ -29,7 +29,7 @@ export const GET: APIRoute = async () => {
   const paths = [
     ...staticPaths,
     ...catalogCategories.map((c) => `/productos/categoria/${getCategorySlug(c.id)}/`),
-    ...products.map((p) => `/productos/${p.slug}/`),
+    ...getVisibleProducts().map((p) => `/productos/${p.slug}/`),
     ...blogPosts.map((post) => `/blog/${post.id}/`),
   ];
 
