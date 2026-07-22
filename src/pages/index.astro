@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/data/site";
-import { getFeaturedProducts, products } from "@/data/products";
+import { getFeaturedProducts, getVisibleProducts } from "@/data/products";
 import { assetUrl } from "@/utils/paths";
 import { logos } from "@/utils/media";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
@@ -22,6 +22,8 @@ import redescubreMundoVerde from "@/assets/images/redescubre/mundo-verde.jpg";
 const heroOptimized = await getImage({ src: heroImageSrc, format: "avif", width: 1920 });
 
 const featured = getFeaturedProducts();
+/** Para los contadores por categoría: no debe incluir los desactivados. */
+const visibleProducts = getVisibleProducts();
 
 /** Showcase de las 3 variantes de Romano para la sección destacada de home. */
 const romanoShowcase = [
@@ -43,7 +45,7 @@ const romanoShowcase = [
 ];
 
 const categories = catalogCategories.map((cat) => {
-  const count = products.filter((p) => p.category === cat.id).length;
+  const count = visibleProducts.filter((p) => p.category === cat.id).length;
   return {
     id: cat.id,
     title: cat.title,

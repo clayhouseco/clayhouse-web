@@ -1,0 +1,9 @@
+{
+  "_comment": "Generado por scripts/fetch-availability.mjs desde la hoja de inventario. No editar a mano: los cambios se hacen en el Google Sheet y se publican con el botón. Este archivo se versiona para que el build funcione aunque la hoja no responda.",
+  "updatedAt": "2026-07-09",
+  "source": "seed-inicial",
+  "inactive": [
+    "enchape-rustico",
+    "napolitano"
+  ]
+}

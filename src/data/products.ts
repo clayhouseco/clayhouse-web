@@ -1,4 +1,5 @@
 import { fichaPdf, productFolderImage } from "@/utils/paths";
+import { isAvailable } from "@/data/availability";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -103,7 +104,6 @@ export const products: Product[] = [
     color: "Matizado, Natural",
     texture: "Texturizado",
     featured: false,
-    hidden: true,
     seoTitle: "Ladrillo Napolitano | Clay House",
     seoDescription:
       "Ladrillo Napolitano de proporción alargada y ritmo vertical para fachadas con presencia elegante y acabado artesanal. Clay House, Amagá, Colombia.",
@@ -382,8 +382,6 @@ export const products: Product[] = [
     name: "Enchape Rústico",
     slug: "enchape-rustico",
     category: "Enchapes",
-    // Oculto temporalmente: poco stock; reactivar al tener fotos e info.
-    hidden: true,
     shortDescription:
       "Revestimiento de ladrillo con acabado rústico para transformar muros interiores y exteriores.",
     description:
@@ -590,12 +588,19 @@ export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
 }
 
-/** Productos visibles en listados (excluye los hidden:true). */
+/** Un producto se muestra si no está oculto por código (hidden) y si el
+ *  inventario de planta no lo desactivó desde la hoja. */
+function isVisible(p: Product): boolean {
+  return !p.hidden && isAvailable(p.slug);
+}
+
+/** Productos visibles en listados (excluye hidden:true y los desactivados
+ *  desde la hoja de inventario). */
 export function getVisibleProducts(): Product[] {
-  return products.filter((p) => !p.hidden);
+  return products.filter(isVisible);
 }
 
 export function getFeaturedProducts(): Product[] {
-  return sortProductsByPriority(products.filter((p) => p.featured && !p.hidden));
+  return sortProductsByPriority(products.filter((p) => p.featured && isVisible(p)));
 }
 
