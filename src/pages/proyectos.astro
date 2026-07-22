@@ -5,6 +5,7 @@ import { getProductAssets, getProductInspiration } from "@/data/productVariants"
 import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
 import { Image } from "astro:assets";
 import heroImg from "@/assets/images/hero/Edificio 8k.jpg";
+import "@/styles/page-hero.css";
 
 interface ProjectImage {
   src: string;
@@ -423,71 +424,6 @@ const totalProjects = allProjects.length;
 </script>
 
 <style>
-  .page-hero--image {
-    position: relative;
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin-top: -5.25rem;
-    padding-top: 5.25rem;
-  }
-
-  .page-hero__media {
-    position: absolute;
-    inset: 0;
-  }
-
-  .page-hero__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .page-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 70%),
-      linear-gradient(to top, var(--color-bg) 0%, transparent 18%);
-  }
-
-  .page-hero__content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-block: 6rem;
-  }
-
-  .page-hero--image h1 {
-    color: #ffffff;
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
-    margin: 0;
-  }
-
-  .page-hero--image .page-hero__lead {
-    color: rgba(255, 255, 255, 0.92);
-    font-size: clamp(1.125rem, 1.6vw, 1.5rem);
-    margin-top: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .page-hero--image {
-      min-height: 60vh;
-    }
-
-    .page-hero--image h1 {
-      font-size: clamp(2.25rem, 9vw, 3.5rem);
-    }
-  }
 
   .projects-filters {
     display: flex;
