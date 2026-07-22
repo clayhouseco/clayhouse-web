@@ -2,6 +2,7 @@
 import type { Product } from "@/data/products";
 import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
 import { getReferencePriceParts } from "@/utils/productPricing";
+import { srcSetFor, SIZES } from "@/utils/responsive";
 
 interface Props {
   product: Product;
@@ -22,6 +23,8 @@ const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? prod
     >
       <img
         src={getCatalogImage(product.slug, product.image)}
+        srcset={srcSetFor(getCatalogImage(product.slug, product.image))}
+        sizes={SIZES.card}
         alt={product.name}
         width="600"
         height="600"

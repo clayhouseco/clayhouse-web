@@ -32,3 +32,6 @@ _inbox/blog/*
 !_inbox/blog/.gitkeep
 .vscode/
 .claude/
+
+# Variantes responsive: se generan en cada build (scripts/generate-responsive.mjs)
+public/images/_responsive/

@@ -1,4 +1,6 @@
 ---
+import { srcSetFor, SIZES } from "@/utils/responsive";
+
 export interface GalleryImage {
   src: string;
   alt: string;
@@ -32,6 +34,8 @@ const { images } = Astro.props;
           >
             <img
               src={img.src}
+              srcset={srcSetFor(img.src)}
+              sizes={SIZES.gallery}
               alt={img.alt}
               width="1200"
               height="900"

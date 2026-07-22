@@ -4,6 +4,7 @@ import { products, sortProductsByPriority } from "@/data/products";
 import { getProductAssets, getProductInspiration } from "@/data/productVariants";
 import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
 import { Image } from "astro:assets";
+import { srcSetFor, SIZES } from "@/utils/responsive";
 import heroImg from "@/assets/images/hero/Edificio 8k.jpg";
 import "@/styles/page-hero.css";
 
@@ -154,6 +155,8 @@ const totalProjects = allProjects.length;
               <div class="project-card__media">
                 <img
                   src={project.thumbnail}
+                  srcset={srcSetFor(project.thumbnail)}
+                  sizes={SIZES.card}
                   alt={project.alt}
                   width="800"
                   height="600"

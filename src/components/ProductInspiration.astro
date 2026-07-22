@@ -1,5 +1,6 @@
 ---
 import type { InspirationCard } from "@/utils/variantGallery";
+import { srcSetFor, SIZES } from "@/utils/responsive";
 
 interface Props {
   cards: InspirationCard[];
@@ -60,6 +61,8 @@ const INTRO =
                     <figure class="inspiration-card__media">
                       <img
                         src={img.src}
+                        srcset={srcSetFor(img.src)}
+                        sizes={SIZES.card}
                         alt={img.alt}
                         width="800"
                         height="600"
