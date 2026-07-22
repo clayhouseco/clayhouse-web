@@ -85,9 +85,11 @@ export function bindAnalyticsEvents() {
       if (!target || !(target instanceof HTMLElement)) return;
       const eventName = target.dataset.track;
       if (!eventName) return;
-      trackEvent(eventName, {
+      const props: Record<string, string> = {
         location: target.dataset.trackLocation ?? "unknown",
-      });
+      };
+      if (target.dataset.trackLabel) props.label = target.dataset.trackLabel;
+      trackEvent(eventName, props);
     },
     true
   );
@@ -104,8 +106,10 @@ export function bindAnalyticsEvents() {
     true
   );
 
+  // Conversión de lead: se dispara una sola vez al enviar el formulario
+  // (antes se duplicaba con el data-track del botón, que ya se quitó).
   document.getElementById("contact-form")?.addEventListener("submit", () => {
-    trackEvent("quote_submit", { form: "contact" });
+    trackEvent("generate_lead", { form: "contact" });
   });
 }
 

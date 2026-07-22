@@ -188,14 +188,12 @@ const {
     </fieldset>
     <label>
       Mensaje *
-      <textarea name="mensaje" rows="5" required>
-        {defaultMessage}
-      </textarea>
+      <textarea name="mensaje" rows="5" required>{defaultMessage}</textarea>
     </label>
     <button
       type="submit"
       class="btn btn--primary"
-      data-track={formAction ? "generate_lead" : "whatsapp_click"}
+      data-track={formAction ? undefined : "whatsapp_click"}
       data-track-location="contacto_form"
     >
       {formAction ? "enviar solicitud" : "enviar por WhatsApp"}

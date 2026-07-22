@@ -2,11 +2,6 @@
   "name": "clayhouse-web",
   "type": "module",
   "version": "1.0.0",
-  "vercel": {
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
-    "framework": "astro"
-  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -22,7 +17,6 @@
   },
   "dependencies": {
     "@fontsource/archivo": "^5.2.8",
-    "@fontsource/inter": "^5.2.8",
     "@fontsource/montserrat": "^5.2.8",
     "astro": "^6.3.3"
   }

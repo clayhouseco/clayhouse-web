@@ -1,4 +1,4 @@
-import { downloadUrl, fichaPdf, productFolderImage } from "@/utils/paths";
+import { fichaPdf, productFolderImage } from "@/utils/paths";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -304,7 +304,7 @@ export const products: Product[] = [
       { label: "Absorción de agua", value: "Promedio 13%" },
       { label: "Resistencia a la compresión", value: "Clase I · Mínimo 21 MPa" },
     ],
-    technicalPdf: downloadUrl("Manual de Fachadas Clay House.pdf"),
+    technicalPdf: fichaPdf("bocadillo-prensado"),
   },
   {
     name: "Ladrillo Rayado Vertical",
