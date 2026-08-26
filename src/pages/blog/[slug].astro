@@ -3,7 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogMediaEmbed from "@/components/blog/BlogMediaEmbed.astro";
 import { getCollection, render } from "astro:content";
 import { blogTypeLabels, formatBlogDate } from "@/data/blog";
-import { products } from "@/data/products";
+import { isVisible, products } from "@/data/products";
 import { resolveAudioEmbed, resolveVideoEmbed } from "@/utils/mediaEmbed";
 import { buildArticleJsonLd } from "@/utils/articleSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
@@ -44,7 +44,7 @@ const audioEmbed = audioUrl ? resolveAudioEmbed(audioUrl) : null;
 const linkedProducts =
   relatedProducts
     ?.map((slug) => products.find((p) => p.slug === slug))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p)) ?? [];
+    .filter((p): p is NonNullable<typeof p> => p !== undefined && isVisible(p)) ?? [];
 
 const ogImage = coverImage ?? undefined;
 

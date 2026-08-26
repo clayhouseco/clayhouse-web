@@ -1,5 +1,5 @@
 import type { Product } from "@/data/products";
-import { products, sortProductsByPriority } from "@/data/products";
+import { isVisible, products, sortProductsByPriority } from "@/data/products";
 import {
   catalogCategories,
   type CatalogCategoryDef,
@@ -13,14 +13,14 @@ export function getCatalogCategoryDef(id: ProductCategory): CatalogCategoryDef |
 }
 
 export function filterProductsByCategory(id: ProductCategory): Product[] {
-  return sortProductsByPriority(products.filter((p) => p.category === id && !p.hidden));
+  return sortProductsByPriority(products.filter((p) => p.category === id && isVisible(p)));
 }
 
 export function groupProductsByCategory(): { def: CatalogCategoryDef; products: Product[] }[] {
   return catalogCategories
     .map((def) => ({
       def,
-      products: sortProductsByPriority(products.filter((p) => p.category === def.id && !p.hidden)),
+      products: sortProductsByPriority(products.filter((p) => p.category === def.id && isVisible(p))),
     }))
     .filter((g) => g.products.length > 0);
 }

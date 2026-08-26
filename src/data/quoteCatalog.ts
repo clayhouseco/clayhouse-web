@@ -1,4 +1,4 @@
-import { products } from "@/data/products";
+import { getVisibleProducts } from "@/data/products";
 import { assetUrl } from "@/utils/paths";
 import { normalizePriceDisplay, type QuoteCartItem } from "@/utils/quoteCart";
 
@@ -6,7 +6,7 @@ import { normalizePriceDisplay, type QuoteCartItem } from "@/utils/quoteCart";
 export const quoteProductCatalog: Pick<
   QuoteCartItem,
   "slug" | "name" | "category" | "image" | "pricePerUnit" | "unitLabel" | "texture" | "productUrl"
->[] = products.map((p) => ({
+>[] = getVisibleProducts().map((p) => ({
   slug: p.slug,
   name: p.name,
   category: p.category,

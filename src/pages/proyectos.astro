@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { products, sortProductsByPriority } from "@/data/products";
+import { isVisible, products, sortProductsByPriority } from "@/data/products";
 import { getProductAssets, getProductInspiration } from "@/data/productVariants";
 import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
 import { Image } from "astro:assets";
@@ -28,7 +28,7 @@ interface ProjectEntry {
 const allProjects: ProjectEntry[] = [];
 const productsWithProjects = new Set<string>();
 
-for (const product of sortProductsByPriority(products.filter((p) => !p.hidden))) {
+for (const product of sortProductsByPriority(products.filter(isVisible))) {
   const manifest = getProductAssets(product.slug);
   if (!manifest) continue;
   const cards = getProductInspiration(manifest).filter(
@@ -65,7 +65,7 @@ const categoriesWithProjects = catalogCategories.filter((cat) =>
 );
 
 const productsForFilter = sortProductsByPriority(
-  products.filter((p) => productsWithProjects.has(p.slug) && !p.hidden)
+  products.filter((p) => productsWithProjects.has(p.slug) && isVisible(p))
 ).map((p) => ({ slug: p.slug, name: p.name, category: p.category }));
 
 const totalProjects = allProjects.length;

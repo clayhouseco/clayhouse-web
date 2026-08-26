@@ -589,8 +589,11 @@ export function getProduct(slug: string): Product | undefined {
 }
 
 /** Un producto se muestra si no está oculto por código (hidden) y si el
- *  inventario de planta no lo desactivó desde la hoja. */
-function isVisible(p: Product): boolean {
+ *  inventario de planta no lo desactivó desde la hoja.
+ *  Úsalo en cualquier listado que genere enlaces a /productos/{slug}: esas
+ *  páginas solo se construyen para productos visibles, así que enlazar uno
+ *  oculto o desactivado produce un 404. */
+export function isVisible(p: Product): boolean {
   return !p.hidden && isAvailable(p.slug);
 }
 
