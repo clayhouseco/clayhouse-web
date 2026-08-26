@@ -166,26 +166,42 @@ for (const slug of selected) {
     console.warn(`  ⚠️  ${slug}: no está en fichas.data.mjs`);
     continue;
   }
-  // Redimensiona la foto (máx 1100px, fondo blanco) para no inflar el PDF.
-  const srcPhoto = path.join(ROOT, decodeURIComponent(p.foto.replace(/^\/public/, "public")));
-  const photoOut = path.join(tmpDir, `${slug}-photo.jpg`);
-  try {
-    await sharp(srcPhoto).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#FCFBF7" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
-  } catch (e) {
-    console.warn(`  ⚠️  ${slug}: foto no encontrada (${p.foto}) — se usa la ruta original`);
+  // Un producto puede tener varias dimensiones (variants) → una ficha por cada
+  // una en <slug>/fichas/<id>.pdf. Si no, una sola ficha en <slug>/ficha.pdf.
+  const specs = p.variants
+    ? p.variants.map((v) => ({ ...p, ...v, _id: v.id }))
+    : [{ ...p, _id: null }];
+
+  if (p.variants && !preview) {
+    const single = path.join(ROOT, "public/images/products", slug, "ficha.pdf");
+    if (fs.existsSync(single)) fs.rmSync(single); // ya no aplica la ficha única
+    fs.mkdirSync(path.join(ROOT, "public/images/products", slug, "fichas"), { recursive: true });
   }
-  const photoUrl = fs.existsSync(photoOut)
-    ? "file://" + photoOut.split(path.sep).map(encodeURIComponent).join("/")
-    : fotoURL(p.foto);
-  const htmlPath = path.join(tmpDir, `${slug}.html`);
-  fs.writeFileSync(htmlPath, buildHtml(p, photoUrl));
-  const out = preview
-    ? path.join(previewDir, `${slug}.pdf`)
-    : path.join(ROOT, "public/images/products", slug, "ficha.pdf");
-  execFileSync(CHROME, ["--headless", "--disable-gpu", "--no-pdf-header-footer", `--print-to-pdf=${out}`, "file://" + htmlPath.split(path.sep).map(encodeURIComponent).join("/")], { stdio: "ignore" });
-  const kb = (fs.statSync(out).size / 1024).toFixed(0);
-  console.log(`  ✓ ${slug.padEnd(22)} ${kb} KB${preview ? "  (preview)" : ""}`);
-  done++;
+
+  for (const spec of specs) {
+    const tag = spec._id ? `${slug}-${spec._id}` : slug;
+    const srcPhoto = path.join(ROOT, decodeURIComponent(spec.foto.replace(/^\/public/, "public")));
+    const photoOut = path.join(tmpDir, `${tag}-photo.jpg`);
+    try {
+      await sharp(srcPhoto).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#FCFBF7" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
+    } catch {
+      console.warn(`  ⚠️  ${tag}: foto no encontrada (${spec.foto})`);
+    }
+    const photoUrl = fs.existsSync(photoOut)
+      ? "file://" + photoOut.split(path.sep).map(encodeURIComponent).join("/")
+      : fotoURL(spec.foto);
+    const htmlPath = path.join(tmpDir, `${tag}.html`);
+    fs.writeFileSync(htmlPath, buildHtml(spec, photoUrl));
+    const out = preview
+      ? path.join(previewDir, `${tag}.pdf`)
+      : spec._id
+        ? path.join(ROOT, "public/images/products", slug, "fichas", `${spec._id}.pdf`)
+        : path.join(ROOT, "public/images/products", slug, "ficha.pdf");
+    execFileSync(CHROME, ["--headless", "--disable-gpu", "--no-pdf-header-footer", `--print-to-pdf=${out}`, "file://" + htmlPath.split(path.sep).map(encodeURIComponent).join("/")], { stdio: "ignore" });
+    const kb = (fs.statSync(out).size / 1024).toFixed(0);
+    console.log(`  ✓ ${tag.padEnd(26)} ${kb} KB${preview ? "  (preview)" : ""}`);
+    done++;
+  }
 }
 fs.rmSync(tmpDir, { recursive: true, force: true });
 console.log(`\n${done} ficha(s) generada(s)${preview ? ` en ${previewDir}` : " en las carpetas de producto"}.`);

@@ -59,6 +59,26 @@ function versionedPdf(pdfUrl: string): string {
 }
 const technicalPdfUrl = versionedPdf(product.technicalPdf);
 
+// Fichas por dimensión (rayados, macizo-brix): una ficha por variante en
+// public/images/products/<slug>/fichas/<id>.pdf. El link principal sigue la
+// selección del cliente y además se listan todas.
+const fichasDir = `public/images/products/${product.slug}/fichas`;
+const fichaVariants =
+  fs.existsSync(fichasDir) && assets
+    ? assets.variants
+        .filter((v) => fs.existsSync(`${fichasDir}/${v.id}.pdf`))
+        .map((v) => ({
+          id: v.id,
+          label: v.label,
+          url: versionedPdf(`/images/products/${product.slug}/fichas/${v.id}.pdf`),
+        }))
+    : [];
+const hasVariantFichas = fichaVariants.length > 0;
+const mainFichaUrl = hasVariantFichas ? fichaVariants[0].url : technicalPdfUrl;
+const fichaMapJson = hasVariantFichas
+  ? JSON.stringify(Object.fromEntries(fichaVariants.map((v) => [v.id, { url: v.url, label: v.label }])))
+  : null;
+
 const defaultVariantId = assets?.variants[0]?.id ?? "default";
 const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
 const activeVariantId = activeVariant?.id ?? defaultVariantId;
@@ -580,11 +600,36 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         <h2 class="product-page__h2">Descargables</h2>
         <ul class="download-list">
           <li>
-            <a href={technicalPdfUrl} target="_blank" rel="noopener" class="download-link">
+            <a
+              href={mainFichaUrl}
+              target="_blank"
+              rel="noopener"
+              class="download-link"
+              data-ficha-link
+              data-ficha-map={fichaMapJson}
+            >
               <span class="download-link__title">Ficha técnica (PDF)</span>
-              <span class="download-link__meta">Dimensiones, tolerancias y NTC 4205</span>
+              <span class="download-link__meta">
+                {
+                  hasVariantFichas ? (
+                    <span>Dimensión: <b data-ficha-current>{fichaVariants[0].label}</b></span>
+                  ) : (
+                    "Dimensiones, tolerancias y norma NTC"
+                  )
+                }
+              </span>
             </a>
           </li>
+          {
+            hasVariantFichas &&
+              fichaVariants.map((v) => (
+                <li>
+                  <a href={v.url} target="_blank" rel="noopener" class="download-link download-link--sub">
+                    <span class="download-link__title">Ficha {v.label} (PDF)</span>
+                  </a>
+                </li>
+              ))
+          }
           {
             assets?.extraDownloads?.map((item) => (
               <li>
@@ -1538,6 +1583,17 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     border-left: 3px solid var(--color-terracota);
     border-radius: var(--radius-md);
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+
+  .download-link--sub {
+    margin-left: 1.25rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    border-left-color: rgba(124, 72, 44, 0.35);
+  }
+
+  .download-link--sub .download-link__title {
+    font-size: 0.9375rem;
   }
 
   .download-link:hover {

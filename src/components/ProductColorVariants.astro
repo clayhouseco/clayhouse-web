@@ -72,6 +72,13 @@ const showSelector = variants.length > 1;
     const addBtn = page.querySelector<HTMLButtonElement>("[data-add-to-quote]");
     const defaultPrice = addBtn?.dataset.price ?? "";
 
+    // Ficha técnica por dimensión: el link principal sigue la variante elegida.
+    const fichaLink = page.querySelector<HTMLAnchorElement>("[data-ficha-link]");
+    const fichaCurrent = page.querySelector<HTMLElement>("[data-ficha-current]");
+    const fichaMap = fichaLink?.dataset.fichaMap
+      ? (JSON.parse(fichaLink.dataset.fichaMap) as Record<string, { url: string; label: string }>)
+      : null;
+
     const setHeroGallery = (split: SplitVariantGallery) => {
       if (split.hero.length) {
         galleryRoot?.dispatchEvent(
@@ -103,6 +110,11 @@ const showSelector = variants.length > 1;
 
         const split = galleries[id];
         if (split) setHeroGallery(split);
+
+        if (fichaLink && fichaMap && fichaMap[id]) {
+          fichaLink.href = fichaMap[id].url;
+          if (fichaCurrent) fichaCurrent.textContent = fichaMap[id].label;
+        }
       });
     });
 

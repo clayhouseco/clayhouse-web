@@ -266,7 +266,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Estructural" },
     ],
-    technicalPdf: fichaPdf("macizo-brix"),
+    technicalPdf: productFolderImage("macizo-brix", "fichas/5x10x20.pdf"),
   },
   {
     name: "Bocadillo Prensado",
@@ -340,7 +340,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Divisorios y cerramientos" },
     ],
-    technicalPdf: fichaPdf("rayados-verticales"),
+    technicalPdf: productFolderImage("rayados-verticales", "fichas/10.pdf"),
   },
   {
     name: "Ladrillo Rayado Horizontal",
@@ -376,7 +376,7 @@ export const products: Product[] = [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Divisorios y cerramientos" },
     ],
-    technicalPdf: fichaPdf("rayados-horizontales"),
+    technicalPdf: productFolderImage("rayados-horizontales", "fichas/10.pdf"),
   },
   {
     name: "Enchape Rústico",

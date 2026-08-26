@@ -453,11 +453,8 @@ export const fichas = [
   },
   {
     "slug": "macizo-brix",
-    "titulo": "MACIZO",
     "subtitulo": "LADRILLO MACIZO DE ARCILLA COCIDA",
-    "clasificacion": "MACIZO",
-    "norma": "NTC 4205 / NTC 3829",
-    "foto": "/public/images/products/macizo-brix/macizo 5x10x20 dimensiones.webp",
+    "norma": "NMX-C-404-ONNCCE",
     "features": [
       [
         "shield",
@@ -475,70 +472,116 @@ export const fichas = [
         "Arcilla 100% natural, sustentable y reciclable."
       ]
     ],
-    "dims": {
-      "largo": "20 cm",
-      "ancho": "10 cm",
-      "alto": "5 cm"
-    },
     "colores": [
       [
         "Natural",
         "#B4682F"
-      ],
-      [
-        "Matizado",
-        "#9C5A38"
       ]
     ],
     "usos": [
-      "Muros estructurales en vivienda y edificios",
-      "Ampliaciones y obra nueva",
-      "Construcción residencial",
-      "Proyectos con especificación NTC 4205"
+      "Muros estructurales o divisorios",
+      "Pisos o adoquinados",
+      "Obras comerciales o residenciales"
     ],
-    "specsRow": [
-      [
-        "weight",
-        "PESO APROX.",
-        "2,0 kg",
-        "(por unidad)"
-      ],
-      [
-        "cube",
-        "DIMENSIONES",
-        "20 × 10 × 5 cm",
-        ""
-      ],
-      [
-        "grid",
-        "RENDIMIENTO",
-        "50 und/m²",
-        "(por metro cuadrado)"
-      ],
-      [
-        "compress",
-        "RESISTENCIA A LA COMPRESIÓN",
-        "Promedio 14 MPa · Individual 10 MPa",
-        ""
-      ],
-      [
-        "drop",
-        "ABSORCIÓN DE AGUA",
-        "Promedio 14% · Individual 17%",
-        ""
-      ],
-      [
-        "flame",
-        "RESISTENCIA AL FUEGO",
-        "Excelente",
-        ""
-      ],
-      [
-        "arrows",
-        "TOLERANCIAS DIMENSIONALES",
-        "± 2%",
-        ""
-      ]
+    "variants": [
+      {
+        "id": "5x10x20",
+        "titulo": "MACIZO 5x10x20",
+        "clasificacion": "MACIZO 5x10x20",
+        "foto": "/public/images/products/macizo-brix/macizo 5x10x20 dimensiones.webp",
+        "dims": {
+          "largo": "20 cm",
+          "ancho": "10 cm",
+          "alto": "5 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "2,40 kg",
+            "(por unidad)"
+          ],
+          [
+            "cube",
+            "DIMENSIONES",
+            "20 × 10 × 5 cm",
+            ""
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "≥ 150 kg/cm²",
+            ""
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "≤ 18%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 3 mm",
+            ""
+          ]
+        ]
+      },
+      {
+        "id": "6x12x24",
+        "titulo": "MACIZO 6x12x24",
+        "clasificacion": "MACIZO 6x12x24",
+        "foto": "/public/images/products/macizo-brix/macizo 6x12x24 dimensiones.webp",
+        "dims": {
+          "largo": "24 cm",
+          "ancho": "12 cm",
+          "alto": "6 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "3,80 kg",
+            "(por unidad)"
+          ],
+          [
+            "cube",
+            "DIMENSIONES",
+            "24 × 12 × 6 cm",
+            ""
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "≥ 150 kg/cm²",
+            ""
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "≤ 18%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 3 mm",
+            ""
+          ]
+        ]
+      }
     ]
   },
   {
@@ -637,11 +680,8 @@ export const fichas = [
   },
   {
     "slug": "rayados-verticales",
-    "titulo": "RAYADO VERTICAL",
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
-    "clasificacion": "RAYADO VERTICAL",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/rayados-verticales/rayado 10-vertical/rayado 10 vertical dimensiones.webp",
     "features": [
       [
         "ruler",
@@ -659,11 +699,6 @@ export const fichas = [
         "Arcilla 100% natural, sustentable y reciclable."
       ]
     ],
-    "dims": {
-      "largo": "40 cm",
-      "ancho": "10 cm",
-      "alto": "20 cm"
-    },
     "colores": [
       [
         "Natural",
@@ -676,46 +711,142 @@ export const fichas = [
       "Construcción residencial",
       "Obra comercial e industrial"
     ],
-    "specsRow": [
-      [
-        "weight",
-        "PESO APROX.",
-        "6,9 kg",
-        "(por unidad)"
-      ],
-      [
-        "drop",
-        "ABSORCIÓN DE AGUA",
-        "Promedio 17% · Individual 19%",
-        ""
-      ],
-      [
-        "compress",
-        "RESISTENCIA A LA COMPRESIÓN",
-        "Promedio 20 MPa · Individual 15 MPa",
-        ""
-      ],
-      [
-        "flame",
-        "RESISTENCIA AL FUEGO",
-        "Excelente",
-        ""
-      ],
-      [
-        "arrows",
-        "TOLERANCIAS DIMENSIONALES",
-        "± 2%",
-        ""
-      ]
+    "variants": [
+      {
+        "id": "10",
+        "titulo": "RAYADO 10 VERTICAL",
+        "clasificacion": "RAYADO 10 VERTICAL",
+        "foto": "/public/images/products/rayados-verticales/rayado 10-vertical/rayado 10 vertical dimensiones.webp",
+        "dims": {
+          "largo": "40 cm",
+          "ancho": "10 cm",
+          "alto": "20 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "6,9 kg",
+            "(por unidad)"
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "Promedio 20 MPa · Individual 15 MPa",
+            "(PV · no estructural)"
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "Promedio 17% · Individual 19%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 2%",
+            ""
+          ]
+        ]
+      },
+      {
+        "id": "12",
+        "titulo": "RAYADO 12 VERTICAL",
+        "clasificacion": "RAYADO 12 VERTICAL",
+        "foto": "/public/images/products/rayados-verticales/rayado 12-vertical/rayado 12 vertical dimensiones.webp",
+        "dims": {
+          "largo": "40 cm",
+          "ancho": "12 cm",
+          "alto": "20 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "8,8 kg",
+            "(por unidad)"
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "Promedio 20 MPa · Individual 15 MPa",
+            "(PV · no estructural)"
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "Promedio 17% · Individual 19%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 2%",
+            ""
+          ]
+        ]
+      },
+      {
+        "id": "15",
+        "titulo": "RAYADO 15 VERTICAL",
+        "clasificacion": "RAYADO 15 VERTICAL",
+        "foto": "/public/images/products/rayados-verticales/rayado 15-vertical/rayado 15 vertical dimensiones.webp",
+        "dims": {
+          "largo": "40 cm",
+          "ancho": "15 cm",
+          "alto": "20 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "9,0 kg",
+            "(por unidad)"
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "Promedio 20 MPa · Individual 15 MPa",
+            "(PV · no estructural)"
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "Promedio 17% · Individual 19%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 2%",
+            ""
+          ]
+        ]
+      }
     ]
   },
   {
     "slug": "rayados-horizontales",
-    "titulo": "RAYADO HORIZONTAL",
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
-    "clasificacion": "RAYADO HORIZONTAL",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/rayados-horizontales/rayado 12-horizontal/rayado 12 horizontal dimensiones.webp",
     "features": [
       [
         "ruler",
@@ -733,11 +864,6 @@ export const fichas = [
         "Arcilla 100% natural, sustentable y reciclable."
       ]
     ],
-    "dims": {
-      "largo": "40 cm",
-      "ancho": "12 cm",
-      "alto": "20 cm"
-    },
     "colores": [
       [
         "Natural",
@@ -750,37 +876,136 @@ export const fichas = [
       "Construcción residencial",
       "Obra comercial e industrial"
     ],
-    "specsRow": [
-      [
-        "weight",
-        "PESO APROX.",
-        "6,0 – 6,5 kg",
-        "(por unidad)"
-      ],
-      [
-        "compress",
-        "RESISTENCIA A LA COMPRESIÓN",
-        "Promedio 5 MPa · Individual 3 MPa",
-        ""
-      ],
-      [
-        "drop",
-        "ABSORCIÓN DE AGUA",
-        "Promedio 17% · Individual 20%",
-        ""
-      ],
-      [
-        "flame",
-        "RESISTENCIA AL FUEGO",
-        "Excelente",
-        ""
-      ],
-      [
-        "arrows",
-        "TOLERANCIAS DIMENSIONALES",
-        "± 2%",
-        ""
-      ]
+    "variants": [
+      {
+        "id": "10",
+        "titulo": "RAYADO 10 HORIZONTAL",
+        "clasificacion": "RAYADO 10 HORIZONTAL",
+        "foto": "/public/images/products/rayados-horizontales/rayado 10-horizontal/rayado 10 horizontal dimensiones.webp",
+        "dims": {
+          "largo": "40 cm",
+          "ancho": "10 cm",
+          "alto": "20 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "5,5 – 6,0 kg",
+            "(por unidad)"
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "Promedio 5 MPa · Individual 3 MPa",
+            "(PV · no estructural)"
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "Promedio 17% · Individual 20%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 2%",
+            ""
+          ]
+        ]
+      },
+      {
+        "id": "12",
+        "titulo": "RAYADO 12 HORIZONTAL",
+        "clasificacion": "RAYADO 12 HORIZONTAL",
+        "foto": "/public/images/products/rayados-horizontales/rayado 12-horizontal/rayado 12 horizontal dimensiones.webp",
+        "dims": {
+          "largo": "40 cm",
+          "ancho": "12 cm",
+          "alto": "20 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "6,0 – 6,5 kg",
+            "(por unidad)"
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "Promedio 5 MPa · Individual 3 MPa",
+            "(PV · no estructural)"
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "Promedio 17% · Individual 20%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 2%",
+            ""
+          ]
+        ]
+      },
+      {
+        "id": "15",
+        "titulo": "RAYADO 15 HORIZONTAL",
+        "clasificacion": "RAYADO 15 HORIZONTAL",
+        "foto": "/public/images/products/rayados-horizontales/rayado 15-horizontal/rayado 15 horizontal dimensiones.webp",
+        "dims": {
+          "largo": "40 cm",
+          "ancho": "15 cm",
+          "alto": "20 cm"
+        },
+        "specsRow": [
+          [
+            "weight",
+            "PESO APROX.",
+            "6,5 – 7,0 kg",
+            "(por unidad)"
+          ],
+          [
+            "compress",
+            "RESISTENCIA A LA COMPRESIÓN",
+            "Promedio 5 MPa · Individual 3 MPa",
+            "(PV · no estructural)"
+          ],
+          [
+            "drop",
+            "ABSORCIÓN DE AGUA",
+            "Promedio 17% · Individual 20%",
+            ""
+          ],
+          [
+            "flame",
+            "RESISTENCIA AL FUEGO",
+            "Excelente",
+            ""
+          ],
+          [
+            "arrows",
+            "TOLERANCIAS DIMENSIONALES",
+            "± 2%",
+            ""
+          ]
+        ]
+      }
     ]
   },
   {

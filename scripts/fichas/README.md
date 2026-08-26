@@ -62,3 +62,31 @@ cambiar el **diseño** (colores, tamaños, layout), editar la plantilla HTML en
 > Los datos de dimensiones/specs se transcribieron de las fichas oficiales
 > (Ed. Abril 2026) y del catálogo. Si una especificación cambia, actualízala
 > aquí y regenera.
+
+## Productos con varias dimensiones (fichas por variante)
+
+Algunos productos tienen varias dimensiones (rayados: 10/12/15; macizo-brix:
+5x10x20 / 6x12x24). Para estos, en `fichas.data.mjs` el producto lleva un array
+`variants` en vez de los campos de ficha única:
+
+```js
+{
+  slug: "rayados-verticales",
+  subtitulo: "...", norma: "...", features: [...], colores: [...],  // compartido
+  variants: [
+    { id: "10", titulo: "RAYADO 10 VERTICAL", clasificacion: "...",
+      foto: "/public/.../rayado 10 vertical dimensiones.webp",
+      dims: { largo, ancho, alto }, specsRow: [...] },
+    { id: "12", ... }, { id: "15", ... },
+  ],
+}
+```
+
+El `id` de cada variante debe coincidir con el `id` de la variante en
+`src/data/productVariants.ts`. El generador produce un PDF por dimensión en
+`public/images/products/<slug>/fichas/<id>.pdf` (no crea `ficha.pdf` único).
+
+En la página de producto, el botón "Ficha técnica" sigue la dimensión
+seleccionada y además se listan las tres. Si agregas/cambias una dimensión,
+recuerda actualizar también `products.ts` (el `technicalPdf` apunta a la
+dimensión por defecto, ej. `fichas/10.pdf`, para la página /descargas).
