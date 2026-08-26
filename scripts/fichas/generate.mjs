@@ -84,7 +84,6 @@ const br = (v) => String(v).replace(/ · /g, "<br>");
 function buildHtml(p, photoUrl) {
   const feat = p.features.map(([n, t, d]) => `<div class="feat"><div class="feat-ic">${icon(n, 30)}</div><div><h4>${t}</h4><p>${d}</p></div></div>`).join("");
   const colors = p.colores.map(([n, c]) => `<div class="sw"><span style="background:${c}"></span>${n}</div>`).join("");
-  const usos = p.usos.map((u) => `<li>${u}</li>`).join("");
   const specs = p.specsRow.map(([n, t, v, s]) => `<div class="spec"><div class="spec-ic">${icon(n, 28)}</div><div class="spec-l">${t}</div><div class="spec-v">${br(v)}</div>${s ? `<div class="spec-s">${s}</div>` : ""}</div>`).join("");
   const recs = RECS.map(([n, t, d]) => `<div class="rec"><div class="rec-ic">${icon(n, 20, 2.6)}</div><div><h5>${t}</h5><p>${d}</p></div></div>`).join("");
   const nCol = p.colores.length;
@@ -110,7 +109,7 @@ body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;hei
 .feat h4{color:${RED};font-weight:800;font-size:10pt;letter-spacing:.3px}
 .feat p{font-size:8.5pt;color:#5c534f;margin-top:1mm;line-height:1.3}
 .photo{text-align:center}
-.photo img{max-width:100%;max-height:76mm;object-fit:contain}
+.photo img{max-width:100%;max-height:84mm;object-fit:contain}
 .dimline{margin-top:3mm;font-weight:700;font-size:9.5pt;color:#5c534f}
 .dimline b{color:${RED}}
 .rightcol h3{color:${RED};font-weight:800;font-size:10pt;letter-spacing:.5px;margin-bottom:3mm}
@@ -144,8 +143,8 @@ body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;hei
 </div>
 <div class="mid">
   <div>${feat}</div>
-  <div class="photo"><img src="${photoUrl}"><div class="dimline">Largo <b>${p.dims.largo}</b> · Ancho <b>${p.dims.ancho}</b> · Alto <b>${p.dims.alto}</b></div></div>
-  <div class="rightcol"><h3>DISPONIBLE EN ${nCol} ${nCol === 1 ? "COLOR" : "COLORES"}</h3>${colors}<h3 style="margin-top:6mm">USOS RECOMENDADOS</h3><ul>${usos}</ul></div>
+  <div class="photo"><img src="${photoUrl}"></div>
+  <div class="rightcol"><h3>DISPONIBLE EN ${nCol} ${nCol === 1 ? "COLOR" : "COLORES"}</h3>${colors}</div>
 </div>
 <div class="bottom">
   <div class="techbox"><div class="techtitle">CARACTERÍSTICAS TÉCNICAS</div><div class="specs">${specs}</div></div>
@@ -171,7 +170,7 @@ for (const slug of selected) {
   const srcPhoto = path.join(ROOT, decodeURIComponent(p.foto.replace(/^\/public/, "public")));
   const photoOut = path.join(tmpDir, `${slug}-photo.jpg`);
   try {
-    await sharp(srcPhoto).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#ffffff" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
+    await sharp(srcPhoto).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#FCFBF7" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
   } catch (e) {
     console.warn(`  ⚠️  ${slug}: foto no encontrada (${p.foto}) — se usa la ruta original`);
   }

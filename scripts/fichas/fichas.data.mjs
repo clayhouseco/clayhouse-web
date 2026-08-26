@@ -10,7 +10,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "TOSCANO",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/toscano/natural/toscano natural.webp",
+    "foto": "/public/images/products/toscano/isometrico toscano.webp",
     "features": [
       [
         "shield",
@@ -26,11 +26,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -109,7 +104,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "NAPOLITANO",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/napolitano/matizado/Napolitano Oscuro.webp",
+    "foto": "/public/images/products/napolitano/Napolitano dimensiones.webp",
     "features": [
       [
         "shield",
@@ -125,11 +120,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -203,7 +193,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "ROMANO",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/romano/matizado claro/Romano Matizado.webp",
+    "foto": "/public/images/products/romano/romano dimensiones.webp",
     "features": [
       [
         "shield",
@@ -219,11 +209,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -301,7 +286,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "CARTAGENA",
     "norma": "NTC 4205",
-    "foto": "/public/images/products/cartagena/natural/Cartagena Claro.webp",
+    "foto": "/public/images/products/cartagena/Cartagena dimensiones.webp",
     "features": [
       [
         "shield",
@@ -317,11 +302,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -393,7 +373,7 @@ export const fichas = [
     "subtitulo": "LADRILLO MACIZO DE ARCILLA COCIDA",
     "clasificacion": "MACIZO CAMPESINO",
     "norma": "NTC 4205 / NTC 3829",
-    "foto": "/public/images/products/macizo-campesino/matizado claro/Campesino Claro.webp",
+    "foto": "/public/images/products/macizo-campesino/macizo campesino dimensiones.webp",
     "features": [
       [
         "shield",
@@ -409,11 +389,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -482,7 +457,7 @@ export const fichas = [
     "subtitulo": "LADRILLO MACIZO DE ARCILLA COCIDA",
     "clasificacion": "MACIZO",
     "norma": "NTC 4205 / NTC 3829",
-    "foto": "/public/images/products/macizo-brix/pieza/DSC_9310.jpg",
+    "foto": "/public/images/products/macizo-brix/macizo 5x10x20 dimensiones.webp",
     "features": [
       [
         "shield",
@@ -498,11 +473,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -593,11 +563,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "DIMENSIONES OPTIMIZADAS",
-        "Formato pensado para el rendimiento en obra."
       ]
     ],
     "dims": {
@@ -676,7 +641,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "RAYADO VERTICAL",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/rayados-verticales/rayado 12-vertical/rayado 12 vertical apilado.webp",
+    "foto": "/public/images/products/rayados-verticales/rayado 10-vertical/rayado 10 vertical dimensiones.webp",
     "features": [
       [
         "ruler",
@@ -692,11 +657,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "shield",
-        "VERSATILIDAD",
-        "Muros divisorios, cerramientos y acentos."
       ]
     ],
     "dims": {
@@ -755,7 +715,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "RAYADO HORIZONTAL",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/rayados-horizontales/rayado 12-horizontal/rayado 12 horizontal apilados.webp",
+    "foto": "/public/images/products/rayados-horizontales/rayado 12-horizontal/rayado 12 horizontal dimensiones.webp",
     "features": [
       [
         "ruler",
@@ -771,11 +731,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "shield",
-        "VERSATILIDAD",
-        "Muros divisorios, cerramientos y acentos."
       ]
     ],
     "dims": {
@@ -850,11 +805,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "VERSATILIDAD",
-        "Interiores y exteriores, muros y detalles."
       ]
     ],
     "dims": {
@@ -917,7 +867,7 @@ export const fichas = [
     "subtitulo": "REVESTIMIENTO DE ARCILLA COCIDA",
     "clasificacion": "ENCHAPE ROMANO",
     "norma": "NTC 5547",
-    "foto": "/public/images/products/enchape-romano/natural/Enchape Natural.webp",
+    "foto": "/public/images/products/enchape-romano/enchape romano dimensiones.webp",
     "features": [
       [
         "shield",
@@ -933,11 +883,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "VERSATILIDAD",
-        "Interiores y exteriores, muros y detalles."
       ]
     ],
     "dims": {
@@ -1004,7 +949,7 @@ export const fichas = [
     "subtitulo": "PISO DE ARCILLA COCIDA",
     "clasificacion": "PISO 30×30",
     "norma": "NTC 919",
-    "foto": "/public/images/products/piso-30x30/DSC_9524.jpg",
+    "foto": "/public/images/products/piso-30x30/piso 30x30 dimensiones.webp",
     "features": [
       [
         "shield",
@@ -1020,11 +965,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "ESTÉTICA CÁLIDA",
-        "Acabado artesanal para espacios luminosos."
       ]
     ],
     "dims": {
@@ -1083,7 +1023,7 @@ export const fichas = [
     "subtitulo": "PISO DE ARCILLA COCIDA",
     "clasificacion": "PISO 10×30",
     "norma": "NTC 919",
-    "foto": "/public/images/products/piso-10x30/piso 10x30.jpg",
+    "foto": "/public/images/products/piso-10x30/piso 10x30 dimensiones.webp",
     "features": [
       [
         "shield",
@@ -1099,11 +1039,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "ruler",
-        "ESTÉTICA CÁLIDA",
-        "Acabado artesanal para espacios luminosos."
       ]
     ],
     "dims": {
@@ -1166,7 +1101,7 @@ export const fichas = [
     "subtitulo": "PIEZA DE ARCILLA COCIDA",
     "clasificacion": "TEJA PLANA",
     "norma": "NTC 2086",
-    "foto": "/public/images/products/teja-plana/natural/Teja Plana Natural.webp",
+    "foto": "/public/images/products/teja-plana/natural/teja plana natural dimensiones.webp",
     "features": [
       [
         "shield",
@@ -1182,11 +1117,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "home",
-        "DISEÑO TRADICIONAL",
-        "Ideal para cubiertas con estética clásica o moderna."
       ]
     ],
     "dims": {
@@ -1254,7 +1184,7 @@ export const fichas = [
     "subtitulo": "PIEZA DE ARCILLA COCIDA",
     "clasificacion": "TEJA COLONIAL",
     "norma": "NTC 2086",
-    "foto": "/public/images/products/teja-colonial/roja/teja colonial natural.webp",
+    "foto": "/public/images/products/teja-colonial/teja colonial dimensiones.webp",
     "features": [
       [
         "shield",
@@ -1270,11 +1200,6 @@ export const fichas = [
         "leaf",
         "MATERIAL NATURAL",
         "Arcilla 100% natural, sustentable y reciclable."
-      ],
-      [
-        "home",
-        "DISEÑO TRADICIONAL",
-        "Ideal para cubiertas con estética clásica o moderna."
       ]
     ],
     "dims": {
