@@ -96,20 +96,20 @@ function buildHtml(p, photoUrl) {
 @font-face{font-family:'M';src:url('${FONTS}/Montserrat-Black.ttf');font-weight:900}
 @page{size:340mm 227mm;margin:0}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;height:227mm;padding:14mm 15mm 10mm}
+body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;height:227mm;padding:12mm 15mm 8mm}
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm}
 .title h1{font-weight:900;font-size:33pt;color:${RED};line-height:.95;letter-spacing:-.5px}
 .title p{font-weight:600;font-size:10.5pt;color:#8a807c;margin-top:3mm;letter-spacing:1px}
 .clsbox{border:2px solid ${RED};border-radius:6px;padding:5mm 8mm;text-align:right;min-width:66mm}
 .clsbox .k{font-weight:700;font-size:8pt;letter-spacing:1.5px;color:#8a807c}
 .clsbox .v{font-weight:800;font-size:14pt;color:${RED};margin-bottom:3mm;line-height:1.1}
-.mid{display:grid;grid-template-columns:78mm 1fr 70mm;gap:8mm;margin-top:8mm;align-items:start}
+.mid{display:grid;grid-template-columns:78mm 1fr 70mm;gap:8mm;margin-top:6mm;align-items:start}
 .feat{display:flex;gap:4mm;margin-bottom:5.5mm;align-items:flex-start}
 .feat-ic{flex:none;width:14mm;height:14mm;border:1.5px solid #e3b8ac;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fdf3ef}
 .feat h4{color:${RED};font-weight:800;font-size:10pt;letter-spacing:.3px}
 .feat p{font-size:8.5pt;color:#5c534f;margin-top:1mm;line-height:1.3}
 .photo{text-align:center}
-.photo img{max-width:100%;max-height:84mm;object-fit:contain}
+.photo img{max-width:100%;max-height:78mm;object-fit:contain}
 .dimline{margin-top:3mm;font-weight:700;font-size:9.5pt;color:#5c534f}
 .dimline b{color:${RED}}
 .rightcol h3{color:${RED};font-weight:800;font-size:10pt;letter-spacing:.5px;margin-bottom:3mm}
@@ -134,7 +134,7 @@ body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;hei
 .rec-ic{flex:none;width:8mm;height:8mm;border-radius:50%;background:#fdf3ef;display:flex;align-items:center;justify-content:center}
 .rec h5{color:${RED};font-weight:800;font-size:8pt;letter-spacing:.3px}
 .rec p{font-size:7.2pt;color:#5c534f;line-height:1.3;margin-top:.5mm}
-.footer{display:flex;align-items:center;gap:6mm;margin-top:6mm;padding-top:4mm;border-top:2px solid ${RED};font-size:8pt;color:#5c534f;font-weight:600}
+.footer{display:flex;align-items:center;gap:6mm;margin-top:4mm;padding-top:4mm;border-top:2px solid ${RED};font-size:8pt;color:#5c534f;font-weight:600}
 .footer b{color:${RED};font-weight:900;font-size:11pt;letter-spacing:1px}
 </style></head><body>
 <div class="top">
