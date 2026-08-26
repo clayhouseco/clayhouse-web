@@ -19,7 +19,6 @@ import {
   getVariantGallery,
 } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
-import fs from "node:fs";
 import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
@@ -44,11 +43,6 @@ if (!product) {
 
 const assets = getProductAssets(product.slug);
 
-// Infografía de ficha técnica (si existe el archivo, se muestra en la página).
-// Los productos sin infografía propia solo muestran el PDF de descarga.
-const fichaPreview = fs.existsSync(`public/images/fichas/${product.slug}.webp`)
-  ? assetUrl(`/images/fichas/${product.slug}.webp`)
-  : null;
 const defaultVariantId = assets?.variants[0]?.id ?? "default";
 const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
 const activeVariantId = activeVariant?.id ?? defaultVariantId;
@@ -568,27 +562,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     <section class="product-page__block product-page__block--alt" id="descargables">
       <div class="container product-page__panel product-page__panel--downloads">
         <h2 class="product-page__h2">Descargables</h2>
-        {
-          fichaPreview && (
-            <a
-              href={fichaPreview}
-              target="_blank"
-              rel="noopener"
-              class="ficha-preview"
-              aria-label={`Ver ficha técnica de ${product.name} a tamaño completo`}
-            >
-              <img
-                src={fichaPreview}
-                alt={`Ficha técnica de ${product.name}`}
-                width="1500"
-                height="1000"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="ficha-preview__hint">Ampliar ficha</span>
-            </a>
-          )
-        }
         <ul class="download-list">
           <li>
             <a href={product.technicalPdf} target="_blank" rel="noopener" class="download-link">
@@ -1539,46 +1512,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     padding: 0;
     display: grid;
     gap: 0.75rem;
-  }
-
-  .ficha-preview {
-    display: block;
-    position: relative;
-    margin: 0 0 1.25rem;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: #fff;
-    border: 1px solid rgba(71, 36, 16, 0.1);
-    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
-  }
-
-  .ficha-preview:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(71, 36, 16, 0.12);
-  }
-
-  .ficha-preview img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: contain;
-  }
-
-  .ficha-preview__hint {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    padding: 0.35rem 0.7rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-bg);
-    background: rgba(71, 36, 16, 0.85);
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
   }
 
   .download-link {
