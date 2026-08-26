@@ -19,6 +19,8 @@ import {
   getVariantGallery,
 } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
+import fs from "node:fs";
+import crypto from "node:crypto";
 import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
@@ -42,6 +44,20 @@ if (!product) {
 }
 
 const assets = getProductAssets(product.slug);
+
+// Cache-busting de la ficha: añade ?v=<hash> según el contenido del PDF, para
+// que al actualizar el archivo el navegador siempre baje la versión nueva
+// (los PDF viven en /public con URL fija y se cachean si no cambia la ruta).
+function versionedPdf(pdfUrl: string): string {
+  const file = "public" + decodeURIComponent(pdfUrl.split("?")[0]);
+  try {
+    const hash = crypto.createHash("md5").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
+    return `${pdfUrl}?v=${hash}`;
+  } catch {
+    return pdfUrl;
+  }
+}
+const technicalPdfUrl = versionedPdf(product.technicalPdf);
 
 const defaultVariantId = assets?.variants[0]?.id ?? "default";
 const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
@@ -564,7 +580,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         <h2 class="product-page__h2">Descargables</h2>
         <ul class="download-list">
           <li>
-            <a href={product.technicalPdf} target="_blank" rel="noopener" class="download-link">
+            <a href={technicalPdfUrl} target="_blank" rel="noopener" class="download-link">
               <span class="download-link__title">Ficha técnica (PDF)</span>
               <span class="download-link__meta">Dimensiones, tolerancias y NTC 4205</span>
             </a>
