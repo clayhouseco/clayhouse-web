@@ -1,0 +1,1329 @@
+// Datos de las fichas técnicas — EDITABLE. Tras cambiar algo, regenerar con:
+//   node scripts/fichas/generate.mjs --all        (todas)
+//   node scripts/fichas/generate.mjs --only romano (una)
+// Ver scripts/fichas/README.md
+
+export const fichas = [
+  {
+    "slug": "toscano",
+    "titulo": "TOSCANO",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "TOSCANO",
+    "norma": "NTC 4205-2 / 4205-3",
+    "foto": "/public/images/products/toscano/natural/toscano natural.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "29 cm",
+      "ancho": "14 cm",
+      "alto": "5 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Matizado claro",
+        "#B87942"
+      ],
+      [
+        "Matizado oscuro",
+        "#7C4A32"
+      ]
+    ],
+    "usos": [
+      "Fachadas modernas residenciales y comerciales",
+      "Interiores decorativos y muros de acento",
+      "Proyectos minimalistas y contemporáneos",
+      "Patios y zonas sociales con diseño atemporal"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "1,8 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "29 × 14 × 5 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "68 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 14 MPa · Individual 10 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 13% · Individual 17%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "napolitano",
+    "titulo": "NAPOLITANO",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "NAPOLITANO",
+    "norma": "NTC 4205-2 / 4205-3",
+    "foto": "/public/images/products/napolitano/matizado/Napolitano Oscuro.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "20 cm",
+      "ancho": "10 cm",
+      "alto": "5 cm"
+    },
+    "colores": [
+      [
+        "Matizado",
+        "#9C5A38"
+      ],
+      [
+        "Natural",
+        "#B4682F"
+      ]
+    ],
+    "usos": [
+      "Fachadas de vivienda y comercio",
+      "Muros perimetrales a la vista",
+      "Remodelaciones con lenguaje clásico-contemporáneo"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "1,8 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "20 × 10 × 5 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "68 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 14 MPa · Individual 10 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 13% · Individual 17%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "romano",
+    "titulo": "ROMANO",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "ROMANO",
+    "norma": "NTC 4205-2 / 4205-3",
+    "foto": "/public/images/products/romano/matizado claro/Romano Matizado.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "27,5 cm",
+      "ancho": "13,5 cm",
+      "alto": "6 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Matizado claro",
+        "#B87942"
+      ],
+      [
+        "Matizado oscuro",
+        "#7C4A32"
+      ]
+    ],
+    "usos": [
+      "Fachadas patrimoniales y contemporáneas",
+      "Muros a la vista en vivienda campestre",
+      "Cerramientos y muros de acento"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "2,6 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "27,5 × 13,5 × 6 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "60 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 14 MPa · Individual 10 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 13% · Individual 17%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "cartagena",
+    "titulo": "CARTAGENA",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "CARTAGENA",
+    "norma": "NTC 4205",
+    "foto": "/public/images/products/cartagena/natural/Cartagena Claro.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "30 cm",
+      "ancho": "11 cm",
+      "alto": "4,5 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Matizado claro",
+        "#B87942"
+      ],
+      [
+        "Matizado oscuro",
+        "#7C4A32"
+      ]
+    ],
+    "usos": [
+      "Fachadas residenciales y comerciales",
+      "Muros estructurales interiores con revoque",
+      "Divisiones internas y obra residencial"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "1,6 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "30 × 11 × 4,5 cm",
+        ""
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 14 MPa · Individual 10 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 14% · Individual 17%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 4%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "macizo-campesino",
+    "titulo": "MACIZO CAMPESINO",
+    "subtitulo": "LADRILLO MACIZO DE ARCILLA COCIDA",
+    "clasificacion": "MACIZO CAMPESINO",
+    "norma": "NTC 4205 / NTC 3829",
+    "foto": "/public/images/products/macizo-campesino/matizado claro/Campesino Claro.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "20 cm",
+      "ancho": "10 cm",
+      "alto": "6 cm"
+    },
+    "colores": [
+      [
+        "Matizado claro",
+        "#B87942"
+      ],
+      [
+        "Matizado oscuro",
+        "#7C4A32"
+      ]
+    ],
+    "usos": [
+      "Pisos interiores y exteriores",
+      "Andenes y senderos",
+      "Fachadas rústicas y tradicionales",
+      "Zonas residenciales y comerciales"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "2,0 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "20 × 10 × 6 cm",
+        ""
+      ],
+      [
+        "compress",
+        "CARGA DE ROTURA",
+        "Promedio 2500 N · Individual 2000 N",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 14% · Individual 17%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "macizo-brix",
+    "titulo": "MACIZO",
+    "subtitulo": "LADRILLO MACIZO DE ARCILLA COCIDA",
+    "clasificacion": "MACIZO",
+    "norma": "NTC 4205 / NTC 3829",
+    "foto": "/public/images/products/macizo-brix/pieza/DSC_9310.jpg",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "20 cm",
+      "ancho": "10 cm",
+      "alto": "5 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Matizado",
+        "#9C5A38"
+      ]
+    ],
+    "usos": [
+      "Muros estructurales en vivienda y edificios",
+      "Ampliaciones y obra nueva",
+      "Construcción residencial",
+      "Proyectos con especificación NTC 4205"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "2,0 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "20 × 10 × 5 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "50 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 14 MPa · Individual 10 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 14% · Individual 17%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "bocadillo-prensado",
+    "titulo": "BOCADILLO PRENSADO",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "BOCADILLO PRENSADO",
+    "norma": "NTC 4205-3",
+    "foto": "/public/images/products/bocadillo-prensado/rojo/bocadillo-prensado-rojo.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "DIMENSIONES OPTIMIZADAS",
+        "Formato pensado para el rendimiento en obra."
+      ]
+    ],
+    "dims": {
+      "largo": "24,5 cm",
+      "ancho": "12 cm",
+      "alto": "6 cm"
+    },
+    "colores": [
+      [
+        "Arena",
+        "#CDA96E"
+      ],
+      [
+        "Rojo",
+        "#B4552F"
+      ],
+      [
+        "Chocolate",
+        "#6B4636"
+      ]
+    ],
+    "usos": [
+      "Fachadas con detalle fino",
+      "Muros divisorios y de acento",
+      "Remates y entrecalles",
+      "Proyectos con aparejo de formato pequeño"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "2,3 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "24,5 × 12 × 6 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "56 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Clase I · Mínimo 21 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 13%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "rayados-verticales",
+    "titulo": "RAYADO VERTICAL",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "RAYADO VERTICAL",
+    "norma": "NTC 4205-2 / 4205-3",
+    "foto": "/public/images/products/rayados-verticales/rayado 12-vertical/rayado 12 vertical apilado.webp",
+    "features": [
+      [
+        "ruler",
+        "TEXTURA DECORATIVA",
+        "Relieve que aporta ritmo y juego de luz."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste y la intemperie."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "shield",
+        "VERSATILIDAD",
+        "Muros divisorios, cerramientos y acentos."
+      ]
+    ],
+    "dims": {
+      "largo": "40 cm",
+      "ancho": "10 cm",
+      "alto": "20 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ]
+    ],
+    "usos": [
+      "Muros estructurales interiores (con revoque)",
+      "Estructuras y muros",
+      "Construcción residencial",
+      "Obra comercial e industrial"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "6,9 kg",
+        "(por unidad)"
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 17% · Individual 19%",
+        ""
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 20 MPa · Individual 15 MPa",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "rayados-horizontales",
+    "titulo": "RAYADO HORIZONTAL",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "RAYADO HORIZONTAL",
+    "norma": "NTC 4205-2 / 4205-3",
+    "foto": "/public/images/products/rayados-horizontales/rayado 12-horizontal/rayado 12 horizontal apilados.webp",
+    "features": [
+      [
+        "ruler",
+        "TEXTURA DECORATIVA",
+        "Relieve que aporta ritmo y juego de luz."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste y la intemperie."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "shield",
+        "VERSATILIDAD",
+        "Muros divisorios, cerramientos y acentos."
+      ]
+    ],
+    "dims": {
+      "largo": "40 cm",
+      "ancho": "12 cm",
+      "alto": "20 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ]
+    ],
+    "usos": [
+      "Muros estructurales interiores (con revoque)",
+      "Divisiones internas",
+      "Construcción residencial",
+      "Obra comercial e industrial"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "6,0 – 6,5 kg",
+        "(por unidad)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 5 MPa · Individual 3 MPa",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 17% · Individual 20%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "enchape-rustico",
+    "titulo": "ENCHAPE RÚSTICO",
+    "subtitulo": "REVESTIMIENTO DE ARCILLA COCIDA",
+    "clasificacion": "ENCHAPE RÚSTICO",
+    "norma": "NTC 5547",
+    "foto": "/public/images/products/enchape-rustico/producto/enchape-rustico-producto.jpg",
+    "features": [
+      [
+        "shield",
+        "ACABADO DECORATIVO",
+        "Revestimiento con textura y carácter."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste y la intemperie."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "VERSATILIDAD",
+        "Interiores y exteriores, muros y detalles."
+      ]
+    ],
+    "dims": {
+      "largo": "25 cm",
+      "ancho": "2,4 cm",
+      "alto": "6 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Matizado",
+        "#9C5A38"
+      ]
+    ],
+    "usos": [
+      "Paredes decorativas interiores y exteriores",
+      "Fachadas de acento",
+      "Pisos decorativos",
+      "Restaurantes, hoteles y comercio"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "0,8 kg",
+        "(por unidad)"
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "66 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 13% · Individual 14%",
+        ""
+      ],
+      [
+        "ruler",
+        "RESISTENCIA A LA FLEXIÓN",
+        "Promedio 3 MPa",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "enchape-romano",
+    "titulo": "ENCHAPE ROMANO",
+    "subtitulo": "REVESTIMIENTO DE ARCILLA COCIDA",
+    "clasificacion": "ENCHAPE ROMANO",
+    "norma": "NTC 5547",
+    "foto": "/public/images/products/enchape-romano/natural/Enchape Natural.webp",
+    "features": [
+      [
+        "shield",
+        "ACABADO DECORATIVO",
+        "Revestimiento con textura y carácter."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste y la intemperie."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "VERSATILIDAD",
+        "Interiores y exteriores, muros y detalles."
+      ]
+    ],
+    "dims": {
+      "largo": "28 cm",
+      "ancho": "6 cm",
+      "alto": "1,3 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Matizado",
+        "#9C5A38"
+      ],
+      [
+        "Matizado oscuro",
+        "#7C4A32"
+      ]
+    ],
+    "usos": [
+      "Revestimientos decorativos de muros interiores y exteriores",
+      "Fachadas rústicas y coloniales",
+      "Zonas residenciales y comerciales",
+      "Ambientes rústicos y naturales"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "0,75 kg",
+        "(por unidad)"
+      ],
+      [
+        "compress",
+        "CARGA DE ROTURA",
+        "Promedio 300 N · Individual 250 N",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 13% · Individual 14%",
+        ""
+      ],
+      [
+        "ruler",
+        "RESISTENCIA A LA FLEXIÓN",
+        "Promedio 3 MPa · Individual 3 MPa",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "piso-30x30",
+    "titulo": "PISO 30×30",
+    "subtitulo": "PISO DE ARCILLA COCIDA",
+    "clasificacion": "PISO 30×30",
+    "norma": "NTC 919",
+    "foto": "/public/images/products/piso-30x30/DSC_9524.jpg",
+    "features": [
+      [
+        "shield",
+        "RESISTENTE AL TRÁNSITO",
+        "Alto desempeño para pisos interiores y exteriores."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste y la intemperie."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "ESTÉTICA CÁLIDA",
+        "Acabado artesanal para espacios luminosos."
+      ]
+    ],
+    "dims": {
+      "largo": "30 cm",
+      "ancho": "30 cm",
+      "alto": "1,5 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ]
+    ],
+    "usos": [
+      "Pisos interiores y exteriores residenciales",
+      "Áreas de tráfico moderado",
+      "Terrazas y patios",
+      "Proyectos decorativos"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "28,0 kg",
+        "(por m²)"
+      ],
+      [
+        "compress",
+        "CARGA DE ROTURA",
+        "Promedio 950 N · Individual 855 N",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 6% · Individual 7%",
+        ""
+      ],
+      [
+        "ruler",
+        "RESISTENCIA A LA FLEXIÓN",
+        "Promedio 13 MPa · Individual 11 MPa",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "piso-10x30",
+    "titulo": "PISO 10×30",
+    "subtitulo": "PISO DE ARCILLA COCIDA",
+    "clasificacion": "PISO 10×30",
+    "norma": "NTC 919",
+    "foto": "/public/images/products/piso-10x30/piso 10x30.jpg",
+    "features": [
+      [
+        "shield",
+        "RESISTENTE AL TRÁNSITO",
+        "Alto desempeño para pisos interiores y exteriores."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste y la intemperie."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "ruler",
+        "ESTÉTICA CÁLIDA",
+        "Acabado artesanal para espacios luminosos."
+      ]
+    ],
+    "dims": {
+      "largo": "30 cm",
+      "ancho": "10 cm",
+      "alto": "1,2 – 1,5 cm"
+    },
+    "colores": [
+      [
+        "Tabaco",
+        "#8A5A3C"
+      ],
+      [
+        "Natural",
+        "#B4682F"
+      ]
+    ],
+    "usos": [
+      "Zócalos y guardaescobas",
+      "Pisos interiores y exteriores residenciales",
+      "Áreas de tráfico moderado",
+      "Terrazas y patios"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "1,2 kg",
+        "(por unidad)"
+      ],
+      [
+        "compress",
+        "CARGA DE ROTURA",
+        "Promedio 950 N · Individual 855 N",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 6% · Individual 7%",
+        ""
+      ],
+      [
+        "ruler",
+        "RESISTENCIA A LA FLEXIÓN",
+        "Promedio 13 MPa · Individual 11 MPa",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "teja-plana",
+    "titulo": "TEJA PLANA",
+    "subtitulo": "PIEZA DE ARCILLA COCIDA",
+    "clasificacion": "TEJA PLANA",
+    "norma": "NTC 2086",
+    "foto": "/public/images/products/teja-plana/natural/Teja Plana Natural.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural y decorativo."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste, intemperie y variaciones térmicas."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "home",
+        "DISEÑO TRADICIONAL",
+        "Ideal para cubiertas con estética clásica o moderna."
+      ]
+    ],
+    "dims": {
+      "largo": "40 cm",
+      "ancho": "25 cm",
+      "alto": "—"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B4682F"
+      ],
+      [
+        "Chocolate",
+        "#6B4636"
+      ]
+    ],
+    "usos": [
+      "Cubiertas visibles en vivienda campestre",
+      "Pérgolas y cubiertas de terraza",
+      "Proyectos patrimoniales y turísticos"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "2,7 kg",
+        "(por unidad)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "13 MPa mín.",
+        "(carga de rotura)"
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "3% – 6% máx.",
+        ""
+      ],
+      [
+        "ruler",
+        "PLANARIDAD",
+        "1,5%",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "13 und/m²",
+        "(por metro cuadrado)"
+      ]
+    ]
+  },
+  {
+    "slug": "teja-colonial",
+    "titulo": "TEJA COLONIAL",
+    "subtitulo": "PIEZA DE ARCILLA COCIDA",
+    "clasificacion": "TEJA COLONIAL",
+    "norma": "NTC 2086",
+    "foto": "/public/images/products/teja-colonial/roja/teja colonial natural.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural y decorativo."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al desgaste, intemperie y variaciones térmicas."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ],
+      [
+        "home",
+        "DISEÑO TRADICIONAL",
+        "Ideal para cubiertas con estética clásica o moderna."
+      ]
+    ],
+    "dims": {
+      "largo": "41 cm",
+      "ancho": "20 cm",
+      "alto": "11 cm"
+    },
+    "colores": [
+      [
+        "Roja",
+        "#B4552F"
+      ]
+    ],
+    "usos": [
+      "Cubiertas visibles en vivienda campestre",
+      "Proyectos patrimoniales y turísticos",
+      "Ampliaciones con lenguaje tradicional"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "1,8 kg",
+        "(por unidad)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "13 MPa mín.",
+        "(carga de rotura)"
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "3% – 6% máx.",
+        ""
+      ],
+      [
+        "ruler",
+        "PLANARIDAD",
+        "1,5%",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  }
+];

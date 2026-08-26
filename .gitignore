@@ -35,3 +35,7 @@ _inbox/blog/*
 
 # Variantes responsive: se generan en cada build (scripts/generate-responsive.mjs)
 public/images/_responsive/
+
+# Preview del generador de fichas (temporal)
+scripts/fichas/_preview/
+.ficha-tmp-*/
