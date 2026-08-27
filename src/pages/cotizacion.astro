@@ -4,6 +4,8 @@ import { site } from "@/data/site";
 import { logos } from "@/utils/media";
 import { cotizableCatalog } from "@/data/cotizacionCatalog";
 
+const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY?.trim() ?? "";
+
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
 const formspreeReady =
   Boolean(formspreeId) && formspreeId !== "your_form_id" && !formspreeId?.startsWith("your_");
@@ -73,8 +75,16 @@ const DEPARTAMENTOS = [
               El <b>flete no está incluido</b> en la cotización preliminar; lo calcula nuestro
               equipo comercial según la ubicación de tu obra.
             </p>
-            <label class="cotz-full">Ubicación de la obra (dirección exacta o link de Google Maps) *
-              <input type="text" name="direccion" placeholder="Cra 43A #1-50, o pega el link de Google Maps" autocomplete="street-address" data-c="direccion" data-req-obra />
+            <label class="cotz-full">Dirección de la obra *
+              <input
+                type="text"
+                name="direccion"
+                placeholder={MAPS_KEY ? "Escribe el lugar y elígelo de la lista…" : "Cra 43A #1-50, o pega el link de Google Maps"}
+                autocomplete={MAPS_KEY ? "off" : "street-address"}
+                data-c="direccion"
+                data-req-obra
+              />
+              {MAPS_KEY && <span class="cotz-hint">Escribe el lugar y elígelo de la lista (como Google Maps).</span>}
             </label>
             <label>Municipio / ciudad
               <input type="text" name="municipio" autocomplete="address-level2" data-c="municipio" />
@@ -84,6 +94,18 @@ const DEPARTAMENTOS = [
                 {DEPARTAMENTOS.map((d) => <option value={d} selected={d === "Antioquia"}>{d}</option>)}
               </select>
             </label>
+            {MAPS_KEY && (
+              <div class="cotz-map cotz-full" data-map-wrap hidden>
+                <div class="cotz-map__actions">
+                  <button type="button" class="cotz-map__toggle" data-map-toggle>📍 Editar ubicación en el mapa</button>
+                  <span class="cotz-map__coords" data-map-coords></span>
+                </div>
+                <div class="cotz-map__canvas" data-map-canvas hidden></div>
+                <p class="cotz-hint">Arrastra el pin para ajustar el punto exacto de la obra.</p>
+              </div>
+            )}
+            <input type="hidden" name="lat" data-lat />
+            <input type="hidden" name="lng" data-lng />
           </div>
         </section>
 
@@ -342,6 +364,92 @@ const DEPARTAMENTOS = [
     // ---- Datos del cliente actualizan el documento ----
     form.querySelectorAll("[data-c]").forEach((el) => el.addEventListener("input", updateDoc));
 
+    // ---- Google Maps: autocompletar dirección + pin ajustable + auto-llenar ciudad/depto ----
+    const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY;
+    if (MAPS_KEY) {
+      const addressEl = form.querySelector('input[name="direccion"]');
+      const muniEl = form.querySelector('input[name="municipio"]');
+      const deptoEl = form.querySelector('select[name="departamento"]');
+      const latEl = form.querySelector("[data-lat]");
+      const lngEl = form.querySelector("[data-lng]");
+      const mapWrap = form.querySelector("[data-map-wrap]");
+      const mapCanvas = form.querySelector("[data-map-canvas]");
+      const mapToggle = form.querySelector("[data-map-toggle]");
+      const mapCoords = form.querySelector("[data-map-coords]");
+      let map, marker, geocoder;
+
+      const setField = (el, val) => {
+        if (!el || !val) return;
+        if (el.tagName === "SELECT") {
+          const opt = Array.from(el.options).find((o) => o.value.toLowerCase() === val.toLowerCase());
+          if (opt) el.value = opt.value;
+          else { const o = document.createElement("option"); o.value = val; o.textContent = val; el.appendChild(o); el.value = val; }
+        } else { el.value = val; }
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      const comp = (components, type) => {
+        const c = (components || []).find((x) => x.types.includes(type));
+        return c ? c.long_name : "";
+      };
+      const fillFromComponents = (components) => {
+        setField(deptoEl, comp(components, "administrative_area_level_1"));
+        setField(muniEl, comp(components, "locality") || comp(components, "administrative_area_level_2"));
+      };
+      const showCoords = (lat, lng) => {
+        latEl.value = lat.toFixed(6); lngEl.value = lng.toFixed(6);
+        if (mapCoords) mapCoords.textContent = `Punto exacto: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        mapWrap.hidden = false;
+      };
+      const reverseGeocode = (lat, lng) => {
+        geocoder = geocoder || new google.maps.Geocoder();
+        geocoder.geocode({ location: { lat, lng } }, (res, status) => {
+          if (status === "OK" && res[0]) {
+            addressEl.value = res[0].formatted_address;
+            addressEl.dispatchEvent(new Event("input", { bubbles: true }));
+            fillFromComponents(res[0].address_components);
+          }
+        });
+      };
+      const ensureMap = () => {
+        if (map) return;
+        const center = { lat: Number(latEl.value) || 6.226, lng: Number(lngEl.value) || -75.564 };
+        map = new google.maps.Map(mapCanvas, { center, zoom: 16, mapTypeControl: false, streetViewControl: false, fullscreenControl: false });
+        marker = new google.maps.Marker({ map, position: center, draggable: true });
+        marker.addListener("dragend", () => {
+          const p = marker.getPosition(); const lat = p.lat(), lng = p.lng();
+          showCoords(lat, lng); reverseGeocode(lat, lng);
+        });
+      };
+      const setPoint = (lat, lng) => {
+        showCoords(lat, lng); ensureMap();
+        const pos = { lat, lng }; map.setCenter(pos); marker.setPosition(pos);
+      };
+
+      window.__initCotzMap = () => {
+        const ac = new google.maps.places.Autocomplete(addressEl, {
+          componentRestrictions: { country: "co" },
+          fields: ["formatted_address", "address_components", "geometry", "name"],
+        });
+        ac.addListener("place_changed", () => {
+          const place = ac.getPlace();
+          if (place.name && place.formatted_address && !place.formatted_address.startsWith(place.name)) addressEl.value = `${place.name} — ${place.formatted_address}`;
+          else if (place.formatted_address) addressEl.value = place.formatted_address;
+          addressEl.dispatchEvent(new Event("input", { bubbles: true }));
+          fillFromComponents(place.address_components);
+          if (place.geometry && place.geometry.location) setPoint(place.geometry.location.lat(), place.geometry.location.lng());
+        });
+      };
+      mapToggle && mapToggle.addEventListener("click", () => {
+        ensureMap();
+        const show = mapCanvas.hidden; mapCanvas.hidden = !show;
+        mapToggle.textContent = show ? "▲ Ocultar mapa" : "📍 Editar ubicación en el mapa";
+        if (show) google.maps.event.trigger(map, "resize");
+      });
+      const s = document.createElement("script");
+      s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&libraries=places&language=es&region=CO&callback=__initCotzMap`;
+      s.async = true; document.head.appendChild(s);
+    }
+
     // ---- Precargar desde el carrito ----
     (function prefill() {
       let cart = [];
@@ -364,7 +472,14 @@ const DEPARTAMENTOS = [
       const payload = {
         cliente: { nombre: cval("nombre"), telefono: cval("telefono"), email: cval("email"), empresa: cval("empresa"), proyecto: cval("proyecto") },
         entrega: entregaVal.value,
-        ubicacion: entregaVal.value === "planta" ? "Recoge en planta" : { direccion: cval("direccion"), municipio: cval("municipio"), departamento: cval("departamento") },
+        ubicacion: entregaVal.value === "planta" ? "Recoge en planta" : (() => {
+          const lat = form.querySelector("[data-lat]")?.value;
+          const lng = form.querySelector("[data-lng]")?.value;
+          return {
+            direccion: cval("direccion"), municipio: cval("municipio"), departamento: cval("departamento"),
+            ...(lat && lng ? { lat, lng, maps: `https://www.google.com/maps?q=${lat},${lng}` } : {}),
+          };
+        })(),
         lineas: currentLineas().map((r) => ({ erpCodigo: r.item.erpCodigo, producto: r.item.label, color: r.colCod, calidad: r.calCod, cantidad: r.cant, unidad: r.item.unidad })),
         nota: "FLETE NO INCLUIDO — cotización preliminar de la web.",
       };
@@ -402,6 +517,13 @@ const DEPARTAMENTOS = [
   .cotz-pill { padding: 0.5rem 1rem; border: 1px solid rgba(71, 36, 16, 0.2); border-radius: 999px; background: var(--color-white); color: var(--color-chocolate); font-weight: 500; cursor: pointer; }
   .cotz-pill--active { background: var(--color-terracota); border-color: var(--color-terracota); color: #fff; }
   .cotz-flete-nota { grid-column: 1 / -1; margin: 0; font-size: 0.82rem; color: #5c534f; background: rgba(124, 72, 44, 0.06); border-left: 3px solid var(--color-terracota); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); }
+  .cotz-hint { font-size: 0.72rem; font-weight: 400; color: rgba(71, 36, 16, 0.5); }
+  .cotz-map { display: flex; flex-direction: column; gap: 0.5rem; }
+  .cotz-map__actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .cotz-map__toggle { padding: 0.45rem 0.85rem; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); background: var(--color-white); border: 1px solid rgba(71, 36, 16, 0.2); border-radius: 999px; cursor: pointer; width: auto; }
+  .cotz-map__toggle:hover { border-color: var(--color-terracota); color: var(--color-terracota); }
+  .cotz-map__coords { font-size: 0.75rem; color: rgba(71, 36, 16, 0.6); }
+  .cotz-map__canvas { width: 100%; height: 16rem; border-radius: var(--radius-md); border: 1px solid rgba(71, 36, 16, 0.12); overflow: hidden; }
 
   .cotz-linea { border: 1px solid rgba(71, 36, 16, 0.1); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 0.85rem; background: var(--color-bg); }
   .cotz-linea__u { font-size: 0.8rem; color: #5c534f; align-self: center; }
@@ -412,29 +534,45 @@ const DEPARTAMENTOS = [
   .cotz-picker__hint { margin: 0 0 0.6rem; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); }
   .cotz-picker__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
-    gap: 0.5rem;
-    max-height: 20rem;
+    grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+    gap: 0.75rem;
+    max-height: 24rem;
     overflow-y: auto;
     padding: 0.15rem;
   }
   .cotz-cardp {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.5rem 0.35rem;
+    align-items: stretch;
+    gap: 0.45rem;
+    padding: 0.55rem;
     background: var(--color-white);
-    border: 1px solid rgba(71, 36, 16, 0.12);
-    border-radius: var(--radius-sm);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    text-align: center;
+    text-align: left;
     transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
   }
-  .cotz-cardp:hover { border-color: var(--color-terracota); box-shadow: 0 4px 12px rgba(71, 36, 16, 0.1); transform: translateY(-1px); }
-  .cotz-cardp img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: #f3ece7; }
-  .cotz-cardp__name { display: block; width: 100%; font-size: 0.72rem; font-weight: 600; color: var(--color-chocolate); line-height: 1.2; }
-  .cotz-cardp__code { display: inline-block; margin-top: 0.1rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.03em; color: var(--color-terracota); background: rgba(124, 72, 44, 0.1); padding: 0.1rem 0.4rem; border-radius: 999px; }
+  .cotz-cardp:hover { border-color: var(--color-terracota); box-shadow: 0 6px 16px rgba(71, 36, 16, 0.12); transform: translateY(-1px); }
+  .cotz-cardp img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    background: #fff;
+  }
+  .cotz-cardp__name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+    line-height: 1.25;
+    min-height: 1.95em;
+  }
+  .cotz-cardp__code { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em; color: rgba(71, 36, 16, 0.45); }
 
   /* Producto seleccionado */
   .cotz-sel__head { display: flex; align-items: center; gap: 0.65rem; }
