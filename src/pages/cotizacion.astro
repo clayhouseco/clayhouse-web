@@ -166,21 +166,33 @@ const DEPARTAMENTOS = [
 
   <template data-linea-template>
     <div class="cotz-linea" data-linea>
-      <div class="cotz-linea__grid">
-        <label class="cotz-linea__prod">Producto
-          <select data-campo="item" required></select>
-        </label>
-        <label data-campo-wrap="color" hidden>Color
-          <select data-campo="color"></select>
-        </label>
-        <label data-campo-wrap="calidad">Calidad
-          <select data-campo="calidad"></select>
-        </label>
-        <label class="cotz-linea__qty">Cantidad
-          <input type="number" min="1" value="1" data-campo="cantidad" />
-        </label>
-        <span class="cotz-linea__u" data-unidad></span>
-        <button type="button" class="cotz-linea__del" data-del-linea aria-label="Quitar">×</button>
+      <input type="hidden" data-campo="item" />
+      <div class="cotz-picker" data-picker>
+        <p class="cotz-picker__hint">Elige un producto:</p>
+        <div class="cotz-picker__grid" data-picker-grid></div>
+      </div>
+      <div class="cotz-sel" data-selected hidden>
+        <div class="cotz-sel__head">
+          <img class="cotz-sel__thumb" data-sel-img alt="" width="56" height="56" />
+          <div class="cotz-sel__info">
+            <b data-sel-name></b>
+            <span class="cotz-sel__code" data-sel-code></span>
+          </div>
+          <button type="button" class="cotz-sel__cambiar" data-cambiar>Cambiar</button>
+          <button type="button" class="cotz-linea__del" data-del-linea aria-label="Quitar producto">×</button>
+        </div>
+        <div class="cotz-sel__fields">
+          <label data-campo-wrap="color" hidden>Color
+            <select data-campo="color"></select>
+          </label>
+          <label data-campo-wrap="calidad">Calidad
+            <select data-campo="calidad"></select>
+          </label>
+          <label class="cotz-linea__qty">Cantidad
+            <input type="number" min="1" value="1" data-campo="cantidad" />
+          </label>
+          <span class="cotz-linea__u" data-unidad></span>
+        </div>
       </div>
     </div>
   </template>
@@ -196,9 +208,31 @@ const DEPARTAMENTOS = [
     const fmtCop = (n) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(n);
     const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-    function optionsHtml() {
-      return '<option value="">Selecciona…</option>' +
-        catalog.map((c) => `<option value="${c.id}">${c.label}${c.erpCodigo ? "" : " (por confirmar)"}</option>`).join("");
+    function cardsHtml() {
+      return catalog
+        .map(
+          (c) =>
+            `<button type="button" class="cotz-cardp" data-pick="${c.id}">` +
+            `<img src="${c.image}" alt="" loading="lazy" width="72" height="72" />` +
+            `<span class="cotz-cardp__name">${esc(c.label)}</span>` +
+            `<span class="cotz-cardp__code">${c.erpCodigo ? esc(c.erpCodigo) : "por confirmar"}</span>` +
+            `</button>`
+        )
+        .join("");
+    }
+
+    function selectProduct(linea, id, preset = {}) {
+      const item = byId[id];
+      if (!item) return;
+      linea.querySelector('[data-campo="item"]').value = id;
+      linea.querySelector("[data-sel-img]").src = item.image;
+      linea.querySelector("[data-sel-name]").textContent = item.label;
+      linea.querySelector("[data-sel-code]").textContent = item.erpCodigo ? `SKU ${item.erpCodigo}` : "Código por confirmar";
+      fillDependent(linea, item, preset);
+      if (preset.cantidad) linea.querySelector('[data-campo="cantidad"]').value = preset.cantidad;
+      linea.querySelector("[data-picker]").hidden = true;
+      linea.querySelector("[data-selected]").hidden = false;
+      updateDoc();
     }
 
     function fillDependent(linea, item, preset = {}) {
@@ -220,14 +254,17 @@ const DEPARTAMENTOS = [
 
     function addLinea(preset = {}) {
       const linea = tpl.content.firstElementChild.cloneNode(true);
-      const itemSel = linea.querySelector('[data-campo="item"]');
-      itemSel.innerHTML = optionsHtml();
-      if (preset.id && byId[preset.id]) itemSel.value = preset.id;
-      fillDependent(linea, byId[itemSel.value], preset);
-      if (preset.cantidad) linea.querySelector('[data-campo="cantidad"]').value = preset.cantidad;
-      itemSel.addEventListener("change", () => { fillDependent(linea, byId[itemSel.value]); updateDoc(); });
+      linea.querySelector("[data-picker-grid]").innerHTML = cardsHtml();
+      linea.querySelectorAll("[data-pick]").forEach((btn) =>
+        btn.addEventListener("click", () => selectProduct(linea, btn.dataset.pick))
+      );
+      linea.querySelector("[data-cambiar]").addEventListener("click", () => {
+        linea.querySelector("[data-picker]").hidden = false;
+        linea.querySelector("[data-selected]").hidden = true;
+      });
       linea.querySelector("[data-del-linea]").addEventListener("click", () => { linea.remove(); updateDoc(); });
       lineasBox.appendChild(linea);
+      if (preset.id && byId[preset.id]) selectProduct(linea, preset.id, preset);
       updateDoc();
     }
     form.querySelector("[data-add-linea]").addEventListener("click", () => addLinea());
@@ -288,6 +325,8 @@ const DEPARTAMENTOS = [
       entregaVal.value = val;
       const planta = val === "planta";
       obraFields.hidden = planta;
+      // Deshabilitar (no solo ocultar) los campos de obra al recoger en planta.
+      obraFields.querySelectorAll("input, select").forEach((el) => { el.disabled = planta; });
       form.querySelectorAll("[data-req-obra]").forEach((el) => { el.required = !planta; });
       updateDoc();
     }
@@ -364,11 +403,50 @@ const DEPARTAMENTOS = [
   .cotz-pill--active { background: var(--color-terracota); border-color: var(--color-terracota); color: #fff; }
   .cotz-flete-nota { grid-column: 1 / -1; margin: 0; font-size: 0.82rem; color: #5c534f; background: rgba(124, 72, 44, 0.06); border-left: 3px solid var(--color-terracota); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); }
 
-  .cotz-linea { border: 1px solid rgba(71, 36, 16, 0.1); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 0.75rem; background: var(--color-bg); }
-  .cotz-linea__grid { display: grid; grid-template-columns: 1.8fr 1.1fr 1.1fr 0.8fr auto auto; gap: 0.6rem; align-items: end; }
-  .cotz-linea__u { font-size: 0.8rem; color: #5c534f; padding-bottom: 0.55rem; }
-  .cotz-linea__del { width: 2rem; height: 2rem; border: 1px solid rgba(71, 36, 16, 0.15); border-radius: 50%; background: var(--color-white); color: var(--color-terracota); font-size: 1.15rem; line-height: 1; cursor: pointer; }
+  .cotz-linea { border: 1px solid rgba(71, 36, 16, 0.1); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 0.85rem; background: var(--color-bg); }
+  .cotz-linea__u { font-size: 0.8rem; color: #5c534f; align-self: center; }
+  .cotz-linea__del { flex: none; width: 2rem; height: 2rem; border: 1px solid rgba(71, 36, 16, 0.15); border-radius: 50%; background: var(--color-white); color: var(--color-terracota); font-size: 1.15rem; line-height: 1; cursor: pointer; }
   .cotz-linea__del:hover { background: var(--color-terracota); color: #fff; }
+
+  /* Selector visual de producto (grid con imágenes, tipo ERP) */
+  .cotz-picker__hint { margin: 0 0 0.6rem; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); }
+  .cotz-picker__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+    gap: 0.5rem;
+    max-height: 20rem;
+    overflow-y: auto;
+    padding: 0.15rem;
+  }
+  .cotz-cardp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0.35rem;
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .cotz-cardp:hover { border-color: var(--color-terracota); box-shadow: 0 4px 12px rgba(71, 36, 16, 0.1); transform: translateY(-1px); }
+  .cotz-cardp img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: #f3ece7; }
+  .cotz-cardp__name { display: block; width: 100%; font-size: 0.72rem; font-weight: 600; color: var(--color-chocolate); line-height: 1.2; }
+  .cotz-cardp__code { display: inline-block; margin-top: 0.1rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.03em; color: var(--color-terracota); background: rgba(124, 72, 44, 0.1); padding: 0.1rem 0.4rem; border-radius: 999px; }
+
+  /* Producto seleccionado */
+  .cotz-sel__head { display: flex; align-items: center; gap: 0.65rem; }
+  .cotz-sel__thumb { width: 3rem; height: 3rem; object-fit: cover; border-radius: var(--radius-sm); background: #f3ece7; }
+  .cotz-sel__info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+  .cotz-sel__info b { font-size: 0.9rem; color: var(--color-chocolate); }
+  .cotz-sel__code { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em; color: var(--color-terracota); }
+  .cotz-sel__cambiar { padding: 0.35rem 0.75rem; font-size: 0.75rem; font-weight: 600; color: var(--color-terracota); background: var(--color-white); border: 1px solid rgba(124, 72, 44, 0.3); border-radius: 999px; cursor: pointer; }
+  .cotz-sel__cambiar:hover { background: var(--color-terracota); color: #fff; }
+  .cotz-sel__fields { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end; margin-top: 0.75rem; }
+  .cotz-sel__fields label { flex: 1; min-width: 6rem; }
+  .cotz-linea__qty { max-width: 6rem; }
 
   .cotz-notas { display: flex; flex-direction: column; gap: 0.4rem; }
   .cotz-submit { text-align: center; }
