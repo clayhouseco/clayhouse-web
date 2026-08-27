@@ -590,7 +590,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "BOCADILLO PRENSADO",
     "norma": "NTC 4205-3",
-    "foto": "/public/images/products/bocadillo-prensado/rojo/bocadillo-prensado-rojo.webp",
+    "foto": "/public/images/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-dimensiones.webp",
     "features": [
       [
         "shield",

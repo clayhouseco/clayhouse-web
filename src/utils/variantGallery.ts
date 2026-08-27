@@ -171,7 +171,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
       cocoa: "bocadillo-prensado-cocoa.webp",
     },
     sharedRootPattern: /^$/,
-    dimensionesPattern: /bocadillo prensado dimensiones/i,
+    dimensionesPattern: /-dimensiones\.webp/i,
     productFilePattern: /^bocadillo-prensado/i,
   },
   "gran-formato-prensado": {
