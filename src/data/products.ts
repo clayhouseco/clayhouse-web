@@ -381,6 +381,50 @@ export const products: Product[] = [
     technicalPdf: productFolderImage("rayados-verticales", "fichas/10.pdf"),
   },
   {
+    name: "Bloquelón",
+    slug: "bloquelon",
+    category: "Divisorios",
+    shortDescription:
+      "Bloque hueco de arcilla de gran formato (80 × 23 × 8 cm) para muros divisorios livianos y rápidos. Rinde 5 unidades por m².",
+    description:
+      "Bloque de arcilla cocida de gran formato para levantar muros divisorios de forma rápida y liviana. Sus celdas huecas aligeran el muro y su tamaño rinde 5 bloquelones por metro cuadrado.",
+    applications: [
+      "Muros divisorios interiores",
+      "Cerramientos y divisiones livianas",
+      "Obra residencial y comercial",
+      "Construcción rápida de gran formato",
+    ],
+    color: "Natural",
+    texture: "Liso",
+    featured: false,
+    seoTitle: "Bloquelón | Clay House Amagá",
+    seoDescription:
+      "Bloquelón de arcilla cocida 80 × 23 × 8 cm para muros divisorios livianos y rápidos. Rinde 5 unidades por m². Clay House, Amagá, Antioquia.",
+    image: productFolderImage("bloquelon", "bloquelon.webp"),
+    gallery: [
+      productFolderImage("bloquelon", "bloquelon-celdas.webp"),
+      productFolderImage("bloquelon", "bloquelon-cara.webp"),
+      productFolderImage("bloquelon", "bloquelon-obra.webp"),
+    ],
+    imageDimensiones: productFolderImage("bloquelon", "bloquelon-dimensiones.webp"),
+    priceUnitLabel: "unidad",
+    dimensions: {
+      largo: "80 cm",
+      ancho: "8 cm",
+      alto: "23 cm",
+      pesoAprox: "10 kg",
+      rendimiento: "5 und/m²",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205-2 / 4205-3" },
+      { label: "Tipo de uso", value: "Muros divisorios (no estructural)" },
+      { label: "Resistencia a la compresión", value: "Promedio 20 MPa · Individual 15 MPa" },
+      { label: "Absorción de agua", value: "Promedio 17% · Individual 19%" },
+      { label: "Tolerancia dimensional", value: "± 2%" },
+    ],
+    technicalPdf: fichaPdf("bloquelon"),
+  },
+  {
     name: "Ladrillo Rayado Horizontal",
     slug: "rayados-horizontales",
     category: "Divisorios",

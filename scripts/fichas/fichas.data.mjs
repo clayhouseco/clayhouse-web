@@ -688,7 +688,7 @@ export const fichas = [
     "subtitulo": "LADRILLO DE ARCILLA COCIDA",
     "clasificacion": "GRAN FORMATO PRENSADO",
     "norma": "NTC 4205-3",
-    "foto": "/public/images/products/gran-formato-prensado/rojo/gran-formato-prensado-rojo.webp",
+    "foto": "/public/images/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-dimensiones.webp",
     "features": [
       [
         "shield",
@@ -1568,6 +1568,92 @@ export const fichas = [
         "ruler",
         "PLANARIDAD",
         "1,5%",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "bloquelon",
+    "titulo": "BLOQUELÓN",
+    "subtitulo": "BLOQUE DE ARCILLA COCIDA",
+    "clasificacion": "BLOQUELÓN",
+    "norma": "NTC 4205-2 / 4205-3",
+    "foto": "/public/images/products/bloquelon/bloquelon-dimensiones.webp",
+    "features": [
+      [
+        "cube",
+        "GRAN FORMATO",
+        "Rinde 5 piezas por m² — muros más rápidos."
+      ],
+      [
+        "leaf",
+        "LIVIANO",
+        "Celdas huecas que aligeran la estructura."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Arcilla cocida resistente al desgaste y la intemperie."
+      ]
+    ],
+    "dims": {
+      "largo": "80 cm",
+      "ancho": "8 cm",
+      "alto": "23 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#B45B33"
+      ]
+    ],
+    "usos": [
+      "Muros divisorios interiores",
+      "Cerramientos y divisiones livianas",
+      "Obra residencial y comercial",
+      "Construcción rápida de gran formato"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "10 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "80 × 23 × 8 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "5 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Promedio 20 MPa · Individual 15 MPa",
+        "(PV · no estructural)"
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Promedio 17% · Individual 19%",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
         ""
       ],
       [

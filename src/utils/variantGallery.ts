@@ -182,7 +182,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
       cocoa: "gran-formato-prensado-cocoa.webp",
     },
     sharedRootPattern: /^$/,
-    dimensionesPattern: /gran formato prensado dimensiones/i,
+    dimensionesPattern: /-dimensiones\.webp/i,
     productFilePattern: /^gran-formato-prensado/i,
   },
   "teja-colonial": {
