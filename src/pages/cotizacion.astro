@@ -40,6 +40,14 @@ const DEPARTAMENTOS = [
       <!-- ============ COLUMNA IZQUIERDA: FORMULARIO ============ -->
       <div class="cotz__form">
         <section class="cotz-card">
+          <div class="cotz-card__head">
+            <h2>Productos a cotizar</h2>
+            <button type="button" class="cotz-add" data-add-linea>+ Agregar producto</button>
+          </div>
+          <div data-lineas></div>
+        </section>
+
+        <section class="cotz-card">
           <h2>Cliente y obra</h2>
           <div class="cotz-fields">
             <label>Nombre de contacto *
@@ -105,14 +113,6 @@ const DEPARTAMENTOS = [
             <input type="hidden" name="lat" data-lat />
             <input type="hidden" name="lng" data-lng />
           </div>
-        </section>
-
-        <section class="cotz-card">
-          <div class="cotz-card__head">
-            <h2>Productos a cotizar</h2>
-            <button type="button" class="cotz-add" data-add-linea>+ Agregar producto</button>
-          </div>
-          <div data-lineas></div>
         </section>
 
         <label class="cotz-card cotz-notas">Notas para el equipo (opcional)

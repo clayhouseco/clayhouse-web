@@ -250,8 +250,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
       btn.dataset.quoteBound = "1";
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        refreshUI();
-        openCart();
+        window.location.href = "/cotizacion/";
       });
     });
   }
@@ -273,7 +272,10 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
   document.addEventListener(QUOTE_CART_EVENT, refreshUI);
   document.addEventListener("quote-cart-added", () => {
     refreshUI();
-    if (!window.location.pathname.startsWith("/cotizacion")) openCart();
+    // Sin modal intermedio: al agregar un producto, ir directo a /cotizacion.
+    if (!window.location.pathname.startsWith("/cotizacion")) {
+      window.location.href = "/cotizacion/";
+    }
   });
 
   document.addEventListener("click", (e) => {
