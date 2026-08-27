@@ -72,6 +72,8 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
   toscano: { codigo: "TOS", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   cartagena: { codigo: "CAR", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "enchape-romano": { codigo: "ENC-ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  // Código temporal — reemplazar cuando exista el definitivo en el ERP.
+  "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "macizo-brix": {
     porVariante: { "5x10x20": "MAC-520", "6x12x24": "MAC-624" },
     coloresPermitidos: ["NAT", "MC", "MO"],

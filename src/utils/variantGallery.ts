@@ -173,6 +173,16 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     dimensionesPattern: /bocadillo prensado dimensiones/i,
     productFilePattern: /^bocadillo-prensado/i,
   },
+  "gran-formato-prensado": {
+    heroProductByVariant: {
+      arena: "gran-formato-prensado-arena.webp",
+      rojo: "gran-formato-prensado-rojo.webp",
+      chocolate: "gran-formato-prensado-chocolate.webp",
+    },
+    sharedRootPattern: /^$/,
+    dimensionesPattern: /gran formato prensado dimensiones/i,
+    productFilePattern: /^gran-formato-prensado/i,
+  },
   "teja-colonial": {
     heroProductByVariant: {
       roja: "teja colonial natural.webp",

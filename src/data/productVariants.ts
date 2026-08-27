@@ -338,6 +338,12 @@ const bocadilloPrensadoVariants: ProductColorVariant[] = [
   { id: "chocolate", label: "Chocolate", colorLabel: "Chocolate", folder: "chocolate" },
 ];
 
+const granFormatoPrensadoVariants: ProductColorVariant[] = [
+  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
+  { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
+  { id: "chocolate", label: "Chocolate", colorLabel: "Chocolate", folder: "chocolate" },
+];
+
 const tejaColonialVariants: ProductColorVariant[] = [
   {
     id: "roja",
@@ -392,6 +398,12 @@ export const bocadilloPrensadoAssets = buildManifest(
   bocadilloPrensadoVariants
 );
 
+export const granFormatoPrensadoAssets = buildManifest(
+  "gran-formato-prensado",
+  "Gran Formato Prensado",
+  granFormatoPrensadoVariants
+);
+
 const manifests: Record<string, ProductAssetManifest> = {
   romano: romanoAssets,
   toscano: toscanoAssets,
@@ -408,6 +420,7 @@ const manifests: Record<string, ProductAssetManifest> = {
   "teja-plana": tejaPlanaAssets,
   "teja-colonial": tejaColonialAssets,
   "bocadillo-prensado": bocadilloPrensadoAssets,
+  "gran-formato-prensado": granFormatoPrensadoAssets,
 };
 
 export function getProductAssets(slug: string): ProductAssetManifest | undefined {

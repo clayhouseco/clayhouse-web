@@ -307,6 +307,44 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("bocadillo-prensado"),
   },
   {
+    name: "Gran Formato Prensado",
+    slug: "gran-formato-prensado",
+    category: "Fachadas",
+    shortDescription:
+      "Pieza prensada de gran formato (39 × 11,5 × 5 cm), en arena, rojo y chocolate. Cara larga y limpia para fachadas de gran escala.",
+    description:
+      "Pieza larga de gran formato en arena, rojo o chocolate. Su cara extendida agiliza el aparejo y da un lenguaje horizontal y contemporáneo a fachadas y muros de acento.",
+    applications: [
+      "Fachadas de gran escala",
+      "Muros de acento y divisorios",
+      "Proyectos con lenguaje horizontal",
+      "Aparejo de formato grande",
+    ],
+    color: "Arena, Rojo, Chocolate",
+    texture: "Prensado",
+    featured: false,
+    seoTitle: "Gran Formato Prensado | Clay House Amagá",
+    seoDescription:
+      "Ladrillo Gran Formato Prensado (39 × 11,5 × 5 cm) en arcilla cocida, colores arena, rojo y chocolate. Cara larga para fachadas de gran escala. Clay House, Amagá.",
+    image: productFolderImage("gran-formato-prensado", "rojo/gran-formato-prensado-rojo.webp"),
+    priceUnitLabel: "unidad",
+    dimensions: {
+      largo: "39 cm",
+      ancho: "11,5 cm",
+      alto: "5 cm",
+      pesoAprox: "3,3 kg",
+      rendimiento: "41,7 und/m²",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205 · NSR-10" },
+      { label: "Tipo de uso", value: "Fachada / muro divisorio" },
+      { label: "Tolerancia dimensional", value: "± 2%" },
+      { label: "Absorción de agua", value: "Máx. 11% (promedio)" },
+      { label: "Resistencia a la compresión", value: "Mínimo 25 MPa (promedio)" },
+    ],
+    technicalPdf: fichaPdf("gran-formato-prensado"),
+  },
+  {
     name: "Ladrillo Rayado Vertical",
     slug: "rayados-verticales",
     category: "Divisorios",
