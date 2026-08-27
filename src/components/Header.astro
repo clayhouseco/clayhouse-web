@@ -43,32 +43,10 @@ const currentPath = Astro.url.pathname;
         }
       </ul>
       <div class="header__nav-extras">
-        <button
-          type="button"
-          class="header__cart-btn"
-          data-quote-cart-open
-          data-quote-header-cart
-          hidden
-          aria-label="Ver cotización"
-        >
-          cotización
-          <span class="header__cart-count" data-quote-header-count hidden>0</span>
-        </button>
         <a href="/cotizacion" class="header__cta btn btn--primary" data-track="cotizar_click" data-track-location="header">Cotizar</a>
       </div>
     </nav>
     <div class="header__actions">
-      <button
-        type="button"
-        class="header__cart-btn"
-        data-quote-cart-open
-        data-quote-header-cart
-        hidden
-        aria-label="Ver cotización"
-      >
-        cotización
-        <span class="header__cart-count" data-quote-header-count hidden>0</span>
-      </button>
       <a href="/cotizacion" class="header__cta btn btn--primary" data-track="cotizar_click" data-track-location="header">Cotizar</a>
     </div>
     <button class="header__toggle" aria-label="Abrir menú" aria-expanded="false">

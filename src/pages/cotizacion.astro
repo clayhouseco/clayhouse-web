@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/data/site";
+import { logos } from "@/utils/media";
 import { cotizableCatalog } from "@/data/cotizacionCatalog";
 
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
@@ -18,136 +19,155 @@ const DEPARTAMENTOS = [
 
 <BaseLayout
   title="Solicitar cotización"
-  description="Arma tu cotización de ladrillo, teja o piso Clay House: elige productos, color, calidad y cantidad, y recibe la propuesta de tu obra."
+  description="Arma tu cotización de ladrillo, teja o piso Clay House: elige productos, color, calidad y cantidad, y recibe la propuesta para tu obra."
   hideQuoteCart={true}
 >
-  <section class="cotizacion-page">
-    <div class="container cotizacion-page__head">
+  <section class="cotz">
+    <div class="container cotz__head">
+      <p class="cotz__eyebrow">Comercial</p>
       <h1>Solicitar cotización</h1>
-      <p>
-        Agrega los productos que necesitas con su color, calidad y cantidad. Nuestro equipo
-        te enviará la cotización con precios, flete y condiciones para tu obra.
+      <p class="cotz__lead">
+        Agrega los productos con su color, calidad y cantidad. A la derecha ves tu cotización
+        preliminar; al enviarla, nuestro equipo te confirma precios finales, flete y condiciones.
       </p>
     </div>
 
-    <form
-      class="container cotizacion-form"
-      id="cotizacion-form"
-      method={formAction ? "POST" : "get"}
-      action={formAction}
-    >
+    <form class="container cotz__grid" id="cotizacion-form" method={formAction ? "POST" : "get"} action={formAction}>
       {formAction && <input type="hidden" name="_subject" value="Nueva cotización desde la web" />}
       <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-      <!-- Payload estructurado (formato ERP) que se arma al enviar -->
       <input type="hidden" name="cotizacion" data-cotizacion-payload />
 
-      <!-- ================= PRODUCTOS ================= -->
-      <section class="cotizacion-block">
-        <h2>Productos a cotizar</h2>
-        <div data-lineas></div>
-        <button type="button" class="btn btn--ghost cotizacion-add" data-add-linea>
-          + Agregar producto
-        </button>
-        <p class="cotizacion-empty" data-lineas-empty hidden>
-          Aún no has agregado productos. Usa “Agregar producto”.
-        </p>
-      </section>
-
-      <!-- ================= CLIENTE Y OBRA ================= -->
-      <section class="cotizacion-block">
-        <h2>Datos de contacto y obra</h2>
-        <div class="cotizacion-grid">
-          <label>Nombre de contacto *
-            <input type="text" name="nombre" required autocomplete="name" />
-          </label>
-          <label>Teléfono / WhatsApp *
-            <input type="tel" name="telefono" required autocomplete="tel" />
-          </label>
-          <label>Correo *
-            <input type="email" name="email" required autocomplete="email" />
-          </label>
-          <label>Empresa (opcional)
-            <input type="text" name="empresa" autocomplete="organization" />
-          </label>
-          <label>Nombre de la obra / proyecto
-            <input type="text" name="proyecto" placeholder="Ej. Edificio El Solar" />
-          </label>
-        </div>
-
-        <fieldset class="cotizacion-entrega">
-          <legend>Modalidad de entrega</legend>
-          <div class="cotizacion-pills" role="radiogroup" aria-label="Modalidad de entrega">
-            <button type="button" class="entrega-pill entrega-pill--active" data-entrega="obra" aria-pressed="true">
-              Despacho a obra
-            </button>
-            <button type="button" class="entrega-pill" data-entrega="planta" aria-pressed="false">
-              Recoge en planta
-            </button>
+      <!-- ============ COLUMNA IZQUIERDA: FORMULARIO ============ -->
+      <div class="cotz__form">
+        <section class="cotz-card">
+          <h2>Cliente y obra</h2>
+          <div class="cotz-fields">
+            <label>Nombre de contacto *
+              <input type="text" name="nombre" required autocomplete="name" data-c="nombre" />
+            </label>
+            <label>Proyecto / obra
+              <input type="text" name="proyecto" placeholder="Ej. Edificio El Solar" data-c="proyecto" />
+            </label>
+            <label>Teléfono / WhatsApp *
+              <input type="tel" name="telefono" required autocomplete="tel" data-c="telefono" />
+            </label>
+            <label>Correo *
+              <input type="email" name="email" required autocomplete="email" data-c="email" />
+            </label>
+            <label>Empresa (opcional)
+              <input type="text" name="empresa" autocomplete="organization" data-c="empresa" />
+            </label>
           </div>
-          <input type="hidden" name="entrega" value="obra" data-entrega-value />
-          <p class="cotizacion-flete-nota">
-            El <b>flete no está incluido</b> en esta cotización preliminar. Nuestro equipo comercial
-            lo calcula según la ubicación de tu obra.
-          </p>
-        </fieldset>
 
-        <div class="cotizacion-grid" data-obra-fields>
-          <label class="cotizacion-full">Ubicación de la obra (dirección exacta o link de Google Maps) *
-            <input type="text" name="direccion" placeholder="Ej. Cra 43A #1-50, o pega el link de Google Maps" autocomplete="street-address" />
-          </label>
-          <label>Municipio / ciudad
-            <input type="text" name="municipio" autocomplete="address-level2" />
-          </label>
-          <label>Departamento
-            <select name="departamento">
-              {DEPARTAMENTOS.map((d) => <option value={d} selected={d === "Antioquia"}>{d}</option>)}
-            </select>
-          </label>
-        </div>
+          <div class="cotz-entrega">
+            <span class="cotz-entrega__label">Modalidad de entrega</span>
+            <div class="cotz-pills">
+              <button type="button" class="cotz-pill cotz-pill--active" data-entrega="obra" aria-pressed="true">Despacho a obra</button>
+              <button type="button" class="cotz-pill" data-entrega="planta" aria-pressed="false">Recoge en planta</button>
+            </div>
+            <input type="hidden" name="entrega" value="obra" data-entrega-value />
+          </div>
 
-        <label class="cotizacion-msg">Notas para el equipo (opcional)
-          <textarea name="mensaje" rows="3" placeholder="Fechas, detalles de obra, preguntas..."></textarea>
+          <div class="cotz-fields" data-obra-fields>
+            <p class="cotz-flete-nota">
+              El <b>flete no está incluido</b> en la cotización preliminar; lo calcula nuestro
+              equipo comercial según la ubicación de tu obra.
+            </p>
+            <label class="cotz-full">Ubicación de la obra (dirección exacta o link de Google Maps) *
+              <input type="text" name="direccion" placeholder="Cra 43A #1-50, o pega el link de Google Maps" autocomplete="street-address" data-c="direccion" data-req-obra />
+            </label>
+            <label>Municipio / ciudad
+              <input type="text" name="municipio" autocomplete="address-level2" data-c="municipio" />
+            </label>
+            <label>Departamento
+              <select name="departamento" data-c="departamento">
+                {DEPARTAMENTOS.map((d) => <option value={d} selected={d === "Antioquia"}>{d}</option>)}
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="cotz-card">
+          <div class="cotz-card__head">
+            <h2>Productos a cotizar</h2>
+            <button type="button" class="cotz-add" data-add-linea>+ Agregar producto</button>
+          </div>
+          <div data-lineas></div>
+        </section>
+
+        <label class="cotz-card cotz-notas">Notas para el equipo (opcional)
+          <textarea name="mensaje" rows="3" placeholder="Fechas, detalles de obra, preguntas..." data-c="mensaje"></textarea>
         </label>
-      </section>
 
-      <!-- ================= RESUMEN PRELIMINAR ================= -->
-      <section class="cotizacion-block cotizacion-resumen">
-        <h2>Cotización preliminar</h2>
-        <ul class="cotizacion-resumen__lista" data-resumen-lista></ul>
-        <div class="cotizacion-resumen__totales">
-          <div class="cotizacion-resumen__fila">
-            <span>Estimado de material</span>
-            <b data-resumen-material>—</b>
-          </div>
-          <div class="cotizacion-resumen__fila cotizacion-resumen__fila--flete">
-            <span>Flete</span>
-            <b>No incluido</b>
+        <div class="cotz-submit">
+          <button type="submit" class="btn btn--primary btn--block">Enviar cotización preliminar</button>
+          <p class="cotz-legal">Al enviar aceptas el tratamiento de tus datos para fines comerciales.</p>
+          {!formAction && (
+            <p class="cotz-legal cotz-legal--warn">
+              Modo demo: falta configurar el envío. Contáctanos por
+              <a href={site.whatsapp} target="_blank" rel="noopener"> WhatsApp</a>.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <!-- ============ COLUMNA DERECHA: DOCUMENTO ============ -->
+      <aside class="cotz__doc-col">
+        <div class="cotz-doc" data-doc>
+          <header class="cotz-doc__top">
+            <img src={logos.header} alt="Clay House" class="cotz-doc__logo" />
+            <div class="cotz-doc__badge">
+              <span>COTIZACIÓN</span>
+              <strong>PRELIMINAR</strong>
+              <span data-doc-fecha></span>
+            </div>
+          </header>
+
+          <div class="cotz-doc__body">
+            <div class="cotz-doc__datos">
+              <div>
+                <p><span>Cliente:</span> <b data-doc-nombre>Pendiente</b></p>
+                <p><span>Teléfono:</span> <b data-doc-tel>Pendiente</b></p>
+                <p><span>Correo:</span> <b data-doc-email>Pendiente</b></p>
+              </div>
+              <div>
+                <p><span>Proyecto:</span> <b data-doc-proyecto>Pendiente</b></p>
+                <p><span>Entrega:</span> <b data-doc-entrega>Despacho a obra</b></p>
+                <p><span>Ubicación:</span> <b data-doc-ubicacion>Pendiente</b></p>
+              </div>
+            </div>
+
+            <table class="cotz-doc__tabla">
+              <thead>
+                <tr><th>Producto</th><th class="num">Cant.</th><th class="num">V. ref.</th><th class="num">Valor</th></tr>
+              </thead>
+              <tbody data-doc-lineas>
+                <tr><td colspan="4" class="cotz-doc__vacio">Agrega productos para verlos aquí.</td></tr>
+              </tbody>
+            </table>
+
+            <div class="cotz-doc__totales">
+              <div class="cotz-doc__total-row"><span>Estimado de material</span><b data-doc-material>—</b></div>
+              <div class="cotz-doc__total-row cotz-doc__total-row--flete"><span>Flete</span><b>No incluido</b></div>
+            </div>
+
+            <div class="cotz-doc__notas">
+              <p><b>Cotización preliminar.</b> El flete <b>no está incluido</b> y se calcula aparte según la ubicación de la obra. Los precios son de referencia; el valor final lo confirma nuestro equipo con la cotización oficial.</p>
+            </div>
+
+            <footer class="cotz-doc__pie">
+              <b>Clay House</b> · {site.phone} · {site.email}
+            </footer>
           </div>
         </div>
-        <p class="cotizacion-resumen__aviso">
-          <b>Cotización preliminar.</b> El <b>flete no está incluido</b> y se calcula aparte según la
-          ubicación de tu obra. Los precios son de referencia; el valor final lo confirma nuestro
-          equipo con la cotización oficial.
-        </p>
-      </section>
-
-      <div class="cotizacion-submit">
-        <button type="submit" class="btn btn--primary btn--block">Generar cotización preliminar y enviar</button>
-        <p class="cotizacion-legal">Al enviar aceptas el tratamiento de tus datos para fines comerciales.</p>
-        {!formAction && (
-          <p class="cotizacion-legal cotizacion-legal--warn">
-            Modo demo: falta configurar el envío (PUBLIC_FORMSPREE_ID). Contáctanos por
-            <a href={site.whatsapp} target="_blank" rel="noopener"> WhatsApp</a>.
-          </p>
-        )}
-      </div>
+      </aside>
     </form>
   </section>
 
   <template data-linea-template>
-    <div class="cotizacion-linea" data-linea>
-      <div class="cotizacion-linea__grid">
-        <label class="cotizacion-linea__prod">Producto
+    <div class="cotz-linea" data-linea>
+      <div class="cotz-linea__grid">
+        <label class="cotz-linea__prod">Producto
           <select data-campo="item" required></select>
         </label>
         <label data-campo-wrap="color" hidden>Color
@@ -156,28 +176,29 @@ const DEPARTAMENTOS = [
         <label data-campo-wrap="calidad">Calidad
           <select data-campo="calidad"></select>
         </label>
-        <label class="cotizacion-linea__qty">Cantidad
+        <label class="cotz-linea__qty">Cantidad
           <input type="number" min="1" value="1" data-campo="cantidad" />
         </label>
-        <span class="cotizacion-linea__unidad" data-unidad></span>
-        <button type="button" class="cotizacion-linea__del" data-del-linea aria-label="Quitar producto">×</button>
+        <span class="cotz-linea__u" data-unidad></span>
+        <button type="button" class="cotz-linea__del" data-del-linea aria-label="Quitar">×</button>
       </div>
-      <p class="cotizacion-linea__ref" data-ref hidden></p>
     </div>
   </template>
 
   <script define:vars={{ catalog: cotizableCatalog }}>
     const form = document.getElementById("cotizacion-form");
     const lineasBox = form.querySelector("[data-lineas]");
-    const emptyMsg = form.querySelector("[data-lineas-empty]");
     const tpl = document.querySelector("[data-linea-template]");
     const byId = Object.fromEntries(catalog.map((c) => [c.id, c]));
 
+    const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    const parseCop = (s) => { if (!s) return null; if (String(s).toLowerCase().includes("consult")) return null; const d = String(s).replace(/[^\d]/g, ""); return d ? parseInt(d, 10) : null; };
+    const fmtCop = (n) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(n);
+    const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
     function optionsHtml() {
-      return (
-        '<option value="">Selecciona…</option>' +
-        catalog.map((c) => `<option value="${c.id}">${c.label}${c.erpCodigo ? "" : " (por confirmar)"}</option>`).join("")
-      );
+      return '<option value="">Selecciona…</option>' +
+        catalog.map((c) => `<option value="${c.id}">${c.label}${c.erpCodigo ? "" : " (por confirmar)"}</option>`).join("");
     }
 
     function fillDependent(linea, item, preset = {}) {
@@ -185,77 +206,16 @@ const DEPARTAMENTOS = [
       const colorSel = linea.querySelector('[data-campo="color"]');
       const calSel = linea.querySelector('[data-campo="calidad"]');
       const unidadEl = linea.querySelector("[data-unidad]");
-      const refEl = linea.querySelector("[data-ref]");
-
-      // Colores
       if (item && item.coloresPermitidos.length) {
         colorWrap.hidden = false;
-        colorSel.innerHTML = item.coloresPermitidos
-          .map((c) => `<option value="${c.codigo}">${c.nombre}</option>`)
-          .join("");
+        colorSel.innerHTML = item.coloresPermitidos.map((c) => `<option value="${c.codigo}">${c.nombre}</option>`).join("");
         if (preset.color) colorSel.value = preset.color;
-      } else {
-        colorWrap.hidden = true;
-        colorSel.innerHTML = "";
-      }
-      // Calidades
+      } else { colorWrap.hidden = true; colorSel.innerHTML = ""; }
       if (item) {
-        calSel.innerHTML = item.calidadesPermitidas
-          .map((c) => `<option value="${c.codigo}">${c.nombre}</option>`)
-          .join("");
+        calSel.innerHTML = item.calidadesPermitidas.map((c) => `<option value="${c.codigo}">${c.nombre}</option>`).join("");
         if (preset.calidad) calSel.value = preset.calidad;
-      } else {
-        calSel.innerHTML = "";
-      }
+      } else calSel.innerHTML = "";
       unidadEl.textContent = item ? item.unidadLabel : "";
-      if (item && item.refPrice && item.refPrice !== "Consultar") {
-        refEl.hidden = false;
-        refEl.textContent = `Precio de referencia: ${item.refPrice} / ${item.unidadLabel} (el valor final lo confirma el equipo).`;
-      } else {
-        refEl.hidden = true;
-      }
-    }
-
-    function parseCop(str) {
-      if (!str) return null;
-      const s = String(str).toLowerCase();
-      if (s.includes("consult")) return null;
-      const digits = String(str).replace(/[^\d]/g, "");
-      return digits ? parseInt(digits, 10) : null;
-    }
-    const fmtCop = (n) =>
-      new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(n);
-
-    const resumenLista = form.querySelector("[data-resumen-lista]");
-    const resumenMaterial = form.querySelector("[data-resumen-material]");
-
-    function updateResumen() {
-      const lineas = [...lineasBox.querySelectorAll("[data-linea]")];
-      let total = 0;
-      let algoSinPrecio = false;
-      const filas = [];
-      for (const l of lineas) {
-        const item = byId[l.querySelector('[data-campo="item"]').value];
-        if (!item) continue;
-        const cant = parseInt(l.querySelector('[data-campo="cantidad"]').value || "0", 10) || 0;
-        const colSel = l.querySelector('[data-campo="color"]');
-        const calSel = l.querySelector('[data-campo="calidad"]');
-        const colName = colSel && !colSel.closest("[hidden]") ? colSel.selectedOptions[0]?.text : "";
-        const calName = calSel.selectedOptions[0]?.text || "";
-        const precio = parseCop(item.refPrice);
-        const sub = precio != null ? precio * cant : null;
-        if (sub != null) total += sub;
-        else algoSinPrecio = true;
-        const detalle = [colName, calName].filter(Boolean).join(" · ");
-        filas.push(
-          `<li><span>${item.label}${detalle ? ` — ${detalle}` : ""} · ${cant} ${item.unidadLabel}</span>` +
-            `<span>${sub != null ? fmtCop(sub) : "A confirmar"}</span></li>`
-        );
-      }
-      resumenLista.innerHTML = filas.length ? filas.join("") : '<li class="cotizacion-resumen__vacio">Sin productos aún.</li>';
-      resumenMaterial.textContent = filas.length
-        ? fmtCop(total) + (algoSinPrecio ? " + a confirmar" : "")
-        : "—";
     }
 
     function addLinea(preset = {}) {
@@ -265,304 +225,191 @@ const DEPARTAMENTOS = [
       if (preset.id && byId[preset.id]) itemSel.value = preset.id;
       fillDependent(linea, byId[itemSel.value], preset);
       if (preset.cantidad) linea.querySelector('[data-campo="cantidad"]').value = preset.cantidad;
-
-      itemSel.addEventListener("change", () => {
-        fillDependent(linea, byId[itemSel.value]);
-        updateResumen();
-      });
-      linea.querySelector("[data-del-linea]").addEventListener("click", () => {
-        linea.remove();
-        if (!lineasBox.children.length) emptyMsg.hidden = false;
-        updateResumen();
-      });
+      itemSel.addEventListener("change", () => { fillDependent(linea, byId[itemSel.value]); updateDoc(); });
+      linea.querySelector("[data-del-linea]").addEventListener("click", () => { linea.remove(); updateDoc(); });
       lineasBox.appendChild(linea);
-      emptyMsg.hidden = true;
-      updateResumen();
+      updateDoc();
+    }
+    form.querySelector("[data-add-linea]").addEventListener("click", () => addLinea());
+    lineasBox.addEventListener("input", updateDoc);
+    lineasBox.addEventListener("change", updateDoc);
+
+    // ---- Documento en vivo ----
+    const d = (sel) => form.querySelector(sel);
+    const cval = (name) => (form.querySelector(`[data-c="${name}"]`)?.value || "").trim();
+    function currentLineas() {
+      return [...lineasBox.querySelectorAll("[data-linea]")].map((l) => {
+        const item = byId[l.querySelector('[data-campo="item"]').value];
+        if (!item) return null;
+        const cant = parseInt(l.querySelector('[data-campo="cantidad"]').value || "0", 10) || 0;
+        const colSel = l.querySelector('[data-campo="color"]');
+        const calSel = l.querySelector('[data-campo="calidad"]');
+        const colName = colSel && !colSel.closest("[hidden]") ? (colSel.selectedOptions[0]?.text || "") : "";
+        const calName = calSel.selectedOptions[0]?.text || "";
+        const colCod = colSel && !colSel.closest("[hidden]") ? colSel.value : null;
+        const calCod = calSel.value || null;
+        const precio = parseCop(item.refPrice);
+        return { item, cant, colName, calName, colCod, calCod, precio, sub: precio != null ? precio * cant : null };
+      }).filter(Boolean);
+    }
+    function updateDoc() {
+      const now = new Date();
+      d("[data-doc-fecha]").textContent = `${now.getDate()} de ${MESES[now.getMonth()]} de ${now.getFullYear()}`;
+      d("[data-doc-nombre]").textContent = cval("nombre") || "Pendiente";
+      d("[data-doc-tel]").textContent = cval("telefono") || "Pendiente";
+      d("[data-doc-email]").textContent = cval("email") || "Pendiente";
+      d("[data-doc-proyecto]").textContent = cval("proyecto") || "Pendiente";
+      const planta = form.querySelector("[data-entrega-value]").value === "planta";
+      d("[data-doc-entrega]").textContent = planta ? "Recoge en planta" : "Despacho a obra";
+      d("[data-doc-ubicacion]").textContent = planta ? "Planta Amagá" : ([cval("direccion"), cval("municipio")].filter(Boolean).join(", ") || "Pendiente");
+
+      const lineas = currentLineas();
+      const tbody = d("[data-doc-lineas]");
+      if (!lineas.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="cotz-doc__vacio">Agrega productos para verlos aquí.</td></tr>';
+      } else {
+        tbody.innerHTML = lineas.map((r) => {
+          const detalle = [r.colName, r.calName].filter(Boolean).join(" · ");
+          return `<tr><td><b>${esc(r.item.label)}</b>${detalle ? `<br><span class="cotz-doc__det">${esc(detalle)}</span>` : ""}</td>` +
+            `<td class="num">${r.cant} ${esc(r.item.unidadLabel)}</td>` +
+            `<td class="num">${r.precio != null ? fmtCop(r.precio) : "—"}</td>` +
+            `<td class="num">${r.sub != null ? fmtCop(r.sub) : "A confirmar"}</td></tr>`;
+        }).join("");
+      }
+      let total = 0, algo = false;
+      lineas.forEach((r) => { if (r.sub != null) total += r.sub; else algo = true; });
+      d("[data-doc-material]").textContent = lineas.length ? fmtCop(total) + (algo ? " + a confirmar" : "") : "—";
     }
 
-    form.querySelector("[data-add-linea]").addEventListener("click", () => addLinea());
-    lineasBox.addEventListener("input", updateResumen);
-    lineasBox.addEventListener("change", updateResumen);
-
-    // Modalidad de entrega
+    // ---- Modalidad de entrega (planta oculta y no exige la ubicación) ----
     const entregaVal = form.querySelector("[data-entrega-value]");
     const obraFields = form.querySelector("[data-obra-fields]");
-    form.querySelectorAll(".entrega-pill").forEach((pill) => {
+    function setEntrega(val) {
+      entregaVal.value = val;
+      const planta = val === "planta";
+      obraFields.hidden = planta;
+      form.querySelectorAll("[data-req-obra]").forEach((el) => { el.required = !planta; });
+      updateDoc();
+    }
+    form.querySelectorAll(".cotz-pill").forEach((pill) => {
       pill.addEventListener("click", () => {
-        form.querySelectorAll(".entrega-pill").forEach((p) => {
-          const on = p === pill;
-          p.classList.toggle("entrega-pill--active", on);
-          p.setAttribute("aria-pressed", on ? "true" : "false");
+        form.querySelectorAll(".cotz-pill").forEach((p) => {
+          const on = p === pill; p.classList.toggle("cotz-pill--active", on); p.setAttribute("aria-pressed", on ? "true" : "false");
         });
-        const val = pill.dataset.entrega;
-        entregaVal.value = val;
-        obraFields.hidden = val === "planta";
+        setEntrega(pill.dataset.entrega);
       });
     });
 
-    // Precargar desde el carrito (localStorage)
-    function prefillFromCart() {
+    // ---- Datos del cliente actualizan el documento ----
+    form.querySelectorAll("[data-c]").forEach((el) => el.addEventListener("input", updateDoc));
+
+    // ---- Precargar desde el carrito ----
+    (function prefill() {
       let cart = [];
-      try {
-        cart = JSON.parse(localStorage.getItem("clayhouse-quote-cart") || "[]");
-      } catch {}
-      const colorNombreACodigo = {};
-      catalog.forEach((c) => c.coloresPermitidos.forEach((col) => (colorNombreACodigo[col.nombre.toLowerCase()] = col.codigo)));
-      let added = 0;
+      try { cart = JSON.parse(localStorage.getItem("clayhouse-quote-cart") || "[]"); } catch {}
+      const nombreACod = {};
+      catalog.forEach((c) => c.coloresPermitidos.forEach((col) => (nombreACod[col.nombre.toLowerCase()] = col.codigo)));
+      let n = 0;
       cart.forEach((it) => {
         const id = it.variantId ? `${it.slug}::${it.variantId}` : it.slug;
         if (!byId[id]) return;
-        addLinea({
-          id,
-          color: it.color ? colorNombreACodigo[String(it.color).toLowerCase()] : undefined,
-          calidad: it.calidad,
-          cantidad: it.quantity,
-        });
-        added++;
+        addLinea({ id, color: it.color ? nombreACod[String(it.color).toLowerCase()] : undefined, calidad: it.calidad, cantidad: it.quantity });
+        n++;
       });
-      if (!added) {
-        addLinea();
-        emptyMsg.hidden = true;
-      }
-    }
-    prefillFromCart();
+      if (!n) addLinea();
+    })();
+    updateDoc();
 
-    // Armar el payload estructurado (formato ERP) al enviar
+    // ---- Payload estructurado (formato ERP) al enviar ----
     form.addEventListener("submit", () => {
-      const lineas = [...lineasBox.querySelectorAll("[data-linea]")].map((l) => {
-        const item = byId[l.querySelector('[data-campo="item"]').value];
-        if (!item) return null;
-        const color = l.querySelector('[data-campo="color"]').value || null;
-        const calidad = l.querySelector('[data-campo="calidad"]').value || null;
-        const cantidad = parseInt(l.querySelector('[data-campo="cantidad"]').value || "1", 10);
-        return {
-          erpCodigo: item.erpCodigo,
-          producto: item.label,
-          color,
-          calidad,
-          cantidad,
-          unidad: item.unidad,
-        };
-      }).filter(Boolean);
-      const payload = form.querySelector("[data-cotizacion-payload]");
-      if (payload) payload.value = JSON.stringify(lineas, null, 2);
-      try {
-        localStorage.removeItem("clayhouse-quote-cart");
-      } catch {}
+      const payload = {
+        cliente: { nombre: cval("nombre"), telefono: cval("telefono"), email: cval("email"), empresa: cval("empresa"), proyecto: cval("proyecto") },
+        entrega: entregaVal.value,
+        ubicacion: entregaVal.value === "planta" ? "Recoge en planta" : { direccion: cval("direccion"), municipio: cval("municipio"), departamento: cval("departamento") },
+        lineas: currentLineas().map((r) => ({ erpCodigo: r.item.erpCodigo, producto: r.item.label, color: r.colCod, calidad: r.calCod, cantidad: r.cant, unidad: r.item.unidad })),
+        nota: "FLETE NO INCLUIDO — cotización preliminar de la web.",
+      };
+      const el = form.querySelector("[data-cotizacion-payload]");
+      if (el) el.value = JSON.stringify(payload, null, 2);
+      try { localStorage.removeItem("clayhouse-quote-cart"); } catch {}
     });
   </script>
 </BaseLayout>
 
 <style>
-  .cotizacion-page {
-    padding: 7rem 0 4rem;
+  .cotz { padding: 7rem 0 4rem; }
+  .cotz__head { max-width: 48rem; margin-bottom: 2rem; }
+  .cotz__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-terracota); }
+  .cotz__head h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); color: var(--color-chocolate); margin: 0.15rem 0 0.6rem; }
+  .cotz__lead { color: #5c534f; }
+  .cotz__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .cotz__form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .cotz-card { background: var(--color-white); border: 1px solid rgba(71, 36, 16, 0.1); border-radius: var(--radius-md); padding: 1.5rem; }
+  .cotz-card__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .cotz-card h2 { font-size: 1.05rem; color: var(--color-chocolate); margin: 0 0 1rem; }
+  .cotz-card__head h2 { margin: 0; }
+  .cotz-add { padding: 0.45rem 0.9rem; font-size: 0.85rem; font-weight: 600; color: var(--color-terracota); background: var(--color-bg); border: 1px solid rgba(124, 72, 44, 0.3); border-radius: 999px; cursor: pointer; }
+  .cotz-add:hover { background: var(--color-terracota); color: #fff; border-color: var(--color-terracota); }
+
+  .cotz-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .cotz-full { grid-column: 1 / -1; }
+  .cotz label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); }
+  .cotz input, .cotz select, .cotz textarea { font: inherit; font-weight: 400; padding: 0.55rem 0.7rem; border: 1px solid rgba(71, 36, 16, 0.2); border-radius: var(--radius-sm); background: var(--color-bg); width: 100%; }
+
+  .cotz-entrega { margin: 1.25rem 0; }
+  .cotz-entrega__label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); margin-bottom: 0.45rem; }
+  .cotz-pills { display: flex; gap: 0.5rem; }
+  .cotz-pill { padding: 0.5rem 1rem; border: 1px solid rgba(71, 36, 16, 0.2); border-radius: 999px; background: var(--color-white); color: var(--color-chocolate); font-weight: 500; cursor: pointer; }
+  .cotz-pill--active { background: var(--color-terracota); border-color: var(--color-terracota); color: #fff; }
+  .cotz-flete-nota { grid-column: 1 / -1; margin: 0; font-size: 0.82rem; color: #5c534f; background: rgba(124, 72, 44, 0.06); border-left: 3px solid var(--color-terracota); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); }
+
+  .cotz-linea { border: 1px solid rgba(71, 36, 16, 0.1); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 0.75rem; background: var(--color-bg); }
+  .cotz-linea__grid { display: grid; grid-template-columns: 1.8fr 1.1fr 1.1fr 0.8fr auto auto; gap: 0.6rem; align-items: end; }
+  .cotz-linea__u { font-size: 0.8rem; color: #5c534f; padding-bottom: 0.55rem; }
+  .cotz-linea__del { width: 2rem; height: 2rem; border: 1px solid rgba(71, 36, 16, 0.15); border-radius: 50%; background: var(--color-white); color: var(--color-terracota); font-size: 1.15rem; line-height: 1; cursor: pointer; }
+  .cotz-linea__del:hover { background: var(--color-terracota); color: #fff; }
+
+  .cotz-notas { display: flex; flex-direction: column; gap: 0.4rem; }
+  .cotz-submit { text-align: center; }
+  .cotz-legal { margin-top: 0.7rem; font-size: 0.78rem; color: #8a807c; }
+  .cotz-legal--warn { color: var(--color-terracota); }
+
+  /* ---- Documento (columna derecha) ---- */
+  .cotz__doc-col { position: sticky; top: 6rem; }
+  .cotz-doc { border: 1px solid rgba(71, 36, 16, 0.14); border-radius: var(--radius-md); overflow: hidden; background: #fff; box-shadow: 0 10px 30px rgba(71, 36, 16, 0.07); }
+  .cotz-doc__top { background: var(--color-chocolate); color: #fff; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .cotz-doc__logo { height: 26px; width: auto; filter: brightness(0) invert(1); }
+  .cotz-doc__badge { text-align: right; border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-sm); padding: 0.5rem 0.8rem; font-size: 0.65rem; letter-spacing: 0.08em; line-height: 1.5; }
+  .cotz-doc__badge strong { display: block; font-size: 0.9rem; letter-spacing: 0.04em; }
+  .cotz-doc__body { padding: 1.5rem; }
+  .cotz-doc__datos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.78rem; color: #5c534f; margin-bottom: 1.25rem; }
+  .cotz-doc__datos p { margin: 0 0 0.2rem; }
+  .cotz-doc__datos span { color: #9a908b; }
+  .cotz-doc__datos b { color: var(--color-chocolate); font-weight: 600; }
+  .cotz-doc__tabla { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  .cotz-doc__tabla thead th { background: var(--color-chocolate); color: #fff; text-align: left; padding: 0.5rem 0.6rem; font-size: 0.68rem; letter-spacing: 0.04em; }
+  .cotz-doc__tabla th.num, .cotz-doc__tabla td.num { text-align: right; }
+  .cotz-doc__tabla td { padding: 0.55rem 0.6rem; border-bottom: 1px solid #eee; vertical-align: top; }
+  .cotz-doc__det { color: #9a908b; font-size: 0.72rem; }
+  .cotz-doc__vacio { text-align: center; color: #9a908b; padding: 1.25rem; }
+  .cotz-doc__totales { margin-top: 0.85rem; }
+  .cotz-doc__total-row { display: flex; justify-content: space-between; padding: 0.5rem 0.6rem; font-size: 0.85rem; }
+  .cotz-doc__total-row b { color: var(--color-chocolate); }
+  .cotz-doc__total-row--flete { background: rgba(124, 72, 44, 0.06); border-radius: var(--radius-sm); }
+  .cotz-doc__total-row--flete b { color: var(--color-terracota); }
+  .cotz-doc__notas { margin-top: 1rem; font-size: 0.75rem; line-height: 1.45; color: #5c534f; background: rgba(124, 72, 44, 0.06); border: 1px solid rgba(124, 72, 44, 0.16); border-radius: var(--radius-sm); padding: 0.8rem; }
+  .cotz-doc__notas p { margin: 0; }
+  .cotz-doc__pie { margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px solid #eee; font-size: 0.72rem; color: #8a807c; }
+  .cotz-doc__pie b { color: var(--color-chocolate); }
+
+  @media (max-width: 960px) {
+    .cotz__grid { grid-template-columns: 1fr; }
+    .cotz__doc-col { position: static; order: -1; }
   }
-  .cotizacion-page__head {
-    max-width: 46rem;
-    margin-bottom: 2rem;
-  }
-  .cotizacion-page__head h1 {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    color: var(--color-chocolate);
-  }
-  .cotizacion-page__head p {
-    margin-top: 0.75rem;
-    color: var(--color-text-muted, #5c534f);
-  }
-  .cotizacion-form {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .cotizacion-block {
-    background: var(--color-white);
-    border: 1px solid rgba(71, 36, 16, 0.1);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-  }
-  .cotizacion-block h2 {
-    font-size: 1.1rem;
-    color: var(--color-chocolate);
-    margin-bottom: 1.25rem;
-  }
-  .cotizacion-linea {
-    border: 1px solid rgba(71, 36, 16, 0.1);
-    border-radius: var(--radius-sm);
-    padding: 1rem;
-    margin-bottom: 0.85rem;
-    background: var(--color-bg);
-  }
-  .cotizacion-linea__grid {
-    display: grid;
-    grid-template-columns: 2fr 1.2fr 1.2fr 0.9fr auto auto;
-    gap: 0.75rem;
-    align-items: end;
-  }
-  .cotizacion-linea__unidad {
-    font-size: 0.85rem;
-    color: #5c534f;
-    padding-bottom: 0.6rem;
-  }
-  .cotizacion-linea__del {
-    width: 2.25rem;
-    height: 2.25rem;
-    border: 1px solid rgba(71, 36, 16, 0.15);
-    border-radius: 50%;
-    background: var(--color-white);
-    color: var(--color-terracota);
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .cotizacion-linea__del:hover {
-    background: var(--color-terracota);
-    color: #fff;
-    border-color: var(--color-terracota);
-  }
-  .cotizacion-linea__ref {
-    margin-top: 0.6rem;
-    font-size: 0.8rem;
-    color: #8a807c;
-  }
-  .cotizacion-add {
-    margin-top: 0.25rem;
-  }
-  .cotizacion-empty {
-    color: #8a807c;
-    font-size: 0.9rem;
-    margin-top: 0.75rem;
-  }
-  .cotizacion-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 1rem;
-  }
-  .cotizacion-form label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-chocolate);
-  }
-  .cotizacion-form input,
-  .cotizacion-form select,
-  .cotizacion-form textarea {
-    font: inherit;
-    font-weight: 400;
-    padding: 0.6rem 0.75rem;
-    border: 1px solid rgba(71, 36, 16, 0.2);
-    border-radius: var(--radius-sm);
-    background: var(--color-white);
-    width: 100%;
-  }
-  .cotizacion-entrega {
-    border: none;
-    margin: 1.25rem 0;
-    padding: 0;
-  }
-  .cotizacion-entrega legend {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-chocolate);
-    margin-bottom: 0.5rem;
-  }
-  .cotizacion-pills {
-    display: flex;
-    gap: 0.5rem;
-  }
-  .entrega-pill {
-    padding: 0.55rem 1.1rem;
-    border: 1px solid rgba(71, 36, 16, 0.2);
-    border-radius: 999px;
-    background: var(--color-white);
-    color: var(--color-chocolate);
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .entrega-pill--active {
-    background: var(--color-terracota);
-    border-color: var(--color-terracota);
-    color: #fff;
-  }
-  .cotizacion-msg {
-    margin-top: 1rem;
-  }
-  .cotizacion-submit {
-    text-align: center;
-  }
-  .cotizacion-legal {
-    margin-top: 0.75rem;
-    font-size: 0.8rem;
-    color: #8a807c;
-  }
-  .cotizacion-legal--warn {
-    color: var(--color-terracota);
-  }
-  .cotizacion-flete-nota {
-    margin-top: 0.75rem;
-    font-size: 0.85rem;
-    color: #5c534f;
-    background: rgba(124, 72, 44, 0.06);
-    border-left: 3px solid var(--color-terracota);
-    padding: 0.6rem 0.85rem;
-    border-radius: var(--radius-sm);
-  }
-  .cotizacion-full {
-    grid-column: 1 / -1;
-  }
-  .cotizacion-resumen__lista {
-    list-style: none;
-    margin: 0 0 1rem;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .cotizacion-resumen__lista li {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    font-size: 0.9rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px dashed rgba(71, 36, 16, 0.12);
-  }
-  .cotizacion-resumen__vacio {
-    color: #8a807c;
-    border-bottom: none !important;
-  }
-  .cotizacion-resumen__totales {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-bottom: 1rem;
-  }
-  .cotizacion-resumen__fila {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-  }
-  .cotizacion-resumen__fila b {
-    color: var(--color-chocolate);
-  }
-  .cotizacion-resumen__fila--flete b {
-    color: var(--color-terracota);
-  }
-  .cotizacion-resumen__aviso {
-    font-size: 0.82rem;
-    line-height: 1.4;
-    color: #5c534f;
-    background: rgba(124, 72, 44, 0.06);
-    border: 1px solid rgba(124, 72, 44, 0.18);
-    border-radius: var(--radius-sm);
-    padding: 0.85rem 1rem;
-  }
-  @media (max-width: 720px) {
-    .cotizacion-linea__grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .cotizacion-linea__prod {
-      grid-column: 1 / -1;
-    }
+  @media (max-width: 620px) {
+    .cotz-fields { grid-template-columns: 1fr; }
+    .cotz-linea__grid { grid-template-columns: 1fr 1fr; }
+    .cotz-linea__prod { grid-column: 1 / -1; }
   }
 </style>
