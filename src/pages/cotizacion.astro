@@ -120,14 +120,22 @@ const DEPARTAMENTOS = [
         </label>
 
         <div class="cotz-submit">
-          <button type="submit" class="btn btn--primary btn--block">Enviar cotización preliminar</button>
-          <p class="cotz-legal">Al enviar aceptas el tratamiento de tus datos para fines comerciales.</p>
-          {!formAction && (
-            <p class="cotz-legal cotz-legal--warn">
-              Modo demo: falta configurar el envío. Contáctanos por
-              <a href={site.whatsapp} target="_blank" rel="noopener"> WhatsApp</a>.
-            </p>
-          )}
+          <p class="cotz-actions__title">¿Cotización lista? Elige cómo continuar:</p>
+          <div class="cotz-actions">
+            <button type="button" class="btn btn--outline cotz-action" data-action-print>
+              <span aria-hidden="true">🖨️</span> Imprimir / Guardar PDF
+            </button>
+            <button type="button" class="btn btn--outline cotz-action" data-action-whatsapp>
+              <span aria-hidden="true">💬</span> Enviar al asesor por WhatsApp
+            </button>
+            <button type="submit" class="btn btn--primary cotz-action" data-action-email>
+              <span aria-hidden="true">✉️</span> Enviar por correo
+            </button>
+          </div>
+          <p class="cotz-legal">
+            El flete no está incluido; nuestro equipo lo calcula según tu ubicación y te contacta.
+            Al enviar aceptas el tratamiento de tus datos con fines comerciales.
+          </p>
         </div>
       </div>
 
@@ -217,7 +225,7 @@ const DEPARTAMENTOS = [
     </div>
   </template>
 
-  <script define:vars={{ catalog: cotizableCatalog }}>
+  <script define:vars={{ catalog: cotizableCatalog, waNumber: site.whatsapp.replace("https://wa.me/", ""), ventasEmail: site.email }}>
     const form = document.getElementById("cotizacion-form");
     const lineasBox = form.querySelector("[data-lineas]");
     const tpl = document.querySelector("[data-linea-template]");
@@ -540,23 +548,80 @@ const DEPARTAMENTOS = [
     updateDoc();
 
     // ---- Payload estructurado (formato ERP) al enviar ----
-    form.addEventListener("submit", () => {
-      const payload = {
-        cliente: { nombre: cval("nombre"), telefono: cval("telefono"), email: cval("email"), empresa: cval("empresa"), proyecto: cval("proyecto") },
-        entrega: entregaVal.value,
-        ubicacion: entregaVal.value === "planta" ? "Recoge en planta" : (() => {
-          const lat = form.querySelector("[data-lat]")?.value;
-          const lng = form.querySelector("[data-lng]")?.value;
-          return {
-            direccion: cval("direccion"), municipio: cval("municipio"), departamento: cval("departamento"),
-            ...(lat && lng ? { lat, lng, maps: `https://www.google.com/maps?q=${lat},${lng}` } : {}),
-          };
-        })(),
-        lineas: currentLineas().map((r) => ({ erpCodigo: r.item.erpCodigo, producto: r.item.label, color: r.colCod, calidad: r.calCod, cantidad: r.cant, unidad: r.item.unidad })),
-        nota: "FLETE NO INCLUIDO — cotización preliminar de la web.",
+    // ---- Datos actuales de la cotización (reutilizado por las 3 opciones) ----
+    const ubicacionActual = () => {
+      const lat = form.querySelector("[data-lat]")?.value;
+      const lng = form.querySelector("[data-lng]")?.value;
+      return {
+        direccion: cval("direccion"), municipio: cval("municipio"), departamento: cval("departamento"),
+        ...(lat && lng ? { lat, lng, maps: `https://www.google.com/maps?q=${lat},${lng}` } : {}),
       };
+    };
+    const buildPayload = () => ({
+      cliente: { nombre: cval("nombre"), telefono: cval("telefono"), email: cval("email"), empresa: cval("empresa"), proyecto: cval("proyecto") },
+      entrega: entregaVal.value,
+      ubicacion: entregaVal.value === "planta" ? "Recoge en planta" : ubicacionActual(),
+      lineas: currentLineas().map((r) => ({ erpCodigo: r.item.erpCodigo, producto: r.item.label, color: r.colCod, calidad: r.calCod, cantidad: r.cant, unidad: r.item.unidad })),
+      nota: "FLETE NO INCLUIDO — cotización preliminar de la web.",
+    });
+
+    // Valida lo mínimo para poder cotizar; devuelve un mensaje o null.
+    const validar = () => {
+      if (!cval("nombre")) return { msg: "Escribe tu nombre de contacto.", el: form.querySelector('[data-c="nombre"]') };
+      if (!cval("telefono")) return { msg: "Escribe tu teléfono / WhatsApp.", el: form.querySelector('[data-c="telefono"]') };
+      if (!currentLineas().length) return { msg: "Agrega al menos un producto a la cotización.", el: form.querySelector("[data-add-linea]") };
+      return null;
+    };
+    const avisar = (v) => { alert(v.msg); if (v.el) { v.el.focus(); v.el.scrollIntoView({ behavior: "smooth", block: "center" }); } };
+
+    // Texto legible de la cotización (para WhatsApp y correo).
+    const quoteText = () => {
+      const p = buildPayload(); const L = [];
+      L.push("*Solicitud de cotización — Clay House*");
+      L.push(`Cliente: ${p.cliente.nombre}`);
+      if (p.cliente.empresa) L.push(`Empresa: ${p.cliente.empresa}`);
+      L.push(`Tel: ${p.cliente.telefono}${p.cliente.email ? " · " + p.cliente.email : ""}`);
+      if (p.cliente.proyecto) L.push(`Proyecto: ${p.cliente.proyecto}`);
+      L.push(`Entrega: ${p.entrega === "planta" ? "Recoge en planta (Amagá)" : "Despacho a obra"}`);
+      if (p.entrega !== "planta") {
+        const ub = [p.ubicacion.direccion, p.ubicacion.municipio, p.ubicacion.departamento].filter(Boolean).join(", ");
+        if (ub) L.push(`Ubicación: ${ub}`);
+        if (p.ubicacion.maps) L.push(`Mapa: ${p.ubicacion.maps}`);
+      }
+      L.push("");
+      L.push("Productos:");
+      currentLineas().forEach((r) => {
+        const det = [r.colName, r.calName].filter(Boolean).join(" · ");
+        L.push(`• ${r.item.label}${det ? " (" + det + ")" : ""} — ${r.cant} ${r.item.unidadLabel}`);
+      });
+      L.push("");
+      L.push("Nota: el flete NO está incluido (cotización preliminar).");
+      return L.join("\n");
+    };
+
+    // ---- Opción 1: Imprimir / Guardar PDF ----
+    form.querySelector("[data-action-print]").addEventListener("click", () => {
+      const v = validar(); if (v) return avisar(v);
+      window.print();
+    });
+
+    // ---- Opción 2: Enviar al asesor por WhatsApp (texto, wa.me no adjunta PDF) ----
+    form.querySelector("[data-action-whatsapp]").addEventListener("click", () => {
+      const v = validar(); if (v) return avisar(v);
+      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(quoteText())}`, "_blank", "noopener");
+    });
+
+    // ---- Opción 3: Enviar por correo (Formspree si está configurado; si no, mailto) ----
+    form.addEventListener("submit", (e) => {
+      const v = validar(); if (v) { e.preventDefault(); return avisar(v); }
       const el = form.querySelector("[data-cotizacion-payload]");
-      if (el) el.value = JSON.stringify(payload, null, 2);
+      if (el) el.value = JSON.stringify(buildPayload(), null, 2);
+      if (!form.getAttribute("action")) {
+        // Sin Formspree: abrir el cliente de correo del usuario hacia ventas.
+        e.preventDefault();
+        window.location.href = `mailto:${ventasEmail}?subject=${encodeURIComponent("Solicitud de cotización — Clay House")}&body=${encodeURIComponent(quoteText())}`;
+        return;
+      }
       try { localStorage.removeItem("clayhouse-quote-cart"); } catch {}
     });
   </script>
@@ -669,8 +734,22 @@ const DEPARTAMENTOS = [
 
   .cotz-notas { display: flex; flex-direction: column; gap: 0.4rem; }
   .cotz-submit { text-align: center; }
-  .cotz-legal { margin-top: 0.7rem; font-size: 0.78rem; color: #8a807c; }
+  .cotz-actions__title { margin: 0 0 0.75rem; font-size: 0.9rem; font-weight: 700; color: var(--color-chocolate); text-align: left; }
+  .cotz-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .cotz-action { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.75rem 1rem; font-size: 0.85rem; }
+  .cotz-action[data-action-email] { grid-column: 1 / -1; }
+  .cotz-legal { margin-top: 0.7rem; font-size: 0.78rem; color: #8a807c; text-align: left; }
   .cotz-legal--warn { color: var(--color-terracota); }
+
+  /* Imprimir / Guardar PDF: solo el documento de la derecha. */
+  @media print {
+    .header, .footer, .whatsapp-fab, .cotz__head, .cotz__form, .cotz-actions, .cotz-actions__title, .cotz-legal { display: none !important; }
+    .cotz { padding: 0 !important; }
+    .cotz__grid { display: block !important; }
+    .cotz__doc-col { width: 100% !important; max-width: 100% !important; }
+    .cotz-doc { box-shadow: none !important; border: none !important; border-radius: 0 !important; }
+    @page { margin: 12mm; }
+  }
 
   /* ---- Documento (columna derecha) ---- */
   .cotz__doc-col { position: sticky; top: 6rem; }
