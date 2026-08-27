@@ -263,7 +263,10 @@ const DEPARTAMENTOS = [
       if (item && item.coloresPermitidos.length) {
         colorWrap.hidden = false;
         colorSel.innerHTML = item.coloresPermitidos.map((c) => `<option value="${c.codigo}">${c.nombre}</option>`).join("");
-        if (preset.color) colorSel.value = preset.color;
+        // Preselección: el color elegido si es válido; si no, Natural (NAT) por defecto.
+        const valido = preset.color && item.coloresPermitidos.some((c) => c.codigo === preset.color);
+        colorSel.value = valido ? preset.color
+          : (item.coloresPermitidos.some((c) => c.codigo === "NAT") ? "NAT" : item.coloresPermitidos[0].codigo);
       } else { colorWrap.hidden = true; colorSel.innerHTML = ""; }
       if (item) {
         calSel.innerHTML = item.calidadesPermitidas.map((c) => `<option value="${c.codigo}">${c.nombre}</option>`).join("");
@@ -515,10 +518,20 @@ const DEPARTAMENTOS = [
       try { cart = JSON.parse(localStorage.getItem("clayhouse-quote-cart") || "[]"); } catch {}
       const nombreACod = {};
       catalog.forEach((c) => c.coloresPermitidos.forEach((col) => (nombreACod[col.nombre.toLowerCase()] = col.codigo)));
+      // El variantId del carrito puede ser de color/galería (ej. "arena"),
+      // pero el catálogo cotizable usa variantId de dimensión ERP (ej. "10") o
+      // ninguno. Resolvemos al id cotizable correcto por slug.
+      const resolveId = (it) => {
+        const exact = it.variantId ? `${it.slug}::${it.variantId}` : it.slug;
+        if (byId[exact]) return exact;                         // dimensión ERP coincide
+        if (byId[it.slug]) return it.slug;                     // producto sin variantes ERP
+        const first = catalog.find((c) => c.slug === it.slug); // 1ª variante ERP del producto
+        return first ? first.id : null;
+      };
       let n = 0;
       cart.forEach((it) => {
-        const id = it.variantId ? `${it.slug}::${it.variantId}` : it.slug;
-        if (!byId[id]) return;
+        const id = resolveId(it);
+        if (!id) return;
         addLinea({ id, color: it.color ? nombreACod[String(it.color).toLowerCase()] : undefined, calidad: it.calidad, cantidad: it.quantity });
         n++;
       });
@@ -570,6 +583,7 @@ const DEPARTAMENTOS = [
   .cotz-add:hover { background: var(--color-terracota); color: #fff; border-color: var(--color-terracota); }
 
   .cotz-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .cotz-fields[hidden] { display: none; } /* [hidden] necesita ganarle a display:grid */
   .cotz-full { grid-column: 1 / -1; }
   .cotz label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); }
   .cotz input, .cotz select, .cotz textarea { font: inherit; font-weight: 400; padding: 0.55rem 0.7rem; border: 1px solid rgba(71, 36, 16, 0.2); border-radius: var(--radius-sm); background: var(--color-bg); width: 100%; }
