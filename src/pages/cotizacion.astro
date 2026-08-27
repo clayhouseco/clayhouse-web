@@ -347,6 +347,26 @@ const DEPARTAMENTOS = [
       let total = 0, algo = false;
       lineas.forEach((r) => { if (r.sub != null) total += r.sub; else algo = true; });
       d("[data-doc-material]").textContent = lineas.length ? fmtCop(total) + (algo ? " + a confirmar" : "") : "—";
+
+      // Mantener el carrito (localStorage) sincronizado con las líneas: así al
+      // borrar o editar un producto persiste y no reaparece al recargar ni al
+      // agregar otro desde una página de producto.
+      try {
+        const cartItems = lineas.map((r) => ({
+          slug: r.item.slug,
+          name: r.item.label,
+          category: "",
+          color: r.colName || undefined,
+          quantity: r.cant || 1,
+          unitLabel: r.item.unidadLabel,
+          image: r.item.image,
+          pricePerUnit: r.item.refPrice,
+          productUrl: `/productos/${r.item.slug}/`,
+          variantId: r.item.variantId ?? undefined,
+          calidad: r.calCod ?? undefined,
+        }));
+        localStorage.setItem("clayhouse-quote-cart", JSON.stringify(cartItems));
+      } catch {}
     }
 
     // ---- Modalidad de entrega (planta oculta y no exige la ubicación) ----
