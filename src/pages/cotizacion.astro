@@ -4,8 +4,6 @@ import { site } from "@/data/site";
 import { logos } from "@/utils/media";
 import { cotizableCatalog } from "@/data/cotizacionCatalog";
 
-const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY?.trim() ?? "";
-
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
 const formspreeReady =
   Boolean(formspreeId) && formspreeId !== "your_form_id" && !formspreeId?.startsWith("your_");
@@ -75,16 +73,18 @@ const DEPARTAMENTOS = [
               El <b>flete no está incluido</b> en la cotización preliminar; lo calcula nuestro
               equipo comercial según la ubicación de tu obra.
             </p>
-            <label class="cotz-full">Dirección de la obra *
+            <label class="cotz-full cotz-ac">Dirección de la obra *
               <input
                 type="text"
                 name="direccion"
-                placeholder={MAPS_KEY ? "Escribe el lugar y elígelo de la lista…" : "Cra 43A #1-50, o pega el link de Google Maps"}
-                autocomplete={MAPS_KEY ? "off" : "street-address"}
+                placeholder="Escribe el lugar y elígelo de la lista…"
+                autocomplete="off"
                 data-c="direccion"
                 data-req-obra
+                data-direccion
               />
-              {MAPS_KEY && <span class="cotz-hint">Escribe el lugar y elígelo de la lista (como Google Maps).</span>}
+              <ul class="cotz-ac__list" data-ac-list hidden></ul>
+              <span class="cotz-hint">Escribe el lugar y elígelo de la lista (como Google Maps). El municipio y el departamento se llenan solos.</span>
             </label>
             <label>Municipio / ciudad
               <input type="text" name="municipio" autocomplete="address-level2" data-c="municipio" />
@@ -94,16 +94,14 @@ const DEPARTAMENTOS = [
                 {DEPARTAMENTOS.map((d) => <option value={d} selected={d === "Antioquia"}>{d}</option>)}
               </select>
             </label>
-            {MAPS_KEY && (
-              <div class="cotz-map cotz-full" data-map-wrap hidden>
-                <div class="cotz-map__actions">
-                  <button type="button" class="cotz-map__toggle" data-map-toggle>📍 Editar ubicación en el mapa</button>
-                  <span class="cotz-map__coords" data-map-coords></span>
-                </div>
-                <div class="cotz-map__canvas" data-map-canvas hidden></div>
-                <p class="cotz-hint">Arrastra el pin para ajustar el punto exacto de la obra.</p>
+            <div class="cotz-map cotz-full" data-map-wrap hidden>
+              <div class="cotz-map__actions">
+                <button type="button" class="cotz-map__toggle" data-map-toggle>📍 Editar ubicación en el mapa</button>
+                <span class="cotz-map__coords" data-map-coords></span>
               </div>
-            )}
+              <div class="cotz-map__canvas" data-map-canvas hidden></div>
+              <p class="cotz-hint">Haz clic o arrastra el pin para ajustar el punto exacto. Usa la capa <b>Satélite</b> para ver accesos y vías destapadas.</p>
+            </div>
             <input type="hidden" name="lat" data-lat />
             <input type="hidden" name="lng" data-lng />
           </div>
@@ -364,91 +362,152 @@ const DEPARTAMENTOS = [
     // ---- Datos del cliente actualizan el documento ----
     form.querySelectorAll("[data-c]").forEach((el) => el.addEventListener("input", updateDoc));
 
-    // ---- Google Maps: autocompletar dirección + pin ajustable + auto-llenar ciudad/depto ----
-    const MAPS_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY;
-    if (MAPS_KEY) {
-      const addressEl = form.querySelector('input[name="direccion"]');
-      const muniEl = form.querySelector('input[name="municipio"]');
-      const deptoEl = form.querySelector('select[name="departamento"]');
-      const latEl = form.querySelector("[data-lat]");
-      const lngEl = form.querySelector("[data-lng]");
-      const mapWrap = form.querySelector("[data-map-wrap]");
-      const mapCanvas = form.querySelector("[data-map-canvas]");
-      const mapToggle = form.querySelector("[data-map-toggle]");
-      const mapCoords = form.querySelector("[data-map-coords]");
-      let map, marker, geocoder;
+    // ---- Ubicación de obra: OpenStreetMap (Nominatim + Leaflet), gratis y sin key ----
+    // Mismo enfoque que el ERP. Buscamos la dirección, ubicamos el pin en el mapa
+    // (arrastrable, con capa Satélite) y llenamos municipio/departamento solos.
+    const addressEl = form.querySelector("[data-direccion]");
+    const acList = form.querySelector("[data-ac-list]");
+    const muniEl = form.querySelector('input[name="municipio"]');
+    const deptoEl = form.querySelector('select[name="departamento"]');
+    const latEl = form.querySelector("[data-lat]");
+    const lngEl = form.querySelector("[data-lng]");
+    const mapWrap = form.querySelector("[data-map-wrap]");
+    const mapCanvas = form.querySelector("[data-map-canvas]");
+    const mapToggle = form.querySelector("[data-map-toggle]");
+    const mapCoords = form.querySelector("[data-map-coords]");
+    let map, marker, pinManual = false, suppressAC = false;
+    // Actualiza la dirección por código (sin re-disparar el autocompletado).
+    const setDireccion = (val) => { suppressAC = true; addressEl.value = val; addressEl.dispatchEvent(new Event("input", { bubbles: true })); };
 
-      const setField = (el, val) => {
-        if (!el || !val) return;
-        if (el.tagName === "SELECT") {
-          const opt = Array.from(el.options).find((o) => o.value.toLowerCase() === val.toLowerCase());
-          if (opt) el.value = opt.value;
-          else { const o = document.createElement("option"); o.value = val; o.textContent = val; el.appendChild(o); el.value = val; }
-        } else { el.value = val; }
-        el.dispatchEvent(new Event("input", { bubbles: true }));
-      };
-      const comp = (components, type) => {
-        const c = (components || []).find((x) => x.types.includes(type));
-        return c ? c.long_name : "";
-      };
-      const fillFromComponents = (components) => {
-        setField(deptoEl, comp(components, "administrative_area_level_1"));
-        setField(muniEl, comp(components, "locality") || comp(components, "administrative_area_level_2"));
-      };
-      const showCoords = (lat, lng) => {
-        latEl.value = lat.toFixed(6); lngEl.value = lng.toFixed(6);
-        if (mapCoords) mapCoords.textContent = `Punto exacto: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-        mapWrap.hidden = false;
-      };
-      const reverseGeocode = (lat, lng) => {
-        geocoder = geocoder || new google.maps.Geocoder();
-        geocoder.geocode({ location: { lat, lng } }, (res, status) => {
-          if (status === "OK" && res[0]) {
-            addressEl.value = res[0].formatted_address;
-            addressEl.dispatchEvent(new Event("input", { bubbles: true }));
-            fillFromComponents(res[0].address_components);
-          }
-        });
-      };
-      const ensureMap = () => {
-        if (map) return;
-        const center = { lat: Number(latEl.value) || 6.226, lng: Number(lngEl.value) || -75.564 };
-        map = new google.maps.Map(mapCanvas, { center, zoom: 16, mapTypeControl: false, streetViewControl: false, fullscreenControl: false });
-        marker = new google.maps.Marker({ map, position: center, draggable: true });
-        marker.addListener("dragend", () => {
-          const p = marker.getPosition(); const lat = p.lat(), lng = p.lng();
-          showCoords(lat, lng); reverseGeocode(lat, lng);
-        });
-      };
-      const setPoint = (lat, lng) => {
-        showCoords(lat, lng); ensureMap();
-        const pos = { lat, lng }; map.setCenter(pos); marker.setPosition(pos);
-      };
+    const setField = (el, val) => {
+      if (!el || !val) return;
+      if (el.tagName === "SELECT") {
+        const opt = Array.from(el.options).find((o) => o.value.toLowerCase() === val.toLowerCase());
+        if (opt) el.value = opt.value;
+        else { const o = document.createElement("option"); o.value = val; o.textContent = val; el.appendChild(o); el.value = val; }
+      } else { el.value = val; }
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    };
+    // Extrae municipio y departamento del objeto address de Nominatim.
+    const fillFromAddr = (a) => {
+      if (!a) return;
+      setField(muniEl, a.city || a.town || a.village || a.municipality || a.county || "");
+      setField(deptoEl, a.state || "");
+    };
+    const showCoords = (lat, lng) => {
+      latEl.value = lat.toFixed(6); lngEl.value = lng.toFixed(6);
+      if (mapCoords) mapCoords.textContent = `Punto exacto: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+      mapWrap.hidden = false;
+    };
 
-      window.__initCotzMap = () => {
-        const ac = new google.maps.places.Autocomplete(addressEl, {
-          componentRestrictions: { country: "co" },
-          fields: ["formatted_address", "address_components", "geometry", "name"],
+    // --- Leaflet (carga diferida: solo cuando se necesita el mapa) ---
+    let leafletReady = null;
+    const loadLeaflet = async () => {
+      if (leafletReady) return leafletReady;
+      leafletReady = (async () => {
+        const L = (await import("leaflet")).default;
+        await import("leaflet/dist/leaflet.css");
+        L.Icon.Default.mergeOptions({
+          iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+          iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+          shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
         });
-        ac.addListener("place_changed", () => {
-          const place = ac.getPlace();
-          if (place.name && place.formatted_address && !place.formatted_address.startsWith(place.name)) addressEl.value = `${place.name} — ${place.formatted_address}`;
-          else if (place.formatted_address) addressEl.value = place.formatted_address;
-          addressEl.dispatchEvent(new Event("input", { bubbles: true }));
-          fillFromComponents(place.address_components);
-          if (place.geometry && place.geometry.location) setPoint(place.geometry.location.lat(), place.geometry.location.lng());
-        });
-      };
-      mapToggle && mapToggle.addEventListener("click", () => {
-        ensureMap();
-        const show = mapCanvas.hidden; mapCanvas.hidden = !show;
-        mapToggle.textContent = show ? "▲ Ocultar mapa" : "📍 Editar ubicación en el mapa";
-        if (show) google.maps.event.trigger(map, "resize");
+        return L;
+      })();
+      return leafletReady;
+    };
+    const ensureMap = async () => {
+      if (map) return map;
+      const L = await loadLeaflet();
+      const center = [Number(latEl.value) || 6.226, Number(lngEl.value) || -75.564];
+      map = L.map(mapCanvas, { scrollWheelZoom: true }).setView(center, latEl.value ? 15 : 12);
+      const calle = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19,
       });
-      const s = document.createElement("script");
-      s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&libraries=places&language=es&region=CO&callback=__initCotzMap`;
-      s.async = true; document.head.appendChild(s);
-    }
+      const satelite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        attribution: "Imágenes &copy; Esri", maxZoom: 19,
+      });
+      calle.addTo(map);
+      L.control.layers({ "Calle": calle, "Satélite": satelite }).addTo(map);
+      const onPick = (lat, lng) => { pinManual = true; placeMarker(lat, lng); showCoords(lat, lng); reverseGeocode(lat, lng); };
+      map.on("click", (e) => onPick(e.latlng.lat, e.latlng.lng));
+      window.__cotzL = L; window.__cotzOnPick = onPick;
+      return map;
+    };
+    const placeMarker = (lat, lng) => {
+      const L = window.__cotzL; if (!L || !map) return;
+      const pos = [lat, lng];
+      if (!marker) {
+        marker = L.marker(pos, { draggable: true }).addTo(map);
+        marker.on("dragend", () => { const p = marker.getLatLng(); window.__cotzOnPick(p.lat, p.lng); });
+      } else { marker.setLatLng(pos); }
+    };
+    const revealMap = () => {
+      if (!mapCanvas.hidden) return;
+      mapCanvas.hidden = false;
+      if (mapToggle) mapToggle.textContent = "▲ Ocultar mapa";
+      setTimeout(() => map && map.invalidateSize(), 60);
+    };
+    const setPoint = async (lat, lng, recenter = true) => {
+      showCoords(lat, lng);
+      await ensureMap();
+      revealMap();
+      placeMarker(lat, lng);
+      if (recenter) map.setView([lat, lng], 15);
+    };
+
+    // --- Nominatim: reverse geocode al mover el pin ---
+    const reverseGeocode = async (lat, lng) => {
+      try {
+        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&addressdetails=1&lat=${lat}&lon=${lng}`, { headers: { Accept: "application/json" } });
+        const data = await r.json();
+        if (data && data.display_name) setDireccion(data.display_name);
+        fillFromAddr(data && data.address);
+      } catch {}
+    };
+
+    // --- Nominatim: sugerencias mientras se escribe (tipo Google Maps) ---
+    const hideList = () => { acList.hidden = true; acList.innerHTML = ""; };
+    const chooseSuggestion = (s) => {
+      pinManual = false;
+      setDireccion(s.display_name);
+      fillFromAddr(s.address);
+      hideList();
+      setPoint(parseFloat(s.lat), parseFloat(s.lon));
+    };
+    let acTimer, acCtrl;
+    addressEl.addEventListener("input", () => {
+      if (suppressAC) { suppressAC = false; hideList(); return; }
+      const q = addressEl.value.trim();
+      clearTimeout(acTimer);
+      if (acCtrl) acCtrl.abort();
+      if (q.length < 4) { hideList(); return; }
+      acTimer = setTimeout(async () => {
+        acCtrl = new AbortController();
+        try {
+          const r = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=6&countrycodes=co&q=${encodeURIComponent(q)}`, { signal: acCtrl.signal, headers: { Accept: "application/json" } });
+          const arr = await r.json();
+          if (!Array.isArray(arr) || !arr.length) { hideList(); return; }
+          acList.innerHTML = arr.map((s, i) => `<li role="option" data-i="${i}">${esc(s.display_name)}</li>`).join("");
+          acList.hidden = false;
+          acList._data = arr;
+        } catch {}
+      }, 350);
+    });
+    acList.addEventListener("mousedown", (e) => {
+      const li = e.target.closest("li[data-i]"); if (!li) return;
+      e.preventDefault();
+      const s = acList._data && acList._data[Number(li.dataset.i)];
+      if (s) chooseSuggestion(s);
+    });
+    addressEl.addEventListener("blur", () => setTimeout(hideList, 150));
+
+    mapToggle && mapToggle.addEventListener("click", async () => {
+      await ensureMap();
+      const show = mapCanvas.hidden; mapCanvas.hidden = !show;
+      mapToggle.textContent = show ? "▲ Ocultar mapa" : "📍 Editar ubicación en el mapa";
+      if (show) setTimeout(() => map.invalidateSize(), 60);
+    });
 
     // ---- Precargar desde el carrito ----
     (function prefill() {
@@ -490,7 +549,11 @@ const DEPARTAMENTOS = [
   </script>
 </BaseLayout>
 
-<style>
+<style is:global>
+  /* Global (no scoped): muchas partes de esta página —tarjetas de producto,
+     líneas, filas del documento, sugerencias— se generan por JS con innerHTML
+     y NO llevan el atributo de scope de Astro. Todas las clases usan prefijo
+     `.cotz` y este CSS solo se incluye en /cotizacion, así que no colisiona. */
   .cotz { padding: 7rem 0 4rem; }
   .cotz__head { max-width: 48rem; margin-bottom: 2rem; }
   .cotz__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-terracota); }
@@ -518,6 +581,10 @@ const DEPARTAMENTOS = [
   .cotz-pill--active { background: var(--color-terracota); border-color: var(--color-terracota); color: #fff; }
   .cotz-flete-nota { grid-column: 1 / -1; margin: 0; font-size: 0.82rem; color: #5c534f; background: rgba(124, 72, 44, 0.06); border-left: 3px solid var(--color-terracota); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); }
   .cotz-hint { font-size: 0.72rem; font-weight: 400; color: rgba(71, 36, 16, 0.5); }
+  .cotz-ac { position: relative; }
+  .cotz-ac__list { list-style: none; margin: 0.35rem 0 0; padding: 0.25rem; border: 1px solid rgba(71, 36, 16, 0.15); border-radius: var(--radius-sm); background: var(--color-white); box-shadow: 0 8px 20px rgba(71, 36, 16, 0.12); max-height: 14rem; overflow-y: auto; }
+  .cotz-ac__list li { padding: 0.5rem 0.6rem; font-size: 0.8rem; font-weight: 400; color: var(--color-chocolate); border-radius: 4px; cursor: pointer; line-height: 1.3; }
+  .cotz-ac__list li:hover { background: var(--color-bg); }
   .cotz-map { display: flex; flex-direction: column; gap: 0.5rem; }
   .cotz-map__actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
   .cotz-map__toggle { padding: 0.45rem 0.85rem; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--color-chocolate); background: var(--color-white); border: 1px solid rgba(71, 36, 16, 0.2); border-radius: 999px; cursor: pointer; width: auto; }
@@ -572,7 +639,7 @@ const DEPARTAMENTOS = [
     line-height: 1.25;
     min-height: 1.95em;
   }
-  .cotz-cardp__code { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em; color: rgba(71, 36, 16, 0.45); }
+  .cotz-cardp__code { display: block; margin-top: 0.1rem; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em; color: rgba(71, 36, 16, 0.45); }
 
   /* Producto seleccionado */
   .cotz-sel__head { display: flex; align-items: center; gap: 0.65rem; }
