@@ -116,6 +116,8 @@ const showSelector = variants.length > 1;
           fichaLink.href = fichaMap[id].url;
           if (fichaCurrent) fichaCurrent.textContent = fichaMap[id].label;
         }
+
+        document.dispatchEvent(new CustomEvent("quote-variant-changed"));
       });
     });
 

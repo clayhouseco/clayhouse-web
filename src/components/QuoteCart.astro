@@ -292,13 +292,25 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
 
     const quantity = Math.max(1, parseInt(qtyInput?.value || "1", 10) || 1);
     const image = heroImg?.getAttribute("src") || btn.dataset.image || "";
+    const color = btn.dataset.color || colorEl?.textContent?.trim() || undefined;
+
+    // Si este producto+color+calidad ya está en la cotización, no lo duplicamos:
+    // vamos directo a /cotizacion para modificar la cantidad allí.
+    const key = `${btn.dataset.slug}::${color ?? ""}::${btn.dataset.calidad ?? ""}`;
+    const already = getQuoteCart().some(
+      (i) => `${i.slug}::${i.color ?? ""}::${i.calidad ?? ""}` === key
+    );
+    if (already) {
+      window.location.href = "/cotizacion/";
+      return;
+    }
 
     addToQuoteCart(
       {
         slug: btn.dataset.slug,
         name: btn.dataset.name,
         category: btn.dataset.category,
-        color: btn.dataset.color || colorEl?.textContent?.trim() || undefined,
+        color,
         quantity,
         unitLabel: btn.dataset.unit || "unidad",
         image,

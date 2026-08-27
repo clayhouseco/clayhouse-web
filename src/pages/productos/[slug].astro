@@ -745,7 +745,19 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 </BaseLayout>
 
 <script>
-  import { QUOTE_CART_EVENT, getQuoteCartCount } from "@/utils/quoteCart";
+  import { QUOTE_CART_EVENT, getQuoteCartCount, getQuoteCart } from "@/utils/quoteCart";
+
+  const orderAddBtn = document.querySelector<HTMLButtonElement>(
+    "[data-product-order] [data-add-to-quote]"
+  );
+
+  function currentVariantInCart() {
+    if (!orderAddBtn) return false;
+    const key = `${orderAddBtn.dataset.slug}::${orderAddBtn.dataset.color ?? ""}::${orderAddBtn.dataset.calidad ?? ""}`;
+    return getQuoteCart().some(
+      (i) => `${i.slug}::${i.color ?? ""}::${i.calidad ?? ""}` === key
+    );
+  }
 
   function refreshProductCartBtn() {
     const count = getQuoteCartCount();
@@ -755,10 +767,22 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     document.querySelectorAll<HTMLElement>(".product-page__view-cart").forEach((btn) => {
       btn.hidden = count === 0;
     });
+    if (orderAddBtn) {
+      if (currentVariantInCart()) {
+        orderAddBtn.dataset.inCart = "1";
+        orderAddBtn.classList.add("btn--in-cart");
+        orderAddBtn.textContent = "✓ En tu cotización · Modificar";
+      } else {
+        delete orderAddBtn.dataset.inCart;
+        orderAddBtn.classList.remove("btn--in-cart");
+        orderAddBtn.textContent = "Agregar a cotización";
+      }
+    }
   }
 
   document.addEventListener(QUOTE_CART_EVENT, refreshProductCartBtn);
   document.addEventListener("quote-cart-added", refreshProductCartBtn);
+  document.addEventListener("quote-variant-changed", refreshProductCartBtn);
   refreshProductCartBtn();
 
   // Sticky CTA mobile: delegar el click al botón principal (respeta cantidad/variante)
@@ -910,6 +934,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         });
         const code = pill.getAttribute("data-calidad");
         if (addBtn && code) (addBtn as HTMLElement).dataset.calidad = code;
+        document.dispatchEvent(new CustomEvent("quote-variant-changed"));
       });
     });
   });
