@@ -35,7 +35,7 @@ const DEPARTAMENTOS = [
     <form class="container cotz__grid" id="cotizacion-form" method={formAction ? "POST" : "get"} action={formAction}>
       {formAction && <input type="hidden" name="_subject" value="Nueva cotización desde la web" />}
       <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-      <input type="hidden" name="cotizacion" data-cotizacion-payload />
+      <input type="hidden" name="Detalle de la cotización" data-cotizacion-payload />
 
       <!-- ============ COLUMNA IZQUIERDA: FORMULARIO ============ -->
       <div class="cotz__form">
@@ -615,7 +615,7 @@ const DEPARTAMENTOS = [
     form.addEventListener("submit", (e) => {
       const v = validar(); if (v) { e.preventDefault(); return avisar(v); }
       const el = form.querySelector("[data-cotizacion-payload]");
-      if (el) el.value = JSON.stringify(buildPayload(), null, 2);
+      if (el) el.value = quoteText().replace(/\*/g, ""); // texto legible (sin markdown de WhatsApp)
       if (!form.getAttribute("action")) {
         // Sin Formspree: abrir el cliente de correo del usuario hacia ventas.
         e.preventDefault();
