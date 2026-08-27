@@ -86,6 +86,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
     updateQuoteCartItem,
     addToQuoteCart,
   } from "@/utils/quoteCart";
+  import { ERP_CALIDADES } from "@/data/erpCatalog";
 
   const catalogEl = document.getElementById("quote-product-catalog");
   const catalog = catalogEl ? JSON.parse(catalogEl.textContent || "[]") : [];
@@ -120,6 +121,9 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
     const subtotal = formatLineSubtotal(item);
     const imgSrc = item.image || "";
     const colorLine = item.color ? escapeHtml(item.color) : "";
+    const calidadLine = item.calidad
+      ? escapeHtml(ERP_CALIDADES[item.calidad as keyof typeof ERP_CALIDADES] ?? item.calidad)
+      : "";
     const detailLine =
       item.texture && item.texture !== item.color ? escapeHtml(item.texture) : "";
 
@@ -130,6 +134,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
       <div class="quote-cart__info">
         <a href="${escapeHtml(item.productUrl)}" class="quote-cart__item-name">${escapeHtml(item.name)}</a>
         ${colorLine ? `<p class="quote-cart__color">${colorLine}</p>` : ""}
+        ${calidadLine ? `<p class="quote-cart__detail">Calidad: ${calidadLine}</p>` : ""}
         ${detailLine ? `<p class="quote-cart__detail">${detailLine}</p>` : ""}
       </div>
       <dl class="quote-cart__metrics">
@@ -164,11 +169,11 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
       const target = e.target;
       if (!(target instanceof HTMLInputElement)) return;
       const qty = parseInt(target.value, 10);
-      if (qty >= 1) updateQuoteCartItem(item.slug, item.color, qty, catalog);
+      if (qty >= 1) updateQuoteCartItem(item.slug, item.color, qty, catalog, item.calidad);
     });
 
     li.querySelector("[data-quote-remove]")?.addEventListener("click", () => {
-      removeFromQuoteCart(item.slug, item.color);
+      removeFromQuoteCart(item.slug, item.color, item.calidad);
     });
 
     return li;
@@ -298,6 +303,8 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
         pricePerUnit: btn.dataset.price || "Consultar",
         texture: btn.dataset.texture || undefined,
         productUrl: btn.dataset.url || `/productos/${btn.dataset.slug}/`,
+        variantId: btn.dataset.variantId || undefined,
+        calidad: btn.dataset.calidad || undefined,
       },
       catalog
     );

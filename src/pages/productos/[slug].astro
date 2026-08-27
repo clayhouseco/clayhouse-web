@@ -24,6 +24,7 @@ import crypto from "node:crypto";
 import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 import { getReviewsForProduct } from "@/data/reviews";
+import { erpEquivalencia, ERP_CALIDADES } from "@/data/erpCatalog";
 import { site } from "@/data/site";
 import {
   getRendimientoTable,
@@ -82,6 +83,11 @@ const fichaMapJson = hasVariantFichas
 const defaultVariantId = assets?.variants[0]?.id ?? "default";
 const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
 const activeVariantId = activeVariant?.id ?? defaultVariantId;
+
+// Calidad (estructura ERP): opciones permitidas por producto y valor por defecto.
+const erpEquiv = erpEquivalencia(product.slug, activeVariantId);
+const calidadOpts = erpEquiv.calidadesPermitidas;
+const defaultCalidad = calidadOpts[0] ?? "PRI";
 
 const galleryImages: GalleryImage[] = assets
   ? getVariantGallery(assets, activeVariantId)
@@ -226,6 +232,26 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             )
           }
 
+          {
+            calidadOpts.length > 0 && (
+              <div class="product-page__calidad" data-calidad-selector>
+                <span class="product-page__calidad-label">Calidad</span>
+                <div class="calidad-pills">
+                  {calidadOpts.map((c, i) => (
+                    <button
+                      type="button"
+                      class:list={["calidad-pill", i === 0 && "calidad-pill--active"]}
+                      data-calidad={c}
+                      aria-pressed={i === 0 ? "true" : "false"}
+                    >
+                      {ERP_CALIDADES[c]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
           <div class="product-page__price-block">
             <p class="product-page__delivery">Plazo de entrega: consultar según volumen y referencia</p>
             {
@@ -265,6 +291,8 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               data-price={displayPrice ?? "Consultar"}
               data-texture={product.texture}
               data-url={`/productos/${product.slug}/`}
+              data-variant-id={activeVariantId}
+              data-calidad={defaultCalidad}
             >
               Agregar a cotización
             </button>
@@ -868,6 +896,23 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       setTimeout(() => qtyInput.classList.remove("product-page__qty-input--flash"), 1400);
     });
   });
+
+  // Selector de calidad: actualiza la calidad activa y el data-calidad del botón.
+  document.querySelectorAll("[data-calidad-selector]").forEach((sel) => {
+    const page = sel.closest(".product-page");
+    const addBtn = page?.querySelector("[data-add-to-quote]");
+    sel.querySelectorAll(".calidad-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        sel.querySelectorAll(".calidad-pill").forEach((p) => {
+          const active = p === pill;
+          p.classList.toggle("calidad-pill--active", active);
+          p.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        const code = pill.getAttribute("data-calidad");
+        if (addBtn && code) (addBtn as HTMLElement).dataset.calidad = code;
+      });
+    });
+  });
 </script>
 
 <style>
@@ -996,6 +1041,48 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
   .product-page__price-block {
     margin-bottom: 1.25rem;
+  }
+
+  .product-page__calidad {
+    margin-bottom: 1.25rem;
+  }
+
+  .product-page__calidad-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-chocolate);
+    margin-bottom: 0.5rem;
+  }
+
+  .calidad-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .calidad-pill {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-chocolate);
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.18);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .calidad-pill:hover {
+    border-color: var(--color-terracota);
+  }
+
+  .calidad-pill--active {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: var(--color-white);
   }
 
   .product-page__order {

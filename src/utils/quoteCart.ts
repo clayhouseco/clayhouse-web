@@ -23,10 +23,14 @@ export interface QuoteCartItem {
   pricePerUnit: string;
   texture?: string;
   productUrl: string;
+  /** Id de la variante/dimensión seleccionada (define el código ERP en rayados y macizo-brix). */
+  variantId?: string;
+  /** Calidad elegida (código ERP: PRI, SEG, MED). */
+  calidad?: string;
 }
 
-function cartKey(item: Pick<QuoteCartItem, "slug" | "color">): string {
-  return `${item.slug}::${item.color ?? ""}`;
+function cartKey(item: Pick<QuoteCartItem, "slug" | "color" | "calidad">): string {
+  return `${item.slug}::${item.color ?? ""}::${item.calidad ?? ""}`;
 }
 
 /** Quita prefijo "Desde" para mostrar solo el valor en cotización */
@@ -64,6 +68,8 @@ export function enrichCartItem(
     pricePerUnit: fromCatalog?.pricePerUnit ?? item.pricePerUnit ?? "Consultar",
     texture: fromCatalog?.texture ?? item.texture,
     productUrl: fromCatalog?.productUrl ?? item.productUrl ?? `/productos/${item.slug}/`,
+    variantId: item.variantId,
+    calidad: item.calidad,
   };
 }
 
@@ -114,8 +120,8 @@ export function addToQuoteCart(
   saveQuoteCart(cart);
 }
 
-export function removeFromQuoteCart(slug: string, color?: string): void {
-  const key = cartKey({ slug, color });
+export function removeFromQuoteCart(slug: string, color?: string, calidad?: string): void {
+  const key = cartKey({ slug, color, calidad });
   saveQuoteCart(getQuoteCart().filter((i) => cartKey(i) !== key));
 }
 
@@ -123,10 +129,11 @@ export function updateQuoteCartItem(
   slug: string,
   color: string | undefined,
   quantity: number,
-  catalog?: Partial<QuoteCartItem>[]
+  catalog?: Partial<QuoteCartItem>[],
+  calidad?: string
 ): void {
   const cat = catalog ?? getClientCatalog();
-  const key = cartKey({ slug, color });
+  const key = cartKey({ slug, color, calidad });
   const cart = getQuoteCart(cat);
   const item = cart.find((i) => cartKey(i) === key);
   if (!item || quantity < 1) return;

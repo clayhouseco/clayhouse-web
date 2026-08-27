@@ -103,6 +103,7 @@ const showSelector = variants.length > 1;
         if (label && metaColor) metaColor.textContent = label;
 
         if (addBtn && label) addBtn.dataset.color = label;
+        if (addBtn) addBtn.dataset.variantId = id;
 
         const nextPrice = variantPrice || defaultPrice;
         if (addBtn && nextPrice) addBtn.dataset.price = nextPrice;
