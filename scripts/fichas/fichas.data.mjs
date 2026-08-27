@@ -610,21 +610,25 @@ export const fichas = [
     ],
     "dims": {
       "largo": "24,5 cm",
-      "ancho": "12 cm",
+      "ancho": "11,5 cm",
       "alto": "6 cm"
     },
     "colores": [
       [
+        "Adobe",
+        "#928372"
+      ],
+      [
         "Arena",
-        "#CDA96E"
+        "#BDA182"
       ],
       [
         "Rojo",
-        "#B4552F"
+        "#997353"
       ],
       [
-        "Chocolate",
-        "#6B4636"
+        "Cocoa",
+        "#544E49"
       ]
     ],
     "usos": [
@@ -643,7 +647,7 @@ export const fichas = [
       [
         "cube",
         "DIMENSIONES",
-        "24,5 × 12 × 6 cm",
+        "24,5 × 11,5 × 6 cm",
         ""
       ],
       [
@@ -655,13 +659,111 @@ export const fichas = [
       [
         "compress",
         "RESISTENCIA A LA COMPRESIÓN",
-        "Clase I · Mínimo 21 MPa",
+        "Mínimo 25 MPa (promedio)",
         ""
       ],
       [
         "drop",
         "ABSORCIÓN DE AGUA",
-        "Promedio 13%",
+        "Máx. 11% (promedio)",
+        ""
+      ],
+      [
+        "flame",
+        "RESISTENCIA AL FUEGO",
+        "Excelente",
+        ""
+      ],
+      [
+        "arrows",
+        "TOLERANCIAS DIMENSIONALES",
+        "± 2%",
+        ""
+      ]
+    ]
+  },
+  {
+    "slug": "gran-formato-prensado",
+    "titulo": "GRAN FORMATO PRENSADO",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "GRAN FORMATO PRENSADO",
+    "norma": "NTC 4205-3",
+    "foto": "/public/images/products/gran-formato-prensado/rojo/gran-formato-prensado-rojo.webp",
+    "features": [
+      [
+        "shield",
+        "ALTA RESISTENCIA",
+        "Excelente desempeño estructural."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ]
+    ],
+    "dims": {
+      "largo": "39 cm",
+      "ancho": "11,5 cm",
+      "alto": "5 cm"
+    },
+    "colores": [
+      [
+        "Adobe",
+        "#A49078"
+      ],
+      [
+        "Arena",
+        "#D6C1AB"
+      ],
+      [
+        "Rojo",
+        "#AB7752"
+      ],
+      [
+        "Cocoa",
+        "#7F746B"
+      ]
+    ],
+    "usos": [
+      "Fachadas de gran escala",
+      "Muros de acento y divisorios",
+      "Proyectos con lenguaje horizontal",
+      "Aparejo de formato grande"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "3,3 kg",
+        "(por unidad)"
+      ],
+      [
+        "cube",
+        "DIMENSIONES",
+        "39 × 11,5 × 5 cm",
+        ""
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "41,7 und/m²",
+        "(por metro cuadrado)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "Mínimo 25 MPa (promedio)",
+        ""
+      ],
+      [
+        "drop",
+        "ABSORCIÓN DE AGUA",
+        "Máx. 11% (promedio)",
         ""
       ],
       [
