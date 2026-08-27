@@ -126,3 +126,9 @@ export function erpEquivalencia(slug: string, variantId?: string | null): ErpEqu
 export function calidadPorDefecto(slug: string, variantId?: string | null): CalidadCodigo {
   return erpEquivalencia(slug, variantId).calidadesPermitidas[0] ?? "PRI";
 }
+
+/** Ids de dimensión de un producto con variantes ERP (rayados, macizo-brix); [] si no. */
+export function erpVariantIds(slug: string): string[] {
+  const e = ERP_MAP[slug];
+  return e?.porVariante ? Object.keys(e.porVariante) : [];
+}

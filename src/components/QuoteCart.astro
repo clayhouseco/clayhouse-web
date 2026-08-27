@@ -57,7 +57,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
             Precios de referencia sin IVA ni flete. La cotización final depende de volumen,
             destino y disponibilidad.
           </p>
-          <a href="/contacto" class="quote-cart__cta" data-quote-cart-checkout>
+          <a href="/cotizacion" class="quote-cart__cta" data-quote-cart-checkout>
             Completar solicitud de cotización
           </a>
           <button type="button" class="quote-cart__clear" data-quote-cart-clear>
@@ -273,7 +273,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
   document.addEventListener(QUOTE_CART_EVENT, refreshUI);
   document.addEventListener("quote-cart-added", () => {
     refreshUI();
-    if (!window.location.pathname.startsWith("/contacto")) openCart();
+    if (!window.location.pathname.startsWith("/cotizacion")) openCart();
   });
 
   document.addEventListener("click", (e) => {

@@ -1,0 +1,568 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+import { cotizableCatalog } from "@/data/cotizacionCatalog";
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID?.trim();
+const formspreeReady =
+  Boolean(formspreeId) && formspreeId !== "your_form_id" && !formspreeId?.startsWith("your_");
+const formAction = formspreeReady ? `https://formspree.io/f/${formspreeId}` : undefined;
+
+const DEPARTAMENTOS = [
+  "Antioquia", "Atlántico", "Bogotá D.C.", "Bolívar", "Boyacá", "Caldas", "Caquetá",
+  "Casanare", "Cauca", "Cesar", "Córdoba", "Cundinamarca", "Chocó", "Huila", "La Guajira",
+  "Magdalena", "Meta", "Nariño", "Norte de Santander", "Quindío", "Risaralda", "Santander",
+  "Sucre", "Tolima", "Valle del Cauca",
+];
+---
+
+<BaseLayout
+  title="Solicitar cotización"
+  description="Arma tu cotización de ladrillo, teja o piso Clay House: elige productos, color, calidad y cantidad, y recibe la propuesta de tu obra."
+  hideQuoteCart={true}
+>
+  <section class="cotizacion-page">
+    <div class="container cotizacion-page__head">
+      <h1>Solicitar cotización</h1>
+      <p>
+        Agrega los productos que necesitas con su color, calidad y cantidad. Nuestro equipo
+        te enviará la cotización con precios, flete y condiciones para tu obra.
+      </p>
+    </div>
+
+    <form
+      class="container cotizacion-form"
+      id="cotizacion-form"
+      method={formAction ? "POST" : "get"}
+      action={formAction}
+    >
+      {formAction && <input type="hidden" name="_subject" value="Nueva cotización desde la web" />}
+      <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+      <!-- Payload estructurado (formato ERP) que se arma al enviar -->
+      <input type="hidden" name="cotizacion" data-cotizacion-payload />
+
+      <!-- ================= PRODUCTOS ================= -->
+      <section class="cotizacion-block">
+        <h2>Productos a cotizar</h2>
+        <div data-lineas></div>
+        <button type="button" class="btn btn--ghost cotizacion-add" data-add-linea>
+          + Agregar producto
+        </button>
+        <p class="cotizacion-empty" data-lineas-empty hidden>
+          Aún no has agregado productos. Usa “Agregar producto”.
+        </p>
+      </section>
+
+      <!-- ================= CLIENTE Y OBRA ================= -->
+      <section class="cotizacion-block">
+        <h2>Datos de contacto y obra</h2>
+        <div class="cotizacion-grid">
+          <label>Nombre de contacto *
+            <input type="text" name="nombre" required autocomplete="name" />
+          </label>
+          <label>Teléfono / WhatsApp *
+            <input type="tel" name="telefono" required autocomplete="tel" />
+          </label>
+          <label>Correo *
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label>Empresa (opcional)
+            <input type="text" name="empresa" autocomplete="organization" />
+          </label>
+          <label>Nombre de la obra / proyecto
+            <input type="text" name="proyecto" placeholder="Ej. Edificio El Solar" />
+          </label>
+        </div>
+
+        <fieldset class="cotizacion-entrega">
+          <legend>Modalidad de entrega</legend>
+          <div class="cotizacion-pills" role="radiogroup" aria-label="Modalidad de entrega">
+            <button type="button" class="entrega-pill entrega-pill--active" data-entrega="obra" aria-pressed="true">
+              Despacho a obra
+            </button>
+            <button type="button" class="entrega-pill" data-entrega="planta" aria-pressed="false">
+              Recoge en planta
+            </button>
+          </div>
+          <input type="hidden" name="entrega" value="obra" data-entrega-value />
+          <p class="cotizacion-flete-nota">
+            El <b>flete no está incluido</b> en esta cotización preliminar. Nuestro equipo comercial
+            lo calcula según la ubicación de tu obra.
+          </p>
+        </fieldset>
+
+        <div class="cotizacion-grid" data-obra-fields>
+          <label class="cotizacion-full">Ubicación de la obra (dirección exacta o link de Google Maps) *
+            <input type="text" name="direccion" placeholder="Ej. Cra 43A #1-50, o pega el link de Google Maps" autocomplete="street-address" />
+          </label>
+          <label>Municipio / ciudad
+            <input type="text" name="municipio" autocomplete="address-level2" />
+          </label>
+          <label>Departamento
+            <select name="departamento">
+              {DEPARTAMENTOS.map((d) => <option value={d} selected={d === "Antioquia"}>{d}</option>)}
+            </select>
+          </label>
+        </div>
+
+        <label class="cotizacion-msg">Notas para el equipo (opcional)
+          <textarea name="mensaje" rows="3" placeholder="Fechas, detalles de obra, preguntas..."></textarea>
+        </label>
+      </section>
+
+      <!-- ================= RESUMEN PRELIMINAR ================= -->
+      <section class="cotizacion-block cotizacion-resumen">
+        <h2>Cotización preliminar</h2>
+        <ul class="cotizacion-resumen__lista" data-resumen-lista></ul>
+        <div class="cotizacion-resumen__totales">
+          <div class="cotizacion-resumen__fila">
+            <span>Estimado de material</span>
+            <b data-resumen-material>—</b>
+          </div>
+          <div class="cotizacion-resumen__fila cotizacion-resumen__fila--flete">
+            <span>Flete</span>
+            <b>No incluido</b>
+          </div>
+        </div>
+        <p class="cotizacion-resumen__aviso">
+          <b>Cotización preliminar.</b> El <b>flete no está incluido</b> y se calcula aparte según la
+          ubicación de tu obra. Los precios son de referencia; el valor final lo confirma nuestro
+          equipo con la cotización oficial.
+        </p>
+      </section>
+
+      <div class="cotizacion-submit">
+        <button type="submit" class="btn btn--primary btn--block">Generar cotización preliminar y enviar</button>
+        <p class="cotizacion-legal">Al enviar aceptas el tratamiento de tus datos para fines comerciales.</p>
+        {!formAction && (
+          <p class="cotizacion-legal cotizacion-legal--warn">
+            Modo demo: falta configurar el envío (PUBLIC_FORMSPREE_ID). Contáctanos por
+            <a href={site.whatsapp} target="_blank" rel="noopener"> WhatsApp</a>.
+          </p>
+        )}
+      </div>
+    </form>
+  </section>
+
+  <template data-linea-template>
+    <div class="cotizacion-linea" data-linea>
+      <div class="cotizacion-linea__grid">
+        <label class="cotizacion-linea__prod">Producto
+          <select data-campo="item" required></select>
+        </label>
+        <label data-campo-wrap="color" hidden>Color
+          <select data-campo="color"></select>
+        </label>
+        <label data-campo-wrap="calidad">Calidad
+          <select data-campo="calidad"></select>
+        </label>
+        <label class="cotizacion-linea__qty">Cantidad
+          <input type="number" min="1" value="1" data-campo="cantidad" />
+        </label>
+        <span class="cotizacion-linea__unidad" data-unidad></span>
+        <button type="button" class="cotizacion-linea__del" data-del-linea aria-label="Quitar producto">×</button>
+      </div>
+      <p class="cotizacion-linea__ref" data-ref hidden></p>
+    </div>
+  </template>
+
+  <script define:vars={{ catalog: cotizableCatalog }}>
+    const form = document.getElementById("cotizacion-form");
+    const lineasBox = form.querySelector("[data-lineas]");
+    const emptyMsg = form.querySelector("[data-lineas-empty]");
+    const tpl = document.querySelector("[data-linea-template]");
+    const byId = Object.fromEntries(catalog.map((c) => [c.id, c]));
+
+    function optionsHtml() {
+      return (
+        '<option value="">Selecciona…</option>' +
+        catalog.map((c) => `<option value="${c.id}">${c.label}${c.erpCodigo ? "" : " (por confirmar)"}</option>`).join("")
+      );
+    }
+
+    function fillDependent(linea, item, preset = {}) {
+      const colorWrap = linea.querySelector('[data-campo-wrap="color"]');
+      const colorSel = linea.querySelector('[data-campo="color"]');
+      const calSel = linea.querySelector('[data-campo="calidad"]');
+      const unidadEl = linea.querySelector("[data-unidad]");
+      const refEl = linea.querySelector("[data-ref]");
+
+      // Colores
+      if (item && item.coloresPermitidos.length) {
+        colorWrap.hidden = false;
+        colorSel.innerHTML = item.coloresPermitidos
+          .map((c) => `<option value="${c.codigo}">${c.nombre}</option>`)
+          .join("");
+        if (preset.color) colorSel.value = preset.color;
+      } else {
+        colorWrap.hidden = true;
+        colorSel.innerHTML = "";
+      }
+      // Calidades
+      if (item) {
+        calSel.innerHTML = item.calidadesPermitidas
+          .map((c) => `<option value="${c.codigo}">${c.nombre}</option>`)
+          .join("");
+        if (preset.calidad) calSel.value = preset.calidad;
+      } else {
+        calSel.innerHTML = "";
+      }
+      unidadEl.textContent = item ? item.unidadLabel : "";
+      if (item && item.refPrice && item.refPrice !== "Consultar") {
+        refEl.hidden = false;
+        refEl.textContent = `Precio de referencia: ${item.refPrice} / ${item.unidadLabel} (el valor final lo confirma el equipo).`;
+      } else {
+        refEl.hidden = true;
+      }
+    }
+
+    function parseCop(str) {
+      if (!str) return null;
+      const s = String(str).toLowerCase();
+      if (s.includes("consult")) return null;
+      const digits = String(str).replace(/[^\d]/g, "");
+      return digits ? parseInt(digits, 10) : null;
+    }
+    const fmtCop = (n) =>
+      new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(n);
+
+    const resumenLista = form.querySelector("[data-resumen-lista]");
+    const resumenMaterial = form.querySelector("[data-resumen-material]");
+
+    function updateResumen() {
+      const lineas = [...lineasBox.querySelectorAll("[data-linea]")];
+      let total = 0;
+      let algoSinPrecio = false;
+      const filas = [];
+      for (const l of lineas) {
+        const item = byId[l.querySelector('[data-campo="item"]').value];
+        if (!item) continue;
+        const cant = parseInt(l.querySelector('[data-campo="cantidad"]').value || "0", 10) || 0;
+        const colSel = l.querySelector('[data-campo="color"]');
+        const calSel = l.querySelector('[data-campo="calidad"]');
+        const colName = colSel && !colSel.closest("[hidden]") ? colSel.selectedOptions[0]?.text : "";
+        const calName = calSel.selectedOptions[0]?.text || "";
+        const precio = parseCop(item.refPrice);
+        const sub = precio != null ? precio * cant : null;
+        if (sub != null) total += sub;
+        else algoSinPrecio = true;
+        const detalle = [colName, calName].filter(Boolean).join(" · ");
+        filas.push(
+          `<li><span>${item.label}${detalle ? ` — ${detalle}` : ""} · ${cant} ${item.unidadLabel}</span>` +
+            `<span>${sub != null ? fmtCop(sub) : "A confirmar"}</span></li>`
+        );
+      }
+      resumenLista.innerHTML = filas.length ? filas.join("") : '<li class="cotizacion-resumen__vacio">Sin productos aún.</li>';
+      resumenMaterial.textContent = filas.length
+        ? fmtCop(total) + (algoSinPrecio ? " + a confirmar" : "")
+        : "—";
+    }
+
+    function addLinea(preset = {}) {
+      const linea = tpl.content.firstElementChild.cloneNode(true);
+      const itemSel = linea.querySelector('[data-campo="item"]');
+      itemSel.innerHTML = optionsHtml();
+      if (preset.id && byId[preset.id]) itemSel.value = preset.id;
+      fillDependent(linea, byId[itemSel.value], preset);
+      if (preset.cantidad) linea.querySelector('[data-campo="cantidad"]').value = preset.cantidad;
+
+      itemSel.addEventListener("change", () => {
+        fillDependent(linea, byId[itemSel.value]);
+        updateResumen();
+      });
+      linea.querySelector("[data-del-linea]").addEventListener("click", () => {
+        linea.remove();
+        if (!lineasBox.children.length) emptyMsg.hidden = false;
+        updateResumen();
+      });
+      lineasBox.appendChild(linea);
+      emptyMsg.hidden = true;
+      updateResumen();
+    }
+
+    form.querySelector("[data-add-linea]").addEventListener("click", () => addLinea());
+    lineasBox.addEventListener("input", updateResumen);
+    lineasBox.addEventListener("change", updateResumen);
+
+    // Modalidad de entrega
+    const entregaVal = form.querySelector("[data-entrega-value]");
+    const obraFields = form.querySelector("[data-obra-fields]");
+    form.querySelectorAll(".entrega-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        form.querySelectorAll(".entrega-pill").forEach((p) => {
+          const on = p === pill;
+          p.classList.toggle("entrega-pill--active", on);
+          p.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        const val = pill.dataset.entrega;
+        entregaVal.value = val;
+        obraFields.hidden = val === "planta";
+      });
+    });
+
+    // Precargar desde el carrito (localStorage)
+    function prefillFromCart() {
+      let cart = [];
+      try {
+        cart = JSON.parse(localStorage.getItem("clayhouse-quote-cart") || "[]");
+      } catch {}
+      const colorNombreACodigo = {};
+      catalog.forEach((c) => c.coloresPermitidos.forEach((col) => (colorNombreACodigo[col.nombre.toLowerCase()] = col.codigo)));
+      let added = 0;
+      cart.forEach((it) => {
+        const id = it.variantId ? `${it.slug}::${it.variantId}` : it.slug;
+        if (!byId[id]) return;
+        addLinea({
+          id,
+          color: it.color ? colorNombreACodigo[String(it.color).toLowerCase()] : undefined,
+          calidad: it.calidad,
+          cantidad: it.quantity,
+        });
+        added++;
+      });
+      if (!added) {
+        addLinea();
+        emptyMsg.hidden = true;
+      }
+    }
+    prefillFromCart();
+
+    // Armar el payload estructurado (formato ERP) al enviar
+    form.addEventListener("submit", () => {
+      const lineas = [...lineasBox.querySelectorAll("[data-linea]")].map((l) => {
+        const item = byId[l.querySelector('[data-campo="item"]').value];
+        if (!item) return null;
+        const color = l.querySelector('[data-campo="color"]').value || null;
+        const calidad = l.querySelector('[data-campo="calidad"]').value || null;
+        const cantidad = parseInt(l.querySelector('[data-campo="cantidad"]').value || "1", 10);
+        return {
+          erpCodigo: item.erpCodigo,
+          producto: item.label,
+          color,
+          calidad,
+          cantidad,
+          unidad: item.unidad,
+        };
+      }).filter(Boolean);
+      const payload = form.querySelector("[data-cotizacion-payload]");
+      if (payload) payload.value = JSON.stringify(lineas, null, 2);
+      try {
+        localStorage.removeItem("clayhouse-quote-cart");
+      } catch {}
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .cotizacion-page {
+    padding: 3rem 0 4rem;
+  }
+  .cotizacion-page__head {
+    max-width: 46rem;
+    margin-bottom: 2rem;
+  }
+  .cotizacion-page__head h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--color-chocolate);
+  }
+  .cotizacion-page__head p {
+    margin-top: 0.75rem;
+    color: var(--color-text-muted, #5c534f);
+  }
+  .cotizacion-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .cotizacion-block {
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+  }
+  .cotizacion-block h2 {
+    font-size: 1.1rem;
+    color: var(--color-chocolate);
+    margin-bottom: 1.25rem;
+  }
+  .cotizacion-linea {
+    border: 1px solid rgba(71, 36, 16, 0.1);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 0.85rem;
+    background: var(--color-bg);
+  }
+  .cotizacion-linea__grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 0.9fr auto auto;
+    gap: 0.75rem;
+    align-items: end;
+  }
+  .cotizacion-linea__unidad {
+    font-size: 0.85rem;
+    color: #5c534f;
+    padding-bottom: 0.6rem;
+  }
+  .cotizacion-linea__del {
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-terracota);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .cotizacion-linea__del:hover {
+    background: var(--color-terracota);
+    color: #fff;
+    border-color: var(--color-terracota);
+  }
+  .cotizacion-linea__ref {
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    color: #8a807c;
+  }
+  .cotizacion-add {
+    margin-top: 0.25rem;
+  }
+  .cotizacion-empty {
+    color: #8a807c;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+  }
+  .cotizacion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+  .cotizacion-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+  }
+  .cotizacion-form input,
+  .cotizacion-form select,
+  .cotizacion-form textarea {
+    font: inherit;
+    font-weight: 400;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(71, 36, 16, 0.2);
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    width: 100%;
+  }
+  .cotizacion-entrega {
+    border: none;
+    margin: 1.25rem 0;
+    padding: 0;
+  }
+  .cotizacion-entrega legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-chocolate);
+    margin-bottom: 0.5rem;
+  }
+  .cotizacion-pills {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .entrega-pill {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid rgba(71, 36, 16, 0.2);
+    border-radius: 999px;
+    background: var(--color-white);
+    color: var(--color-chocolate);
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .entrega-pill--active {
+    background: var(--color-terracota);
+    border-color: var(--color-terracota);
+    color: #fff;
+  }
+  .cotizacion-msg {
+    margin-top: 1rem;
+  }
+  .cotizacion-submit {
+    text-align: center;
+  }
+  .cotizacion-legal {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: #8a807c;
+  }
+  .cotizacion-legal--warn {
+    color: var(--color-terracota);
+  }
+  .cotizacion-flete-nota {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: #5c534f;
+    background: rgba(124, 72, 44, 0.06);
+    border-left: 3px solid var(--color-terracota);
+    padding: 0.6rem 0.85rem;
+    border-radius: var(--radius-sm);
+  }
+  .cotizacion-full {
+    grid-column: 1 / -1;
+  }
+  .cotizacion-resumen__lista {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .cotizacion-resumen__lista li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed rgba(71, 36, 16, 0.12);
+  }
+  .cotizacion-resumen__vacio {
+    color: #8a807c;
+    border-bottom: none !important;
+  }
+  .cotizacion-resumen__totales {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+  .cotizacion-resumen__fila {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  .cotizacion-resumen__fila b {
+    color: var(--color-chocolate);
+  }
+  .cotizacion-resumen__fila--flete b {
+    color: var(--color-terracota);
+  }
+  .cotizacion-resumen__aviso {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: #5c534f;
+    background: rgba(124, 72, 44, 0.06);
+    border: 1px solid rgba(124, 72, 44, 0.18);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+  }
+  @media (max-width: 720px) {
+    .cotizacion-linea__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cotizacion-linea__prod {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
