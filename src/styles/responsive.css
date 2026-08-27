@@ -68,3 +68,14 @@
     width: 100%;
   }
 }
+
+/* iOS/Safari hace zoom automático al enfocar un campo cuyo texto mide < 16px
+   (y no vuelve solo). Forzamos 16px en móvil para todos los controles de
+   formulario, así el celular no se amplía al escribir. */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
