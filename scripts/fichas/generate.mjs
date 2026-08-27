@@ -136,6 +136,7 @@ body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;hei
 .rec p{font-size:7.2pt;color:#5c534f;line-height:1.3;margin-top:.5mm}
 .footer{display:flex;align-items:center;gap:6mm;margin-top:4mm;padding-top:4mm;border-top:2px solid ${RED};font-size:8pt;color:#5c534f;font-weight:600}
 .footer b{color:${RED};font-weight:900;font-size:11pt;letter-spacing:1px}
+.footer-logo{height:6mm;width:auto;display:block}
 </style></head><body>
 <div class="top">
   <div class="title"><h1>${p.titulo}</h1><p>${p.subtitulo}</p></div>
@@ -150,7 +151,7 @@ body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;hei
   <div class="techbox"><div class="techtitle">CARACTERÍSTICAS TÉCNICAS</div><div class="specs">${specs}</div></div>
   <div class="recbox"><h3>RECOMENDACIONES</h3>${recs}</div>
 </div>
-<div class="footer"><b>CLAY HOUSE</b><span>www.clayhouse.com.co</span><span>ventas@clayhouse.com.co</span><span>(320) 672-3365</span></div>
+<div class="footer"><img class="footer-logo" src="${BASE}/public/logo-clayhouse.png" alt="Clay House"/><span>www.clayhouse.com.co</span><span>ventas@clayhouse.com.co</span><span>(320) 672-3365</span></div>
 </body></html>`;
 }
 
