@@ -333,15 +333,17 @@ const piso10x30Variants: ProductColorVariant[] = [
 ];
 
 const bocadilloPrensadoVariants: ProductColorVariant[] = [
+  { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe" },
   { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
   { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
-  { id: "chocolate", label: "Chocolate", colorLabel: "Chocolate", folder: "chocolate" },
+  { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa" },
 ];
 
 const granFormatoPrensadoVariants: ProductColorVariant[] = [
+  { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe" },
   { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
   { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
-  { id: "chocolate", label: "Chocolate", colorLabel: "Chocolate", folder: "chocolate" },
+  { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa" },
 ];
 
 const tejaColonialVariants: ProductColorVariant[] = [

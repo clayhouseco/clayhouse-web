@@ -165,9 +165,10 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "bocadillo-prensado": {
     heroProductByVariant: {
+      adobe: "bocadillo-prensado-adobe.webp",
       arena: "bocadillo-prensado-arena.webp",
       rojo: "bocadillo-prensado-rojo.webp",
-      chocolate: "bocadillo-prensado-chocolate.webp",
+      cocoa: "bocadillo-prensado-cocoa.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /bocadillo prensado dimensiones/i,
@@ -175,9 +176,10 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "gran-formato-prensado": {
     heroProductByVariant: {
+      adobe: "gran-formato-prensado-adobe.webp",
       arena: "gran-formato-prensado-arena.webp",
       rojo: "gran-formato-prensado-rojo.webp",
-      chocolate: "gran-formato-prensado-chocolate.webp",
+      cocoa: "gran-formato-prensado-cocoa.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /gran formato prensado dimensiones/i,
