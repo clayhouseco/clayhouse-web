@@ -1584,7 +1584,7 @@ export const fichas = [
     "subtitulo": "BLOQUE DE ARCILLA COCIDA",
     "clasificacion": "BLOQUELÓN",
     "norma": "NTC 4205-2 / 4205-3",
-    "foto": "/public/images/products/bloquelon/bloquelon-dimensiones.webp",
+    "foto": "/public/images/products/bloquelon/bloquelon.webp",
     "features": [
       [
         "cube",
