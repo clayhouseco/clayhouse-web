@@ -74,6 +74,9 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
   "enchape-romano": { codigo: "ENC-ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   // Código temporal — reemplazar cuando exista el definitivo en el ERP.
   "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  // Sin código ERP todavía, pero solo se venden en Primera.
+  "bocadillo-prensado": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "bloquelon": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "macizo-brix": {
     porVariante: { "5x10x20": "MAC-520", "6x12x24": "MAC-624" },
     coloresPermitidos: ["NAT", "MC", "MO"],
