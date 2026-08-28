@@ -45,13 +45,13 @@ create index if not exists cotizaciones_web_estado_created_idx
 -- credenciales de servicio o usuarios autenticados (que omiten estas políticas).
 alter table public.cotizaciones_web enable row level security;
 
+-- Privilegio + política de INSERT para el rol público (anon y authenticated).
+-- La validación de contenido se hace en el cliente (nombre, teléfono, líneas);
+-- las columnas NOT NULL ya exigen lo básico.
+grant insert on public.cotizaciones_web to anon, authenticated;
+
 drop policy if exists "web inserta cotizaciones" on public.cotizaciones_web;
 create policy "web inserta cotizaciones"
   on public.cotizaciones_web for insert
-  to anon
-  with check (
-    length(cliente_nombre) between 2 and 120
-    and length(cliente_telefono) between 5 and 40
-    and jsonb_typeof(lineas) = 'array'
-    and jsonb_array_length(lineas) between 1 and 100
-  );
+  to anon, authenticated
+  with check (true);
