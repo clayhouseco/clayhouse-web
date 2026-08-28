@@ -443,7 +443,6 @@ export const products: Product[] = [
     gallery: [
       productFolderImage("bloquelon", "bloquelon-celdas.webp"),
       productFolderImage("bloquelon", "bloquelon-cara.webp"),
-      productFolderImage("bloquelon", "bloquelon-obra.webp"),
     ],
     imageDimensiones: productFolderImage("bloquelon", "bloquelon-dimensiones.webp"),
     pricePerUnit: "$ 4.400",
