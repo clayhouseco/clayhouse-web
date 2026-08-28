@@ -185,6 +185,18 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     dimensionesPattern: /-dimensiones\.webp/i,
     productFilePattern: /^gran-formato-prensado/i,
   },
+  "gran-formato": {
+    heroProductByVariant: {
+      cobrizo: "gran-formato-cobrizo.webp",
+      cocoa: "gran-formato-cocoa.webp",
+      duna: "gran-formato-duna.webp",
+      terracota: "gran-formato-terracota.webp",
+      tierra: "gran-formato-tierra.webp",
+    },
+    sharedRootPattern: /^$/,
+    dimensionesPattern: /-dimensiones\.webp/i,
+    productFilePattern: /^gran-formato/i,
+  },
   "teja-colonial": {
     heroProductByVariant: {
       roja: "teja colonial natural.webp",

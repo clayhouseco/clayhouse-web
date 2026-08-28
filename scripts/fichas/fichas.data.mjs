@@ -1663,5 +1663,41 @@ export const fichas = [
         ""
       ]
     ]
+  },
+  {
+    "slug": "gran-formato",
+    "titulo": "GRAN FORMATO",
+    "subtitulo": "LADRILLO TOLETE DE ARCILLA COCIDA",
+    "clasificacion": "GRAN FORMATO",
+    "norma": "NTC 4205-1 / 4205-3",
+    "foto": "/public/images/products/gran-formato/tierra/gran-formato-tierra-dimensiones.webp",
+    "features": [
+      ["shield", "ALTA RESISTENCIA", "Promedio 30 MPa a la compresión."],
+      ["ruler", "GRAN FORMATO", "Rinde 41,7 piezas por metro cuadrado."],
+      ["leaf", "MATERIAL NATURAL", "Arcilla cocida con cara vista rugosa."]
+    ],
+    "dims": { "largo": "39 cm", "ancho": "11,5 cm", "alto": "5 cm" },
+    "colores": [
+      ["Cobrizo", "#A05A40"],
+      ["Cocoa", "#4E4238"],
+      ["Duna", "#C4B694"],
+      ["Terracota", "#AC5B38"],
+      ["Tierra", "#9F8A6C"]
+    ],
+    "usos": [
+      "Muros de fachada",
+      "Muros divisorios",
+      "Muros estructurales",
+      "Proyectos de gran escala"
+    ],
+    "specsRow": [
+      ["weight", "PESO APROX.", "2,9 kg", "(por unidad)"],
+      ["cube", "DIMENSIONES", "39 × 11,5 × 5 cm", ""],
+      ["grid", "RENDIMIENTO", "41,7 und/m²", "(por metro cuadrado)"],
+      ["compress", "RESISTENCIA A LA COMPRESIÓN", "Promedio 30 MPa · Individual 25 MPa", ""],
+      ["drop", "ABSORCIÓN DE AGUA", "4–13% (según color)", ""],
+      ["flame", "RESISTENCIA AL FUEGO", "Excelente", ""],
+      ["arrows", "TOLERANCIAS DIMENSIONALES", "± 5 / ± 3 / ± 2 mm", ""]
+    ]
   }
 ];

@@ -345,6 +345,45 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("gran-formato-prensado"),
   },
   {
+    name: "Gran Formato",
+    slug: "gran-formato",
+    category: "Fachadas",
+    shortDescription:
+      "Ladrillo tolete de gran formato (39 × 11,5 × 5 cm) de textura rugosa, en cinco colores. Fachadas, muros divisorios y estructurales.",
+    description:
+      "Ladrillo tolete de gran formato y perforación vertical, con cara vista rugosa, en cobrizo, cocoa, duna, terracota y tierra. Alto rendimiento (41,7 und/m²) para fachadas y muros divisorios o estructurales.",
+    applications: [
+      "Muros de fachada",
+      "Muros divisorios",
+      "Muros estructurales",
+      "Proyectos con lenguaje horizontal",
+    ],
+    color: "Cobrizo, Cocoa, Duna, Terracota, Tierra",
+    texture: "Rugoso",
+    featured: false,
+    seoTitle: "Gran Formato | Clay House Amagá",
+    seoDescription:
+      "Ladrillo Gran Formato tolete 39 × 11,5 × 5 cm, textura rugosa, en cobrizo, cocoa, duna, terracota y tierra. Fachadas y muros. Clay House, Amagá.",
+    image: productFolderImage("gran-formato", "tierra/gran-formato-tierra-dimensiones.webp"),
+    priceUnitLabel: "unidad",
+    dimensions: {
+      largo: "39 cm",
+      ancho: "11,5 cm",
+      alto: "5 cm",
+      pesoAprox: "2,9 kg",
+      rendimiento: "41,7 und/m²",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205-1 / 4205-3 · NSR-10" },
+      { label: "Tipo de uso", value: "Fachada, divisorio y estructural" },
+      { label: "Clasificación", value: "Mampostería PV (perforación vertical)" },
+      { label: "Resistencia a la compresión", value: "Promedio 30 MPa · Individual 25 MPa" },
+      { label: "Absorción de agua", value: "4–13% (según color)" },
+      { label: "Tolerancia dimensional", value: "± 5 / ± 3 / ± 2 mm" },
+    ],
+    technicalPdf: fichaPdf("gran-formato"),
+  },
+  {
     name: "Ladrillo Rayado Vertical",
     slug: "rayados-verticales",
     category: "Divisorios",
