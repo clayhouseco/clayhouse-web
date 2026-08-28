@@ -440,6 +440,7 @@ export const products: Product[] = [
     seoDescription:
       "Bloquelón de arcilla cocida 80 × 23 × 8 cm para muros divisorios livianos y rápidos. Rinde 5 unidades por m². Clay House, Amagá, Antioquia.",
     image: productFolderImage("bloquelon", "bloquelon.webp"),
+    imageDimensiones: productFolderImage("bloquelon", "bloquelon-dimensiones.webp"),
     gallery: [
       productFolderImage("bloquelon", "bloquelon-celdas.webp"),
       productFolderImage("bloquelon", "bloquelon-cara.webp"),
