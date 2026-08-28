@@ -407,6 +407,7 @@ export const products: Product[] = [
       productFolderImage("bloquelon", "bloquelon-obra.webp"),
     ],
     imageDimensiones: productFolderImage("bloquelon", "bloquelon-dimensiones.webp"),
+    pricePerUnit: "$ 4.400",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "80 cm",
