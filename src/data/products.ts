@@ -439,7 +439,7 @@ export const products: Product[] = [
     seoTitle: "Bloquelón | Clay House Amagá",
     seoDescription:
       "Bloquelón de arcilla cocida 80 × 23 × 8 cm para muros divisorios livianos y rápidos. Rinde 5 unidades por m². Clay House, Amagá, Antioquia.",
-    image: productFolderImage("bloquelon", "bloquelon.webp"),
+    image: productFolderImage("bloquelon", "bloquelon-iso.webp"),
     imageDimensiones: productFolderImage("bloquelon", "bloquelon-dimensiones.webp"),
     gallery: [
       productFolderImage("bloquelon", "bloquelon-celdas.webp"),
@@ -559,75 +559,6 @@ export const products: Product[] = [
       { label: "Tipo de uso", value: "Revestimiento y detalle" },
     ],
     technicalPdf: fichaPdf("enchape-romano"),
-  },
-  {
-    name: "Piso 30×30",
-    slug: "piso-30x30",
-    category: "Pisos",
-    shortDescription:
-      "Piso de barro 30×30 cm con acabado artesanal para espacios cálidos y luminosos.",
-    description:
-      "Calidez del barro en formato cuadrado para interiores y exteriores cubiertos.",
-    applications: [
-      "Salones y comedores",
-      "Patios cubiertos y galerías",
-      "Locales comerciales y hotelería",
-      "Zonas húmedas con tratamiento adecuado",
-    ],
-    color: "Natural",
-    texture: "Rústico",
-    featured: false,
-    seoTitle: "Piso de barro 30x30 | Clay House",
-    seoDescription:
-      "Piso de barro 30×30 cm con acabado artesanal para interiores y exteriores cálidos y luminosos. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("piso-30x30", "DSC_9524.jpg"),
-    pricePerUnit: "$ 88.500",
-    priceUnitLabel: "m²",
-    dimensions: {
-      alto: "2,5 cm",
-      ancho: "30 cm",
-      largo: "30 cm",
-      rendimiento: "Ver ficha técnica",
-    },
-    specs: [
-      { label: "Norma", value: "NTC 4205" },
-      { label: "Tipo de uso", value: "Piso interior y exterior cubierto" },
-    ],
-    technicalPdf: fichaPdf("piso-30x30"),
-  },
-  {
-    name: "Piso 10×30",
-    slug: "piso-10x30",
-    category: "Pisos",
-    shortDescription:
-      "Piso de barro en formato alargado 10×30 cm para recorridos lineales y detalle artesanal.",
-    description:
-      "Formato estrecho con ritmo longitudinal para pasillos, galerías y zonas sociales.",
-    applications: [
-      "Pasillos, galerías y circulaciones",
-      "Patios cubiertos y terrazas",
-      "Locales comerciales y hotelería",
-    ],
-    color: "Tabaco, Natural",
-    texture: "Rústico",
-    featured: false,
-    seoTitle: "Piso de barro 10x30 | Clay House",
-    seoDescription:
-      "Piso de barro en formato alargado 10×30 cm para recorridos lineales con detalle artesanal. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("piso-10x30", "piso 10x30.jpg"),
-    pricePerUnit: "$ 80.000",
-    priceUnitLabel: "m²",
-    dimensions: {
-      alto: "2,5 cm",
-      ancho: "10 cm",
-      largo: "30 cm",
-      rendimiento: "Ver ficha técnica",
-    },
-    specs: [
-      { label: "Norma", value: "NTC 4205" },
-      { label: "Tipo de uso", value: "Piso interior y exterior cubierto" },
-    ],
-    technicalPdf: fichaPdf("piso-10x30"),
   },
   {
     name: "Teja Plana",
