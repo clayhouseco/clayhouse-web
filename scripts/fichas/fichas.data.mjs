@@ -29,9 +29,9 @@ export const fichas = [
       ]
     ],
     "dims": {
-      "largo": "29 cm",
-      "ancho": "14 cm",
-      "alto": "5 cm"
+      "largo": "28,5 cm",
+      "ancho": "14,5 cm",
+      "alto": "4,6 cm"
     },
     "colores": [
       [
@@ -57,19 +57,19 @@ export const fichas = [
       [
         "weight",
         "PESO APROX.",
-        "1,8 kg",
+        "2,1 kg",
         "(por unidad)"
       ],
       [
         "cube",
         "DIMENSIONES",
-        "29 × 14 × 5 cm",
+        "28,5 × 14,5 × 4,6 cm",
         ""
       ],
       [
         "grid",
         "RENDIMIENTO",
-        "68 und/m²",
+        "76 und/m²",
         "(por metro cuadrado)"
       ],
       [
@@ -212,8 +212,8 @@ export const fichas = [
       ]
     ],
     "dims": {
-      "largo": "27,5 cm",
-      "ancho": "13,5 cm",
+      "largo": "28,3 cm",
+      "ancho": "14,5 cm",
       "alto": "6 cm"
     },
     "colores": [
@@ -239,19 +239,19 @@ export const fichas = [
       [
         "weight",
         "PESO APROX.",
-        "2,6 kg",
+        "2,9 kg",
         "(por unidad)"
       ],
       [
         "cube",
         "DIMENSIONES",
-        "27,5 × 13,5 × 6 cm",
+        "28,3 × 14,5 × 6 cm",
         ""
       ],
       [
         "grid",
         "RENDIMIENTO",
-        "60 und/m²",
+        "59 und/m²",
         "(por metro cuadrado)"
       ],
       [
