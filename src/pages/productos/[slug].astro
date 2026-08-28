@@ -58,7 +58,7 @@ function versionedPdf(pdfUrl: string): string {
     return pdfUrl;
   }
 }
-const technicalPdfUrl = versionedPdf(product.technicalPdf);
+const technicalPdfUrl = product.technicalPdf ? versionedPdf(product.technicalPdf) : null;
 
 // Fichas por dimensión (rayados, macizo-brix): una ficha por variante en
 // public/images/products/<slug>/fichas/<id>.pdf. El link principal sigue la
@@ -79,6 +79,8 @@ const mainFichaUrl = hasVariantFichas ? fichaVariants[0].url : technicalPdfUrl;
 const fichaMapJson = hasVariantFichas
   ? JSON.stringify(Object.fromEntries(fichaVariants.map((v) => [v.id, { url: v.url, label: v.label }])))
   : null;
+// Hay descargas si existe ficha (principal o por dimensión) o extras del manifest.
+const hasDownloads = !!mainFichaUrl || (assets?.extraDownloads?.length ?? 0) > 0;
 
 const defaultVariantId = assets?.variants[0]?.id ?? "default";
 const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
@@ -202,7 +204,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               <a href="#rendimiento" class="quick-pill">Rendimiento</a>
             )}
             <a href="#usos" class="quick-pill">Usos</a>
-            <a href="#descargables" class="quick-pill">Fichas</a>
+            {hasDownloads && <a href="#descargables" class="quick-pill">Fichas</a>}
             {
               inspirationCards.length > 0 && (
                 <a href="#inspiracion" class="quick-pill">Inspiración</a>
@@ -603,54 +605,54 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
       </div>
     </section>
 
-    <section class="product-page__block product-page__block--alt" id="descargables">
-      <div class="container product-page__panel product-page__panel--downloads">
-        <h2 class="product-page__h2">Descargables</h2>
-        <ul class="download-list">
-          <li>
-            <a
-              href={mainFichaUrl}
-              target="_blank"
-              rel="noopener"
-              class="download-link"
-              data-ficha-link
-              data-ficha-map={fichaMapJson}
-            >
-              <span class="download-link__title">Ficha técnica (PDF)</span>
-              <span class="download-link__meta">
-                {
-                  hasVariantFichas ? (
-                    <span>Dimensión: <b data-ficha-current>{fichaVariants[0].label}</b></span>
-                  ) : (
-                    "Dimensiones, tolerancias y norma NTC"
-                  )
-                }
-              </span>
-            </a>
-          </li>
-          {
-            hasVariantFichas &&
-              fichaVariants.map((v) => (
+    {
+      hasDownloads && (
+        <section class="product-page__block product-page__block--alt" id="descargables">
+          <div class="container product-page__panel product-page__panel--downloads">
+            <h2 class="product-page__h2">Descargables</h2>
+            <ul class="download-list">
+              {mainFichaUrl && (
                 <li>
-                  <a href={v.url} target="_blank" rel="noopener" class="download-link download-link--sub">
-                    <span class="download-link__title">Ficha {v.label} (PDF)</span>
+                  <a
+                    href={mainFichaUrl}
+                    target="_blank"
+                    rel="noopener"
+                    class="download-link"
+                    data-ficha-link
+                    data-ficha-map={fichaMapJson}
+                  >
+                    <span class="download-link__title">Ficha técnica (PDF)</span>
+                    <span class="download-link__meta">
+                      {hasVariantFichas ? (
+                        <span>Dimensión: <b data-ficha-current>{fichaVariants[0].label}</b></span>
+                      ) : (
+                        "Dimensiones, tolerancias y norma NTC"
+                      )}
+                    </span>
                   </a>
                 </li>
-              ))
-          }
-          {
-            assets?.extraDownloads?.map((item) => (
-              <li>
-                <a href={item.href} target="_blank" rel="noopener" class="download-link">
-                  <span class="download-link__title">{item.title}</span>
-                  {item.meta && <span class="download-link__meta">{item.meta}</span>}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </section>
+              )}
+              {hasVariantFichas &&
+                fichaVariants.map((v) => (
+                  <li>
+                    <a href={v.url} target="_blank" rel="noopener" class="download-link download-link--sub">
+                      <span class="download-link__title">Ficha {v.label} (PDF)</span>
+                    </a>
+                  </li>
+                ))}
+              {assets?.extraDownloads?.map((item) => (
+                <li>
+                  <a href={item.href} target="_blank" rel="noopener" class="download-link">
+                    <span class="download-link__title">{item.title}</span>
+                    {item.meta && <span class="download-link__meta">{item.meta}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
 
     {
       inspirationCards.length > 0 && (

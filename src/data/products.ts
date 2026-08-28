@@ -464,6 +464,42 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("bloquelon"),
   },
   {
+    name: "Calado",
+    slug: "calado",
+    category: "Divisorios",
+    shortDescription:
+      "Celosía de arcilla con patrón cuatrifolio (20 × 20 cm) para muros que ventilan, tamizan la luz y decoran. Disponible en 10 y 15 cm de espesor.",
+    description:
+      "Bloque calado de arcilla cocida con calado cuatrifolio inspirado en la celosía tradicional. Permite el paso del aire y la luz manteniendo privacidad, ideal para fachadas, divisiones y jardines. Se ensambla pieza a pieza formando patrones continuos.",
+    applications: [
+      "Muros y fachadas caladas",
+      "Divisiones y cerramientos que ventilan",
+      "Jardines, terrazas y patios",
+      "Detalles decorativos y de acento",
+    ],
+    color: "Natural",
+    texture: "Artesanal",
+    featured: false,
+    seoTitle: "Calado de arcilla (celosía) | Clay House Amagá",
+    seoDescription:
+      "Calado de arcilla cocida 20 × 20 cm con patrón cuatrifolio para muros que ventilan y decoran. Espesores de 10 y 15 cm. Clay House, Amagá, Antioquia.",
+    image: productFolderImage("calado", "calado-frente.webp"),
+    imageDimensiones: productFolderImage("calado", "calado-dimensiones.webp"),
+    gallery: [productFolderImage("calado", "calado-muro.webp")],
+    priceUnitLabel: "unidad",
+    dimensions: {
+      alto: "20 cm",
+      ancho: "20 cm",
+      rendimiento: "≈ 25 und/m²",
+    },
+    specs: [
+      { label: "Espesores disponibles", value: "10 cm y 15 cm" },
+      { label: "Patrón", value: "Cuatrifolio calado" },
+      { label: "Tipo de uso", value: "Celosía divisoria / decorativa (no estructural)" },
+      { label: "Acabado", value: "Arcilla natural a la vista" },
+    ],
+  },
+  {
     name: "Ladrillo Rayado Horizontal",
     slug: "rayados-horizontales",
     category: "Divisorios",
