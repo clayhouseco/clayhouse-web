@@ -39,8 +39,20 @@ create table if not exists public.cotizaciones (
 create index if not exists cotizaciones_estado_created_idx
   on public.cotizaciones (estado, created_at desc);
 
--- Seguridad: se activa RLS y NO se crean políticas para el rol anónimo,
--- así el anon key (público) no puede leer ni escribir. La web escribe a través
--- de una función serverless con el service_role key (que omite RLS), y el ERP
--- lee/actualiza igualmente con credenciales de servicio o usuarios autenticados.
+-- Seguridad (RLS): la web escribe con la anon key (pública), pero SOLO puede
+-- INSERTAR — no puede leer, editar ni borrar. El ERP lee/actualiza con
+-- credenciales de servicio o usuarios autenticados (que omiten estas políticas).
 alter table public.cotizaciones enable row level security;
+
+-- La web (rol anónimo) puede crear cotizaciones, nada más.
+drop policy if exists "web inserta cotizaciones" on public.cotizaciones;
+create policy "web inserta cotizaciones"
+  on public.cotizaciones for insert
+  to anon
+  with check (
+    -- validaciones mínimas anti-basura
+    length(cliente_nombre) between 2 and 120
+    and length(cliente_telefono) between 5 and 40
+    and jsonb_typeof(lineas) = 'array'
+    and jsonb_array_length(lineas) between 1 and 100
+  );
