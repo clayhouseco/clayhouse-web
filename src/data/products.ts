@@ -73,11 +73,11 @@ export const products: Product[] = [
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
     dimensions: {
-      alto: "5 cm",
-      ancho: "14 cm",
-      largo: "29 cm",
-      pesoAprox: "1,8 kg",
-      rendimiento: "68 und/m²",
+      alto: "4,6 cm",
+      ancho: "14,5 cm",
+      largo: "28,5 cm",
+      pesoAprox: "2,1 kg",
+      rendimiento: "76 und/m²",
     },
     specs: [
       { label: "Norma", value: "NTC 4205-2 / 4205-3" },
@@ -149,11 +149,11 @@ export const products: Product[] = [
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
     dimensions: {
-      largo: "27,5 cm",
-      ancho: "13,5 cm",
+      largo: "28,3 cm",
+      ancho: "14,5 cm",
       alto: "6 cm",
-      pesoAprox: "2,6 kg",
-      rendimiento: "60 und/m²",
+      pesoAprox: "2,9 kg",
+      rendimiento: "59 und/m²",
     },
     specs: [
       { label: "Norma", value: "NTC 4205-2 / 4205-3" },
@@ -466,7 +466,7 @@ export const products: Product[] = [
   {
     name: "Calado",
     slug: "calado",
-    category: "Divisorios",
+    category: "Decorativos",
     shortDescription:
       "Celosía de arcilla con patrón cuatrifolio (20 × 20 cm) para muros que ventilan, tamizan la luz y decoran. Disponible en 10 y 15 cm de espesor.",
     description:
@@ -488,12 +488,11 @@ export const products: Product[] = [
     gallery: [productFolderImage("calado", "calado-muro.webp")],
     priceUnitLabel: "unidad",
     dimensions: {
-      alto: "20 cm",
-      ancho: "20 cm",
-      rendimiento: "≈ 25 und/m²",
+      rendimiento: "≈ 26 und/m²",
     },
     specs: [
-      { label: "Espesores disponibles", value: "10 cm y 15 cm" },
+      { label: "Calado 10 cm", value: "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg" },
+      { label: "Calado 15 cm", value: "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg" },
       { label: "Patrón", value: "Cuatrifolio calado" },
       { label: "Tipo de uso", value: "Celosía divisoria / decorativa (no estructural)" },
       { label: "Acabado", value: "Arcilla natural a la vista" },

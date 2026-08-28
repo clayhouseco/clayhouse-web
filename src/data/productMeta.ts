@@ -25,6 +25,7 @@ const USES_BY_CATEGORY: Record<ProductCategory, string[]> = {
   Divisorios: ["exterior", "interior", "estructural", "muro"],
   Enchapes: ["interior", "exterior", "muro", "bano"],
   Techos: ["exterior", "techo"],
+  Decorativos: ["interior", "exterior", "fachada", "muro"],
 };
 
 const NOT_APT_BY_CATEGORY: Record<ProductCategory, string[]> = {
@@ -32,6 +33,7 @@ const NOT_APT_BY_CATEGORY: Record<ProductCategory, string[]> = {
   Divisorios: ["Piscinas", "Acabados de alto brillo sin tratamiento"],
   Enchapes: ["Piscinas", "Zonas heladas sin especificación"],
   Techos: ["Muros estructurales verticales", "Piscinas"],
+  Decorativos: ["Muros estructurales", "Piscinas"],
 };
 
 export function getRecommendedUses(product: Product): UseChip[] {

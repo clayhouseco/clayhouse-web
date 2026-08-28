@@ -3,7 +3,8 @@ export type ProductCategory =
   | "Fachadas"
   | "Divisorios"
   | "Enchapes"
-  | "Techos";
+  | "Techos"
+  | "Decorativos";
 
 export interface CatalogCategoryDef {
   id: ProductCategory;
@@ -53,6 +54,15 @@ export const catalogCategories: CatalogCategoryDef[] = [
     coverProductSlug: "teja-plana",
     coverFallback: "/images/products/teja-plana/natural/Teja Plana Natural.webp",
   },
+  {
+    id: "Decorativos",
+    label: "Decorativos",
+    title: "Decorativos",
+    description: "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran.",
+    order: 6,
+    coverProductSlug: "calado",
+    coverFallback: "/images/products/calado/calado-frente.webp",
+  },
 ];
 
 export const productCategories: ProductCategory[] = catalogCategories.map((c) => c.id);
@@ -63,6 +73,7 @@ export const categorySlugById: Record<ProductCategory, string> = {
   Divisorios: "divisorios",
   Enchapes: "enchapes",
   Techos: "techos",
+  Decorativos: "decorativos",
 };
 
 export function getCategorySlug(id: ProductCategory): string {
