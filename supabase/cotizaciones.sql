@@ -1,12 +1,13 @@
 -- ============================================================================
--- Clay House — tabla de cotizaciones preliminares generadas desde la web.
--- La web inserta aquí (vía función serverless con service_role key); el ERP
--- la lee para que la vendedora la trabaje y contacte al cliente.
+-- Clay House — cotizaciones preliminares generadas desde la WEB.
+-- Se usa una tabla propia (cotizaciones_web) para NO chocar con la tabla
+-- `cotizaciones` que ya existe en el proyecto (la del ERP). El ERP la lee como
+-- "bandeja de solicitudes desde la web" y la vendedora la trabaja/contacta.
 --
--- Cómo aplicarlo: Supabase → SQL Editor → pega esto → Run.
+-- Cómo aplicarlo: Supabase → SQL Editor → New query → pega esto → Run.
 -- ============================================================================
 
-create table if not exists public.cotizaciones (
+create table if not exists public.cotizaciones_web (
   id              uuid primary key default gen_random_uuid(),
   created_at      timestamptz not null default now(),
   estado          text not null default 'nueva',   -- nueva | en_proceso | enviada | cerrada
@@ -36,21 +37,19 @@ create table if not exists public.cotizaciones (
 );
 
 -- Para listar en el ERP las nuevas primero
-create index if not exists cotizaciones_estado_created_idx
-  on public.cotizaciones (estado, created_at desc);
+create index if not exists cotizaciones_web_estado_created_idx
+  on public.cotizaciones_web (estado, created_at desc);
 
--- Seguridad (RLS): la web escribe con la anon key (pública), pero SOLO puede
--- INSERTAR — no puede leer, editar ni borrar. El ERP lee/actualiza con
+-- Seguridad (RLS): la web escribe con la anon/publishable key (pública), pero
+-- SOLO puede INSERTAR — no leer, editar ni borrar. El ERP lee/actualiza con
 -- credenciales de servicio o usuarios autenticados (que omiten estas políticas).
-alter table public.cotizaciones enable row level security;
+alter table public.cotizaciones_web enable row level security;
 
--- La web (rol anónimo) puede crear cotizaciones, nada más.
-drop policy if exists "web inserta cotizaciones" on public.cotizaciones;
+drop policy if exists "web inserta cotizaciones" on public.cotizaciones_web;
 create policy "web inserta cotizaciones"
-  on public.cotizaciones for insert
+  on public.cotizaciones_web for insert
   to anon
   with check (
-    -- validaciones mínimas anti-basura
     length(cliente_nombre) between 2 and 120
     and length(cliente_telefono) between 5 and 40
     and jsonb_typeof(lineas) = 'array'
