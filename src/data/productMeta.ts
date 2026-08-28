@@ -23,7 +23,6 @@ const USE_CHIPS: Record<string, UseChip> = {
 const USES_BY_CATEGORY: Record<ProductCategory, string[]> = {
   Fachadas: ["exterior", "interior", "fachada", "muro"],
   Divisorios: ["exterior", "interior", "estructural", "muro"],
-  Pisos: ["interior", "exterior", "suelo"],
   Enchapes: ["interior", "exterior", "muro", "bano"],
   Techos: ["exterior", "techo"],
 };
@@ -31,7 +30,6 @@ const USES_BY_CATEGORY: Record<ProductCategory, string[]> = {
 const NOT_APT_BY_CATEGORY: Record<ProductCategory, string[]> = {
   Fachadas: ["Piscinas", "Tráfico vehicular directo"],
   Divisorios: ["Piscinas", "Acabados de alto brillo sin tratamiento"],
-  Pisos: ["Piscinas", "Zonas heladas sin tratamiento"],
   Enchapes: ["Piscinas", "Zonas heladas sin especificación"],
   Techos: ["Muros estructurales verticales", "Piscinas"],
 };

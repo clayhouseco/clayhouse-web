@@ -135,24 +135,6 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     fichaPattern: /enchape romano ficha/i,
     productFilePattern: /^chapa |^enchape |^enchapematizado/i,
   },
-  "piso-30x30": {
-    heroProductByVariant: {
-      ".": "DSC_9524.jpg",
-    },
-    sharedRootPattern: /^piso 30x30 /i,
-    dimensionesPattern: /piso 30x30 dimensiones/i,
-    fichaPattern: /piso 30x30 ficha/i,
-    productFilePattern: /^DSC_95/i,
-  },
-  "piso-10x30": {
-    heroProductByVariant: {
-      ".": "piso 10x30.jpg",
-    },
-    sharedRootPattern: /^piso 10x30 /i,
-    dimensionesPattern: /piso 10x30 dimensiones/i,
-    fichaPattern: /piso 10x30 ficha/i,
-    productFilePattern: /^piso 10x30\.jpg|^DSC_95/i,
-  },
   "teja-plana": {
     heroProductByVariant: {
       chocolate: "Teja Plana Chocolate Lisa.webp",

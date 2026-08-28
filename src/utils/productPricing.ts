@@ -139,31 +139,11 @@ export interface FloorRendimientoRow {
   unitsPerM2: number;
 }
 
-/** Rendimiento para pisos. La pega se mide en mm (3, 5, 8, 10) y la
- *  superficie de cálculo es largo × ancho (no largo × alto: "alto" en pisos
- *  es el espesor de la pieza). No devuelve precio/m² porque los pisos ya
- *  se cotizan por m² y el precio no varía con la pega. */
+/** Rendimiento para pisos. La categoría "Pisos" se retiró del catálogo, por lo
+ *  que esta tabla ya no aplica a ningún producto y siempre devuelve null. Se
+ *  conserva la firma por si se reintroduce una línea de pisos en el futuro. */
 export function getFloorRendimientoTable(
-  product: Product
+  _product: Product
 ): FloorRendimientoRow[] | null {
-  if (product.category !== "Pisos") return null;
-  const largoCm = parseCm(product.dimensions?.largo);
-  const anchoCm = parseCm(product.dimensions?.ancho);
-  if (!largoCm || !anchoCm) return null;
-
-  const largoM = largoCm / 100;
-  const anchoM = anchoCm / 100;
-  const scenarios: { label: string; jointMm: number }[] = [
-    { label: "Pega 3 mm", jointMm: 3 },
-    { label: "Pega 5 mm", jointMm: 5 },
-    { label: "Pega 8 mm", jointMm: 8 },
-    { label: "Pega 10 mm", jointMm: 10 },
-  ];
-
-  return scenarios.map(({ label, jointMm }) => {
-    const j = jointMm / 1000;
-    const raw = 1 / ((largoM + j) * (anchoM + j));
-    const units = Math.round(raw * 10) / 10;
-    return { label, jointMm, unitsPerM2: units };
-  });
+  return null;
 }

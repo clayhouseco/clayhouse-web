@@ -2,7 +2,6 @@
 export type ProductCategory =
   | "Fachadas"
   | "Divisorios"
-  | "Pisos"
   | "Enchapes"
   | "Techos";
 
@@ -37,15 +36,6 @@ export const catalogCategories: CatalogCategoryDef[] = [
     coverFallback: "/images/Fotos Productos/Rayado Vertical.jpg",
   },
   {
-    id: "Pisos",
-    label: "Pisos",
-    title: "Pisos",
-    description: "Pisos de ladrillo en formato 30×30 y 10×30 para interiores y espacios cubiertos.",
-    order: 3,
-    coverProductSlug: "piso-30x30",
-    coverFallback: "/images/products/piso-30x30/DSC_9524.jpg",
-  },
-  {
     id: "Enchapes",
     label: "Enchapes",
     title: "Enchapes",
@@ -71,7 +61,6 @@ export const productCategories: ProductCategory[] = catalogCategories.map((c) =>
 export const categorySlugById: Record<ProductCategory, string> = {
   Fachadas: "fachadas",
   Divisorios: "divisorios",
-  Pisos: "pisos",
   Enchapes: "enchapes",
   Techos: "techos",
 };

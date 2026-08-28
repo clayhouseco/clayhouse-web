@@ -90,7 +90,7 @@ export const aboutExtras: AboutSection[] = [
     title: "Materiales para cada obra",
     icon: "catalog",
     paragraphs: [
-      "Nuestro catálogo está pensado por aplicación: fachadas a la vista, muros estructurales, enchapes decorativos, pisos en ladrillo y cubiertas en teja. Cada referencia con ficha técnica y asesoría cuando aplica.",
+      "Nuestro catálogo está pensado por aplicación: fachadas a la vista, muros estructurales, enchapes decorativos y cubiertas en teja. Cada referencia con ficha técnica y asesoría cuando aplica.",
       "La cocción en horno Hoffman permite lotes consistentes sin renunciar al carácter artesanal de cada pieza.",
     ],
   },

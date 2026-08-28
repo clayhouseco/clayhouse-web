@@ -307,10 +307,6 @@ const enchapeRomanoVariants: ProductColorVariant[] = [
   },
 ];
 
-const piso30Variants: ProductColorVariant[] = [
-  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "." },
-];
-
 const tejaPlanaVariants: ProductColorVariant[] = [
   {
     id: "natural",
@@ -326,10 +322,6 @@ const tejaPlanaVariants: ProductColorVariant[] = [
     folder: "chocolate",
     pricePerUnit: "$ 60.000",
   },
-];
-
-const piso10x30Variants: ProductColorVariant[] = [
-  { id: "producto", label: "Piso 10×30", colorLabel: "Tabaco, Natural", folder: "." },
 ];
 
 const bocadilloPrensadoVariants: ProductColorVariant[] = [
@@ -394,8 +386,6 @@ export const enchapeRomanoAssets = buildManifest(
   "Enchape Romano",
   enchapeRomanoVariants
 );
-export const piso30Assets = buildManifest("piso-30x30", "Piso 30×30", piso30Variants);
-export const piso10x30Assets = buildManifest("piso-10x30", "Piso 10×30", piso10x30Variants);
 export const tejaPlanaAssets = buildManifest("teja-plana", "Teja Plana", tejaPlanaVariants);
 export const tejaColonialAssets = buildManifest(
   "teja-colonial",
@@ -431,8 +421,6 @@ const manifests: Record<string, ProductAssetManifest> = {
   "rayados-horizontales": rayadosHorizontalesAssets,
   "enchape-rustico": enchapeRusticoAssets,
   "enchape-romano": enchapeRomanoAssets,
-  "piso-30x30": piso30Assets,
-  "piso-10x30": piso10x30Assets,
   "teja-plana": tejaPlanaAssets,
   "teja-colonial": tejaColonialAssets,
   "bocadillo-prensado": bocadilloPrensadoAssets,
@@ -477,8 +465,6 @@ export function getCatalogImageScale(slug: string): number {
     "rayados-horizontales": 1.1,
     "enchape-rustico": 1,
     "enchape-romano": 1.05,
-    "piso-30x30": 1,
-    "piso-10x30": 1,
     "teja-plana": 1.05,
     "teja-colonial": 1.05,
   };

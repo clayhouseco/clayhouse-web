@@ -95,8 +95,6 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
     calidadesPermitidas: ["PRI", "SEG"],
     unidad: "unidad",
   },
-  "piso-10x30": { codigo: "PIS-1030", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "piso-30x30": { codigo: "PIS-3030", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "m2" },
   "teja-colonial": { codigo: "TEJ-COL", coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
   "teja-plana": { codigo: "TEJ-PLA", coloresPermitidos: ["NAT", "CHO"], calidadesPermitidas: ["PRI"], unidad: "m2" },
 };
