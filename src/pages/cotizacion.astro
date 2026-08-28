@@ -19,7 +19,7 @@ const DEPARTAMENTOS = [
 
 <BaseLayout
   title="Solicitar cotización"
-  description="Arma tu cotización de ladrillo, teja o piso Clay House: elige productos, color, calidad y cantidad, y recibe la propuesta para tu obra."
+  description="Arma tu cotización de ladrillo, teja o piso Clay House: elige productos, color y cantidad, y recibe la propuesta para tu obra."
   hideQuoteCart={true}
 >
   <section class="cotz">
@@ -27,7 +27,7 @@ const DEPARTAMENTOS = [
       <p class="cotz__eyebrow">Comercial</p>
       <h1>Solicitar cotización</h1>
       <p class="cotz__lead">
-        Agrega los productos con su color, calidad y cantidad. A la derecha ves tu cotización
+        Agrega los productos con su color y cantidad. A la derecha ves tu cotización
         preliminar; al enviarla, nuestro equipo te confirma precios finales, flete y condiciones.
       </p>
     </div>
@@ -213,9 +213,6 @@ const DEPARTAMENTOS = [
           <label data-campo-wrap="color" hidden>Color
             <select data-campo="color"></select>
           </label>
-          <label data-campo-wrap="calidad">Calidad
-            <select data-campo="calidad"></select>
-          </label>
           <label class="cotz-linea__qty">Cantidad
             <input type="number" min="1" value="1" data-campo="cantidad" />
           </label>
@@ -266,7 +263,6 @@ const DEPARTAMENTOS = [
     function fillDependent(linea, item, preset = {}) {
       const colorWrap = linea.querySelector('[data-campo-wrap="color"]');
       const colorSel = linea.querySelector('[data-campo="color"]');
-      const calSel = linea.querySelector('[data-campo="calidad"]');
       const unidadEl = linea.querySelector("[data-unidad]");
       if (item && item.coloresPermitidos.length) {
         colorWrap.hidden = false;
@@ -276,10 +272,6 @@ const DEPARTAMENTOS = [
         colorSel.value = valido ? preset.color
           : (item.coloresPermitidos.some((c) => c.codigo === "NAT") ? "NAT" : item.coloresPermitidos[0].codigo);
       } else { colorWrap.hidden = true; colorSel.innerHTML = ""; }
-      if (item) {
-        calSel.innerHTML = item.calidadesPermitidas.map((c) => `<option value="${c.codigo}">${c.nombre}</option>`).join("");
-        if (preset.calidad) calSel.value = preset.calidad;
-      } else calSel.innerHTML = "";
       unidadEl.textContent = item ? item.unidadLabel : "";
     }
 
@@ -311,13 +303,12 @@ const DEPARTAMENTOS = [
         if (!item) return null;
         const cant = parseInt(l.querySelector('[data-campo="cantidad"]').value || "0", 10) || 0;
         const colSel = l.querySelector('[data-campo="color"]');
-        const calSel = l.querySelector('[data-campo="calidad"]');
         const colName = colSel && !colSel.closest("[hidden]") ? (colSel.selectedOptions[0]?.text || "") : "";
-        const calName = calSel.selectedOptions[0]?.text || "";
         const colCod = colSel && !colSel.closest("[hidden]") ? colSel.value : null;
-        const calCod = calSel.value || null;
+        // La web solo cotiza Primera calidad; el código se conserva para el ERP.
+        const calCod = item.calidadesPermitidas?.[0]?.codigo ?? "PRI";
         const precio = parseCop(item.refPrice);
-        return { item, cant, colName, calName, colCod, calCod, precio, sub: precio != null ? precio * cant : null };
+        return { item, cant, colName, calName: "", colCod, calCod, precio, sub: precio != null ? precio * cant : null };
       }).filter(Boolean);
     }
     function updateDoc() {
