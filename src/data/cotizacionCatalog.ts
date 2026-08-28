@@ -37,6 +37,7 @@ function variantLabel(name: string, slug: string, id: string): string {
     return `Rayado ${orient} ${id} cm`;
   }
   if (slug === "macizo-brix") return `Macizo ${id}`;
+  if (slug === "calado") return `Calado ${id} cm`;
   return `${name} ${id}`;
 }
 

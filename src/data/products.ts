@@ -483,9 +483,12 @@ export const products: Product[] = [
     seoTitle: "Calado de arcilla (celosía) | Clay House Amagá",
     seoDescription:
       "Calado de arcilla cocida 20 × 20 cm con patrón cuatrifolio para muros que ventilan y decoran. Espesores de 10 y 15 cm. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("calado", "calado-frente.webp"),
-    imageDimensiones: productFolderImage("calado", "calado-dimensiones.webp"),
-    gallery: [productFolderImage("calado", "calado-muro.webp")],
+    image: productFolderImage("calado", "calado-muro.webp"),
+    gallery: [
+      productFolderImage("calado", "calado-frente.webp"),
+      productFolderImage("calado", "calado-10-dimensiones.webp"),
+      productFolderImage("calado", "calado-15-dimensiones.webp"),
+    ],
     priceUnitLabel: "unidad",
     dimensions: {
       rendimiento: "≈ 26 und/m²",

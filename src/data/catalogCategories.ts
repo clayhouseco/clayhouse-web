@@ -61,7 +61,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     description: "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran.",
     order: 6,
     coverProductSlug: "calado",
-    coverFallback: "/images/products/calado/calado-frente.webp",
+    coverFallback: "/images/products/calado/calado-muro.webp",
   },
 ];
 

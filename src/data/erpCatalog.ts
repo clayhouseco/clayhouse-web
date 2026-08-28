@@ -77,7 +77,12 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
   // Sin código ERP todavía, pero solo se venden en Primera.
   "bocadillo-prensado": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "bloquelon": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "calado": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "calado": {
+    porVariante: { "10": "CAL-10", "15": "CAL-15" },
+    coloresPermitidos: [],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
   "macizo-brix": {
     porVariante: { "5x10x20": "MAC-520", "6x12x24": "MAC-624" },
     coloresPermitidos: ["NAT", "MC", "MO"],
