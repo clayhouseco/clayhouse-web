@@ -1,7 +1,7 @@
 ---
 import type { Product } from "@/data/products";
 import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
-import { getReferencePriceParts } from "@/utils/productPricing";
+import { getReferencePriceParts, getReferencePriceM2 } from "@/utils/productPricing";
 import { srcSetFor, SIZES } from "@/utils/responsive";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 
 const { product, defaultColor } = Astro.props;
 const price = getReferencePriceParts(product);
+const priceM2 = getReferencePriceM2(product);
 const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? product.color;
 ---
 
@@ -37,6 +38,7 @@ const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? prod
       price && (
         <p class="product-card__price">
           <span class="product-card__price-amount">{price.amount}</span>
+          {priceM2 && <span class="product-card__price-m2">≈ {priceM2}</span>}
           {price.note && <span class="product-card__price-note">{price.note}</span>}
         </p>
       )

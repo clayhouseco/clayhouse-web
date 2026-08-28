@@ -32,7 +32,25 @@ export function getReferencePriceLabel(product: Product): string | null {
   if (!product.pricePerUnit) return null;
   const price = product.pricePerUnit.trim();
   const unit = product.priceUnitLabel ?? "unidad";
-  return `Desde ${price}/${unit} + IVA (precio referencia, sin envío)`;
+  return `${price}/${unit} + IVA (precio referencia, sin envío)`;
+}
+
+/** Precio por m² de referencia (una sola cifra), para mostrarlo junto al precio
+ *  por unidad. Usa el rendimiento publicado del producto (× precio/unidad); si
+ *  no hay, estima con 1 cm de pega. Devuelve null si el producto ya se vende
+ *  por m² (el precio principal ya es /m²) o si no tiene precio por unidad. */
+export function getReferencePriceM2(product: Product): string | null {
+  if (!product.pricePerUnit) return null;
+  if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
+  const unitAmount = parseCopAmount(product.pricePerUnit);
+  if (!unitAmount) return null;
+  // 1) escenario realista de pega 1 cm (coincide con la tabla de rendimiento
+  //    de la ficha, para que el titular no contradiga lo que ve el cliente).
+  const pega1 = getRendimientoTable(product)?.find((r) => r.jointCm === 1);
+  // 2) respaldo: rendimiento publicado, si el producto no tiene dims calculables.
+  const units = pega1?.unitsPerM2 ?? parseCm(product.dimensions?.rendimiento);
+  if (!units) return null;
+  return `${formatCop(Math.round(units * unitAmount))}/m²`;
 }
 
 /** Igual que getReferencePriceLabel pero devuelve el monto principal y la

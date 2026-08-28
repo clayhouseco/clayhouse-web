@@ -95,6 +95,13 @@
   line-height: 1.15;
 }
 
+.product-card__price-m2 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-terracota);
+}
+
 .product-card__price-note {
   font-size: 0.75rem;
   font-weight: 400;

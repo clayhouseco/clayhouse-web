@@ -30,6 +30,7 @@ import {
   getRendimientoTable,
   getRendimientoTablesByVariant,
   getFloorRendimientoTable,
+  getReferencePriceM2,
 } from "@/utils/productPricing";
 
 export function getStaticPaths() {
@@ -123,6 +124,8 @@ if (!assets) {
 
 const displayColor = activeVariant?.colorLabel ?? product.color;
 const displayPrice = activeVariant?.pricePerUnit ?? product.pricePerUnit;
+// Precio por m² de referencia (solo productos vendidos por unidad con rendimiento).
+const priceM2 = getReferencePriceM2(product);
 
 /** Dimensiones de menor a mayor (ej. 5 × 14 × 29 cm) */
 const dimensionesLine = product.dimensions
@@ -246,6 +249,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </p>
               )
             }
+            {priceM2 && <p class="product-page__price-m2">≈ {priceM2} <span>de referencia</span></p>}
           </div>
 
           <div class="product-page__order" data-product-order>
@@ -1059,6 +1063,20 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     font-weight: 500;
     color: var(--color-text-muted);
     font-family: var(--font-body);
+  }
+
+  .product-page__price-m2 {
+    margin: 0.15rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-terracota);
+    line-height: 1.2;
+  }
+
+  .product-page__price-m2 span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
   }
 
   .product-page__qty {
