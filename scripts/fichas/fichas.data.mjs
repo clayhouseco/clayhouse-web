@@ -1232,7 +1232,7 @@ export const fichas = [
       ],
       [
         "Cocoa",
-        "#5D5250"
+        "#5A3421"
       ]
     ],
     "usos": [
