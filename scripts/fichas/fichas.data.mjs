@@ -1189,6 +1189,92 @@ export const fichas = [
     ]
   },
   {
+    "slug": "enchape-thinbrick",
+    "titulo": "ENCHAPE THIN BRICK",
+    "subtitulo": "REVESTIMIENTO DELGADO DE ARCILLA COCIDA",
+    "clasificacion": "THIN BRICK · REVESTIMIENTO INTERIOR",
+    "norma": "NTC 4205",
+    "foto": "/public/images/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+    "features": [
+      [
+        "shield",
+        "BAJO ESPESOR",
+        "Reviste muros con solo 1 cm de espesor."
+      ],
+      [
+        "thermo",
+        "USO INTERIOR",
+        "Fabricado para revestir muros y paredes interiores."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ]
+    ],
+    "dims": {
+      "largo": "20 cm",
+      "ancho": "1 cm",
+      "alto": "5 cm"
+    },
+    "colores": [
+      [
+        "Natural",
+        "#C8825A"
+      ],
+      [
+        "Bianco",
+        "#C5BCB3"
+      ],
+      [
+        "Capuccino",
+        "#C5A47E"
+      ],
+      [
+        "Cocoa",
+        "#5D5250"
+      ]
+    ],
+    "usos": [
+      "Muros de acento en interiores",
+      "Zócalos y detalles con bajo espesor",
+      "Restaurantes, hoteles y comercio",
+      "Chimeneas y muros decorativos"
+    ],
+    "specsRow": [
+      [
+        "weight",
+        "PESO APROX.",
+        "0,280 kg",
+        "(por unidad)"
+      ],
+      [
+        "grid",
+        "RENDIMIENTO",
+        "66 – 86 und/m²",
+        "(sin junta / junta 1 cm)"
+      ],
+      [
+        "compress",
+        "RESISTENCIA A LA COMPRESIÓN",
+        "No aplica",
+        "(revestimiento)"
+      ],
+      [
+        "drop",
+        "ABSORCIÓN MÁXIMA",
+        "No aplica",
+        "(revestimiento)"
+      ],
+      [
+        "arrows",
+        "CONTRACCIÓN PERMITIDA",
+        "+0 / 2%",
+        ""
+      ]
+    ]
+  },
+  {
     "slug": "enchape-romano",
     "titulo": "ENCHAPE ROMANO",
     "subtitulo": "REVESTIMIENTO DE ARCILLA COCIDA",
