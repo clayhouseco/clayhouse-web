@@ -135,6 +135,16 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     fichaPattern: /enchape romano ficha/i,
     productFilePattern: /^chapa |^enchape |^enchapematizado/i,
   },
+  "enchape-thinbrick": {
+    heroProductByVariant: {
+      natural: "enchape-thinbrick-natural.webp",
+      bianco: "enchape-thinbrick-bianco.webp",
+      capuccino: "enchape-thinbrick-capuccino.webp",
+      cocoa: "enchape-thinbrick-cocoa.webp",
+    },
+    dimensionesPattern: /-dimensiones\.webp/i,
+    productFilePattern: /^enchape-thinbrick-/i,
+  },
   "teja-plana": {
     heroProductByVariant: {
       chocolate: "Teja Plana Chocolate Lisa.webp",

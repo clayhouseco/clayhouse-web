@@ -601,6 +601,42 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("enchape-romano"),
   },
   {
+    name: "Enchape Thin Brick",
+    slug: "enchape-thinbrick",
+    category: "Enchapes",
+    shortDescription:
+      "Revestimiento delgado tipo thin brick (19 × 5,5 cm, espesor 1,1 cm) en cuatro tonos: Natural, Bianco, Capuccino y Cocoa.",
+    description:
+      "Ladrillo de revestimiento delgado con textura artesanal para vestir muros interiores y fachadas con muy poco espesor. Disponible en Natural, Bianco, Capuccino y Cocoa para componer desde ambientes cálidos hasta contrastes contemporáneos.",
+    applications: [
+      "Muros de acento en interiores",
+      "Fachadas y zócalos con bajo espesor",
+      "Restaurantes, hoteles y comercio",
+      "Chimeneas y detalles decorativos",
+    ],
+    color: "Natural, Bianco, Capuccino, Cocoa",
+    texture: "Rústico",
+    featured: false,
+    seoTitle: "Enchape Thin Brick | Clay House Amagá",
+    seoDescription:
+      "Enchape delgado tipo thin brick (19 × 5,5 × 1,1 cm) en Natural, Bianco, Capuccino y Cocoa para revestir muros interiores y fachadas. Clay House, Amagá, Antioquia.",
+    image: productFolderImage("enchape-thinbrick", "natural/enchape-thinbrick-natural.webp"),
+    priceUnitLabel: "m²",
+    dimensions: {
+      largo: "19 cm",
+      alto: "5,5 cm",
+      espesor: "1,1 cm",
+      pesoAprox: "0,33 kg",
+      rendimiento: "≈ 83 und/m²",
+    },
+    specs: [
+      { label: "Espesor", value: "1,1 cm" },
+      { label: "Peso por m²", value: "28 kg/m²" },
+      { label: "Presentación", value: "Caja de 66 unidades (≈ 0,8 m²)" },
+      { label: "Tipo de uso", value: "Revestimiento interior y exterior" },
+    ],
+  },
+  {
     name: "Teja Plana",
     slug: "teja-plana",
     category: "Techos",
