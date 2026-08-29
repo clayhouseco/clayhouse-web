@@ -638,6 +638,33 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("enchape-thinbrick"),
   },
   {
+    name: "Enchape Bocadillo",
+    slug: "enchape-bocadillo",
+    category: "Enchapes",
+    shortDescription:
+      "Revestimiento delgado en formato bocadillo (alargado) de arcilla natural, para vestir muros interiores con líneas horizontales.",
+    description:
+      "Ladrillo de revestimiento delgado en formato bocadillo, de proporción alargada y textura artesanal, para componer muros interiores con un ritmo horizontal cálido y contemporáneo.",
+    applications: [
+      "Muros de acento en interiores",
+      "Zócalos y detalles con bajo espesor",
+      "Restaurantes, hoteles y comercio",
+      "Chimeneas y muros decorativos",
+    ],
+    color: "Natural",
+    texture: "Rústico",
+    featured: false,
+    seoTitle: "Enchape Bocadillo | Clay House Amagá",
+    seoDescription:
+      "Enchape delgado en formato bocadillo de arcilla natural para revestir muros interiores. Clay House, Amagá, Antioquia.",
+    image: productFolderImage("enchape-bocadillo", "natural/enchape-bocadillo-natural.webp"),
+    priceUnitLabel: "m²",
+    specs: [
+      { label: "Tipo de uso", value: "Revestimiento de muros interiores" },
+      { label: "Acabado", value: "Arcilla natural a la vista" },
+    ],
+  },
+  {
     name: "Teja Plana",
     slug: "teja-plana",
     category: "Techos",

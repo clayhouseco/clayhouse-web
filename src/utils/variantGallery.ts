@@ -145,6 +145,13 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     dimensionesPattern: /-dimensiones\.webp/i,
     productFilePattern: /^enchape-thinbrick-/i,
   },
+  "enchape-bocadillo": {
+    heroProductByVariant: {
+      natural: "enchape-bocadillo-natural.webp",
+    },
+    dimensionesPattern: /-dimensiones\.webp/i,
+    productFilePattern: /^enchape-bocadillo-/i,
+  },
   "teja-plana": {
     heroProductByVariant: {
       chocolate: "Teja Plana Chocolate Lisa.webp",
