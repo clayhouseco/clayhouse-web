@@ -1224,7 +1224,7 @@ export const fichas = [
       ],
       [
         "Bianco",
-        "#C5BCB3"
+        "#DBC5AB"
       ],
       [
         "Capuccino",
