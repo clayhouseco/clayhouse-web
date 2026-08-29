@@ -623,7 +623,7 @@ export const fichas = [
         "#BDA182"
       ],
       [
-        "Rojo",
+        "Natural",
         "#997353"
       ],
       [
@@ -721,7 +721,7 @@ export const fichas = [
         "#D6C1AB"
       ],
       [
-        "Rojo",
+        "Natural",
         "#AB7752"
       ],
       [

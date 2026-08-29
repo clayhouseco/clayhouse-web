@@ -273,22 +273,23 @@ export const products: Product[] = [
     slug: "bocadillo-prensado",
     category: "Fachadas",
     shortDescription:
-      "Pieza prensada de formato compacto, disponible en adobe, arena, rojo y cocoa. Acabado homogéneo para fachadas con detalle fino.",
+      "Pieza prensada de formato compacto, disponible en adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino.",
     description:
-      "Pieza compacta en adobe, arena, rojo o cocoa para composiciones finas en fachadas y divisorios.",
+      "Pieza compacta en adobe, arena, natural o cocoa para composiciones finas en fachadas y divisorios.",
     applications: [
       "Fachadas con detalle fino",
       "Muros divisorios y de acento",
       "Remates y entrecalles",
       "Proyectos con aparejo de formato pequeño",
     ],
-    color: "Adobe, Arena, Rojo, Cocoa",
+    color: "Adobe, Arena, Natural, Cocoa",
     texture: "Prensado",
     featured: false,
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
-      "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores adobe, arena, rojo y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
-    image: productFolderImage("bocadillo-prensado", "rojo/bocadillo-prensado-rojo.webp"),
+      "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
+    image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural.webp"),
+    pricePerUnit: "$ 2.400",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "24,5 cm",
@@ -311,22 +312,23 @@ export const products: Product[] = [
     slug: "gran-formato-prensado",
     category: "Fachadas",
     shortDescription:
-      "Pieza prensada de gran formato (39 × 11,5 × 5 cm), en adobe, arena, rojo y cocoa. Cara larga y limpia para fachadas de gran escala.",
+      "Pieza prensada de gran formato (39 × 11,5 × 5 cm), en adobe, arena, natural y cocoa. Cara larga y limpia para fachadas de gran escala.",
     description:
-      "Pieza larga de gran formato en adobe, arena, rojo o cocoa. Su cara extendida agiliza el aparejo y da un lenguaje horizontal y contemporáneo a fachadas y muros de acento.",
+      "Pieza larga de gran formato en adobe, arena, natural o cocoa. Su cara extendida agiliza el aparejo y da un lenguaje horizontal y contemporáneo a fachadas y muros de acento.",
     applications: [
       "Fachadas de gran escala",
       "Muros de acento y divisorios",
       "Proyectos con lenguaje horizontal",
       "Aparejo de formato grande",
     ],
-    color: "Adobe, Arena, Rojo, Cocoa",
+    color: "Adobe, Arena, Natural, Cocoa",
     texture: "Prensado",
     featured: false,
     seoTitle: "Gran Formato Prensado | Clay House Amagá",
     seoDescription:
-      "Ladrillo Gran Formato Prensado (39 × 11,5 × 5 cm) en arcilla cocida, colores adobe, arena, rojo y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
-    image: productFolderImage("gran-formato-prensado", "rojo/gran-formato-prensado-rojo.webp"),
+      "Ladrillo Gran Formato Prensado (39 × 11,5 × 5 cm) en arcilla cocida, colores adobe, arena, natural y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
+    image: productFolderImage("gran-formato-prensado", "natural/gran-formato-prensado-natural.webp"),
+    pricePerUnit: "$ 3.600",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "39 cm",

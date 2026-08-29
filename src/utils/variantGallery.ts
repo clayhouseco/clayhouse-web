@@ -149,7 +149,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     heroProductByVariant: {
       adobe: "bocadillo-prensado-adobe.webp",
       arena: "bocadillo-prensado-arena.webp",
-      rojo: "bocadillo-prensado-rojo.webp",
+      natural: "bocadillo-prensado-natural.webp",
       cocoa: "bocadillo-prensado-cocoa.webp",
     },
     sharedRootPattern: /^$/,
@@ -160,7 +160,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     heroProductByVariant: {
       adobe: "gran-formato-prensado-adobe.webp",
       arena: "gran-formato-prensado-arena.webp",
-      rojo: "gran-formato-prensado-rojo.webp",
+      natural: "gran-formato-prensado-natural.webp",
       cocoa: "gran-formato-prensado-cocoa.webp",
     },
     sharedRootPattern: /^$/,

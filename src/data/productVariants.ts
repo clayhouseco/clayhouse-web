@@ -325,17 +325,17 @@ const tejaPlanaVariants: ProductColorVariant[] = [
 ];
 
 const bocadilloPrensadoVariants: ProductColorVariant[] = [
-  { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe" },
-  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
-  { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
-  { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa" },
+  { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe", pricePerUnit: "$ 2.400" },
+  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena", pricePerUnit: "$ 2.300" },
+  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural", pricePerUnit: "$ 2.350" },
+  { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa", pricePerUnit: "$ 2.700" },
 ];
 
 const granFormatoPrensadoVariants: ProductColorVariant[] = [
-  { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe" },
-  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena" },
-  { id: "rojo", label: "Rojo", colorLabel: "Rojo", folder: "rojo" },
-  { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa" },
+  { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe", pricePerUnit: "$ 3.600" },
+  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena", pricePerUnit: "$ 3.850" },
+  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural", pricePerUnit: "$ 3.100" },
+  { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa", pricePerUnit: "$ 4.250" },
 ];
 
 const granFormatoVariants: ProductColorVariant[] = [
