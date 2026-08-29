@@ -1224,15 +1224,15 @@ export const fichas = [
       ],
       [
         "Bianco",
-        "#DBC5AB"
+        "#CFC4B9"
       ],
       [
         "Capuccino",
-        "#C5A47E"
+        "#D5AF82"
       ],
       [
         "Cocoa",
-        "#5A3421"
+        "#4A3E3D"
       ]
     ],
     "usos": [
