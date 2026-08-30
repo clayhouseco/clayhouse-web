@@ -9,18 +9,18 @@
   "lang": "es-CO",
   "icons": [
     {
-      "src": "/icons/favicon-32.png?v=2",
+      "src": "/icons/favicon-32.png?v=3",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon.png?v=2",
+      "src": "/apple-touch-icon.png?v=3",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/ch-512.png?v=2",
+      "src": "/icons/ch-512.png?v=3",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
