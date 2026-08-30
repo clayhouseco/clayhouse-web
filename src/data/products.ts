@@ -558,7 +558,7 @@ export const products: Product[] = [
     seoTitle: "Enchape Rústico | Clay House",
     seoDescription:
       "Enchape de ladrillo con acabado rústico para revestir y transformar muros interiores y exteriores. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto.jpg"),
+    image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto-2.webp"),
     pricePerUnit: "$ 85.000",
     priceUnitLabel: "m²",
     specs: [

@@ -118,7 +118,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "enchape-rustico": {
     heroProductByVariant: {
-      producto: "enchape-rustico-producto.jpg",
+      producto: "enchape-rustico-producto-2.webp",
     },
     sharedRootPattern: /^(dimensiones|fachada)\.(jpe?g|png|webp)$/i,
     dimensionesPattern: /^dimensiones\./i,

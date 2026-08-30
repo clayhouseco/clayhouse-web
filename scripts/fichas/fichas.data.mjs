@@ -1116,7 +1116,7 @@ export const fichas = [
     "subtitulo": "REVESTIMIENTO DE ARCILLA COCIDA",
     "clasificacion": "ENCHAPE RÚSTICO",
     "norma": "NTC 5547",
-    "foto": "/public/images/products/enchape-rustico/producto/enchape-rustico-producto.jpg",
+    "foto": "/public/images/products/enchape-rustico/producto/enchape-rustico-producto-2.webp",
     "features": [
       [
         "shield",
