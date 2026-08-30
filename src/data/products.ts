@@ -288,7 +288,7 @@ export const products: Product[] = [
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
       "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
-    image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural-n.webp"),
+    image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural-n2.webp"),
     pricePerUnit: "$ 2.400",
     priceUnitLabel: "unidad",
     dimensions: {

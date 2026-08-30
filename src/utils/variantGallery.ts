@@ -164,10 +164,10 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "bocadillo-prensado": {
     heroProductByVariant: {
-      adobe: "bocadillo-prensado-adobe-n.webp",
-      arena: "bocadillo-prensado-arena-n.webp",
-      natural: "bocadillo-prensado-natural-n.webp",
-      cocoa: "bocadillo-prensado-cocoa-n.webp",
+      adobe: "bocadillo-prensado-adobe-n2.webp",
+      arena: "bocadillo-prensado-arena-n2.webp",
+      natural: "bocadillo-prensado-natural-n2.webp",
+      cocoa: "bocadillo-prensado-cocoa-n2.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /-dimensiones\.webp/i,
