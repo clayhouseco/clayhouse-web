@@ -3,7 +3,7 @@ export const site = {
   legalName: "Clay House",
   tagline: "Convirtiendo piezas en sueños",
   description:
-    "Ladrillos, tejas y enchapes hechos a mano en Amagá, Antioquia. Fabricación neoartesanal con cumplimiento NTC 4205. Cotización para arquitectos y constructores.",
+    "Ladrillos, tejas y enchapes de arcilla con fabricación neoartesanal y cumplimiento NTC 4205. Entrega en Antioquia y toda Colombia. Cotización para arquitectos y constructores.",
   /** Imagen por defecto para Open Graph y Twitter (1200×630 recomendado) */
   defaultOgImage: "/og-image.jpg",
   url: "https://clayhouse.com.co",

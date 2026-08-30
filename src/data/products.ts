@@ -174,7 +174,7 @@ export const products: Product[] = [
     shortDescription:
       "Tonos claro, matizado y oscuro para fachadas con identidad, contraste y calidez regional.",
     description:
-      "Acabado rústico hecho a mano para fachadas con la textura natural del barro.",
+      "Acabado rústico para fachadas con la textura natural del barro.",
     applications: [
       "Fachadas residenciales y comerciales",
       "Muros estructurales interiores con revoque",
