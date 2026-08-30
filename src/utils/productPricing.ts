@@ -166,6 +166,9 @@ export function getRendimientoFormats(
     dimensions?: { largo: string; alto: string };
   }>
 ): RendiFormato[] | null {
+  // Las tejas (Techos) y los decorativos (celosías) no se cotizan por pieza/m²
+  // con junta, así que no llevan la calculadora.
+  if (product.category === "Techos" || product.category === "Decorativos") return null;
   if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
   const overriders = (variants ?? []).filter((v) => v.dimensions);
   if (overriders.length >= 2) {
