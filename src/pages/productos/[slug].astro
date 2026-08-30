@@ -125,6 +125,11 @@ if (!assets) {
 
 const displayColor = activeVariant?.colorLabel ?? product.color;
 const displayPrice = activeVariant?.pricePerUnit ?? product.pricePerUnit;
+// "Desde" cuando hay varios precios y la página NO tiene un selector que cambie
+// el precio (ej. calado / macizo-brix, cuyas dimensiones solo se eligen en el cotizador).
+const hasPriceSelector =
+  !!assets && new Set(assets.variants.map((v) => v.pricePerUnit).filter(Boolean)).size > 1;
+const priceDesde = Boolean(product.priceFrom) && !hasPriceSelector;
 // Precio por m² de referencia (solo productos vendidos por unidad con rendimiento).
 const priceM2 = getReferencePriceM2(product);
 
@@ -250,6 +255,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             {
               displayPrice && (
                 <p class="product-page__price" data-product-price>
+                  {priceDesde && <span class="product-page__price-desde">Desde </span>}
                   <span data-product-price-value>{displayPrice}</span>
                   <span class="product-page__price-unit">
                     / {product.priceUnitLabel ?? "unidad"}
@@ -1038,6 +1044,13 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     color: var(--color-chocolate);
     margin: 0;
     line-height: 1.2;
+  }
+
+  .product-page__price-desde {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
   }
 
   .product-page__price-unit {

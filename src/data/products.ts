@@ -42,6 +42,9 @@ export interface Product {
   dimensions?: ProductDimensions;
   /** Precio mostrado en ficha (ej. "$ 2.450") */
   pricePerUnit?: string;
+  /** Si el producto tiene varios precios (por color/dimensión), el más bajo
+   *  para mostrar "Desde $X". */
+  priceFrom?: string;
   priceUnitLabel?: string;
   /** Filas extra de ficha técnica */
   specs?: ProductSpec[];
@@ -256,6 +259,7 @@ export const products: Product[] = [
       "Ladrillo macizo Brix en formato optimizado para obra moderna: buen rendimiento y acabado uniforme. Fabricado en Amagá por Clay House.",
     image: productFolderImage("macizo-brix", "pieza/DSC_9310.jpg"),
     pricePerUnit: "$ 1.500",
+    priceFrom: "$ 1.500",
     priceUnitLabel: "unidad",
     dimensions: {
       alto: "5 / 6 cm",
@@ -290,6 +294,7 @@ export const products: Product[] = [
       "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
     image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural-n2.webp"),
     pricePerUnit: "$ 2.400",
+    priceFrom: "$ 2.300",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "24,5 cm",
@@ -329,6 +334,7 @@ export const products: Product[] = [
       "Ladrillo Gran Formato Prensado (39 × 11,5 × 5 cm) en arcilla cocida, colores adobe, arena, natural y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
     image: productFolderImage("gran-formato-prensado", "natural/gran-formato-prensado-natural-n.webp"),
     pricePerUnit: "$ 3.600",
+    priceFrom: "$ 3.100",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "39 cm",
@@ -409,6 +415,7 @@ export const products: Product[] = [
       "rayado 12-vertical/rayado 12 vertical apilado.webp"
     ),
     pricePerUnit: "$ 2.360",
+    priceFrom: "$ 2.360",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "40 cm",
@@ -492,6 +499,7 @@ export const products: Product[] = [
       productFolderImage("calado", "calado-15-dimensiones.webp"),
     ],
     pricePerUnit: "$ 3.500",
+    priceFrom: "$ 3.500",
     priceUnitLabel: "unidad",
     dimensions: {
       rendimiento: "≈ 26 und/m²",
@@ -528,6 +536,7 @@ export const products: Product[] = [
       "rayado 12-horizontal/rayado 12 horizontal apilados.webp"
     ),
     pricePerUnit: "$ 1.790",
+    priceFrom: "$ 1.790",
     priceUnitLabel: "unidad",
     dimensions: {
       largo: "40 cm",

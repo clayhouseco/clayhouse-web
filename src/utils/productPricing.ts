@@ -29,10 +29,12 @@ function parseCm(value?: string): number | null {
  *  la conversión a m² depende del rendimiento de pega elegido y se muestra
  *  por separado en la ficha del producto. */
 export function getReferencePriceLabel(product: Product): string | null {
-  if (!product.pricePerUnit) return null;
-  const price = product.pricePerUnit.trim();
+  // Productos con varios precios (color/dimensión) muestran "Desde <mínimo>".
+  const base = product.priceFrom ?? product.pricePerUnit;
+  if (!base) return null;
+  const prefix = product.priceFrom ? "Desde " : "";
   const unit = product.priceUnitLabel ?? "unidad";
-  return `${price}/${unit} + IVA (precio referencia, sin envío)`;
+  return `${prefix}${base.trim()}/${unit} + IVA (precio referencia, sin envío)`;
 }
 
 /** Precio por m² de referencia (una sola cifra), para mostrarlo junto al precio
