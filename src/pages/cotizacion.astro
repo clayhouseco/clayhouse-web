@@ -222,7 +222,13 @@ const DEPARTAMENTOS = [
     </div>
   </template>
 
-  <script define:vars={{ catalog: cotizableCatalog, waNumber: site.whatsapp.replace("https://wa.me/", ""), ventasEmail: site.email }}>
+  <script define:vars={{
+    catalog: cotizableCatalog,
+    waNumber: site.whatsapp.replace("https://wa.me/", ""),
+    ventasEmail: site.email,
+    supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL ?? "https://xmgsljwxiyyporczsrum.supabase.co",
+    supabaseKey: import.meta.env.PUBLIC_SUPABASE_KEY ?? "sb_publishable_fyo-0iRd3xBmq9AjAgkwxw_xjIDKYeH",
+  }}>
     const form = document.getElementById("cotizacion-form");
     const lineasBox = form.querySelector("[data-lineas]");
     const tpl = document.querySelector("[data-linea-template]");
@@ -610,21 +616,68 @@ const DEPARTAMENTOS = [
       return L.join("\n");
     };
 
+    // ---- Guardado automático en el ERP (tabla cotizaciones_web de Supabase) ----
+    // La web guarda la solicitud como "bandeja" que el ERP lee; los botones de
+    // WhatsApp/correo siguen siendo el respaldo. No bloquea la UX si Supabase falla.
+    let erpSaved = false;
+    function buildErpRow() {
+      const p = buildPayload();
+      const u = p.entrega === "planta" ? {} : (p.ubicacion || {});
+      const total = currentLineas().reduce((s, r) => s + (r.sub || 0), 0);
+      return {
+        cliente_nombre: p.cliente.nombre,
+        cliente_telefono: p.cliente.telefono,
+        cliente_email: p.cliente.email || null,
+        cliente_empresa: p.cliente.empresa || null,
+        proyecto: p.cliente.proyecto || null,
+        entrega: p.entrega,
+        ubicacion_direccion: u.direccion || null,
+        ubicacion_municipio: u.municipio || null,
+        ubicacion_departamento: u.departamento || null,
+        ubicacion_lat: u.lat ? Number(u.lat) : null,
+        ubicacion_lng: u.lng ? Number(u.lng) : null,
+        ubicacion_maps: u.maps || null,
+        lineas: p.lineas,
+        nota: p.nota,
+        total_referencia: total || null,
+      };
+    }
+    async function saveToErp() {
+      if (erpSaved) return; // evita duplicados aunque se usen varias opciones
+      erpSaved = true;
+      try {
+        const res = await fetch(`${supabaseUrl}/rest/v1/cotizaciones_web`, {
+          method: "POST",
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+            "Content-Type": "application/json",
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify(buildErpRow()),
+        });
+        if (!res.ok) erpSaved = false; // permite reintentar si el servidor rechazó
+      } catch { erpSaved = false; }
+    }
+
     // ---- Opción 1: Imprimir / Guardar PDF ----
     form.querySelector("[data-action-print]").addEventListener("click", () => {
       const v = validar(); if (v) return avisar(v);
+      saveToErp();
       window.print();
     });
 
     // ---- Opción 2: Enviar al asesor por WhatsApp (texto, wa.me no adjunta PDF) ----
     form.querySelector("[data-action-whatsapp]").addEventListener("click", () => {
       const v = validar(); if (v) return avisar(v);
+      saveToErp();
       window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(quoteText())}`, "_blank", "noopener");
     });
 
     // ---- Opción 3: Enviar por correo (Formspree si está configurado; si no, mailto) ----
     form.addEventListener("submit", (e) => {
       const v = validar(); if (v) { e.preventDefault(); return avisar(v); }
+      saveToErp();
       const el = form.querySelector("[data-cotizacion-payload]");
       if (el) el.value = quoteText().replace(/\*/g, ""); // texto legible (sin markdown de WhatsApp)
       if (!form.getAttribute("action")) {
