@@ -69,7 +69,7 @@ export const products: Product[] = [
     seoTitle: "Ladrillo Toscano | Clay House Amagá",
     seoDescription:
       "Ladrillo Toscano de arcilla para fachadas e interiores: acabado limpio y elegante en tonos tierra claros, estilo cálido y atemporal. Clay House, Amagá.",
-    image: productFolderImage("toscano", "natural/toscano natural.webp"),
+    image: productFolderImage("toscano", "natural/toscano natural-n.webp"),
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -183,7 +183,7 @@ export const products: Product[] = [
     seoTitle: "Ladrillo Cartagena | Clay House Amagá",
     seoDescription:
       "Ladrillo Cartagena para fachada en tonos claro, matizado y oscuro: identidad, contraste y calidez regional. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("cartagena", "natural/Cartagena Claro.webp"),
+    image: productFolderImage("cartagena", "natural/Cartagena Claro-n.webp"),
     pricePerUnit: "$ 2.700",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -221,7 +221,7 @@ export const products: Product[] = [
     seoTitle: "Macizo Campesino | Clay House",
     seoDescription:
       "Ladrillo macizo campesino con carácter artesanal para muros estructurales y acabados con textura auténtica de barro. Clay House, Amagá.",
-    image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro.webp"),
+    image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro-n.webp"),
     pricePerUnit: "$ 1.650",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -288,7 +288,7 @@ export const products: Product[] = [
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
       "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
-    image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural.webp"),
+    image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural-n.webp"),
     pricePerUnit: "$ 2.400",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -327,7 +327,7 @@ export const products: Product[] = [
     seoTitle: "Gran Formato Prensado | Clay House Amagá",
     seoDescription:
       "Ladrillo Gran Formato Prensado (39 × 11,5 × 5 cm) en arcilla cocida, colores adobe, arena, natural y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
-    image: productFolderImage("gran-formato-prensado", "natural/gran-formato-prensado-natural.webp"),
+    image: productFolderImage("gran-formato-prensado", "natural/gran-formato-prensado-natural-n.webp"),
     pricePerUnit: "$ 3.600",
     priceUnitLabel: "unidad",
     dimensions: {
@@ -586,7 +586,7 @@ export const products: Product[] = [
     seoTitle: "Enchape Romano | Clay House",
     seoDescription:
       "Enchape Romano en formato delgado con perfil romano para revestimientos con profundidad y acabado premium. Clay House, Amagá.",
-    image: productFolderImage("enchape-romano", "natural/Enchape Natural.webp"),
+    image: productFolderImage("enchape-romano", "natural/Enchape Natural-n.webp"),
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
     dimensions: {
@@ -683,7 +683,7 @@ export const products: Product[] = [
     seoTitle: "Teja Plana | Clay House Amagá",
     seoDescription:
       "Teja plana de barro para cubiertas visibles con estética tradicional y contemporánea. Clay House, Amagá, Antioquia.",
-    image: productFolderImage("teja-plana", "natural/Teja Plana Natural.webp"),
+    image: productFolderImage("teja-plana", "natural/Teja Plana Natural-n.webp"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",
     specs: [

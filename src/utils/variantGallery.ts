@@ -37,9 +37,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   toscano: {
     heroProductByVariant: {
-      natural: "toscano natural.webp",
-      "matizado claro": "toscano matizado claro.webp",
-      "matizado oscuro": "toscano matizado oscuro.webp",
+      natural: "toscano natural-n.webp",
+      "matizado claro": "toscano matizado claro-n.webp",
+      "matizado oscuro": "toscano matizado oscuro-n.webp",
     },
     sharedRootPattern: /^(toscano |isometrico toscano)/i,
     dimensionesPattern: /isometrico toscano|toscano dimensiones/i,
@@ -58,9 +58,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   cartagena: {
     heroProductByVariant: {
-      natural: "Cartagena Claro.webp",
-      "matizado claro": "Cartagena Matizado.webp",
-      "matizado oscuro": "Cartagena Oscuro.webp",
+      natural: "Cartagena Claro-n.webp",
+      "matizado claro": "Cartagena Matizado-n.webp",
+      "matizado oscuro": "Cartagena Oscuro-n.webp",
     },
     sharedRootPattern: /^cartagena (dimensiones|ficha)/i,
     dimensionesPattern: /cartagena dimensiones/i,
@@ -69,8 +69,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "macizo-campesino": {
     heroProductByVariant: {
-      "matizado claro": "Campesino Claro.webp",
-      "matizado oscuro": "Campesino Oscuro.webp",
+      "matizado claro": "Campesino Claro-n.webp",
+      "matizado oscuro": "Campesino Oscuro-n.webp",
     },
     sharedRootPattern: /^macizo campesino (dimensiones|ficha)/i,
     dimensionesPattern: /macizo campesino dimensiones/i,
@@ -126,9 +126,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "enchape-romano": {
     heroProductByVariant: {
-      natural: "Enchape Natural.webp",
-      matizado: "Chapa Matizada Clara.webp",
-      "matizado oscuro": "Enchape Matizado Oscuro.webp",
+      natural: "Enchape Natural-n.webp",
+      matizado: "Chapa Matizada Clara-n.webp",
+      "matizado oscuro": "Enchape Matizado Oscuro-n.webp",
     },
     sharedRootPattern: /^enchape romano (dimensiones|ficha)/i,
     dimensionesPattern: /enchape romano dimensiones/i,
@@ -154,8 +154,8 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "teja-plana": {
     heroProductByVariant: {
-      chocolate: "Teja Plana Chocolate Lisa.webp",
-      natural: "Teja Plana Natural.webp",
+      chocolate: "Teja Plana Chocolate Lisa-n.webp",
+      natural: "Teja Plana Natural-n.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /teja plana(?: \S+)? dimensiones/i,
@@ -164,10 +164,10 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "bocadillo-prensado": {
     heroProductByVariant: {
-      adobe: "bocadillo-prensado-adobe.webp",
-      arena: "bocadillo-prensado-arena.webp",
-      natural: "bocadillo-prensado-natural.webp",
-      cocoa: "bocadillo-prensado-cocoa.webp",
+      adobe: "bocadillo-prensado-adobe-n.webp",
+      arena: "bocadillo-prensado-arena-n.webp",
+      natural: "bocadillo-prensado-natural-n.webp",
+      cocoa: "bocadillo-prensado-cocoa-n.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /-dimensiones\.webp/i,
@@ -175,10 +175,10 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "gran-formato-prensado": {
     heroProductByVariant: {
-      adobe: "gran-formato-prensado-adobe.webp",
-      arena: "gran-formato-prensado-arena.webp",
-      natural: "gran-formato-prensado-natural.webp",
-      cocoa: "gran-formato-prensado-cocoa.webp",
+      adobe: "gran-formato-prensado-adobe-n.webp",
+      arena: "gran-formato-prensado-arena-n.webp",
+      natural: "gran-formato-prensado-natural-n.webp",
+      cocoa: "gran-formato-prensado-cocoa-n.webp",
     },
     sharedRootPattern: /^$/,
     dimensionesPattern: /-dimensiones\.webp/i,
