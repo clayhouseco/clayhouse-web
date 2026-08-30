@@ -31,6 +31,7 @@ import {
   getRendimientoTablesByVariant,
   getFloorRendimientoTable,
   getReferencePriceM2,
+  getRendimientoFormats,
 } from "@/utils/productPricing";
 
 export function getStaticPaths() {
@@ -141,6 +142,13 @@ const rendimientoTable = rendimientoVariants
   ? rendimientoVariants[0].table
   : getRendimientoTable(product);
 const floorTable = getFloorRendimientoTable(product);
+// Formatos (largo × alto) para la calculadora interactiva con barra de junta.
+const rendiFormats = getRendimientoFormats(product, assets?.variants);
+// Precio por unidad (número) para no depender de la tabla en la calculadora.
+const rendiPriceCop = (() => {
+  const digits = (product.pricePerUnit ?? "").replace(/[^\d]/g, "");
+  return digits ? Number.parseInt(digits, 10) : null;
+})();
 
 /** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
 const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
@@ -316,102 +324,63 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     }
 
     {
-      rendimientoTable && (
+      rendiFormats && (
         <section class="product-page__block" id="rendimiento">
           <div
             class="container product-page__panel rendimiento-panel"
-            data-rendimiento-root
-            data-variants={rendimientoVariants ? JSON.stringify(rendimientoVariants) : null}
+            data-rendi-sim
+            data-formats={JSON.stringify(rendiFormats)}
           >
             <header class="rendimiento-panel__header rendimiento-panel__header--center">
               <h2 class="product-page__h2 product-page__h2--large">Calculadora de m²</h2>
               <p class="rendimiento-panel__lead">
-                Las piezas necesarias dependen del espesor de pega. Compare los
-                escenarios para cotizar al mismo criterio que su constructor.
+                Desliza la barra para ajustar la junta (pega): los ladrillos se
+                separan y las piezas por m² se recalculan al instante.
               </p>
             </header>
-            <div class="rendimiento-grid">
-              {rendimientoTable.map((row, i) => (
-                <article class={`rendimiento-card${i === 1 ? " rendimiento-card--featured" : ""}`} data-rendi-card>
-                  {i === 1 && (
-                    <span class="rendimiento-card__badge">Pega de referencia</span>
-                  )}
-                  <div class="rendimiento-card__icon" aria-hidden="true">
-                    {row.jointCm === 0 && (
-                      <svg viewBox="0 0 60 30" fill="currentColor">
-                        <rect x="0" y="0" width="20" height="14" />
-                        <rect x="20" y="0" width="20" height="14" />
-                        <rect x="40" y="0" width="20" height="14" />
-                        <rect x="0" y="14" width="20" height="14" />
-                        <rect x="20" y="14" width="20" height="14" />
-                        <rect x="40" y="14" width="20" height="14" />
-                      </svg>
-                    )}
-                    {row.jointCm === 1 && (
-                      <svg viewBox="0 0 60 30" fill="currentColor">
-                        <rect x="0" y="0" width="18.5" height="12.75" />
-                        <rect x="20.75" y="0" width="18.5" height="12.75" />
-                        <rect x="41.5" y="0" width="18.5" height="12.75" />
-                        <rect x="0" y="15.25" width="18.5" height="12.75" />
-                        <rect x="20.75" y="15.25" width="18.5" height="12.75" />
-                        <rect x="41.5" y="15.25" width="18.5" height="12.75" />
-                      </svg>
-                    )}
-                    {row.jointCm === 2 && (
-                      <svg viewBox="0 0 60 30" fill="currentColor">
-                        <rect x="0" y="0" width="16.75" height="11.5" />
-                        <rect x="21.625" y="0" width="16.75" height="11.5" />
-                        <rect x="43.25" y="0" width="16.75" height="11.5" />
-                        <rect x="0" y="18.5" width="16.75" height="11.5" />
-                        <rect x="21.625" y="18.5" width="16.75" height="11.5" />
-                        <rect x="43.25" y="18.5" width="16.75" height="11.5" />
-                      </svg>
-                    )}
-                  </div>
-                  <p class="rendimiento-card__label">{row.label}</p>
-                  <p class="rendimiento-card__units">
-                    <span class="rendimiento-card__units-value" data-rendi-units>{row.unitsPerM2}</span>
-                    <span class="rendimiento-card__units-unit">und/m²</span>
-                  </p>
-                  {row.pricePerM2 && (
-                    <p class="rendimiento-card__price" data-rendi-price>{row.pricePerM2}</p>
-                  )}
-                </article>
-              ))}
+
+            <div class="rendi-sim">
+              <div class="rendi-sim__wall" data-rendi-wall aria-hidden="true"></div>
+              <div class="rendi-sim__readout" aria-live="polite">
+                <span class="rendi-sim__joint" data-rendi-jointlabel>Junta perdida</span>
+                <span class="rendi-sim__units">
+                  <b data-rendi-units>—</b> und/m²
+                </span>
+              </div>
             </div>
+
+            <div class="rendi-slider">
+              <input
+                type="range"
+                min="0"
+                max="3"
+                step="0.5"
+                value="0"
+                class="rendi-slider__input"
+                data-rendi-slider
+                aria-label="Espesor de la junta de pega en centímetros"
+              />
+              <div class="rendi-slider__scale" aria-hidden="true">
+                <span>0</span><span>0,5</span><span>1</span><span>1,5</span>
+                <span>2</span><span>2,5</span><span>3&nbsp;cm</span>
+              </div>
+            </div>
+
             <div class="rendi-calc" data-rendi-calc>
-              <p class="rendi-calc__title">Calcule para su obra</p>
+              <p class="rendi-calc__title">Calcula para tu obra</p>
               <div class="rendi-calc__row">
-                {
-                  rendimientoVariants && (
-                    <div class="rendi-calc__field">
-                      <label class="rendi-calc__field-label" for={`rendi-format-${product.slug}`}>
-                        Formato
-                      </label>
-                      <select
-                        id={`rendi-format-${product.slug}`}
-                        class="rendi-calc__select"
-                        data-rendi-format
-                      >
-                        {rendimientoVariants.map((v) => (
-                          <option value={v.variantId}>{v.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                  )
-                }
-                <div class="rendi-calc__field">
-                  <label class="rendi-calc__field-label" for={`rendi-joint-${product.slug}`}>
-                    Espesor de pega
-                  </label>
-                  <select id={`rendi-joint-${product.slug}`} class="rendi-calc__select" data-rendi-joint>
-                    {rendimientoTable.map((row, i) => (
-                      <option value={row.unitsPerM2} selected={i === 1}>
-                        {row.label} ({row.unitsPerM2} und/m²)
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {rendiFormats.length > 1 && (
+                  <div class="rendi-calc__field">
+                    <label class="rendi-calc__field-label" for={`rendi-format-${product.slug}`}>
+                      Formato
+                    </label>
+                    <select id={`rendi-format-${product.slug}`} class="rendi-calc__select" data-rendi-format>
+                      {rendiFormats.map((f) => (
+                        <option value={f.variantId ?? ""}>{f.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
                 <div class="rendi-calc__field">
                   <label class="rendi-calc__field-label" for={`rendi-area-${product.slug}`}>
                     Área a cubrir (m²)
@@ -427,22 +396,19 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                     data-rendi-area
                   />
                 </div>
-                <div class="rendi-calc__result" data-rendi-result aria-live="polite">
+                <div class="rendi-calc__result" aria-live="polite">
                   <span class="rendi-calc__result-label">Total piezas</span>
                   <span class="rendi-calc__result-value" data-rendi-total>—</span>
                 </div>
               </div>
-              <button
-                type="button"
-                class="btn btn--outline rendi-calc__apply"
-                data-rendi-apply
-              >
+              <button type="button" class="btn btn--outline rendi-calc__apply" data-rendi-apply>
                 Aplicar a cantidad ↑
               </button>
             </div>
+
             <p class="rendimiento-panel__note">
-              <strong>Cálculo nominal por cara largo × ancho. Sumamos 5% de
-              desperdicio al m² aplicado en cantidad.</strong>
+              <strong>Cálculo nominal por cara largo × alto. En "Aplicar a
+              cantidad" sumamos 5% de desperdicio.</strong>
             </p>
           </div>
         </section>
@@ -781,85 +747,101 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     });
   });
 
-  // Calculadora de rendimiento por m² con selector de pega
-  interface RendiRow {
+  // Calculadora de m² interactiva: barra de junta + simulación de ladrillos.
+  interface RendiFormato {
+    variantId: string | null;
     label: string;
-    jointCm: number;
-    unitsPerM2: number;
-    pricePerM2: string | null;
-  }
-  interface RendiVariant {
-    variantId: string;
-    label: string;
-    table: RendiRow[];
+    largoCm: number;
+    altoCm: number;
   }
 
-  document.querySelectorAll<HTMLElement>("[data-rendi-calc]").forEach((root) => {
-    const panel = root.closest<HTMLElement>("[data-rendimiento-root]");
+  document.querySelectorAll<HTMLElement>("[data-rendi-sim]").forEach((root) => {
+    const formats: RendiFormato[] = JSON.parse(root.dataset.formats || "[]");
+    if (!formats.length) return;
+    const wall = root.querySelector<HTMLElement>("[data-rendi-wall]");
+    const unitsEl = root.querySelector<HTMLElement>("[data-rendi-units]");
+    const jointLabelEl = root.querySelector<HTMLElement>("[data-rendi-jointlabel]");
+    const slider = root.querySelector<HTMLInputElement>("[data-rendi-slider]");
     const formatEl = root.querySelector<HTMLSelectElement>("[data-rendi-format]");
-    const jointEl = root.querySelector<HTMLSelectElement>("[data-rendi-joint]");
     const areaEl = root.querySelector<HTMLInputElement>("[data-rendi-area]");
     const totalEl = root.querySelector<HTMLElement>("[data-rendi-total]");
     const applyBtn = root.querySelector<HTMLButtonElement>("[data-rendi-apply]");
     const qtyInput = document.querySelector<HTMLInputElement>("[data-qty-input]");
-    if (!jointEl || !areaEl || !totalEl) return;
+    if (!slider || !unitsEl) return;
 
-    const variants: RendiVariant[] = panel?.dataset.variants
-      ? (JSON.parse(panel.dataset.variants) as RendiVariant[])
-      : [];
+    let fmt = formats[0];
 
-    function applyVariant(variant: RendiVariant) {
-      if (!panel) return;
-      // Actualiza las 3 tarjetas
-      const cards = panel.querySelectorAll<HTMLElement>("[data-rendi-card]");
-      cards.forEach((card, i) => {
-        const row = variant.table[i];
-        if (!row) return;
-        const u = card.querySelector<HTMLElement>("[data-rendi-units]");
-        const p = card.querySelector<HTMLElement>("[data-rendi-price]");
-        if (u) u.textContent = String(row.unitsPerM2);
-        if (p && row.pricePerM2) p.textContent = row.pricePerM2;
-      });
-      // Actualiza las opciones del select de pega (mismo orden de filas)
-      const options = jointEl!.querySelectorAll<HTMLOptionElement>("option");
-      options.forEach((opt, i) => {
-        const row = variant.table[i];
-        if (!row) return;
-        opt.value = String(row.unitsPerM2);
-        opt.textContent = `${row.label} (${row.unitsPerM2} und/m²)`;
-      });
+    // Murito: 4 filas × 4 columnas (aparejo trabado en filas alternas).
+    const COLS = 4, ROWS = 4;
+    if (wall) {
+      for (let r = 0; r < ROWS; r++) {
+        const row = document.createElement("div");
+        row.className = "rendi-sim__row" + (r % 2 ? " rendi-sim__row--offset" : "");
+        for (let c = 0; c < COLS; c++) {
+          const b = document.createElement("div");
+          b.className = "rendi-sim__brick";
+          row.appendChild(b);
+        }
+        wall.appendChild(row);
+      }
     }
 
-    function compute(): number | null {
-      const upm2 = parseFloat(jointEl!.value || "0");
-      const area = parseFloat(areaEl!.value || "0");
-      if (!upm2 || !area || area <= 0) return null;
-      return Math.ceil(area * upm2 * 1.05);
+    function unitsFor(jointCm: number): number {
+      const j = jointCm / 100;
+      return Math.ceil(1 / ((fmt.largoCm / 100 + j) * (fmt.altoCm / 100 + j)));
     }
 
-    function update() {
-      const total = compute();
-      totalEl!.textContent = total === null ? "—" : total.toLocaleString("es-CO");
+    function render() {
+      const jointCm = parseFloat(slider!.value);
+      if (wall) {
+        const cs = getComputedStyle(wall);
+        const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+        const availW = wall.clientWidth - padX;
+        // Junta a escala del ladrillo (con leve exageración para verla bien).
+        const gap = ((jointCm * 110) / fmt.largoCm) * 1.4;
+        const brickW = (availW - (COLS - 1) * gap) / COLS;
+        const brickH = Math.max(7, brickW / (fmt.largoCm / fmt.altoCm));
+        wall.style.setProperty("--rendi-gap", `${gap.toFixed(1)}px`);
+        wall.style.setProperty("--brick-h", `${brickH.toFixed(1)}px`);
+      }
+      unitsEl!.textContent = String(unitsFor(jointCm));
+      if (jointLabelEl)
+        jointLabelEl.textContent =
+          jointCm === 0
+            ? "Junta perdida (sin pega)"
+            : `Junta de ${String(jointCm).replace(".", ",")} cm`;
+      updateTotal();
     }
 
+    function updateTotal() {
+      if (!totalEl || !areaEl) return;
+      const area = parseFloat(areaEl.value || "0");
+      totalEl.textContent =
+        area > 0
+          ? Math.ceil(area * unitsFor(parseFloat(slider!.value)) * 1.05).toLocaleString("es-CO")
+          : "—";
+    }
+
+    slider.addEventListener("input", render);
+    areaEl?.addEventListener("input", updateTotal);
     formatEl?.addEventListener("change", () => {
-      const v = variants.find((x) => x.variantId === formatEl!.value);
-      if (v) applyVariant(v);
-      update();
+      fmt = formats.find((f) => (f.variantId ?? "") === formatEl!.value) ?? formats[0];
+      render();
     });
-    jointEl.addEventListener("change", update);
-    areaEl.addEventListener("input", update);
 
     applyBtn?.addEventListener("click", () => {
-      const total = compute();
-      if (!total || !qtyInput) return;
-      qtyInput.value = String(total);
+      const area = parseFloat(areaEl?.value || "0");
+      if (!(area > 0) || !qtyInput) return;
+      qtyInput.value = String(Math.ceil(area * unitsFor(parseFloat(slider.value)) * 1.05));
       qtyInput.dispatchEvent(new Event("input", { bubbles: true }));
       qtyInput.dispatchEvent(new Event("change", { bubbles: true }));
       qtyInput.scrollIntoView({ behavior: "smooth", block: "center" });
       qtyInput.classList.add("product-page__qty-input--flash");
       setTimeout(() => qtyInput.classList.remove("product-page__qty-input--flash"), 1400);
     });
+
+    window.addEventListener("resize", render);
+    render();
   });
 
   // Calculadora para pisos: el visual muestra TOTAL PIEZAS (como ladrillo),
@@ -1214,6 +1196,97 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     max-width: 48rem;
     font-size: 0.9375rem;
     line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+
+  /* ---- Simulación interactiva de junta ---- */
+  .rendi-sim {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0 1.25rem;
+  }
+
+  .rendi-sim__wall {
+    --rendi-gap: 0px;
+    --brick-ratio: 4;
+    display: flex;
+    flex-direction: column;
+    gap: var(--rendi-gap);
+    width: 100%;
+    max-width: 30rem;
+    padding: 0.75rem;
+    background: var(--color-arena, #e9e2d6);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: gap 0.12s ease;
+  }
+
+  /* Filas y ladrillos se crean por JS → no reciben el scope de Astro; globales. */
+  :global(.rendi-sim__row) {
+    display: flex;
+    gap: var(--rendi-gap);
+    height: var(--brick-h, 22px);
+    transition: gap 0.12s ease, height 0.12s ease;
+  }
+
+  :global(.rendi-sim__brick) {
+    flex: 1 1 0;
+    height: 100%;
+    background: linear-gradient(155deg, #c0724a, #a85c37);
+    border-radius: 2px;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(74, 32, 16, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .rendi-sim__readout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    text-align: center;
+  }
+
+  .rendi-sim__joint {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-terracota);
+  }
+
+  .rendi-sim__units {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+  }
+
+  .rendi-sim__units b {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-chocolate);
+  }
+
+  /* ---- Barra deslizante ---- */
+  .rendi-slider {
+    width: 100%;
+    max-width: 30rem;
+    margin: 0 auto 1.5rem;
+  }
+
+  .rendi-slider__input {
+    width: 100%;
+    accent-color: var(--color-terracota);
+    cursor: pointer;
+  }
+
+  .rendi-slider__scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.35rem;
+    font-size: 0.7rem;
     color: var(--color-text-muted);
   }
 

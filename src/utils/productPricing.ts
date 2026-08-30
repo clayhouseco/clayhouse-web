@@ -146,6 +146,44 @@ export function getRendimientoTablesByVariant(
   return result.length >= 2 ? result : null;
 }
 
+export interface RendiFormato {
+  /** id de variante ERP, o null si el producto tiene un solo formato */
+  variantId: string | null;
+  label: string;
+  largoCm: number;
+  altoCm: number;
+}
+
+/** Formatos (largo × alto) para la calculadora interactiva de m². Devuelve un
+ *  formato por variante con dimensiones propias (ej. rayados, macizo-brix) o
+ *  uno solo para el producto. null si no aplica (no se vende por unidad o no
+ *  tiene largo/alto numéricos). */
+export function getRendimientoFormats(
+  product: Product,
+  variants?: ReadonlyArray<{
+    id: string;
+    label: string;
+    dimensions?: { largo: string; alto: string };
+  }>
+): RendiFormato[] | null {
+  if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
+  const overriders = (variants ?? []).filter((v) => v.dimensions);
+  if (overriders.length >= 2) {
+    const fmts = overriders
+      .map((v) => {
+        const l = parseCm(v.dimensions!.largo);
+        const a = parseCm(v.dimensions!.alto);
+        return l && a ? { variantId: v.id, label: v.label, largoCm: l, altoCm: a } : null;
+      })
+      .filter((x): x is RendiFormato => x !== null);
+    return fmts.length ? fmts : null;
+  }
+  const l = parseCm(product.dimensions?.largo);
+  const a = parseCm(product.dimensions?.alto);
+  if (!l || !a) return null;
+  return [{ variantId: null, label: product.name, largoCm: l, altoCm: a }];
+}
+
 export interface FloorRendimientoRow {
   /** Etiqueta humana (ej. "Pega 5 mm") */
   label: string;
