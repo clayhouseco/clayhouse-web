@@ -41,6 +41,15 @@ function variantLabel(name: string, slug: string, id: string): string {
   return `${name} ${id}`;
 }
 
+/** Precio de referencia por dimensión, cuando difiere del precio base del
+ *  producto (el precio del producto es solo el punto de partida). */
+const PRECIO_POR_VARIANTE: Record<string, Record<string, string>> = {
+  "rayados-verticales": { "10": "$ 2.360", "12": "$ 2.690", "15": "$ 3.190" },
+  "rayados-horizontales": { "10": "$ 1.790", "12": "$ 2.190", "15": "$ 2.390" },
+  "macizo-brix": { "5x10x20": "$ 1.500", "6x12x24": "$ 1.850" },
+  calado: { "10": "$ 3.500", "15": "$ 4.000" },
+};
+
 /** Catálogo cotizable completo (todas las opciones a nivel ERP). */
 export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p) => {
   const variantes = erpVariantIds(p.slug);
@@ -58,7 +67,10 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       unidad: eq.unidad,
       unidadLabel: ERP_UNIDAD_LABEL[eq.unidad],
       image: assetUrl(p.image),
-      refPrice: p.pricePerUnit ?? "Consultar",
+      refPrice:
+        (variantId && PRECIO_POR_VARIANTE[p.slug]?.[variantId]) ??
+        p.pricePerUnit ??
+        "Consultar",
     };
   });
 });

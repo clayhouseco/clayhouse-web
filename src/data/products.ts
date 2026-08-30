@@ -491,6 +491,7 @@ export const products: Product[] = [
       productFolderImage("calado", "calado-10-dimensiones.webp"),
       productFolderImage("calado", "calado-15-dimensiones.webp"),
     ],
+    pricePerUnit: "$ 3.500",
     priceUnitLabel: "unidad",
     dimensions: {
       rendimiento: "≈ 26 und/m²",
@@ -621,6 +622,7 @@ export const products: Product[] = [
     seoDescription:
       "Enchape delgado tipo thin brick (20 × 5 × 1 cm) en Natural, Bianco, Capuccino y Cocoa para revestir muros interiores. Norma NTC 4205. Clay House, Amagá, Antioquia.",
     image: productFolderImage("enchape-thinbrick", "natural/enchape-thinbrick-natural.webp"),
+    pricePerUnit: "$ 80.000",
     priceUnitLabel: "m²",
     dimensions: {
       largo: "20 cm",
@@ -658,6 +660,7 @@ export const products: Product[] = [
     seoDescription:
       "Enchape delgado en formato bocadillo de arcilla natural para revestir muros interiores. Clay House, Amagá, Antioquia.",
     image: productFolderImage("enchape-bocadillo", "natural/enchape-bocadillo-natural.webp"),
+    pricePerUnit: "$ 80.000",
     priceUnitLabel: "m²",
     specs: [
       { label: "Tipo de uso", value: "Revestimiento de muros interiores" },
