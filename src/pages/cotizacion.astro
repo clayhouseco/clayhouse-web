@@ -616,37 +616,64 @@ const DEPARTAMENTOS = [
       return L.join("\n");
     };
 
-    // ---- Guardado automático en el ERP (tabla cotizaciones_web de Supabase) ----
-    // La web guarda la solicitud como "bandeja" que el ERP lee; los botones de
-    // WhatsApp/correo siguen siendo el respaldo. No bloquea la UX si Supabase falla.
+    // ---- Guardado automático en el ERP (tabla `cotizaciones` de Supabase) ----
+    // La web inserta la solicitud directo en la tabla del ERP con su misma
+    // estructura; aparece como borrador "WEB-...". Los botones de WhatsApp/correo
+    // siguen como respaldo. No bloquea la UX si Supabase falla.
     let erpSaved = false;
+    const z2 = (x) => String(x).padStart(2, "0");
     function buildErpRow() {
       const p = buildPayload();
       const u = p.entrega === "planta" ? {} : (p.ubicacion || {});
-      const total = currentLineas().reduce((s, r) => s + (r.sub || 0), 0);
+      const lineas = currentLineas();
+      const items = lineas.map((r) => {
+        const vu = r.precio || 0;
+        return {
+          productoCodigo: r.item.erpCodigo || "",
+          color: r.colCod || null,
+          calidad: r.calCod || "PRI",
+          unidad: r.item.unidad,
+          cantidad: r.cant,
+          valorUnitario: vu,
+          valorProducto: vu * r.cant,
+          tiempoEntrega: "",
+        };
+      });
+      const f = lineas[0] || {};
+      const fvu = f.precio || 0;
+      const n = new Date();
+      const numero = `WEB-${n.getFullYear()}${z2(n.getMonth() + 1)}${z2(n.getDate())}-${z2(n.getHours())}${z2(n.getMinutes())}${z2(n.getSeconds())}`;
+      const notas = ["Solicitud desde la web (clayhouse.com.co)"];
+      if (p.cliente.empresa) notas.push(`Empresa: ${p.cliente.empresa}`);
+      notas.push("Flete NO incluido — cotización preliminar");
       return {
-        cliente_nombre: p.cliente.nombre,
-        cliente_telefono: p.cliente.telefono,
-        cliente_email: p.cliente.email || null,
-        cliente_empresa: p.cliente.empresa || null,
-        proyecto: p.cliente.proyecto || null,
+        numero,
+        atencion: p.cliente.nombre || "",
+        proyecto: p.cliente.proyecto || "",
+        direccion: u.direccion || "",
+        telefono: p.cliente.telefono || "",
+        email: p.cliente.email || "",
+        producto_codigo: (f.item && f.item.erpCodigo) || "VARIOS",
+        color: f.colCod || null,
+        calidad: f.calCod || "PRI",
+        unidad: (f.item && f.item.unidad) || "unidad",
+        cantidad: f.cant || 0,
+        valor_unitario: fvu,
+        valor_producto: fvu * (f.cant || 0),
         entrega: p.entrega,
-        ubicacion_direccion: u.direccion || null,
-        ubicacion_municipio: u.municipio || null,
-        ubicacion_departamento: u.departamento || null,
-        ubicacion_lat: u.lat ? Number(u.lat) : null,
-        ubicacion_lng: u.lng ? Number(u.lng) : null,
-        ubicacion_maps: u.maps || null,
-        lineas: p.lineas,
-        nota: p.nota,
-        total_referencia: total || null,
+        municipio: u.municipio || null,
+        departamento: u.departamento || null,
+        lat_entrega: u.lat ? Number(u.lat) : null,
+        lng_entrega: u.lng ? Number(u.lng) : null,
+        items,
+        notas_comerciales: notas,
       };
     }
     async function saveToErp() {
       if (erpSaved) return; // evita duplicados aunque se usen varias opciones
       erpSaved = true;
       try {
-        const res = await fetch(`${supabaseUrl}/rest/v1/cotizaciones_web`, {
+        const res = await fetch(`${supabaseUrl}/rest/v1/cotizaciones`, {
           method: "POST",
           headers: {
             apikey: supabaseKey,
