@@ -9,6 +9,8 @@ export const prerender = true;
 const staticPaths = [
   "/",
   "/productos/",
+  "/comprar-ladrillo-medellin/",
+  "/cotizacion/",
   "/nosotros/",
   "/blog/",
   "/descargas/",

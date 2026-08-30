@@ -1,0 +1,283 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+import { getCatalogCategoryHref } from "@/data/catalogCategories";
+
+const lineas = [
+  {
+    titulo: "Ladrillo de fachada",
+    texto: "Romano, Toscano, Cartagena y macizos para fachadas a la vista con carácter.",
+    href: getCatalogCategoryHref("Fachadas"),
+  },
+  {
+    titulo: "Divisorios y rayados",
+    texto: "Rayados y bloquelón para muros divisorios y cerramientos con textura.",
+    href: getCatalogCategoryHref("Divisorios"),
+  },
+  {
+    titulo: "Enchapes de ladrillo",
+    texto: "Revestimientos delgados para vestir muros interiores y fachadas.",
+    href: getCatalogCategoryHref("Enchapes"),
+  },
+  {
+    titulo: "Teja de arcilla",
+    texto: "Teja plana y colonial para cubiertas visibles en barro cocido.",
+    href: getCatalogCategoryHref("Techos"),
+  },
+];
+
+const cobertura = [
+  "Medellín",
+  "Envigado",
+  "Sabaneta",
+  "Itagüí",
+  "Bello",
+  "La Estrella",
+  "Caldas",
+  "Rionegro y el Oriente",
+  "Suroeste antioqueño",
+  "Resto de Antioquia",
+];
+
+const pasos = [
+  {
+    n: "1",
+    titulo: "Elige tus productos",
+    texto: "Explora el catálogo y arma tu lista con color y cantidad.",
+  },
+  {
+    n: "2",
+    titulo: "Cotiza en 24 horas",
+    texto: "Envíanos tu solicitud y te confirmamos precio, flete y condiciones.",
+  },
+  {
+    n: "3",
+    titulo: "Recibe en tu obra",
+    texto: "Coordinamos la entrega a Medellín, el Valle de Aburrá y toda Antioquia.",
+  },
+];
+---
+
+<BaseLayout
+  title="Comprar ladrillo en Medellín y Antioquia"
+  description="Compra ladrillo, enchapes y teja de arcilla directo de fábrica. Clay House es una ladrillera en Amagá con entrega a Medellín, el Valle de Aburrá y toda Antioquia. Cotiza en 24 horas."
+>
+  <section class="cl-hero">
+    <div class="container">
+      <p class="eyebrow">Fábrica propia en Amagá, Antioquia</p>
+      <h1>Comprar ladrillo en Medellín y Antioquia</h1>
+      <p class="cl-hero__lead">
+        Clay House es una <strong>ladrillera neoartesanal en Amagá</strong> que fabrica y
+        vende <strong>ladrillo, enchapes y teja de arcilla</strong> directo de fábrica, con
+        entrega a Medellín, el Valle de Aburrá y todo Antioquia. Cumplimiento
+        <strong>NTC 4205</strong> y asesoría para arquitectos y constructores.
+      </p>
+      <div class="cl-hero__cta">
+        <a href="/cotizacion" class="btn btn--primary">Cotizar mi pedido</a>
+        <a href="/productos" class="btn btn--outline">Ver catálogo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="cl-h2">Qué puedes comprar</h2>
+      <div class="cl-grid">
+        {
+          lineas.map((l) => (
+            <a href={l.href} class="cl-card">
+              <h3>{l.titulo}</h3>
+              <p>{l.texto}</p>
+              <span class="cl-card__link">Ver productos →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section cl-cobertura">
+    <div class="container">
+      <h2 class="cl-h2">Entregamos en Medellín y toda Antioquia</h2>
+      <p class="cl-cobertura__lead">
+        Despachamos desde nuestra planta en Amagá a obras en el Valle de Aburrá y el
+        resto del departamento. Confirmamos el flete según volumen y destino al cotizar.
+      </p>
+      <ul class="cl-chips">
+        {cobertura.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="cl-h2">Cómo comprar</h2>
+      <div class="cl-pasos">
+        {
+          pasos.map((p) => (
+            <div class="cl-paso">
+              <span class="cl-paso__n">{p.n}</span>
+              <div>
+                <h3>{p.titulo}</h3>
+                <p>{p.texto}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section cl-cierre">
+    <div class="container">
+      <h2 class="cl-h2">¿Por qué comprarle a Clay House?</h2>
+      <ul class="cl-razones">
+        <li><strong>Fábrica propia en Amagá</strong> — compras directo, sin intermediarios.</li>
+        <li><strong>Tradición desde 1965</strong> con procesos neoartesanales.</li>
+        <li><strong>Cumplimiento NTC 4205</strong> y fichas técnicas por producto.</li>
+        <li><strong>Cotización en 24 horas</strong> y entrega en todo Antioquia.</li>
+      </ul>
+      <div class="cl-hero__cta">
+        <a href="/cotizacion" class="btn btn--primary">Solicitar cotización</a>
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="btn btn--outline">
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cl-hero {
+    padding: 3.5rem 0 2.5rem;
+    background: var(--color-bg);
+  }
+  .cl-hero h1 {
+    margin: 0.5rem 0 1rem;
+    max-width: 18ch;
+  }
+  .cl-hero__lead {
+    max-width: 60ch;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+  .cl-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .cl-h2 {
+    margin-bottom: 1.5rem;
+  }
+  .cl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+  .cl-card {
+    display: block;
+    padding: 1.5rem;
+    background: var(--color-white);
+    border: 1px solid rgba(71, 36, 16, 0.12);
+    border-radius: 1rem;
+    color: var(--color-chocolate);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .cl-card:hover {
+    border-color: var(--color-terracota);
+    transform: translateY(-2px);
+  }
+  .cl-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.15rem;
+  }
+  .cl-card p {
+    margin: 0 0 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+  .cl-card__link {
+    font-weight: 600;
+    color: var(--color-terracota);
+  }
+  .cl-cobertura {
+    background: var(--color-white);
+  }
+  .cl-cobertura__lead {
+    max-width: 60ch;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+  .cl-chips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .cl-chips li {
+    padding: 0.4rem 0.9rem;
+    background: var(--color-bg);
+    border: 1px solid rgba(71, 36, 16, 0.15);
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .cl-pasos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+  }
+  .cl-paso {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+  .cl-paso__n {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-terracota);
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+  .cl-paso h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+  }
+  .cl-paso p {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+  .cl-cierre {
+    background: var(--color-white);
+  }
+  .cl-razones {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: grid;
+    gap: 0.65rem;
+    max-width: 60ch;
+  }
+  .cl-razones li {
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .cl-razones li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--color-terracota);
+    font-weight: 700;
+  }
+</style>
