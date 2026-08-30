@@ -493,11 +493,6 @@ export const products: Product[] = [
     seoDescription:
       "Calado de arcilla cocida 20 × 20 cm con patrón cuatrifolio para muros que ventilan y decoran. Espesores de 10 y 15 cm. Clay House, Amagá, Antioquia.",
     image: productFolderImage("calado", "calado-muro.webp"),
-    gallery: [
-      productFolderImage("calado", "calado-frente.webp"),
-      productFolderImage("calado", "calado-10-dimensiones.webp"),
-      productFolderImage("calado", "calado-15-dimensiones.webp"),
-    ],
     pricePerUnit: "$ 3.500",
     priceFrom: "$ 3.500",
     priceUnitLabel: "unidad",

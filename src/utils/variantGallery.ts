@@ -152,6 +152,21 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     dimensionesPattern: /-dimensiones\.webp/i,
     productFilePattern: /^enchape-bocadillo-/i,
   },
+  calado: {
+    // El muro y el frente son compartidos (raíz); cada espesor (10/15) tiene su
+    // propio isométrico de dimensiones en su carpeta.
+    heroProductByVariant: {
+      "10": "calado-muro.webp",
+      "15": "calado-muro.webp",
+    },
+    sharedRootPattern: /^calado-(muro|frente)\.webp$/i,
+    dimensionesPattern: /-dimensiones\.webp/i,
+    dimensionesByVariant: {
+      "10": /calado-10-dimensiones/i,
+      "15": /calado-15-dimensiones/i,
+    },
+    productFilePattern: /^calado-(muro|frente)\.webp$/i,
+  },
   "teja-plana": {
     heroProductByVariant: {
       chocolate: "Teja Plana Chocolate Lisa-n.webp",

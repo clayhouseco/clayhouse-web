@@ -318,6 +318,11 @@ const enchapeBocadilloVariants: ProductColorVariant[] = [
   { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
 ];
 
+const caladoVariants: ProductColorVariant[] = [
+  { id: "10", label: "10 cm", colorLabel: "Espesor 10 cm", folder: "10", pricePerUnit: "$ 3.500" },
+  { id: "15", label: "15 cm", colorLabel: "Espesor 15 cm", folder: "15", pricePerUnit: "$ 4.000" },
+];
+
 const tejaPlanaVariants: ProductColorVariant[] = [
   {
     id: "natural",
@@ -407,6 +412,9 @@ export const enchapeBocadilloAssets = buildManifest(
   "Enchape Bocadillo",
   enchapeBocadilloVariants
 );
+export const caladoAssets = buildManifest("calado", "Calado", caladoVariants, {
+  variantSelectorLabel: "Espesor",
+});
 export const tejaPlanaAssets = buildManifest("teja-plana", "Teja Plana", tejaPlanaVariants);
 export const tejaColonialAssets = buildManifest(
   "teja-colonial",
@@ -444,6 +452,7 @@ const manifests: Record<string, ProductAssetManifest> = {
   "enchape-romano": enchapeRomanoAssets,
   "enchape-thinbrick": enchapeThinBrickAssets,
   "enchape-bocadillo": enchapeBocadilloAssets,
+  "calado": caladoAssets,
   "teja-plana": tejaPlanaAssets,
   "teja-colonial": tejaColonialAssets,
   "bocadillo-prensado": bocadilloPrensadoAssets,
@@ -490,6 +499,7 @@ export function getCatalogImageScale(slug: string): number {
     "enchape-romano": 1.05,
     "enchape-thinbrick": 1,
     "enchape-bocadillo": 1,
+    "calado": 1,
     "teja-plana": 1.05,
     "teja-colonial": 1.05,
   };
