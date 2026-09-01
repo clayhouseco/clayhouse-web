@@ -73,25 +73,23 @@ interface ErpMapEntry {
 
 /**
  * slug de la web → equivalencia en el ERP.
- * Los productos que aún no existen en el ERP no están aquí (se marcan "sin
- * código" en la cotización): napolitano, enchape-rustico. Otros están mapeados
- * con sus colores/calidades pero aún sin código ERP definitivo (codigo null):
- * macizo-campesino, bocadillo-prensado, enchape-thinbrick, enchape-bocadillo.
+ * Todos los productos tienen código. Algunos códigos son provisionales de la web
+ * (se asignaron para que ninguna cotización quede "sin código") y deben
+ * confirmarse contra el ERP: MAC-CAM, BOC-PRE, BLQ, ENC-RUS, ENC-THB, ENC-BOC, NAP.
  */
 const ERP_MAP: Record<string, ErpMapEntry> = {
   romano: { codigo: "ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   toscano: { codigo: "TOS", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   cartagena: { codigo: "CAR", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  napolitano: { codigo: "NAP", coloresPermitidos: ["NAT", "MC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "enchape-romano": { codigo: "ENC-ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "macizo-campesino": { coloresPermitidos: ["MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  // Sin código ERP todavía; se venden por m² y solo en Primera.
-  "enchape-thinbrick": { coloresPermitidos: ["NAT", "BIA", "CAP", "COC"], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "enchape-bocadillo": { coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  // Código temporal — reemplazar cuando exista el definitivo en el ERP.
+  "enchape-rustico": { codigo: "ENC-RUS", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "m2" },
+  "macizo-campesino": { codigo: "MAC-CAM", coloresPermitidos: ["MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "enchape-thinbrick": { codigo: "ENC-THB", coloresPermitidos: ["NAT", "BIA", "CAP", "COC"], calidadesPermitidas: ["PRI"], unidad: "m2" },
+  "enchape-bocadillo": { codigo: "ENC-BOC", coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
   "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  // Sin código ERP todavía, pero solo se venden en Primera.
-  "bocadillo-prensado": { coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "bloquelon": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "bocadillo-prensado": { codigo: "BOC-PRE", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "bloquelon": { codigo: "BLQ", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "calado": {
     porVariante: { "10": "CAL-10", "15": "CAL-15" },
     coloresPermitidos: [],
