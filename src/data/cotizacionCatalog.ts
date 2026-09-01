@@ -1,8 +1,10 @@
 import { getVisibleProducts } from "@/data/products";
+import { getProductAssets } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
 import {
   erpEquivalencia,
   erpVariantIds,
+  colorCodigo,
   ERP_COLORES,
   ERP_CALIDADES,
   ERP_UNIDAD_LABEL,
@@ -29,6 +31,9 @@ export interface CotizableItem {
   image: string;
   /** Precio de referencia de la web (no es el precio final de la cotización). */
   refPrice: string;
+  /** Precio de referencia por color (código ERP → precio), cuando el producto
+   *  tiene precio distinto según el color (prensados). Sobrescribe a refPrice. */
+  preciosPorColor?: Record<string, string>;
 }
 
 function variantLabel(name: string, slug: string, id: string): string {
@@ -50,10 +55,31 @@ const PRECIO_POR_VARIANTE: Record<string, Record<string, string>> = {
   calado: { "10": "$ 3.500", "15": "$ 4.000" },
 };
 
+/** Precio por color (código ERP → precio) derivado de las variantes del
+ *  producto, cuando el color determina el precio (prensados). Devuelve undefined
+ *  si el color no afecta el precio (todas las variantes valen igual o las
+ *  variantes son de dimensión, no de color). Así el precio vive en un solo
+ *  lugar: las variantes en productVariants.ts. */
+function preciosPorColorDe(slug: string): Record<string, string> | undefined {
+  const assets = getProductAssets(slug);
+  if (!assets) return undefined;
+  const out: Record<string, string> = {};
+  for (const v of assets.variants) {
+    const codigo = colorCodigo(v.colorLabel);
+    if (codigo && v.pricePerUnit) out[codigo] = v.pricePerUnit;
+  }
+  // Solo tiene sentido si el precio realmente varía según el color (≥2 precios
+  // distintos); si todos valen igual, el precio base (refPrice) ya lo cubre.
+  const distintos = new Set(Object.values(out));
+  return distintos.size >= 2 ? out : undefined;
+}
+
 /** Catálogo cotizable completo (todas las opciones a nivel ERP). */
 export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p) => {
   const variantes = erpVariantIds(p.slug);
   const ids: (string | null)[] = variantes.length ? variantes : [null];
+  // El precio por color solo aplica a productos sin variantes de dimensión.
+  const preciosPorColor = variantes.length ? undefined : preciosPorColorDe(p.slug);
   return ids.map((variantId) => {
     const eq = erpEquivalencia(p.slug, variantId);
     return {
@@ -71,6 +97,7 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
         (variantId && PRECIO_POR_VARIANTE[p.slug]?.[variantId]) ??
         p.pricePerUnit ??
         "Consultar",
+      preciosPorColor,
     };
   });
 });

@@ -9,7 +9,7 @@
  * Si el ERP cambia códigos/colores/calidades, actualizar este archivo.
  */
 
-export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO";
+export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP";
 export type CalidadCodigo = "PRI" | "SEG" | "MED";
 export type UnidadVenta = "unidad" | "m2" | "ml";
 
@@ -18,6 +18,12 @@ export const ERP_COLORES: Record<ColorCodigo, { nombre: string; hex: string }> =
   MC: { nombre: "Matizado Claro", hex: "#b06a45" },
   MO: { nombre: "Matizado Oscuro", hex: "#6f3a2c" },
   CHO: { nombre: "Chocolate", hex: "#4a2c20" },
+  // Colores de los prensados y thin brick.
+  ADO: { nombre: "Adobe", hex: "#a15c41" },
+  ARE: { nombre: "Arena", hex: "#c9ad83" },
+  COC: { nombre: "Cocoa", hex: "#4b3225" },
+  BIA: { nombre: "Bianco", hex: "#d9ccb6" },
+  CAP: { nombre: "Capuccino", hex: "#b48f6a" },
 };
 
 export const ERP_CALIDADES: Record<CalidadCodigo, string> = {
@@ -40,9 +46,13 @@ const COLOR_NOMBRE_A_CODIGO: Record<string, ColorCodigo | null> = {
   matizado: "MC", // "Matizado" a secas (napolitano/enchape) — aprox. Matizado Claro
   chocolate: "CHO",
   roja: "NAT", // Teja Colonial en la web ("Roja") = Natural en el ERP
+  adobe: "ADO",
+  arena: "ARE",
+  cocoa: "COC",
+  bianco: "BIA",
+  capuccino: "CAP",
   rojo: null,
   rojizo: null,
-  arena: null,
   tabaco: null,
 };
 
@@ -64,21 +74,23 @@ interface ErpMapEntry {
 /**
  * slug de la web → equivalencia en el ERP.
  * Los productos que aún no existen en el ERP no están aquí (se marcan "sin
- * código" en la cotización): napolitano, macizo-campesino, bocadillo-prensado,
- * enchape-rustico.
+ * código" en la cotización): napolitano, enchape-rustico. Otros están mapeados
+ * con sus colores/calidades pero aún sin código ERP definitivo (codigo null):
+ * macizo-campesino, bocadillo-prensado, enchape-thinbrick, enchape-bocadillo.
  */
 const ERP_MAP: Record<string, ErpMapEntry> = {
   romano: { codigo: "ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   toscano: { codigo: "TOS", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   cartagena: { codigo: "CAR", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "enchape-romano": { codigo: "ENC-ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "macizo-campesino": { coloresPermitidos: ["MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   // Sin código ERP todavía; se venden por m² y solo en Primera.
-  "enchape-thinbrick": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "enchape-bocadillo": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "m2" },
+  "enchape-thinbrick": { coloresPermitidos: ["NAT", "BIA", "CAP", "COC"], calidadesPermitidas: ["PRI"], unidad: "m2" },
+  "enchape-bocadillo": { coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
   // Código temporal — reemplazar cuando exista el definitivo en el ERP.
-  "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   // Sin código ERP todavía, pero solo se venden en Primera.
-  "bocadillo-prensado": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "bocadillo-prensado": { coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "bloquelon": { coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "calado": {
     porVariante: { "10": "CAL-10", "15": "CAL-15" },

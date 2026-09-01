@@ -313,7 +313,9 @@ const DEPARTAMENTOS = [
         const colCod = colSel && !colSel.closest("[hidden]") ? colSel.value : null;
         // La web solo cotiza Primera calidad; el código se conserva para el ERP.
         const calCod = item.calidadesPermitidas?.[0]?.codigo ?? "PRI";
-        const precio = parseCop(item.refPrice);
+        // Precio por color cuando aplica (prensados); si no, precio base.
+        const precioColor = colCod && item.preciosPorColor ? item.preciosPorColor[colCod] : null;
+        const precio = parseCop(precioColor || item.refPrice);
         return { item, cant, colName, calName: "", colCod, calCod, precio, sub: precio != null ? precio * cant : null };
       }).filter(Boolean);
     }
@@ -357,7 +359,7 @@ const DEPARTAMENTOS = [
           quantity: r.cant || 1,
           unitLabel: r.item.unidadLabel,
           image: r.item.image,
-          pricePerUnit: r.item.refPrice,
+          pricePerUnit: (r.colCod && r.item.preciosPorColor && r.item.preciosPorColor[r.colCod]) || r.item.refPrice,
           productUrl: `/productos/${r.item.slug}/`,
           variantId: r.item.variantId ?? undefined,
           calidad: r.calCod ?? undefined,
