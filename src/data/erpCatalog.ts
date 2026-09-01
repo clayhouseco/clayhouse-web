@@ -7,6 +7,10 @@
  *
  * Fuente: ERP ClayHouse (repo clayhouse_erp) — src/lib/catalog.ts.
  * Si el ERP cambia códigos/colores/calidades, actualizar este archivo.
+ *
+ * Para comprobar que no se separaron: `npm run verificar:erp`, que consulta el catálogo
+ * publicado del ERP (https://erp.clayhouse.com.co/api/catalogo-web) y falla si algún
+ * código de aquí no existe allá.
  */
 
 export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP";
@@ -85,11 +89,11 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
   "enchape-romano": { codigo: "ENC-ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "enchape-rustico": { codigo: "ENC-RUS", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "m2" },
   "macizo-campesino": { codigo: "MAC-CAM", coloresPermitidos: ["MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "enchape-thinbrick": { codigo: "ENC-THB", coloresPermitidos: ["NAT", "BIA", "CAP", "COC"], calidadesPermitidas: ["PRI"], unidad: "m2" },
+  "enchape-thinbrick": { codigo: "ENC-THI", coloresPermitidos: ["NAT", "BIA", "CAP", "COC"], calidadesPermitidas: ["PRI"], unidad: "m2" },
   "enchape-bocadillo": { codigo: "ENC-BOC", coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
   "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "bocadillo-prensado": { codigo: "BOC-PRE", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "bloquelon": { codigo: "BLQ", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "bocadillo-prensado": { codigo: "BOC", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  "bloquelon": { codigo: "BLO", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   "calado": {
     porVariante: { "10": "CAL-10", "15": "CAL-15" },
     coloresPermitidos: [],
