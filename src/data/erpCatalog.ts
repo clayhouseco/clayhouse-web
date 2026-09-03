@@ -13,6 +13,8 @@
  * código de aquí no existe allá.
  */
 
+import { erpDeSlug, erpDeCodigo, type ErpProducto } from "@/data/erpFeed";
+
 export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP";
 export type CalidadCodigo = "PRI" | "SEG" | "MED";
 export type UnidadVenta = "unidad" | "m2" | "ml";
@@ -130,21 +132,46 @@ export interface ErpEquivalencia {
   unidad: UnidadVenta;
 }
 
-/** Equivalencia ERP de un producto de la web (con id de variante si aplica). */
+/** Colores que el ERP publica de ese producto, dejando solo los que la web sabe pintar. */
+function coloresDelErp(p: ErpProducto | null): ColorCodigo[] {
+  if (!p) return [];
+  return p.colores.map((c) => c.codigo).filter((c): c is ColorCodigo => c in ERP_COLORES);
+}
+
+/**
+ * Equivalencia ERP de un producto de la web (con id de variante si aplica).
+ *
+ * MANDA EL ERP donde el ERP tiene dato: los colores y la unidad salen del catálogo que él
+ * publica (`erpFeed.json`, que se baja en cada build). ERP_MAP queda como el puente entre
+ * el slug de la web y el código del ERP, y como respaldo de lo que el ERP todavía no dice
+ * —hay productos cuyas variantes allá tienen el color vacío, y quedarse con esa lista
+ * vacía le borraría los colores al cotizador—. `npm run sync:erp` reporta esos casos.
+ */
 export function erpEquivalencia(slug: string, variantId?: string | null): ErpEquivalencia {
   const entry = ERP_MAP[slug];
+  const filas = erpDeSlug(slug);
+
   if (!entry) {
-    // Producto aún no catalogado en el ERP → sin código, se digita a mano.
-    return { codigo: null, coloresPermitidos: [], calidadesPermitidas: ["PRI", "SEG", "MED"], unidad: "unidad" };
+    // Sin puente escrito a mano sirve el del ERP, si publica esa página con un solo código.
+    const sola = filas.length === 1 ? filas[0] : null;
+    return {
+      codigo: sola?.codigo ?? null,
+      coloresPermitidos: coloresDelErp(sola),
+      calidadesPermitidas: ["PRI", "SEG", "MED"],
+      unidad: (sola?.unidad as UnidadVenta) ?? "unidad",
+    };
   }
+
   const codigo = entry.porVariante
     ? (variantId ? entry.porVariante[variantId] ?? null : null)
     : entry.codigo ?? null;
+  const enErp = erpDeCodigo(codigo);
+  const colores = coloresDelErp(enErp);
   return {
     codigo,
-    coloresPermitidos: entry.coloresPermitidos,
+    coloresPermitidos: colores.length ? colores : entry.coloresPermitidos,
+    unidad: (enErp?.unidad as UnidadVenta) ?? entry.unidad,
     calidadesPermitidas: entry.calidadesPermitidas,
-    unidad: entry.unidad,
   };
 }
 

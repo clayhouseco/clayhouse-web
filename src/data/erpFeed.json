@@ -1,0 +1,604 @@
+{
+  "ok": true,
+  "actualizado": "2026-09-03T19:48:13.803Z",
+  "productos": [
+    {
+      "codigo": "ENC-THI",
+      "id": "enchape-thinbrick",
+      "nombre": "Enchape Thinbrick",
+      "categoria": "enchapes",
+      "pagina": "enchape-thinbrick",
+      "dimension": null,
+      "rendimiento": null,
+      "pesoKg": 0.28,
+      "unidad": "m2",
+      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
+      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
+          ]
+        },
+        {
+          "codigo": "BIA",
+          "nombre": "Bianco",
+          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
+          ]
+        },
+        {
+          "codigo": "CAP",
+          "nombre": "Capuccino",
+          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
+          ]
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "R15V",
+      "id": "rayado-15-v",
+      "nombre": "Rayado de 15 Vertical",
+      "categoria": "divisorios",
+      "pagina": "rayados-verticales",
+      "dimension": "15*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 7.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 15 vertical. Maneja Primera y Segunda.",
+      "imagen": "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
+        "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "R10H",
+      "id": "rayado-10-h",
+      "nombre": "Rayado de 10 Horizontal",
+      "categoria": "divisorios",
+      "pagina": "rayados-horizontales",
+      "dimension": "10*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 5.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 10 horizontal. Maneja Primera y Segunda.",
+      "imagen": "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
+      "fotos": [
+        "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
+        "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20horizontal%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "R12H",
+      "id": "rayado-12-h",
+      "nombre": "Rayado de 12 Horizontal",
+      "categoria": "divisorios",
+      "pagina": "rayados-horizontales",
+      "dimension": "12*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 6.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 12 horizontal. Maneja Primera y Segunda.",
+      "imagen": "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
+        "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "CAR",
+      "id": "cartagena",
+      "nombre": "Cartagena",
+      "categoria": "fachadas",
+      "pagina": "cartagena",
+      "dimension": "30*11*4.5",
+      "rendimiento": "≈ 72 und/m²",
+      "pesoKg": 2.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada comercializada Cartagena. Solo Primera.",
+      "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
+      "fotos": [
+        "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
+        "/productos/products/cartagena/Cartagena%20dimensiones.webp",
+        "/productos/products/cartagena/matizado%20claro/Cartagena%20Matizado-n.webp",
+        "/productos/products/cartagena/matizado%20oscuro/Cartagena%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "MAC-624",
+      "id": "macizo-6-24",
+      "nombre": "Macizo",
+      "categoria": "fachadas",
+      "pagina": "macizo-brix",
+      "dimension": "6*12*24",
+      "rendimiento": "≈ 35 und/m²",
+      "pesoKg": 3.8,
+      "unidad": "unidad",
+      "descripcion": "Ladrillo macizo 7x12x24. Solo Primera.",
+      "imagen": "/productos/products/macizo-brix/pieza/DSC_9310.jpg",
+      "fotos": [
+        "/productos/products/macizo-brix/pieza/DSC_9310.jpg",
+        "/productos/products/macizo-brix/macizo%206x12x24%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "TEJ-PLA",
+      "id": "teja-plana",
+      "nombre": "Teja Plana",
+      "categoria": "techos",
+      "pagina": "teja-plana",
+      "dimension": "40 x 25 x 1.5 cm",
+      "rendimiento": "≈ 13 und/m²",
+      "pesoKg": 2.7,
+      "unidad": "m2",
+      "descripcion": "Teja Plana comercializada. Colores Natural y Chocolate. m². Solo Primera.",
+      "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
+      "fotos": [
+        "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
+        "/productos/products/teja-plana/natural/teja%20plana%20natural%20dimensiones.webp",
+        "/productos/products/teja-plana/chocolate/Teja%20Plana%20Chocolate%20Lisa-n.webp",
+        "/productos/products/teja-plana/chocolate/teja%20plana%20chocolate%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "BLO",
+      "id": "bloquelon",
+      "nombre": "Bloquelón",
+      "categoria": "divisorios",
+      "pagina": "bloquelon",
+      "dimension": "23 x 8 x 80 cm",
+      "rendimiento": null,
+      "pesoKg": 10,
+      "unidad": "unidad",
+      "descripcion": "Bloque de arcilla para muros divisorios (no estructural). NTC 4205-2/3.",
+      "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
+      "fotos": [
+        "/productos/products/bloquelon/bloquelon-cara.webp",
+        "/productos/products/bloquelon/bloquelon-celdas.webp",
+        "/productos/products/bloquelon/bloquelon-dimensiones.webp",
+        "/productos/products/bloquelon/bloquelon-iso.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
+          "fotos": []
+        }
+      ]
+    },
+    {
+      "codigo": "GFP",
+      "id": "ladrillo-gran-formato-prensado",
+      "nombre": "Ladrillo Gran Formato Prensado",
+      "categoria": "fachadas",
+      "pagina": "gran-formato-prensado",
+      "dimension": "39 x 11.5 x 5 cm",
+      "rendimiento": "≈ 41 und/m²",
+      "pesoKg": 3.1,
+      "unidad": "unidad",
+      "descripcion": "Fachada comercializada de gran formato prensado. Colores Arena, Natural, Cocoa y Adobe. Solo Primera.",
+      "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "ARE",
+          "nombre": "Arena",
+          "imagen": "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
+            "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
+            "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "imagen": "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
+            "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "ADO",
+          "nombre": "Adobe",
+          "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
+            "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-dimensiones.webp"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "R12V",
+      "id": "rayado-12-v",
+      "nombre": "Rayado de 12 Vertical",
+      "categoria": "divisorios",
+      "pagina": "rayados-verticales",
+      "dimension": "12*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 6.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 12 vertical. Maneja Primera y Segunda.",
+      "imagen": "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
+      "fotos": [
+        "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
+        "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "TOS",
+      "id": "toscano",
+      "nombre": "Toscano",
+      "categoria": "fachadas",
+      "pagina": "toscano",
+      "dimension": "14*5,2*28,5",
+      "rendimiento": "≈ 68 und/m²",
+      "pesoKg": 1.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
+      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
+      "fotos": [
+        "/productos/products/toscano/natural/toscano%20natural-n.webp",
+        "/productos/products/toscano/isometrico%20toscano.webp",
+        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "CAL-15",
+      "id": "calado-15",
+      "nombre": "Calado 15",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 20 cm · espesor 14 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 15 cm. Ventila y tamiza la luz.",
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/15/calado-15-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": []
+        }
+      ]
+    },
+    {
+      "codigo": "ENC-ROM",
+      "id": "enchape-romano",
+      "nombre": "Enchape Romano",
+      "categoria": "enchapes",
+      "pagina": "enchape-romano",
+      "dimension": "28 x 6 x 1.3 cm",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 0.75,
+      "unidad": "unidad",
+      "descripcion": "Enchape tipo Romano. Solo Primera.",
+      "imagen": "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
+      "fotos": [
+        "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
+        "/productos/products/enchape-romano/enchape%20romano%20dimensiones.webp",
+        "/productos/products/enchape-romano/matizado/Chapa%20Matizada%20Clara-n.webp",
+        "/productos/products/enchape-romano/matizado%20oscuro/Enchape%20Matizado%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": null,
+          "fotos": []
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": null,
+          "fotos": []
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "imagen": null,
+          "fotos": []
+        }
+      ]
+    },
+    {
+      "codigo": "ENC-BOC",
+      "id": "enchape-bocadillo",
+      "nombre": "Enchape Bocadillo",
+      "categoria": "enchapes",
+      "pagina": "enchape-bocadillo",
+      "dimension": null,
+      "rendimiento": null,
+      "pesoKg": null,
+      "unidad": "m2",
+      "descripcion": "Revestimiento de muros en arcilla a la vista, formato bocadillo. Interior y exterior.",
+      "imagen": "/productos/products/enchape-romano/natural/Enchape%20Natural.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/enchape-romano/natural/Enchape%20Natural.webp",
+          "fotos": [
+            "/productos/products/enchape-bocadillo/natural/enchape-bocadillo-natural.webp",
+            "/productos/products/enchape-bocadillo/natural/enchape-bocadillo-pieza.webp"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "MAC-CAM",
+      "id": "macizo-campesino",
+      "nombre": "Macizo Campesino",
+      "categoria": "fachadas",
+      "pagina": "macizo-campesino",
+      "dimension": "6 x 10 x 20 cm",
+      "rendimiento": null,
+      "pesoKg": null,
+      "unidad": "unidad",
+      "descripcion": "Ladrillo macizo campesino, cara rústica. Matizado claro y oscuro. Solo Primera.",
+      "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro-n.webp",
+      "fotos": [
+        "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro-n.webp",
+        "/productos/products/macizo-campesino/macizo%20campesino%20dimensiones.webp",
+        "/productos/products/macizo-campesino/matizado%20oscuro/Campesino%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "R10V",
+      "id": "rayado-10-v",
+      "nombre": "Rayado de 10 Vertical",
+      "categoria": "divisorios",
+      "pagina": "rayados-verticales",
+      "dimension": "10*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 5.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 10 vertical. Maneja Primera y Segunda.",
+      "imagen": "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
+        "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "R15H",
+      "id": "rayado-15-h",
+      "nombre": "Rayado de 15 Horizontal",
+      "categoria": "divisorios",
+      "pagina": "rayados-horizontales",
+      "dimension": "15*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 7.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 15 horizontal. Maneja Primera y Segunda.",
+      "imagen": "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
+        "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "TEJ-COL",
+      "id": "teja-colonial",
+      "nombre": "Teja Colonial",
+      "categoria": "techos",
+      "pagina": "teja-colonial",
+      "dimension": "41 x 25 cm",
+      "rendimiento": "≈ 22 und/m²",
+      "pesoKg": 1.8,
+      "unidad": "m2",
+      "descripcion": "Teja Colonial (Española) comercializada. Unidad de venta m². Solo Primera.",
+      "imagen": "/productos/teja-colonial.jpg",
+      "fotos": [
+        "/productos/products/teja-colonial/teja%20colonial%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "ENC-RUS",
+      "id": "enchape-rustico",
+      "nombre": "Enchape Rústico",
+      "categoria": "enchapes",
+      "pagina": "enchape-rustico",
+      "dimension": null,
+      "rendimiento": null,
+      "pesoKg": null,
+      "unidad": "m2",
+      "descripcion": "Revestimiento rústico en arcilla, interior y exterior. NTC 4205.",
+      "imagen": "/productos/enchape-rustico.jpg",
+      "fotos": [
+        "/productos/products/enchape-rustico/producto/enchape-rustico-producto-2.webp",
+        "/productos/products/enchape-rustico/producto/enchape-rustico-producto.jpg"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "BOC",
+      "id": "bocadillo-prensado",
+      "nombre": "Bocadillo Prensado",
+      "categoria": "fachadas",
+      "pagina": "bocadillo-prensado",
+      "dimension": "24.5 x 12 x 6 cm",
+      "rendimiento": "≈ 56 und/m²",
+      "pesoKg": 2.3,
+      "unidad": "unidad",
+      "descripcion": "Fachada comercializada tipo bocadillo prensado (liviano). Colores Arena, Natural, Cocoa y Adobe. Solo Primera.",
+      "imagen": "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "ARE",
+          "nombre": "Arena",
+          "imagen": "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
+          "fotos": [
+            "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
+            "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
+          "fotos": [
+            "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
+            "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "imagen": "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
+          "fotos": [
+            "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
+            "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "ADO",
+          "nombre": "Adobe",
+          "imagen": "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
+          "fotos": [
+            "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
+            "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-dimensiones.webp"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAL-10",
+      "id": "calado-10",
+      "nombre": "Calado 10",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 3.5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/10/calado-10-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": []
+        }
+      ]
+    },
+    {
+      "codigo": "ROM",
+      "id": "romano",
+      "nombre": "Romano",
+      "categoria": "fachadas",
+      "pagina": "romano",
+      "dimension": "6*15*30",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 2.5,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
+      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+          "fotos": [
+            "/productos/products/romano/natural/Romano%20Natural.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+          "fotos": [
+            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
+          ]
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+          "fotos": [
+            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
+          ]
+        }
+      ]
+    }
+  ]
+}

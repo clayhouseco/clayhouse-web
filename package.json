@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/fetch-availability.mjs && node scripts/generate-responsive.mjs && astro build",
+    "build": "node scripts/sync-erp.mjs && node scripts/fetch-availability.mjs && node scripts/generate-responsive.mjs && astro build",
     "preview": "astro preview",
     "zip:dist": "npm run build && cd dist && zip -r ../clayhouse-dist.zip . -x '*.DS_Store'",
     "zip:deploy": "node scripts/create-deploy-zips.mjs",
@@ -14,7 +14,8 @@
     "verify:cartagena": "npm run build && node scripts/verify-product-assets.mjs cartagena",
     "verify:images": "node scripts/verify-all-product-images.mjs",
     "verify:products": "npm run build && node scripts/verify-product-assets.mjs romano && node scripts/verify-product-assets.mjs toscano && node scripts/verify-product-assets.mjs napolitano && node scripts/verify-product-assets.mjs cartagena && node scripts/verify-product-assets.mjs macizo-campesino && node scripts/verify-product-assets.mjs macizo-brix && node scripts/verify-product-assets.mjs rayados-verticales && node scripts/verify-product-assets.mjs rayados-horizontales && node scripts/verify-product-assets.mjs enchape-rustico && node scripts/verify-product-assets.mjs enchape-romano && node scripts/verify-product-assets.mjs piso-30x30 && node scripts/verify-product-assets.mjs piso-10x30 && node scripts/verify-product-assets.mjs teja-plana && node scripts/verify-product-assets.mjs teja-colonial",
-    "verificar:erp": "node scripts/verificar-erp.mjs"
+    "verificar:erp": "node scripts/verificar-erp.mjs",
+    "sync:erp": "node scripts/sync-erp.mjs"
   },
   "dependencies": {
     "@fontsource/archivo": "^5.2.8",

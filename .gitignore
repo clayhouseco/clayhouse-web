@@ -39,3 +39,6 @@ public/images/_responsive/
 # Preview del generador de fichas (temporal)
 scripts/fichas/_preview/
 .ficha-tmp-*/
+
+# Reporte generado por sync:erp en cada build
+erp-divergencias.md
