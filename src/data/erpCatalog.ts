@@ -103,7 +103,8 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
     unidad: "unidad",
   },
   "macizo-brix": {
-    porVariante: { "5x10x20": "MAC-520", "6x12x24": "MAC-624" },
+    // 5x10x20 (MAC-520) retirado de la web: el ERP dejó de publicarlo.
+    porVariante: { "6x12x24": "MAC-624" },
     coloresPermitidos: ["NAT", "MC", "MO"],
     calidadesPermitidas: ["PRI"],
     unidad: "unidad",

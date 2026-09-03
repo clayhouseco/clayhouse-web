@@ -51,7 +51,7 @@ function variantLabel(name: string, slug: string, id: string): string {
 const PRECIO_POR_VARIANTE: Record<string, Record<string, string>> = {
   "rayados-verticales": { "10": "$ 2.360", "12": "$ 2.690", "15": "$ 3.190" },
   "rayados-horizontales": { "10": "$ 1.790", "12": "$ 2.190", "15": "$ 2.390" },
-  "macizo-brix": { "5x10x20": "$ 1.500", "6x12x24": "$ 1.850" },
+  "macizo-brix": { "6x12x24": "$ 1.850" },
   calado: { "10": "$ 3.500", "15": "$ 4.000" },
 };
 

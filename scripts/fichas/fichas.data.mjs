@@ -485,55 +485,6 @@ export const fichas = [
     ],
     "variants": [
       {
-        "id": "5x10x20",
-        "titulo": "MACIZO 5x10x20",
-        "clasificacion": "MACIZO 5x10x20",
-        "foto": "/public/images/products/macizo-brix/macizo 5x10x20 dimensiones.webp",
-        "dims": {
-          "largo": "20 cm",
-          "ancho": "10 cm",
-          "alto": "5 cm"
-        },
-        "specsRow": [
-          [
-            "weight",
-            "PESO APROX.",
-            "2,40 kg",
-            "(por unidad)"
-          ],
-          [
-            "cube",
-            "DIMENSIONES",
-            "20 × 10 × 5 cm",
-            ""
-          ],
-          [
-            "compress",
-            "RESISTENCIA A LA COMPRESIÓN",
-            "≥ 150 kg/cm²",
-            ""
-          ],
-          [
-            "drop",
-            "ABSORCIÓN DE AGUA",
-            "≤ 18%",
-            ""
-          ],
-          [
-            "flame",
-            "RESISTENCIA AL FUEGO",
-            "Excelente",
-            ""
-          ],
-          [
-            "arrows",
-            "TOLERANCIAS DIMENSIONALES",
-            "± 3 mm",
-            ""
-          ]
-        ]
-      },
-      {
         "id": "6x12x24",
         "titulo": "MACIZO 6x12x24",
         "clasificacion": "MACIZO 6x12x24",

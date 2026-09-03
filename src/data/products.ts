@@ -258,19 +258,18 @@ export const products: Product[] = [
     seoDescription:
       "Ladrillo macizo Brix en formato optimizado para obra moderna: buen rendimiento y acabado uniforme. Fabricado en Amagá por Clay House.",
     image: productFolderImage("macizo-brix", "pieza/DSC_9310.jpg"),
-    pricePerUnit: "$ 1.500",
-    priceFrom: "$ 1.500",
+    pricePerUnit: "$ 1.850",
     priceUnitLabel: "unidad",
     dimensions: {
-      alto: "5 / 6 cm",
-      ancho: "10 / 12 cm",
-      largo: "20 / 24 cm",
+      alto: "6 cm",
+      ancho: "12 cm",
+      largo: "24 cm",
     },
     specs: [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Estructural" },
     ],
-    technicalPdf: productFolderImage("macizo-brix", "fichas/5x10x20.pdf"),
+    technicalPdf: productFolderImage("macizo-brix", "fichas/6x12x24.pdf"),
   },
   {
     name: "Bocadillo Prensado",

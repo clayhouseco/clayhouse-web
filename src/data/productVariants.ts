@@ -227,14 +227,6 @@ const macizoCampesinoVariants: ProductColorVariant[] = [
 
 const macizoBrixVariants: ProductColorVariant[] = [
   {
-    id: "5x10x20",
-    label: "5×10×20 cm",
-    colorLabel: "5×10×20 cm",
-    folder: "pieza",
-    pricePerUnit: "$ 1.500",
-    dimensions: { largo: "20 cm", alto: "5 cm" },
-  },
-  {
     id: "6x12x24",
     label: "6×12×24 cm",
     colorLabel: "6×12×24 cm",

@@ -65,8 +65,8 @@ cambiar el **diseño** (colores, tamaños, layout), editar la plantilla HTML en
 
 ## Productos con varias dimensiones (fichas por variante)
 
-Algunos productos tienen varias dimensiones (rayados: 10/12/15; macizo-brix:
-5x10x20 / 6x12x24). Para estos, en `fichas.data.mjs` el producto lleva un array
+Algunos productos tienen varias dimensiones (rayados: 10/12/15; calado:
+10/15). Para estos, en `fichas.data.mjs` el producto lleva un array
 `variants` en vez de los campos de ficha única:
 
 ```js

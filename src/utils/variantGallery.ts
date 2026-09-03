@@ -81,17 +81,9 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     heroProductByVariant: {
       pieza: "DSC_9310.jpg",
     },
-    sharedRootPattern: /^macizo \d/i,
-    dimensionesPattern: /macizo 5x10x20 dimensiones/i,
-    fichaPattern: /macizo 5x10x20 ficha/i,
-    dimensionesByVariant: {
-      "5x10x20": /macizo 5x10x20 dimensiones/i,
-      "6x12x24": /macizo 6x12x24 dimensiones/i,
-    },
-    fichaByVariant: {
-      "5x10x20": /macizo 5x10x20 ficha/i,
-      "6x12x24": /macizo 6x12x24 ficha/i,
-    },
+    sharedRootPattern: /^macizo 6x12x24 /i,
+    dimensionesPattern: /macizo 6x12x24 dimensiones/i,
+    fichaPattern: /macizo 6x12x24 ficha/i,
     productFilePattern: /^DSC_9310|^Macizo /i,
   },
   "rayados-verticales": {
