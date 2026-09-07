@@ -4,6 +4,7 @@ import ProductGallery, { type GalleryImage } from "@/components/ProductGallery.a
 import ProductInspiration from "@/components/ProductInspiration.astro";
 import ProductColorVariants from "@/components/ProductColorVariants.astro";
 import ProductUseIcon from "@/components/ProductUseIcon.astro";
+import { getCollection } from "astro:content";
 import { getVisibleProducts, getProduct } from "@/data/products";
 import {
   getRecommendedUses,
@@ -23,7 +24,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
-import { getReviewsForProduct } from "@/data/reviews";
+import { getReviewsForProduct, getSchemaReviewsForProduct } from "@/data/reviews";
 import { erpEquivalencia } from "@/data/erpCatalog";
 import { site } from "@/data/site";
 import {
@@ -177,12 +178,23 @@ const recommendedUses = getRecommendedUses(product);
 const notRecommended = getNotRecommended(product);
 const related = getRelatedProducts(product);
 
+/** Dirección inversa del enlace blog → producto: el artículo ya declara sus
+ *  `relatedProducts`, pero la ficha no devolvía el enlace, así que cada
+ *  artículo quedaba con un único enlace entrante (el índice del blog) y sin
+ *  peso interno. */
+const relatedPosts = (await getCollection("blog", ({ data }) => !data.draft))
+  .filter((post) => post.data.relatedProducts?.includes(product.slug))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+
 const productReviews = getReviewsForProduct(product.name);
-const productJsonLd = buildProductJsonLd(product, product.image, productReviews);
+// El JSON-LD solo lleva reseñas aptas (ver `schemaOk` en reviews.ts); la página
+// sigue mostrando todas.
+const productJsonLd = buildProductJsonLd(product, product.image, getSchemaReviewsForProduct(product.name));
 
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: "Inicio", href: "/" },
-  { name: "Productos", href: "/productos/" },
+  { name: "Productos", href: "/productos" },
   { name: product.category, href: getCategoryHref(product.category) },
   { name: product.name },
 ]);
@@ -290,7 +302,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               data-image={galleryImages[0]?.src ?? product.image}
               data-price={displayPrice ?? "Consultar"}
               data-texture={product.texture}
-              data-url={`/productos/${product.slug}/`}
+              data-url={`/productos/${product.slug}`}
               data-variant-id={activeVariantId}
               data-calidad={defaultCalidad}
             >
@@ -668,6 +680,26 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </a>
               ))}
             </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      relatedPosts.length > 0 && (
+        <section class="product-page__block">
+          <div class="container product-page__panel">
+            <h2 class="product-page__h2 product-page__h2--large">En el blog</h2>
+            <ul class="product-posts">
+              {relatedPosts.map((post) => (
+                <li>
+                  <a href={`/blog/${post.id}`} class="product-posts__link">
+                    <span class="product-posts__title">{post.data.title}</span>
+                    <span class="product-posts__desc">{post.data.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )
@@ -1859,6 +1891,42 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     .spec-grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .product-posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .product-posts__link {
+    display: block;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .product-posts__link:hover,
+  .product-posts__link:focus-visible {
+    border-color: currentColor;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .product-posts__title {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .product-posts__desc {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.75;
   }
 
   .related-grid {
