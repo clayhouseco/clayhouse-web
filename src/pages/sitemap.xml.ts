@@ -32,19 +32,25 @@ function locFor(path: string): string {
 export const GET: APIRoute = async () => {
   const blogPosts = await getCollection("blog", ({ data }) => !data.draft);
 
-  const paths = [
-    ...staticPaths,
-    ...catalogCategories.map((c) => `/productos/categoria/${getCategorySlug(c.id)}`),
-    ...getVisibleProducts().map((p) => `/productos/${p.slug}`),
-    ...blogPosts.map((post) => `/blog/${post.id}`),
+  /** `lastmod` solo donde hay una fecha real. Google ignora el campo —y
+   *  desconfía del sitemap entero— si todas las URLs dicen "modificado hoy",
+   *  así que las páginas sin fecha propia lo omiten en vez de inventarla. */
+  const entries: { path: string; lastmod?: string }[] = [
+    ...staticPaths.map((path) => ({ path })),
+    ...catalogCategories.map((c) => ({ path: `/productos/categoria/${getCategorySlug(c.id)}` })),
+    ...getVisibleProducts().map((p) => ({ path: `/productos/${p.slug}` })),
+    ...blogPosts.map((post) => ({
+      path: `/blog/${post.id}`,
+      lastmod: (post.data.updatedDate ?? post.data.pubDate).toISOString().slice(0, 10),
+    })),
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${paths
+${entries
   .map(
-    (path) => `  <url>
-    <loc>${locFor(path)}</loc>
+    ({ path, lastmod }) => `  <url>
+    <loc>${locFor(path)}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ""}
   </url>`
   )
   .join("\n")}
