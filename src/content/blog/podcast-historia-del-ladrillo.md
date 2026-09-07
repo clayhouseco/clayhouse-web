@@ -1,5 +1,6 @@
 ---
 title: "La Historia del Ladrillo — el podcast de Clay House"
+seoTitle: "La Historia del Ladrillo: el podcast"
 description: "Nuestra serie en video sobre el material más antiguo de la arquitectura: de las primeras piezas secadas al sol a las bóvedas que llevan siglos en pie."
 pubDate: 2026-08-26
 type: podcast

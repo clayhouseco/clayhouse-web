@@ -1,5 +1,6 @@
 ---
 title: "Especificación de ladrillo en obra: guía para arquitectos y constructores"
+seoTitle: "Cómo especificar ladrillo en obra"
 description: "Los seis frentes que toda especificación debe cubrir: tipo de pieza, norma NTC 4205, dimensiones, aparejo, color y mantenimiento."
 pubDate: 2026-05-24
 type: articulo

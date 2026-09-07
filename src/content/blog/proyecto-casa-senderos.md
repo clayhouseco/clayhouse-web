@@ -1,5 +1,6 @@
 ---
 title: "Casa Senderos del Retiro: fachada en Ladrillo Romano"
+seoTitle: "Casa Senderos: fachada en ladrillo romano"
 description: "Residencia en el oriente antioqueño donde el matizado oscuro del Romano define la fachada a la vista."
 pubDate: 2025-04-10
 type: proyecto

@@ -290,7 +290,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Bocadillo Prensado | Clay House Amagá",
     seoDescription:
-      "Ladrillo Bocadillo Prensado de formato compacto en arcilla cocida, colores adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
+      "Ladrillo bocadillo prensado en arcilla cocida: adobe, arena, natural y cocoa. Acabado homogéneo para fachadas con detalle fino. Clay House, Amagá.",
     image: productFolderImage("bocadillo-prensado", "natural/bocadillo-prensado-natural-n2.webp"),
     pricePerUnit: "$ 2.400",
     priceFrom: "$ 2.300",
@@ -330,7 +330,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Gran Formato Prensado | Clay House Amagá",
     seoDescription:
-      "Ladrillo Gran Formato Prensado (39 × 11,5 × 5 cm) en arcilla cocida, colores adobe, arena, natural y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
+      "Ladrillo gran formato prensado (39 × 11,5 × 5 cm) en adobe, arena, natural y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
     image: productFolderImage("gran-formato-prensado", "natural/gran-formato-prensado-natural-n.webp"),
     pricePerUnit: "$ 3.600",
     priceFrom: "$ 3.100",
@@ -587,7 +587,7 @@ export const products: Product[] = [
     color: "Natural, Matizado, Matizado oscuro",
     texture: "Romano",
     featured: false,
-    seoTitle: "Enchape romano: revestimiento en ladrillo por m² | Clay House",
+    seoTitle: "Enchape romano en ladrillo: precio por m² | Clay House",
     seoDescription:
       "Enchape romano de arcilla, formato alargado para muros de acento en interior y fachada. Fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage("enchape-romano", "natural/Enchape Natural-n.webp"),
@@ -623,7 +623,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Enchape Thin Brick | Clay House Amagá",
     seoDescription:
-      "Enchape delgado tipo thin brick (20 × 5 × 1 cm) en Natural, Bianco, Capuccino y Cocoa para revestir muros interiores. Norma NTC 4205. Clay House, Amagá, Antioquia.",
+      "Enchape delgado tipo thin brick (20 × 5 × 1 cm) en natural, bianco, capuccino y cocoa para muros interiores. Norma NTC 4205. Clay House, Amagá.",
     image: productFolderImage("enchape-thinbrick", "natural/enchape-thinbrick-natural.webp"),
     pricePerUnit: "$ 80.000",
     priceUnitLabel: "m²",
@@ -716,7 +716,7 @@ export const products: Product[] = [
     featured: false,
     seoTitle: "Teja colonial de barro: medidas y precio | Clay House",
     seoDescription:
-      "Teja colonial de barro cocido con perfil curvo tradicional, norma NTC 4205. Fabricación propia en Amagá, Antioquia, con despacho a toda Colombia. Cotiza en 24 horas.",
+      "Teja colonial de barro cocido, perfil curvo tradicional y norma NTC 4205. Fabricación propia en Amagá con despacho a toda Colombia.",
     image: productFolderImage("teja-colonial", "roja/teja colonial natural.webp"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",

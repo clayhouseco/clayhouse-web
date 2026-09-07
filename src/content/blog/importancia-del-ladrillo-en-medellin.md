@@ -1,5 +1,6 @@
 ---
 title: "La importancia del ladrillo en la arquitectura de Medellín"
+seoTitle: "El ladrillo en la arquitectura de Medellín"
 description: "Por qué el ladrillo es parte del lenguaje arquitectónico paisa, y cómo se mantiene vigente en la obra contemporánea del Valle de Aburrá."
 pubDate: 2025-10-25
 type: video

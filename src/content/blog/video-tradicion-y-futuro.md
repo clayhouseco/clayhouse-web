@@ -1,5 +1,6 @@
 ---
 title: "Nuestro proceso: del barro de Amagá a la pieza terminada"
+seoTitle: "Del barro de Amagá a la pieza terminada"
 description: "Cómo trabajamos el barro local en Amagá: extracción, formado, secado y cocción artesanal con control de lote."
 pubDate: 2026-05-23
 type: video

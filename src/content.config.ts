@@ -5,6 +5,11 @@ const blog = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
+    /** Título para la pestaña y el resultado de Google. El <title> añade
+     *  " | Clay House" (14 caracteres) y Google corta cerca de 60: cuando el
+     *  titular del artículo es más largo, aquí va la versión corta. El h1 sigue
+     *  usando `title` completo. */
+    seoTitle: z.string().optional(),
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
