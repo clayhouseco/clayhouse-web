@@ -8,21 +8,25 @@ export const prerender = true;
 
 const staticPaths = [
   "/",
-  "/productos/",
-  "/comprar-ladrillo-medellin/",
-  "/cotizacion/",
-  "/nosotros/",
-  "/blog/",
-  "/descargas/",
-  "/resenas/",
-  "/privacidad/",
-  "/contacto/",
-  "/contacto/gracias/",
+  "/productos",
+  "/proyectos",
+  "/comprar-ladrillo-medellin",
+  "/cotizacion",
+  "/nosotros",
+  "/blog",
+  "/descargas",
+  "/resenas",
+  "/privacidad",
+  "/contacto",
 ];
 
+/** El sitemap debe declarar exactamente la misma forma de URL que el
+ *  <link rel="canonical"> de BaseLayout y que sirve Vercel: sin barra final.
+ *  Si difieren, Google marca las páginas como "alternativa canónica" y gasta
+ *  rastreo resolviendo el empate. */
 function locFor(path: string): string {
   if (path === "/") return `${site.url}/`;
-  return `${site.url}${path}`;
+  return `${site.url}${path.replace(/\/$/, "")}`;
 }
 
 export const GET: APIRoute = async () => {
@@ -30,9 +34,9 @@ export const GET: APIRoute = async () => {
 
   const paths = [
     ...staticPaths,
-    ...catalogCategories.map((c) => `/productos/categoria/${getCategorySlug(c.id)}/`),
-    ...getVisibleProducts().map((p) => `/productos/${p.slug}/`),
-    ...blogPosts.map((post) => `/blog/${post.id}/`),
+    ...catalogCategories.map((c) => `/productos/categoria/${getCategorySlug(c.id)}`),
+    ...getVisibleProducts().map((p) => `/productos/${p.slug}`),
+    ...blogPosts.map((post) => `/blog/${post.id}`),
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

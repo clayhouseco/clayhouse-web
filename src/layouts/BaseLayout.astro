@@ -23,6 +23,8 @@ interface Props {
   preloadImage?: string;
   /** Tipo MIME del preload image, p.ej. "image/jpeg" o "image/webp" */
   preloadImageType?: string;
+  /** Páginas de confirmación y similares: fuera del índice de Google. */
+  noindex?: boolean;
 }
 
 const {
@@ -33,6 +35,7 @@ const {
   hideQuoteCart = false,
   preloadImage,
   preloadImageType,
+  noindex = false,
 } = Astro.props;
 const fullTitle =
   title === site.name
@@ -76,7 +79,7 @@ const ogImageUrl = ogImagePath.startsWith("http")
       />
     )}
     <meta name="theme-color" content="#472410" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="es_CO" />
     <meta property="og:site_name" content={site.name} />

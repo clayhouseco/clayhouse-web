@@ -4,10 +4,16 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "astro",
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.clayhouse.com.co" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.clayhouse.com.co"
+        }
+      ],
       "destination": "https://clayhouse.com.co/:path*",
       "permanent": true
     },
@@ -21,9 +27,21 @@
       "destination": "/logo-clayhouse.png",
       "permanent": true
     },
-    { "source": "/nosotros/", "destination": "/nosotros", "permanent": true },
-    { "source": "/tienda", "destination": "/productos", "permanent": true },
-    { "source": "/tienda/", "destination": "/productos", "permanent": true },
+    {
+      "source": "/nosotros/",
+      "destination": "/nosotros",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/tienda/",
+      "destination": "/productos",
+      "permanent": true
+    },
     {
       "source": "/solicita-informacion-productos-servicios",
       "destination": "/contacto",
@@ -34,10 +52,26 @@
       "destination": "/contacto",
       "permanent": true
     },
-    { "source": "/carrito-de-compras", "destination": "/contacto", "permanent": true },
-    { "source": "/carrito-de-compras/", "destination": "/contacto", "permanent": true },
-    { "source": "/mi-cuenta", "destination": "/contacto", "permanent": true },
-    { "source": "/mi-cuenta/", "destination": "/contacto", "permanent": true },
+    {
+      "source": "/carrito-de-compras",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/carrito-de-compras/",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/mi-cuenta",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/mi-cuenta/",
+      "destination": "/contacto",
+      "permanent": true
+    },
     {
       "source": "/blog/como-especificar-barro-cocido-en-obra",
       "destination": "/blog/especificacion-de-ladrillo-en-obra",
@@ -48,8 +82,16 @@
       "destination": "/blog/especificacion-de-ladrillo-en-obra",
       "permanent": true
     },
-    { "source": "/rese%C3%B1as", "destination": "/resenas", "permanent": true },
-    { "source": "/rese%C3%B1as/", "destination": "/resenas", "permanent": true },
+    {
+      "source": "/rese%C3%B1as",
+      "destination": "/resenas",
+      "permanent": true
+    },
+    {
+      "source": "/rese%C3%B1as/",
+      "destination": "/resenas",
+      "permanent": true
+    },
     {
       "source": "/rese%C3%B1as/gracias",
       "destination": "/resenas/gracias",
@@ -59,31 +101,268 @@
       "source": "/rese%C3%B1as/gracias/",
       "destination": "/resenas/gracias",
       "permanent": true
+    },
+    {
+      "source": "/fachadas-rusticas/cartagena",
+      "destination": "/productos/cartagena",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-rusticas/ladrillo-romano-:s*",
+      "destination": "/productos/romano",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-rusticas/ladrillo-toscano-:s*",
+      "destination": "/productos/toscano",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-rusticas/macizo-campesino-:s*",
+      "destination": "/productos/macizo-campesino",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-rusticas",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-rusticas/:s*",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-lisas",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/fachadas-lisas/:s*",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/diseno-y-construccion-de-fachadas",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/diseno-y-construccion-de-fachadas/:s*",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/enchapes-rusticos/enchape-romano-:s*",
+      "destination": "/productos/enchape-romano",
+      "permanent": true
+    },
+    {
+      "source": "/enchapes-rusticos",
+      "destination": "/productos/enchape-rustico",
+      "permanent": true
+    },
+    {
+      "source": "/enchapes-rusticos/:s*",
+      "destination": "/productos/enchape-rustico",
+      "permanent": true
+    },
+    {
+      "source": "/enchapes-de-alta-calidad",
+      "destination": "/productos/categoria/enchapes",
+      "permanent": true
+    },
+    {
+      "source": "/enchapes-de-alta-calidad/:s*",
+      "destination": "/productos/categoria/enchapes",
+      "permanent": true
+    },
+    {
+      "source": "/tejas-planas",
+      "destination": "/productos/teja-plana",
+      "permanent": true
+    },
+    {
+      "source": "/tejas-planas/:s*",
+      "destination": "/productos/teja-plana",
+      "permanent": true
+    },
+    {
+      "source": "/tejas-curvas/teja-colonial-:s*",
+      "destination": "/productos/teja-colonial",
+      "permanent": true
+    },
+    {
+      "source": "/tejas-curvas",
+      "destination": "/productos/categoria/techos",
+      "permanent": true
+    },
+    {
+      "source": "/tejas-curvas/:s*",
+      "destination": "/productos/categoria/techos",
+      "permanent": true
+    },
+    {
+      "source": "/techos",
+      "destination": "/productos/categoria/techos",
+      "permanent": true
+    },
+    {
+      "source": "/techos/:s*",
+      "destination": "/productos/categoria/techos",
+      "permanent": true
+    },
+    {
+      "source": "/rayados-verticales",
+      "destination": "/productos/rayados-verticales",
+      "permanent": true
+    },
+    {
+      "source": "/rayados-verticales/:s*",
+      "destination": "/productos/rayados-verticales",
+      "permanent": true
+    },
+    {
+      "source": "/rayados-horizontales",
+      "destination": "/productos/rayados-horizontales",
+      "permanent": true
+    },
+    {
+      "source": "/rayados-horizontales/:s*",
+      "destination": "/productos/rayados-horizontales",
+      "permanent": true
+    },
+    {
+      "source": "/pisos-rusticos",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/pisos-rusticos/:s*",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/pisos-shop",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/pisos-shop/:s*",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/pisos",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/pisos/:s*",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/productos/piso-10x30",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/productos/piso-30x30",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/politicas-de-privacidad-y-tratamiento-de-datos",
+      "destination": "/privacidad",
+      "permanent": true
+    },
+    {
+      "source": "/politicas-de-privacidad-y-tratamiento-de-datos/:s*",
+      "destination": "/privacidad",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/:s*",
+      "destination": "/descargas",
+      "permanent": true
+    },
+    {
+      "source": "/Fichas Tecnicas/:s*",
+      "destination": "/descargas",
+      "permanent": true
+    },
+    {
+      "source": "/Fichas%20Tecnicas/:s*",
+      "destination": "/descargas",
+      "permanent": true
+    },
+    {
+      "source": "/resena-historica-de-los-chircales",
+      "destination": "/blog/podcast-historia-del-ladrillo",
+      "permanent": true
+    },
+    {
+      "source": "/resena-historica-de-los-chircales/:s*",
+      "destination": "/blog/podcast-historia-del-ladrillo",
+      "permanent": true
+    },
+    {
+      "source": "/ladrillos-en-colombia-historia-tipos-y-tendencias-actuales",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/ladrillos-en-colombia-historia-tipos-y-tendencias-actuales/:s*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/ladrillos-esteticos-que-transforman-espacios",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
+    },
+    {
+      "source": "/ladrillos-esteticos-que-transforman-espacios/:s*",
+      "destination": "/productos/categoria/fachadas",
+      "permanent": true
     }
   ],
   "headers": [
     {
       "source": "/ch-assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/icons/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
       ]
     },
     {
       "source": "/apple-touch-icon.png",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
       ]
     },
     {
       "source": "/(.*)\\.(woff|woff2)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {

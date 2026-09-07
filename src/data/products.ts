@@ -69,9 +69,9 @@ export const products: Product[] = [
     color: "Natural, Matizado claro, Matizado oscuro",
     texture: "Tallada",
     featured: true,
-    seoTitle: "Ladrillo Toscano | Clay House Amagá",
+    seoTitle: "Ladrillo toscano para fachada a la vista | Clay House",
     seoDescription:
-      "Ladrillo Toscano de arcilla para fachadas e interiores: acabado limpio y elegante en tonos tierra claros, estilo cálido y atemporal. Clay House, Amagá.",
+      "Ladrillo toscano de arcilla para fachada a la vista, tono claro y textura rústica. Norma NTC 4205, fabricado en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage("toscano", "natural/toscano natural-n.webp"),
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
@@ -145,9 +145,9 @@ export const products: Product[] = [
     color: "Natural, Matizado claro, Matizado oscuro",
     texture: "Corcho",
     featured: true,
-    seoTitle: "Ladrillo Romano | Clay House Amagá",
+    seoTitle: "Ladrillo romano a la vista: medidas y precio | Clay House",
     seoDescription:
-      "Ladrillo Romano de fachada con volumen y juego de sombras: la referencia clásica para fachadas con carácter. Fabricado en Amagá por Clay House.",
+      "Ladrillo romano de arcilla para fachada a la vista, formato alargado y acabado matizado. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage("romano", "matizado claro/Romano Matizado.webp"),
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
@@ -183,9 +183,9 @@ export const products: Product[] = [
     color: "Natural, Matizado claro, Matizado oscuro",
     texture: "Texturizado",
     featured: true,
-    seoTitle: "Ladrillo Cartagena | Clay House Amagá",
+    seoTitle: "Ladrillo Cartagena tipo colonial para fachada | Clay House",
     seoDescription:
-      "Ladrillo Cartagena para fachada en tonos claro, matizado y oscuro: identidad, contraste y calidez regional. Clay House, Amagá, Antioquia.",
+      "Ladrillo Cartagena de arcilla, formato colonial para fachadas con lenguaje patrimonial. Fabricación en Amagá, Antioquia, despacho a toda Colombia.",
     image: productFolderImage("cartagena", "natural/Cartagena Claro-n.webp"),
     pricePerUnit: "$ 2.700",
     priceUnitLabel: "unidad",
@@ -221,9 +221,9 @@ export const products: Product[] = [
     color: "Matizado claro, Matizado oscuro",
     texture: "Macizo liso",
     featured: true,
-    seoTitle: "Macizo Campesino | Clay House",
+    seoTitle: "Ladrillo macizo campesino de arcilla | Clay House",
     seoDescription:
-      "Ladrillo macizo campesino con carácter artesanal para muros estructurales y acabados con textura auténtica de barro. Clay House, Amagá.",
+      "Ladrillo macizo campesino de arcilla cocida para muros y fachadas a la vista. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro-n.webp"),
     pricePerUnit: "$ 1.650",
     priceUnitLabel: "unidad",
@@ -406,9 +406,9 @@ export const products: Product[] = [
     color: "Natural",
     texture: "Rayado",
     featured: false,
-    seoTitle: "Ladrillo Rayado Vertical | Clay House",
+    seoTitle: "Ladrillo rayado vertical para muro divisorio | Clay House",
     seoDescription:
-      "Ladrillo rayado vertical con textura para muros divisorios y cerramientos con ritmo y juego de luz. Clay House, Amagá, Antioquia.",
+      "Ladrillo rayado vertical de arcilla para muros divisorios y cerramientos con textura. Norma NTC 4205, fabricado en Amagá, Antioquia.",
     image: productFolderImage(
       "rayados-verticales",
       "rayado 12-vertical/rayado 12 vertical apilado.webp"
@@ -522,9 +522,9 @@ export const products: Product[] = [
     color: "Natural",
     texture: "Rayado",
     featured: false,
-    seoTitle: "Ladrillo Rayado Horizontal | Clay House",
+    seoTitle: "Ladrillo rayado horizontal para muro divisorio | Clay House",
     seoDescription:
-      "Ladrillo rayado horizontal para divisiones y muros largos con lectura material cálida. Clay House, Amagá, Antioquia.",
+      "Ladrillo rayado horizontal de arcilla para muros divisorios y cerramientos. Norma NTC 4205, fabricado en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage(
       "rayados-horizontales",
       "rayado 12-horizontal/rayado 12 horizontal apilados.webp"
@@ -559,9 +559,9 @@ export const products: Product[] = [
     color: "Natural / matizado",
     texture: "Rústico",
     featured: false,
-    seoTitle: "Enchape Rústico | Clay House",
+    seoTitle: "Enchape rústico de ladrillo: precio por m² | Clay House",
     seoDescription:
-      "Enchape de ladrillo con acabado rústico para revestir y transformar muros interiores y exteriores. Clay House, Amagá, Antioquia.",
+      "Enchape rústico de arcilla para muros interiores y exteriores, textura artesanal. Fabricación propia en Amagá, Antioquia, con despacho a toda Colombia.",
     image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto-2.webp"),
     pricePerUnit: "$ 85.000",
     priceUnitLabel: "m²",
@@ -587,9 +587,9 @@ export const products: Product[] = [
     color: "Natural, Matizado, Matizado oscuro",
     texture: "Romano",
     featured: false,
-    seoTitle: "Enchape Romano | Clay House",
+    seoTitle: "Enchape romano: revestimiento en ladrillo por m² | Clay House",
     seoDescription:
-      "Enchape Romano en formato delgado con perfil romano para revestimientos con profundidad y acabado premium. Clay House, Amagá.",
+      "Enchape romano de arcilla, formato alargado para muros de acento en interior y fachada. Fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage("enchape-romano", "natural/Enchape Natural-n.webp"),
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
@@ -686,9 +686,9 @@ export const products: Product[] = [
     color: "Natural, Chocolate",
     texture: "Plana",
     featured: false,
-    seoTitle: "Teja Plana | Clay House Amagá",
+    seoTitle: "Teja plana de barro para cubierta | Clay House",
     seoDescription:
-      "Teja plana de barro para cubiertas visibles con estética tradicional y contemporánea. Clay House, Amagá, Antioquia.",
+      "Teja plana de arcilla para cubiertas visibles, norma NTC 4205. Estética tradicional y contemporánea, fabricada en Amagá, Antioquia. Cotiza en 24 horas.",
     image: productFolderImage("teja-plana", "natural/Teja Plana Natural-n.webp"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",
@@ -714,9 +714,9 @@ export const products: Product[] = [
     color: "Roja",
     texture: "Colonial",
     featured: false,
-    seoTitle: "Teja Colonial | Clay House Amagá",
+    seoTitle: "Teja colonial de barro: medidas y precio | Clay House",
     seoDescription:
-      "Teja colonial de barro para cubiertas tradicionales con perfil clásico y gran presencia. Clay House, Amagá, Antioquia.",
+      "Teja colonial de barro cocido con perfil curvo tradicional, norma NTC 4205. Fabricación propia en Amagá, Antioquia, con despacho a toda Colombia. Cotiza en 24 horas.",
     image: productFolderImage("teja-colonial", "roja/teja colonial natural.webp"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",

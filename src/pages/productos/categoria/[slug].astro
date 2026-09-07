@@ -35,10 +35,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
 ]);
 ---
 
-<BaseLayout
-  title={`Productos — ${def.title}`}
-  description={`${def.title} en ladrillo: ${def.description} Fabricación artesanal en Amagá, Antioquia.`}
->
+<BaseLayout title={def.seoTitle} description={def.seoDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <section class="page-hero page-hero--image">
     <div class="page-hero__media">
