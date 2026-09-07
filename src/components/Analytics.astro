@@ -5,6 +5,20 @@ const hasPlausible = Boolean(plausibleDomain);
 const hasGa4 = Boolean(ga4Id && !ga4Id.startsWith("G-XXXX"));
 const needsConsent = hasGa4;
 const active = hasPlausible || hasGa4;
+
+// Sin proveedor no se emite nada y toda la instrumentación (cotizar_click,
+// whatsapp_click, producto_agregado, ficha_descargada, form_start,
+// generate_lead) queda muerta: sin conversiones, Google Ads no puede optimizar
+// pujas y no hay forma de medir el SEO. Se avisa en el build porque el fallo es
+// silencioso — la página se ve igual de bien apagada que encendida.
+if (!active && import.meta.env.PROD && !(globalThis as any).__clayhouseAnalyticsWarned) {
+  (globalThis as any).__clayhouseAnalyticsWarned = true;
+  console.warn(
+    "\n  ⚠  Analítica APAGADA: no hay PUBLIC_GA4_MEASUREMENT_ID ni PUBLIC_PLAUSIBLE_DOMAIN.\n" +
+      "     El sitio se publica sin medición y sin conversiones para Google Ads.\n" +
+      "     Se configura en Vercel → Settings → Environment Variables.\n"
+  );
+}
 ---
 
 {
