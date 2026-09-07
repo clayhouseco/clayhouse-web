@@ -78,3 +78,23 @@ function originalWidth(file: string): number | null {
   }
   return null;
 }
+
+/**
+ * URL de la variante más adecuada para mostrar una foto a pantalla completa
+ * (lightbox). Devuelve la de 1200 px si existe; si no, el original.
+ *
+ * Existe porque el visor cargaba el archivo de cámara sin reducir: fotos de
+ * proyecto de hasta 6,5 MB que el navegador ya tenía resueltas en 113 KB para
+ * la miniatura. No afecta al ranking —se descargan al hacer clic, no al cargar
+ * la página— pero en móvil con datos el costo es real.
+ */
+export function displaySrcFor(src: string): string {
+  const v = variantPath(src, 1200);
+  return v && fs.existsSync(v.file) ? assetUrl(v.url) : assetUrl(src);
+}
+
+/** Ídem para la tira de miniaturas del visor, que se muestra a ~80 px. */
+export function thumbSrcFor(src: string): string {
+  const v = variantPath(src, 800);
+  return v && fs.existsSync(v.file) ? assetUrl(v.url) : assetUrl(src);
+}

@@ -5,6 +5,10 @@ export interface GalleryImage {
   src: string;
   alt: string;
   label: string;
+  /** Variantes reducidas, resueltas en build (ver utils/responsive.ts). Solo
+   *  vienen en las galerías que se reconstruyen en el cliente. */
+  srcset?: string;
+  thumb?: string;
 }
 
 interface Props {
@@ -127,6 +131,10 @@ const { images } = Astro.props;
 
         const image = document.createElement("img");
         image.src = img.src;
+        if (img.srcset) {
+          image.srcset = img.srcset;
+          image.sizes = "(max-width: 900px) 100vw, 45vw";
+        }
         image.alt = img.alt;
         image.loading = i === 0 ? "eager" : "lazy";
         image.decoding = "async";
@@ -147,7 +155,7 @@ const { images } = Astro.props;
         thumb.setAttribute("aria-label", img.label);
 
         const thumbImg = document.createElement("img");
-        thumbImg.src = img.src;
+        thumbImg.src = img.thumb ?? img.src;
         thumbImg.alt = "";
         thumbImg.loading = "lazy";
         thumb.append(thumbImg);

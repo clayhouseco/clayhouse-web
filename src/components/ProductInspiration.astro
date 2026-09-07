@@ -1,12 +1,24 @@
 ---
 import type { InspirationCard } from "@/utils/variantGallery";
-import { srcSetFor, SIZES } from "@/utils/responsive";
+import { srcSetFor, SIZES, displaySrcFor, thumbSrcFor } from "@/utils/responsive";
 
 interface Props {
   cards: InspirationCard[];
 }
 
 const { cards } = Astro.props;
+
+/** El visor a pantalla completa y su tira de miniaturas se sirven desde las
+ *  variantes reducidas, no desde el archivo de cámara. Se resuelve aquí (en
+ *  build, con acceso a disco) y viaja en el JSON que consume el script. */
+const cardsForClient = cards.map((card) => ({
+  ...card,
+  images: card.images.map((img) => ({
+    ...img,
+    display: displaySrcFor(img.src),
+    thumb: thumbSrcFor(img.src),
+  })),
+}));
 
 const INTRO =
   "Sus matices y variaciones naturales generan composiciones únicas que añaden personalidad y un acabado auténtico a fachadas e interiores.";
@@ -124,7 +136,7 @@ const INTRO =
         </div>
       </div>
 
-      <script type="application/json" data-inspiration-data set:html={JSON.stringify(cards)} />
+      <script type="application/json" data-inspiration-data set:html={JSON.stringify(cardsForClient)} />
     </div>
   )
 }
@@ -173,7 +185,9 @@ const INTRO =
     updateNav();
 
     const dataEl = root.querySelector<HTMLScriptElement>("[data-inspiration-data]");
-    const cards: InspirationCard[] = dataEl ? JSON.parse(dataEl.textContent ?? "[]") : [];
+    type ClientImage = InspirationCard["images"][number] & { display?: string; thumb?: string };
+    type ClientCard = Omit<InspirationCard, "images"> & { images: ClientImage[] };
+    const cards: ClientCard[] = dataEl ? JSON.parse(dataEl.textContent ?? "[]") : [];
 
     const lightbox = root.querySelector<HTMLElement>("[data-inspiration-lightbox]");
     const lbImg = root.querySelector<HTMLImageElement>("[data-lightbox-img]");
@@ -184,7 +198,7 @@ const INTRO =
     const lbNext = root.querySelector<HTMLButtonElement>("[data-lightbox-next]");
     const lbThumbs = root.querySelector<HTMLElement>("[data-lightbox-thumbs]");
 
-    let activeCard: InspirationCard | null = null;
+    let activeCard: ClientCard | null = null;
     let activeIndex = 0;
 
     const syncLightbox = () => {
@@ -192,7 +206,7 @@ const INTRO =
       const img = activeCard.images[activeIndex];
       if (!img) return;
 
-      lbImg.src = img.src;
+      lbImg.src = img.display ?? img.src;
       lbImg.alt = img.alt;
       lbTitle.textContent = activeCard.title;
       lbCaption.textContent = img.label;
@@ -223,7 +237,7 @@ const INTRO =
         btn.setAttribute("aria-label", `Foto ${i + 1} de ${activeCard!.title}`);
 
         const thumbImg = document.createElement("img");
-        thumbImg.src = item.src;
+        thumbImg.src = item.thumb ?? item.src;
         thumbImg.alt = "";
         thumbImg.loading = "lazy";
         btn.append(thumbImg);

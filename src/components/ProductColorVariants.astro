@@ -1,6 +1,7 @@
 ---
 import type { ProductColorVariant } from "@/data/productVariants";
 import type { SplitVariantGallery } from "@/utils/variantGallery";
+import { srcSetFor, thumbSrcFor } from "@/utils/responsive";
 
 interface Props {
   variants: ProductColorVariant[];
@@ -8,6 +9,20 @@ interface Props {
   activeId: string;
   productName: string;
   selectorLabel?: string;
+}
+
+/** Al cambiar de variante el visor se reconstruye en el cliente. Sin esto
+ *  volvía a pedir el archivo original de cada foto, perdiendo el srcset que sí
+ *  tenía el HTML servido. Se resuelve en build y viaja en el JSON. */
+function withResponsive(g: SplitVariantGallery): SplitVariantGallery {
+  return {
+    ...g,
+    hero: g.hero.map((img) => ({
+      ...img,
+      srcset: srcSetFor(img.src),
+      thumb: thumbSrcFor(img.src),
+    })),
+  };
 }
 
 const { variants, galleriesByVariant, activeId, productName, selectorLabel = "Color" } =
@@ -21,7 +36,9 @@ const showSelector = variants.length > 1;
   class="color-variants"
   data-color-variants
   data-product-name={productName}
-  data-galleries={JSON.stringify(galleriesByVariant)}
+  data-galleries={JSON.stringify(
+    Object.fromEntries(Object.entries(galleriesByVariant).map(([id, g]) => [id, withResponsive(g)]))
+  )}
 >
   <p class="color-variants__label">{selectorLabel}</p>
   <div class="color-variants__list" role="listbox" aria-label="Color del producto">
