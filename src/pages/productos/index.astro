@@ -69,7 +69,7 @@ const grouped = groupProductsByCategory();
     const q = new URL(window.location.href).searchParams.get("categoria");
     if (q && q in categorySlugById) {
       const slug = categorySlugById[q as keyof typeof categorySlugById];
-      window.location.replace(`/productos/categoria/${slug}/`);
+      window.location.replace(`/productos/categoria/${slug}`);
     }
   </script>
 </BaseLayout>

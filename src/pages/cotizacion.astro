@@ -360,7 +360,7 @@ const DEPARTAMENTOS = [
           unitLabel: r.item.unidadLabel,
           image: r.item.image,
           pricePerUnit: (r.colCod && r.item.preciosPorColor && r.item.preciosPorColor[r.colCod]) || r.item.refPrice,
-          productUrl: `/productos/${r.item.slug}/`,
+          productUrl: `/productos/${r.item.slug}`,
           variantId: r.item.variantId ?? undefined,
           calidad: r.calCod ?? undefined,
         }));

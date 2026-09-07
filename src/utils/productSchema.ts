@@ -45,7 +45,7 @@ export function buildProductJsonLd(
   imagePath?: string,
   productReviews: Review[] = []
 ) {
-  const url = new URL(`/productos/${product.slug}/`, site.url).href;
+  const url = new URL(`/productos/${product.slug}`, site.url).href;
   const price = parsePriceNumber(product.pricePerUnit);
 
   const offer: Record<string, unknown> = {

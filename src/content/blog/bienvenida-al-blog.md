@@ -20,4 +20,4 @@ Desde aquí compartiremos **obras recientes**, notas de taller, videoblogs del p
 
 El equipo agrega entradas en archivos Markdown dentro del repositorio. Cada publicación indica su tipo, fecha, imagen de portada y, si aplica, enlace de YouTube, Vimeo, Spotify o archivo de audio.
 
-Si le interesa una obra con material Clay House, [contáctenos](/contacto/) para cotización o muestras.
+Si le interesa una obra con material Clay House, [contáctenos](/contacto) para cotización o muestras.

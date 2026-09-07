@@ -67,7 +67,7 @@ export function enrichCartItem(
     image: fromCatalog?.image ?? item.image ?? "",
     pricePerUnit: fromCatalog?.pricePerUnit ?? item.pricePerUnit ?? "Consultar",
     texture: fromCatalog?.texture ?? item.texture,
-    productUrl: fromCatalog?.productUrl ?? item.productUrl ?? `/productos/${item.slug}/`,
+    productUrl: fromCatalog?.productUrl ?? item.productUrl ?? `/productos/${item.slug}`,
     variantId: item.variantId,
     calidad: item.calidad,
   };
@@ -104,7 +104,7 @@ export function addToQuoteCart(
       category: "",
       image: "",
       pricePerUnit: "Consultar",
-      productUrl: `/productos/${item.slug}/`,
+      productUrl: `/productos/${item.slug}`,
       ...item,
     },
     cat

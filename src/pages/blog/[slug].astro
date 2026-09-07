@@ -25,6 +25,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const {
   title,
+  seoTitle,
   description,
   type,
   pubDate,
@@ -51,18 +52,18 @@ const ogImage = coverImage ?? undefined;
 const articleJsonLd = buildArticleJsonLd(post);
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: "Inicio", href: "/" },
-  { name: "Blog", href: "/blog/" },
+  { name: "Blog", href: "/blog" },
   { name: title },
 ]);
 ---
 
-<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article">
+<BaseLayout title={seoTitle ?? title} description={description} ogImage={ogImage} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <article class="blog-post">
     <header class="blog-post-hero">
       <div class="container">
-        <a href="/blog/" class="blog-back">← Volver al blog</a>
+        <a href="/blog" class="blog-back">← Volver al blog</a>
         <div class="blog-post-hero__inner">
           <div class="blog-post-hero__meta">
             <span class="blog-post-hero__type">{typeLabel}</span>
@@ -112,7 +113,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
                         {
                           linkedProducts.map((p) => (
                             <li>
-                              <a href={`/productos/${p.slug}/`}>{p.name}</a>
+                              <a href={`/productos/${p.slug}`}>{p.name}</a>
                             </li>
                           ))
                         }

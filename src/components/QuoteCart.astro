@@ -245,7 +245,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
       btn.dataset.quoteBound = "1";
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        window.location.href = "/cotizacion/";
+        window.location.href = "/cotizacion";
       });
     });
   }
@@ -269,7 +269,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
     refreshUI();
     // Sin modal intermedio: al agregar un producto, ir directo a /cotizacion.
     if (!window.location.pathname.startsWith("/cotizacion")) {
-      window.location.href = "/cotizacion/";
+      window.location.href = "/cotizacion";
     }
   });
 
@@ -296,7 +296,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
       (i) => `${i.slug}::${i.color ?? ""}::${i.calidad ?? ""}` === key
     );
     if (already) {
-      window.location.href = "/cotizacion/";
+      window.location.href = "/cotizacion";
       return;
     }
 
@@ -311,7 +311,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
         image,
         pricePerUnit: btn.dataset.price || "Consultar",
         texture: btn.dataset.texture || undefined,
-        productUrl: btn.dataset.url || `/productos/${btn.dataset.slug}/`,
+        productUrl: btn.dataset.url || `/productos/${btn.dataset.slug}`,
         variantId: btn.dataset.variantId || undefined,
         calidad: btn.dataset.calidad || undefined,
       },

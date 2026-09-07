@@ -31,7 +31,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     order: 1,
     seoTitle: "Ladrillo a la vista para fachada | Clay House Antioquia",
     seoDescription:
-      "Ladrillo de fachada a la vista: Romano, Toscano, Cartagena y macizos campesinos. Arcilla cocida bajo norma NTC 4205, fabricada en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Ladrillo de fachada a la vista: romano, toscano, cartagena y macizos. Arcilla cocida bajo norma NTC 4205, fabricada en Amagá. Cotiza en 24 horas.",
     coverProductSlug: "romano",
     coverFallback: "/images/products/romano/proyectos/casa-retiro/casa-EF-03.jpg",
   },
@@ -108,7 +108,7 @@ export function parseCategorySlug(slug: string): ProductCategory | null {
 }
 
 export function getCatalogCategoryHref(id: ProductCategory): string {
-  return `/productos/categoria/${getCategorySlug(id)}/`;
+  return `/productos/categoria/${getCategorySlug(id)}`;
 }
 
 export function parseCategoryParam(value: string | null): ProductCategory | null {

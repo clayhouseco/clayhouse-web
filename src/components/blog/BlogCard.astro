@@ -10,7 +10,7 @@ interface Props {
 
 const { post, variant = "default" } = Astro.props;
 const { title, description, type, pubDate, coverImage, duration, featured, tags } = post.data;
-const href = `/blog/${post.id}/`;
+const href = `/blog/${post.id}`;
 const typeLabel = blogTypeLabels[type];
 const primaryTopic = tags && tags.length > 0 ? tags[0] : null;
 ---

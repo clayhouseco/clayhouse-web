@@ -381,7 +381,7 @@ const totalProjects = allProjects.length;
     lastFocused = trigger;
     if (viewerTitle) viewerTitle.textContent = project.title;
     if (viewerProduct) viewerProduct.textContent = project.productName;
-    if (viewerLink) viewerLink.href = `/productos/${project.productSlug}/`;
+    if (viewerLink) viewerLink.href = `/productos/${project.productSlug}`;
     renderImage();
     viewer.hidden = false;
     viewer.setAttribute("aria-hidden", "false");

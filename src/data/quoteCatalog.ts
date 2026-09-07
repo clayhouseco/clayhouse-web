@@ -14,5 +14,5 @@ export const quoteProductCatalog: Pick<
   pricePerUnit: normalizePriceDisplay(p.pricePerUnit ?? "Consultar"),
   unitLabel: p.priceUnitLabel ?? "unidad",
   texture: p.texture,
-  productUrl: `/productos/${p.slug}/`,
+  productUrl: `/productos/${p.slug}`,
 }));

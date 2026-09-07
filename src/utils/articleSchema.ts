@@ -10,7 +10,7 @@ type BlogPost = CollectionEntry<"blog">;
  *  muestre tarjetas enriquecidas en Discover y resultados. */
 export function buildArticleJsonLd(post: BlogPost) {
   const { title, description, pubDate, updatedDate, coverImage, tags, type } = post.data;
-  const url = new URL(`/blog/${post.id}/`, site.url).href;
+  const url = new URL(`/blog/${post.id}`, site.url).href;
 
   const imageUrl = coverImage
     ? new URL(coverImage.startsWith("/") ? coverImage : `/${coverImage}`, site.url).href
