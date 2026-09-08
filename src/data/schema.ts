@@ -1,4 +1,4 @@
-import { site } from "@/data/site";
+import { site, socialLinks } from "@/data/site";
 import { logos } from "@/utils/media";
 
 /** Horario de atención para Schema.org (Lun–Vie 7–16, Sáb 7–12) */
@@ -44,6 +44,10 @@ export const localBusinessJsonLd = {
     longitude: -75.695905,
   },
   openingHoursSpecification,
+  /** Perfiles oficiales de la marca. Es la señal con la que Google confirma que
+   *  el sitio, las redes y la ficha de Google Business son el mismo negocio; sin
+   *  ella tiene que deducirlo, y a veces no lo hace. */
+  sameAs: socialLinks.map((s) => s.href),
   areaServed: {
     "@type": "Country",
     name: "Colombia",
