@@ -1,4 +1,6 @@
-const CONSENT_KEY = "clayhouse-analytics-consent";
+/** Clave del consentimiento. La comparte el script inline de Analytics.astro,
+ *  que la lee antes de que cargue gtag para fijar el estado inicial. */
+export const CONSENT_KEY = "clayhouse-analytics-consent";
 
 declare global {
   interface Window {
@@ -8,7 +10,6 @@ declare global {
     __clayhouseAnalytics?: {
       plausibleDomain?: string;
       ga4Id?: string;
-      needsConsent?: boolean;
     };
   }
 }
@@ -39,31 +40,37 @@ function injectPlausible(domain: string) {
   document.head.appendChild(script);
 }
 
-function injectGa4(measurementId: string) {
-  if (document.querySelector(`script[data-ga4="${measurementId}"]`)) return;
-
-  const loader = document.createElement("script");
-  loader.async = true;
-  loader.dataset.ga4 = measurementId;
-  loader.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-  document.head.appendChild(loader);
-
-  const inline = document.createElement("script");
-  inline.textContent = `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '${measurementId}', { anonymize_ip: true });
-  `;
-  document.head.appendChild(inline);
+/**
+ * Comunica el consentimiento a Google (Consent Mode v2).
+ *
+ * Antes la web decidía el consentimiento cargando o no la etiqueta: sin aceptar,
+ * gtag no existía y Google no se enteraba de nada. El costo era real —quien
+ * rechazaba hacía clic en un anuncio, escribía por WhatsApp, y Ads nunca lo
+ * sabía—, así que las campañas subestimaban resultados y optimizaban con datos
+ * incompletos.
+ *
+ * Ahora la etiqueta carga siempre pero arranca denegada: sin cookies ni
+ * identificador persistente. Google recibe señales anónimas con las que puede
+ * estimar las conversiones que no ve, y al aceptar se pasa a `granted`.
+ */
+function updateConsent(granted: boolean) {
+  if (!window.gtag) return;
+  const state = granted ? "granted" : "denied";
+  window.gtag("consent", "update", {
+    ad_storage: state,
+    analytics_storage: state,
+    ad_user_data: state,
+    ad_personalization: state,
+  });
 }
 
-export function loadAnalytics() {
+/** Se llama al aceptar o rechazar en el banner. */
+export function applyConsent(granted: boolean) {
   const cfg = window.__clayhouseAnalytics;
   if (!cfg) return;
 
-  if (cfg.plausibleDomain) injectPlausible(cfg.plausibleDomain);
-  if (cfg.ga4Id && hasAnalyticsConsent()) injectGa4(cfg.ga4Id);
+  if (granted && cfg.plausibleDomain) injectPlausible(cfg.plausibleDomain);
+  if (cfg.ga4Id) updateConsent(granted);
 }
 
 export function trackEvent(name: string, props?: Record<string, string>) {
@@ -117,9 +124,9 @@ export function initAnalyticsOnLoad() {
   const cfg = window.__clayhouseAnalytics;
   if (!cfg) return;
 
+  // GA4 ya lo cargó el script inline de Analytics.astro, con el consentimiento
+  // por defecto resuelto antes de la primera vista de página. Aquí solo queda
+  // Plausible (que no usa cookies y no necesita banner) y los eventos.
   if (cfg.plausibleDomain) injectPlausible(cfg.plausibleDomain);
-  if (cfg.ga4Id && (!cfg.needsConsent || hasAnalyticsConsent())) {
-    injectGa4(cfg.ga4Id);
-  }
   bindAnalyticsEvents();
 }

@@ -9,8 +9,8 @@ const showBanner = Boolean(ga4Id && ga4Id !== "G-XXXXXXXXXX");
       <div class="cookie-consent__inner container">
         <p id="cookie-consent-title" class="cookie-consent__title">Cookies y analítica</p>
         <p class="cookie-consent__text">
-          Usamos Google Analytics para entender el uso del sitio. Solo se activa si usted acepta. Consulte
-          nuestra <a href="/privacidad">política de privacidad</a>.
+          Usamos Google Analytics para entender el uso del sitio. Sin su autorización no instalamos
+          cookies ni lo identificamos. Consulte nuestra <a href="/privacidad">política de privacidad</a>.
         </p>
         <div class="cookie-consent__actions">
           <button type="button" class="btn btn--ghost cookie-consent__decline" data-cookie-decline>
@@ -28,7 +28,7 @@ const showBanner = Boolean(ga4Id && ga4Id !== "G-XXXXXXXXXX");
 <script>
   import {
     hasAnalyticsConsent,
-    loadAnalytics,
+    applyConsent,
     setAnalyticsConsent,
   } from "@/utils/analytics.client";
 
@@ -50,12 +50,15 @@ const showBanner = Boolean(ga4Id && ga4Id !== "G-XXXXXXXXXX");
 
     banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
       setAnalyticsConsent(true);
-      loadAnalytics();
+      applyConsent(true);
       hide();
     });
 
+    // Rechazar también se comunica a Google: el estado ya venía denegado por
+    // defecto, pero dejarlo explícito evita depender del orden de carga.
     banner.querySelector("[data-cookie-decline]")?.addEventListener("click", () => {
       setAnalyticsConsent(false);
+      applyConsent(false);
       hide();
     });
   }

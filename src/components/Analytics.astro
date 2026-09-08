@@ -1,9 +1,10 @@
 ---
+import { CONSENT_KEY } from "@/utils/analytics.client";
+
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN?.trim();
 const ga4Id = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID?.trim();
 const hasPlausible = Boolean(plausibleDomain);
 const hasGa4 = Boolean(ga4Id && !ga4Id.startsWith("G-XXXX"));
-const needsConsent = hasGa4;
 const active = hasPlausible || hasGa4;
 
 // Sin proveedor no se emite nada y toda la instrumentación (cotizar_click,
@@ -26,14 +27,61 @@ if (!active && import.meta.env.PROD && !(globalThis as any).__clayhouseAnalytics
     <>
       <script
         is:inline
-        define:vars={{ plausibleDomain: hasPlausible ? plausibleDomain : "", ga4Id: hasGa4 ? ga4Id : "", needsConsent }}
+        define:vars={{ plausibleDomain: hasPlausible ? plausibleDomain : "", ga4Id: hasGa4 ? ga4Id : "" }}
       >
         window.__clayhouseAnalytics = {
           plausibleDomain: plausibleDomain || undefined,
           ga4Id: ga4Id || undefined,
-          needsConsent,
         };
       </script>
+
+      {/*
+        Consent Mode v2. Este bloque tiene que correr ANTES de que cargue gtag y
+        antes de la primera vista de página: el estado por defecto se fija aquí,
+        y una vez enviado el primer evento ya no se puede corregir hacia atrás.
+
+        La etiqueta carga para todo el mundo, pero denegada: sin cookies ni
+        identificador persistente hasta que la persona acepte. Google recibe
+        señales anónimas con las que estima las conversiones que no ve, que es
+        justo lo que antes se perdía —quien rechazaba hacía clic en un anuncio y
+        Ads nunca se enteraba—.
+
+        El consentimiento guardado se lee de forma síncrona para que a quien ya
+        aceptó no se le trate como denegado en su primera vista.
+      */}
+      {hasGa4 && (
+        <>
+          <script is:inline define:vars={{ ga4Id, consentKey: CONSENT_KEY }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            window.gtag = gtag;
+
+            var granted = false;
+            try {
+              granted = localStorage.getItem(consentKey) === "accepted";
+            } catch (e) {
+              /* modo privado: se queda en denegado */
+            }
+            var state = granted ? "granted" : "denied";
+
+            gtag("consent", "default", {
+              ad_storage: state,
+              analytics_storage: state,
+              ad_user_data: state,
+              ad_personalization: state,
+              functionality_storage: "granted",
+              security_storage: "granted",
+            });
+
+            gtag("js", new Date());
+            gtag("config", ga4Id, { anonymize_ip: true });
+          </script>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+        </>
+      )}
+
       <script>
         import { initAnalyticsOnLoad } from "@/utils/analytics.client";
         initAnalyticsOnLoad();
