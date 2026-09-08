@@ -2,12 +2,12 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/data/site";
 
-const lastUpdated = "Mayo 2026";
+const lastUpdated = "Septiembre 2026";
 ---
 
 <BaseLayout
   title="Política de privacidad"
-  description="Política de privacidad y tratamiento de datos de Clay House. Formularios, cotizaciones y analítica web."
+  description="Cómo trata Clay House sus datos: formularios, cotizaciones, analítica y publicidad. Derechos según la Ley 1581 de 2012."
   hideQuoteCart
 >
   <section class="page-hero">
@@ -33,46 +33,101 @@ const lastUpdated = "Mayo 2026";
       <h2>Datos que recopilamos</h2>
       <ul>
         <li>
-          <strong>Formularios de contacto y cotización:</strong> nombre, empresa, rol, correo,
-          teléfono, ciudad, productos de interés y mensaje.
+          <strong>Formulario de contacto:</strong> nombre, empresa, rol, correo, teléfono, ciudad,
+          productos de interés y mensaje.
         </li>
         <li>
-          <strong>Reseñas de clientes:</strong> nombre, rol u oficina, calificación y texto (publicadas
-          tras revisión manual).
+          <strong>Solicitudes de cotización:</strong> nombre, teléfono, correo, empresa, nombre del
+          proyecto, los productos y cantidades que usted selecciona y sus notas. Si elige entrega en
+          obra, también la <strong>dirección de la obra y sus coordenadas geográficas</strong>, que
+          usted indica en el mapa para que podamos calcular el despacho.
         </li>
         <li>
-          <strong>Analítica web (opcional):</strong> páginas visitadas, origen del tráfico y eventos
-          agregados (clic en WhatsApp, inicio de formulario, envío de cotización), si usted acepta
-          cookies de medición o si usamos analítica sin cookies.
+          <strong>Reseñas de clientes:</strong> nombre, rol u oficina, calificación y texto
+          (publicadas tras revisión manual).
+        </li>
+        <li>
+          <strong>Analítica web:</strong> páginas visitadas, origen del tráfico y acciones agregadas
+          —clic en WhatsApp, descarga de ficha técnica, inicio y envío del formulario—. Sin su
+          autorización estos datos no se asocian a ningún identificador que permita reconocerlo entre
+          visitas.
         </li>
       </ul>
 
       <h2>Finalidad</h2>
       <p>
-        Responder solicitudes comerciales, preparar cotizaciones, enviar fichas técnicas o muestras,
-        mejorar el sitio web y cumplir obligaciones legales aplicables en Colombia.
+        Responder solicitudes comerciales, preparar y despachar cotizaciones, enviar fichas técnicas
+        o muestras, medir el uso del sitio y la efectividad de nuestra publicidad, y cumplir
+        obligaciones legales y contables aplicables en Colombia.
       </p>
 
-      <h2>Formularios y proveedores</h2>
+      <h2>Proveedores y transferencia internacional</h2>
       <p>
-        Los envíos pueden procesarse mediante <strong>Formspree</strong> o, en su defecto, abrir
-        <strong>WhatsApp</strong> con el mensaje que usted redacta. Esos servicios pueden almacenar
-        datos fuera de Colombia según sus propias políticas.
+        Para prestar el servicio nos apoyamos en proveedores que pueden almacenar y procesar datos
+        <strong> fuera de Colombia</strong>, cada uno bajo su propia política de privacidad:
       </p>
+      <ul>
+        <li>
+          <strong>Supabase</strong> — base de datos donde queda registrada la solicitud de cotización
+          para que nuestro equipo comercial la atienda.
+        </li>
+        <li>
+          <strong>Formspree</strong> — envío del formulario de contacto por correo.
+        </li>
+        <li>
+          <strong>WhatsApp (Meta)</strong> — cuando usted elige escribirnos por ese canal.
+        </li>
+        <li>
+          <strong>Google</strong> — Analytics 4 y Google Ads, para medición del sitio y de nuestros
+          anuncios.
+        </li>
+        <li>
+          <strong>Vercel</strong> — alojamiento del sitio; sus registros de servidor incluyen
+          dirección IP y datos técnicos de la conexión.
+        </li>
+      </ul>
 
       <h2>Cookies y analítica</h2>
       <p>
-        Podemos usar <strong>Plausible Analytics</strong> (sin cookies de seguimiento en su configuración
-        estándar) y/o <strong>Google Analytics 4</strong> (requiere su consentimiento mediante el
-        banner del sitio). Puede rechazar las cookies de medición en cualquier momento; las cookies
-        estrictamente necesarias para el funcionamiento del sitio son mínimas.
+        Usamos <strong>Google Analytics 4</strong>. La etiqueta de medición se carga en todas las
+        páginas, pero <strong>arranca desactivada</strong>: mientras usted no acepte el banner no
+        instalamos cookies de medición ni le asignamos un identificador que permita reconocerlo entre
+        visitas. En ese estado Google recibe únicamente señales anónimas y agregadas.
+      </p>
+      <p>
+        Si usted acepta, se habilitan las cookies de medición y podemos atribuir su visita a una
+        campaña publicitaria. Puede cambiar de decisión en cualquier momento borrando los datos del
+        sitio en su navegador; el banner volverá a aparecer.
+      </p>
+
+      <h2>Publicidad</h2>
+      <p>
+        Publicamos anuncios en Google. Cuando usted acepta las cookies de medición, esos datos
+        permiten a Google atribuir una solicitud de cotización o un contacto por WhatsApp al anuncio
+        que la originó, y así ajustar a quién mostramos publicidad.
+        <strong> No vendemos ni cedemos sus datos a terceros</strong> con fines comerciales.
+      </p>
+
+      <h2>Datos guardados en su navegador</h2>
+      <p>
+        El sitio guarda dos cosas en el almacenamiento local de su equipo, que nunca se envían a
+        nuestros servidores: su <strong>decisión sobre el banner de cookies</strong>, para no volver a
+        preguntarle, y el <strong>carrito de cotización</strong>, para que no pierda la selección de
+        productos si cierra la página. Puede borrarlos vaciando los datos del sitio en su navegador.
       </p>
 
       <h2>Conservación y derechos</h2>
       <p>
-        Conservamos los datos el tiempo necesario para la relación comercial y obligaciones contables.
-        Puede solicitar acceso, rectificación o supresión escribiendo a{" "}
-        <a href={`mailto:${site.email}`}>{site.email}</a>.
+        Conservamos los datos el tiempo necesario para la relación comercial y las obligaciones
+        contables que nos exige la ley.
+      </p>
+      <p>
+        Conforme a la <strong>Ley 1581 de 2012</strong> y sus decretos reglamentarios, usted puede
+        conocer, actualizar y rectificar sus datos, solicitar prueba de la autorización, ser
+        informado del uso que les damos, revocar la autorización y pedir su supresión cuando no exista
+        un deber legal de conservarlos. Escríbanos a{" "}
+        <a href={`mailto:${site.email}`}>{site.email}</a>: atendemos las consultas dentro de los diez
+        días hábiles siguientes y los reclamos dentro de los quince, según los plazos que fija la ley.
       </p>
 
       <h2>Contacto</h2>
