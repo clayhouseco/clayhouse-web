@@ -17,6 +17,7 @@ const staticPaths = [
   "/descargas",
   "/resenas",
   "/privacidad",
+  "/devoluciones",
   "/contacto",
 ];
 

@@ -1,0 +1,161 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+
+const lastUpdated = "Septiembre 2026";
+---
+
+<BaseLayout
+  title="Política de devoluciones y garantía"
+  description="Plazos, condiciones y pasos para devolver material o hacer efectiva la garantía en Clay House, ladrillera en Amagá, Antioquia."
+  hideQuoteCart
+>
+  <section class="page-hero">
+    <div class="container narrow">
+      <p class="eyebrow">Legal</p>
+      <h1>Devoluciones y garantía</h1>
+      <p class="text-muted page-hero__lead">
+        Última actualización: {lastUpdated}. Clay House ({site.legalName}) en Amagá, Antioquia.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow legal-prose">
+      <h2>Plazo para devolver</h2>
+      <p>
+        Usted dispone de <strong>15 días calendario</strong> desde la entrega del material para
+        solicitar una devolución. El plazo aplica a todo el catálogo, incluidos los pedidos
+        fabricados con formato o color especial.
+      </p>
+      <p>
+        Este plazo es más amplio que el derecho de retracto de cinco días hábiles que la Ley 1480 de
+        2011 reconoce en ventas no presenciales, y no lo sustituye: si prefiere ejercer el retracto
+        dentro de esos cinco días, puede hacerlo en los mismos términos que fija la ley.
+      </p>
+
+      <h2>Estado del material</h2>
+      <p>
+        Para una devolución por cambio de decisión, las piezas deben volver
+        <strong>sin instalar, sin cortar y en su empaque o estiba original</strong>, en condiciones
+        de venderse de nuevo. El barro cocido resiste el manejo en obra, pero una vez la pieza se
+        pega, se corta o se expone a mortero deja de ser material nuevo.
+      </p>
+      <p>
+        La devolución es <strong>por estiba o unidad de empaque completa</strong>. No recibimos
+        fracciones de estiba abierta, salvo que se trate de un defecto de fábrica.
+      </p>
+
+      <h2>Quién paga el transporte</h2>
+      <ul>
+        <li>
+          <strong>Si la devolución es por cambio de decisión:</strong> el transporte de retorno corre
+          por cuenta del cliente. En materiales de construcción el flete es una parte considerable
+          del costo y por eso lo señalamos con claridad antes de que usted decida.
+        </li>
+        <li>
+          <strong>Si el error es nuestro</strong> —producto distinto al cotizado, cantidad
+          equivocada, o material que llegó dañado— <strong>Clay House asume el transporte</strong> y
+          coordina el retiro y la reposición sin costo para usted.
+        </li>
+      </ul>
+
+      <h2>Material que llega dañado</h2>
+      <p>
+        Revise el despacho al recibirlo. Las novedades de transporte —piezas quebradas, estibas
+        volcadas, faltantes— deben reportarse <strong>dentro de las 48 horas siguientes a la
+        entrega</strong>, con fotografías y el número de la remisión. Pasado ese plazo se hace muy
+        difícil establecer si el daño ocurrió en el traslado o en obra.
+      </p>
+
+      <h2>Cómo solicitar la devolución</h2>
+      <ol>
+        <li>
+          Escríbanos a <a href={`mailto:${site.email}`}>{site.email}</a> o por
+          <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a> indicando el
+          número de factura o remisión, el producto y la cantidad.
+        </li>
+        <li>Adjunte fotografías del material tal como está.</li>
+        <li>
+          Le confirmamos la aceptación y coordinamos la recolección o el punto de entrega en la
+          planta de Amagá. Respondemos en un plazo máximo de <strong>3 días hábiles</strong>.
+        </li>
+      </ol>
+
+      <h2>Reembolso</h2>
+      <p>
+        Una vez recibimos el material y verificamos su estado, el reembolso se realiza en un plazo
+        máximo de <strong>15 días hábiles</strong>, por el mismo medio de pago que usted utilizó. Si
+        el pago fue por transferencia, a la cuenta bancaria que nos indique a nombre del titular de
+        la compra.
+      </p>
+      <p>
+        Se reembolsa el valor del material devuelto. El flete de la entrega original solo se
+        reembolsa cuando la devolución obedece a un error nuestro.
+      </p>
+
+      <h2>Garantía del producto</h2>
+      <p>
+        Nuestras piezas se fabrican bajo la <strong>norma NTC 4205</strong> y responden por los
+        defectos de fabricación que esa norma cubre: resistencia a la compresión, absorción de agua y
+        tolerancias dimensionales. La garantía legal aplica en los términos de la Ley 1480 de 2011.
+      </p>
+      <p>
+        El barro cocido es un material natural: la <strong>variación de tono entre lotes</strong> y
+        los matices dentro de una misma referencia son parte de su carácter, no un defecto. Por eso
+        recomendamos comprar de una sola vez el material de una fachada y mezclar piezas de varias
+        estibas al instalar.
+      </p>
+      <p>
+        La garantía no cubre daños por instalación incorrecta, mortero inadecuado, ausencia de juntas
+        de dilatación, manipulación en obra ni exposición a agentes químicos.
+      </p>
+
+      <h2>Contacto</h2>
+      <p>
+        Para cualquier duda sobre esta política:
+        <a href={`mailto:${site.email}`}>{site.email}</a>, {" "}
+        <a href={site.phoneHref}>{site.phone}</a> o el{" "}
+        <a href="/contacto">formulario de contacto</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-prose {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-chocolate);
+  }
+
+  .legal-prose h2 {
+    margin: 2rem 0 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-prose p,
+  .legal-prose ul,
+  .legal-prose ol {
+    margin: 0 0 1rem;
+  }
+
+  .legal-prose ul,
+  .legal-prose ol {
+    padding-left: 1.25rem;
+  }
+
+  .legal-prose li {
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-prose a {
+    color: var(--color-terracota);
+  }
+</style>
