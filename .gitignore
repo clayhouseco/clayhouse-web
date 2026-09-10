@@ -42,3 +42,9 @@ scripts/fichas/_preview/
 
 # Reporte generado por sync:erp en cada build
 erp-divergencias.md
+
+# playwright (e2e)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
