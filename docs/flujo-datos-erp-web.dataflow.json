@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Flujo de datos entre el ERP y la web de Clay House",
+    "viewBox": [
+      1080,
+      602
+    ],
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "catalogo",
+        "label": "El catálogo baja",
+        "focus": [
+          "supabase",
+          "apiCatalogo",
+          "syncErp",
+          "erpFeed"
+        ],
+        "note": "El ERP publica su catálogo y la web lo congela en git antes de compilar."
+      },
+      {
+        "id": "divergencias",
+        "label": "Lo que no coincide",
+        "focus": [
+          "syncErp",
+          "divergencias"
+        ],
+        "note": "Donde los dos lados tienen dato y difieren, no se pisa nada: se reporta."
+      },
+      {
+        "id": "vuelta",
+        "label": "La cotización vuelve",
+        "focus": [
+          "sitio",
+          "cotizador",
+          "supabase",
+          "crm"
+        ],
+        "note": "Único camino de escritura de la web hacia el ERP."
+      }
+    ],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "emphasis": {
+          "label": "camino del catálogo"
+        },
+        "security": {
+          "label": "escritura desde el navegador"
+        },
+        "dashed": {
+          "label": "reporte de conflictos"
+        },
+        "default": {
+          "label": "flujo de datos"
+        },
+        "database": {
+          "label": "dato guardado"
+        }
+      }
+    }
+  },
+  "stages": [
+    {
+      "label": "Datos del ERP"
+    },
+    {
+      "label": "Superficies del ERP"
+    },
+    {
+      "label": "Build de la web"
+    },
+    {
+      "label": "Datos versionados"
+    },
+    {
+      "label": "Sitio y visitante"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "supabase",
+      "type": "database",
+      "label": "Supabase · Postgres",
+      "sublabel": "productos · producto_variantes",
+      "stage": 0,
+      "row": 2,
+      "tag": "fuente",
+      "width": 150
+    },
+    {
+      "id": "sheet",
+      "type": "external",
+      "label": "Google Sheet",
+      "sublabel": "disponibilidad por producto",
+      "stage": 0,
+      "row": 3,
+      "tag": "CSV",
+      "width": 130
+    },
+    {
+      "id": "crm",
+      "type": "backend",
+      "label": "CRM del ERP",
+      "sublabel": "bandeja de cotizaciones",
+      "stage": 1,
+      "row": 1,
+      "tag": "Next 16",
+      "width": 112
+    },
+    {
+      "id": "apiCatalogo",
+      "type": "backend",
+      "label": "/api/catalogo-web",
+      "sublabel": "force-dynamic",
+      "stage": 1,
+      "row": 2,
+      "tag": "s-maxage 300",
+      "width": 130
+    },
+    {
+      "id": "syncErp",
+      "type": "backend",
+      "label": "sync-erp.mjs",
+      "sublabel": "corre antes del build",
+      "stage": 2,
+      "row": 2,
+      "tag": "npm run build",
+      "width": 112
+    },
+    {
+      "id": "fetchDisp",
+      "type": "backend",
+      "label": "fetch-availability.mjs",
+      "sublabel": "corre antes del build",
+      "stage": 2,
+      "row": 3,
+      "width": 148
+    },
+    {
+      "id": "divergencias",
+      "type": "database",
+      "label": "erp-divergencias.md",
+      "sublabel": "reporte de conflictos",
+      "stage": 3,
+      "row": 1,
+      "tag": "no pisa",
+      "width": 148
+    },
+    {
+      "id": "erpFeed",
+      "type": "database",
+      "label": "erpFeed.json",
+      "sublabel": "versionado en git",
+      "stage": 3,
+      "row": 2,
+      "tag": "reproducible",
+      "width": 112
+    },
+    {
+      "id": "disponibilidad",
+      "type": "database",
+      "label": "availability.json",
+      "sublabel": "versionado en git",
+      "stage": 3,
+      "row": 3,
+      "width": 124
+    },
+    {
+      "id": "sitio",
+      "type": "frontend",
+      "label": "Sitio estático",
+      "sublabel": "Astro 6 · Vercel",
+      "stage": 4,
+      "row": 2,
+      "tag": "HTML",
+      "width": 112
+    },
+    {
+      "id": "cotizador",
+      "type": "frontend",
+      "label": "Cotizador",
+      "sublabel": "navegador del visitante",
+      "stage": 4,
+      "row": 0,
+      "tag": "anon key",
+      "width": 112
+    }
+  ],
+  "flows": [
+    {
+      "id": "catalogo-publicado",
+      "from": "supabase",
+      "to": "apiCatalogo",
+      "label": "mostrar_web",
+      "classification": "activo_ventas · solo la empresa Clay House",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelAt": [
+        213,
+        428
+      ]
+    },
+    {
+      "id": "catalogo-bajado",
+      "from": "apiCatalogo",
+      "to": "syncErp",
+      "label": "GET catálogo",
+      "classification": "JSON, una vez por build",
+      "variant": "emphasis",
+      "labelAt": [
+        427,
+        428
+      ]
+    },
+    {
+      "id": "disp-bajada",
+      "from": "sheet",
+      "to": "fetchDisp",
+      "label": "CSV publicado",
+      "classification": "una vez por build"
+    },
+    {
+      "id": "feed-escrito",
+      "from": "syncErp",
+      "to": "erpFeed",
+      "label": "congela el feed",
+      "classification": "erpFeed.json, versionado en git",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelAt": [
+        638,
+        428
+      ]
+    },
+    {
+      "id": "conflictos",
+      "from": "syncErp",
+      "to": "divergencias",
+      "label": "reporta lo que difiere",
+      "classification": "no sobrescribe",
+      "variant": "dashed"
+    },
+    {
+      "id": "disp-escrita",
+      "from": "fetchDisp",
+      "to": "disponibilidad",
+      "label": "guarda en git",
+      "classification": "availability.json",
+      "labelAt": [
+        790,
+        442
+      ]
+    },
+    {
+      "id": "build-feed",
+      "from": "erpFeed",
+      "to": "sitio",
+      "label": "astro build",
+      "classification": "desde el repo",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelAt": [
+        858,
+        352
+      ]
+    },
+    {
+      "id": "build-disp",
+      "from": "disponibilidad",
+      "to": "sitio",
+      "label": "astro build",
+      "classification": "desde el repo",
+      "labelAt": [
+        910,
+        478
+      ]
+    },
+    {
+      "id": "visita",
+      "from": "sitio",
+      "to": "cotizador",
+      "label": "cotiza",
+      "classification": "el visitante, en su navegador",
+      "labelAt": [
+        960,
+        300
+      ]
+    },
+    {
+      "id": "cotizacion-guardada",
+      "from": "cotizador",
+      "to": "supabase",
+      "label": "POST /rest/v1/cotizaciones",
+      "classification": "clave anónima pública",
+      "variant": "security",
+      "route": "top-channel",
+      "labelAt": [
+        600,
+        86
+      ]
+    },
+    {
+      "id": "crm-lee",
+      "from": "supabase",
+      "to": "crm",
+      "label": "lee",
+      "classification": "la fuerza comercial la atiende",
+      "labelAt": [
+        270,
+        318
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Quién manda qué",
+      "items": [
+        "ERP: productos, colores y códigos",
+        "Web: textos, fotos, SEO y precios"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Build reproducible",
+      "items": [
+        "Los dos JSON quedan versionados en git",
+        "Si el ERP falla, sigue el último feed"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "La única escritura de vuelta",
+      "items": [
+        "El navegador escribe directo en Supabase",
+        "Con la clave anónima, sin backend propio"
+      ]
+    }
+  ]
+}
