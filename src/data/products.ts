@@ -636,7 +636,6 @@ export const products: Product[] = [
     specs: [
       { label: "Norma", value: "NTC 4205 · contracción +0 / 2%" },
       { label: "Espesor", value: "1 cm" },
-      { label: "Rendimiento", value: "66 und/m² sin junta · 86 und/m² con junta 1 cm" },
       { label: "Tipo de uso", value: "Revestimiento de muros interiores" },
       { label: "Resistencia y absorción", value: "No aplica (revestimiento)" },
     ],

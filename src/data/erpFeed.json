@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-09-03T19:48:13.803Z",
+  "actualizado": "2026-09-17T16:37:33.618Z",
   "productos": [
     {
       "codigo": "ENC-THI",
@@ -288,7 +288,26 @@
         "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
       ],
       "orden": 0,
-      "colores": []
+      "colores": [
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
+          "fotos": []
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+          "fotos": []
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
+          "fotos": []
+        }
+      ]
     },
     {
       "codigo": "CAL-15",
@@ -325,7 +344,7 @@
       "dimension": "28 x 6 x 1.3 cm",
       "rendimiento": "≈ 60 und/m²",
       "pesoKg": 0.75,
-      "unidad": "unidad",
+      "unidad": "m2",
       "descripcion": "Enchape tipo Romano. Solo Primera.",
       "imagen": "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
       "fotos": [
@@ -337,12 +356,6 @@
       "orden": 0,
       "colores": [
         {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "imagen": null,
-          "fotos": []
-        },
-        {
           "codigo": "NAT",
           "nombre": "Natural",
           "imagen": null,
@@ -351,6 +364,12 @@
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
+          "imagen": null,
+          "fotos": []
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
           "imagen": null,
           "fotos": []
         }

@@ -84,15 +84,18 @@ export interface RendimientoRow {
  *  y por ende un menor precio aparente. Mostrar los 3 escenarios deja al
  *  cliente comparar manzanas con manzanas. */
 export function getRendimientoTable(product: Product): RendimientoRow[] | null {
-  // Solo aplica a productos cotizados por unidad con largo y alto numéricos.
-  if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
   const largoCm = parseCm(product.dimensions?.largo);
   const altoCm = parseCm(product.dimensions?.alto);
   if (!largoCm || !altoCm) return null;
 
   const largoM = largoCm / 100;
   const altoM = altoCm / 100;
-  const unitAmount = parseCopAmount(product.pricePerUnit ?? "");
+  // Las piezas por m² se cuentan igual se venda el producto por unidad o por m²
+  // —es geometría—, pero el precio por m² solo se deriva cuando el precio es
+  // por pieza. En un enchape cotizado por m² multiplicar piezas × precio daría
+  // una cifra absurda, así que esa columna queda vacía.
+  const porUnidad = !product.priceUnitLabel || product.priceUnitLabel === "unidad";
+  const unitAmount = porUnidad ? parseCopAmount(product.pricePerUnit ?? "") : null;
   const fmtPrice = (units: number) =>
     unitAmount ? `${formatCop(units * unitAmount)}/m²` : null;
 
@@ -171,7 +174,6 @@ export function getRendimientoFormats(
   // Las tejas (Techos) y los decorativos (celosías) no se cotizan por pieza/m²
   // con junta, así que no llevan la calculadora.
   if (product.category === "Techos" || product.category === "Decorativos") return null;
-  if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
   const overriders = (variants ?? []).filter((v) => v.dimensions);
   if (overriders.length >= 2) {
     const fmts = overriders

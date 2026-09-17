@@ -348,6 +348,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             class="container product-page__panel rendimiento-panel"
             data-rendi-sim
             data-formats={JSON.stringify(rendiFormats)}
+            data-qty-unit={product.priceUnitLabel === "m²" ? "m2" : "unidad"}
           >
             <header class="rendimiento-panel__header rendimiento-panel__header--center">
               <h2 class="product-page__h2 product-page__h2--large">Calculadora de m²</h2>
@@ -870,7 +871,14 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     applyBtn?.addEventListener("click", () => {
       const area = parseFloat(areaEl?.value || "0");
       if (!(area > 0) || !qtyInput) return;
-      qtyInput.value = String(Math.ceil(area * unitsFor(parseFloat(slider.value)) * 1.05));
+      // El total visible siempre son piezas (es lo que ayuda a pedir en obra),
+      // pero el campo del cotizador se llena en la unidad en que se vende el
+      // producto: un enchape cotizado por m² recibiría 80 veces de más si le
+      // pasáramos piezas.
+      const enM2 = root.dataset.qtyUnit === "m2";
+      qtyInput.value = enM2
+        ? String(Math.ceil(area * 1.05))
+        : String(Math.ceil(area * unitsFor(parseFloat(slider.value)) * 1.05));
       qtyInput.dispatchEvent(new Event("input", { bubbles: true }));
       qtyInput.dispatchEvent(new Event("change", { bubbles: true }));
       qtyInput.scrollIntoView({ behavior: "smooth", block: "center" });
