@@ -565,6 +565,15 @@ export const products: Product[] = [
     image: productFolderImage("enchape-rustico", "producto/enchape-rustico-producto-2.webp"),
     pricePerUnit: "$ 85.000",
     priceUnitLabel: "m²",
+    dimensions: {
+      // Cara vista 25 × 6 cm, espesor 2,4 cm — tomado de la ficha técnica
+      // (scripts/fichas/fichas.data.mjs), que publica 66 und/m². El cálculo
+      // sin junta da 67, así que la cifra impresa cuadra con la geometría.
+      largo: "25 cm",
+      alto: "6 cm",
+      espesor: "2,4 cm",
+      pesoAprox: "0,8 kg",
+    },
     specs: [
       { label: "Norma", value: "NTC 4205" },
       { label: "Tipo de uso", value: "Revestimiento interior y exterior" },
@@ -594,9 +603,12 @@ export const products: Product[] = [
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
     dimensions: {
+      // Cara vista 28 × 6 cm, espesor 1,3 cm — la medida que publica el ERP
+      // (ENC-ROM: "28 x 6 x 1.3 cm", "≈ 60 und/m²"). Antes `largo` decía
+      // "Según pieza", que no es numérico y dejaba la ficha sin calculadora.
+      largo: "28 cm",
       alto: "6 cm",
-      ancho: "27,5 cm",
-      largo: "Según pieza",
+      espesor: "1,3 cm",
     },
     specs: [
       { label: "Norma", value: "NTC 4205" },
@@ -635,7 +647,6 @@ export const products: Product[] = [
     },
     specs: [
       { label: "Norma", value: "NTC 4205 · contracción +0 / 2%" },
-      { label: "Espesor", value: "1 cm" },
       { label: "Tipo de uso", value: "Revestimiento de muros interiores" },
       { label: "Resistencia y absorción", value: "No aplica (revestimiento)" },
     ],

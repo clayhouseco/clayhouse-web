@@ -163,6 +163,9 @@ const specRows = [
   { label: "Textura", value: product.texture },
   { label: "Color", value: product.color },
   dimensionesLine && { label: "Dimensiones", value: dimensionesLine },
+  // En enchapes el espesor es el dato que decide si la pieza cabe en el muro,
+  // y no entra en la línea de dimensiones (que solo lleva alto × ancho × largo).
+  product.dimensions?.espesor && { label: "Espesor", value: product.dimensions.espesor },
   product.dimensions?.pesoAprox && { label: "Peso", value: product.dimensions.pesoAprox },
   // Solo mostramos la fila Rendimiento si NO hay tabla calculable (ej. Cartagena
   // con dimensiones variables). Si hay tabla (de ladrillo o piso), la sección
