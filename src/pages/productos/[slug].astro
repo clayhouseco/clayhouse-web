@@ -33,6 +33,7 @@ import {
   getFloorRendimientoTable,
   getReferencePriceM2,
   getRendimientoFormats,
+  getErpRendimiento,
 } from "@/utils/productPricing";
 
 export function getStaticPaths() {
@@ -170,10 +171,15 @@ const specRows = [
   // Solo mostramos la fila Rendimiento si NO hay tabla calculable (ej. Cartagena
   // con dimensiones variables). Si hay tabla (de ladrillo o piso), la sección
   // Rendimiento de abajo reemplaza esta fila con los escenarios completos.
-  !rendimientoTable && !floorTable && product.dimensions?.rendimiento && {
-    label: "Rendimiento",
-    value: product.dimensions.rendimiento,
-  },
+  // Si no hay tabla, se publica el rendimiento como dato suelto: el propio del
+  // producto, o el del ERP. Las tejas dependen de este último —se traslapan, no
+  // se calculan— y sin él la ficha no explicaba de dónde sale el precio por m².
+  !rendimientoTable &&
+    !floorTable &&
+    (product.dimensions?.rendimiento || getErpRendimiento(product.slug)) && {
+      label: "Rendimiento",
+      value: (product.dimensions?.rendimiento ?? getErpRendimiento(product.slug))!,
+    },
   ...(product.specs ?? []),
 ].filter(Boolean) as { label: string; value: string }[];
 

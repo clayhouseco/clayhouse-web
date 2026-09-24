@@ -1,4 +1,5 @@
 import type { Product } from "@/data/products";
+import { erpDeSlug } from "@/data/erpFeed";
 
 function parseCopAmount(value: string): number | null {
   const digits = value.replace(/[^\d]/g, "");
@@ -41,6 +42,18 @@ export function getReferencePriceLabel(product: Product): string | null {
  *  por unidad. Usa el rendimiento publicado del producto (× precio/unidad); si
  *  no hay, estima con 1 cm de pega. Devuelve null si el producto ya se vende
  *  por m² (el precio principal ya es /m²) o si no tiene precio por unidad. */
+/** Rendimiento publicado por el ERP, tal cual ("≈ 22 und/m²"). Es el único dato
+ *  de rendimiento que existe para tejas: se traslapan, así que no se calcula. */
+export function getErpRendimiento(slug: string): string | null {
+  return erpDeSlug(slug)[0]?.rendimiento ?? null;
+}
+
+/** "≈ 22 und/m²" del catálogo del ERP → 22. */
+function erpUnidadesPorM2(slug: string): number | null {
+  const m = erpDeSlug(slug)[0]?.rendimiento?.match(/(\d+(?:[.,]\d+)?)\s*und/i);
+  return m ? Number.parseFloat(m[1].replace(",", ".")) : null;
+}
+
 export function getReferencePriceM2(product: Product): string | null {
   if (!product.pricePerUnit) return null;
   if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
@@ -50,7 +63,14 @@ export function getReferencePriceM2(product: Product): string | null {
   //    de la ficha, para que el titular no contradiga lo que ve el cliente).
   const pega1 = getRendimientoTable(product)?.find((r) => r.jointCm === 1);
   // 2) respaldo: rendimiento publicado, si el producto no tiene dims calculables.
-  const units = pega1?.unitsPerM2 ?? parseCm(product.dimensions?.rendimiento);
+  // 3) último respaldo: el rendimiento del ERP. Es lo único que hay en tejas,
+  //    que se traslapan y no se pueden calcular con geometría. Sin esto la
+  //    teja colonial mostraba $ 1.600/unidad en la ficha mientras el cotizador
+  //    pedía m², y el cliente no tenía cómo relacionar las dos cifras.
+  const units =
+    pega1?.unitsPerM2 ??
+    parseCm(product.dimensions?.rendimiento) ??
+    erpUnidadesPorM2(product.slug);
   if (!units) return null;
   return `${formatCop(Math.round(units * unitAmount))}/m²`;
 }

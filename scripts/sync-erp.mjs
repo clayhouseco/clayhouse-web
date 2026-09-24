@@ -100,6 +100,29 @@ const sinCodigo = feed.productos.filter((p) => !p.codigo).map((p) => p.pagina ??
 const sinColor = [...porSlug.entries()].filter(([, ps]) => ps.every((p) => !p.colores?.length)).map(([s]) => s);
 const codigosHuerfanos = [...codigosWeb.keys()].filter((c) => !feed.productos.some((p) => p.codigo === c));
 
+/* Unidad de venta desalineada. Es la divergencia más cara de todas: la unidad la
+   manda el ERP y el precio lo tiene la web, así que si no coinciden el cotizador
+   multiplica metros cuadrados por el precio de una pieza. Pasó con la teja
+   colonial —60 m² salían en $ 96.000 en vez de $ 2.112.000— y nadie lo vio
+   durante meses porque ninguna comprobación miraba las dos cosas juntas. */
+const bloqueDe = (slug) => {
+  const i = productosTs.indexOf(`slug: "${slug}"`);
+  if (i < 0) return "";
+  const j = productosTs.indexOf('    slug: "', i + 10);
+  return productosTs.slice(i, j > 0 ? j : i + 3000);
+};
+const unidadWeb = (slug) => (bloqueDe(slug).match(/priceUnitLabel: "([^"]+)"/) || [, "unidad"])[1];
+const precioWeb = (slug) => (bloqueDe(slug).match(/pricePerUnit: "([^"]+)"/) || [, null])[1];
+
+const unidadDistinta = [];
+for (const [slug, ps] of porSlug) {
+  if (!slugsWeb.includes(slug)) continue;
+  const erpM2 = ps.some((p) => String(p.unidad).toLowerCase() === "m2");
+  const webM2 = unidadWeb(slug) === "m²";
+  if (erpM2 !== webM2)
+    unidadDistinta.push({ slug, web: unidadWeb(slug), erp: ps[0].unidad, precio: precioWeb(slug), rend: ps[0].rendimiento });
+}
+
 if (soloWeb.length) lineas.push(`## La web los ofrece y el ERP no los publica (${soloWeb.length})\n\n` +
   soloWeb.map((s) => `- \`${s}\` — o se marca \`mostrar_web\` en el ERP, o se baja de la página.`).join("\n"));
 if (soloErp.length) lineas.push(`## El ERP los publica y la web no tiene página (${soloErp.length})\n\n` +
@@ -109,6 +132,11 @@ if (sinCodigo.length) lineas.push(`## Publicados sin código ERP (${sinCodigo.le
 if (sinColor.length) lineas.push(`## Publicados sin colores en el ERP (${sinColor.length})\n\n` +
   `Sus variantes en el ERP tienen el color vacío, así que el ERP no puede decir qué colores se ofrecen y la web sigue usando su propia lista.\n\n` +
   sinColor.map((s) => `- \`${s}\``).join("\n"));
+if (unidadDistinta.length) lineas.push(`## Unidad de venta desalineada (${unidadDistinta.length})\n\n` +
+  `El ERP manda la unidad y la web tiene el precio. Si no coinciden, el cotizador multiplica cantidades de una unidad por el precio de otra.\n\n` +
+  unidadDistinta.map((d) =>
+    `- \`${d.slug}\` — web: ${d.precio ?? "sin precio"} / ${d.web} · ERP: ${d.erp}${d.rend ? ` (${d.rend})` : ""}`
+  ).join("\n"));
 if (codigosHuerfanos.length) lineas.push(`## Códigos que la web usa y el ERP no publica (${codigosHuerfanos.length})\n\n` +
   codigosHuerfanos.map((c) => `- \`${c}\` (${codigosWeb.get(c)}) — una cotización con este código no se puede cargar al ERP.`).join("\n"));
 
@@ -117,5 +145,5 @@ const reporte = `# Divergencias entre el ERP y la página web\n\n` +
   (lineas.length ? lineas.join("\n\n") : "Sin divergencias: los dos lados dicen lo mismo.\n");
 fs.writeFileSync(REPORTE, reporte);
 
-const total = soloWeb.length + soloErp.length + sinCodigo.length + sinColor.length + codigosHuerfanos.length;
+const total = soloWeb.length + soloErp.length + sinCodigo.length + sinColor.length + codigosHuerfanos.length + unidadDistinta.length;
 console.log(total ? `⚠ ${total} divergencias con el ERP — detalle en erp-divergencias.md` : "✓ web y ERP dicen lo mismo");
