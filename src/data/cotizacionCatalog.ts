@@ -1,4 +1,5 @@
-import { getVisibleProducts } from "@/data/products";
+import { getVisibleProducts, getProduct } from "@/data/products";
+import { erpDeCodigo, erpDeSlug } from "@/data/erpFeed";
 import { getProductAssets } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
 import {
@@ -44,6 +45,46 @@ function variantLabel(name: string, slug: string, id: string): string {
   if (slug === "macizo-brix") return `Macizo ${id}`;
   if (slug === "calado") return `Calado ${id} cm`;
   return `${name} ${id}`;
+}
+
+/** "≈ 22 und/m²" → 22. Es el rendimiento que publica el ERP, y en tejas es el
+ *  único dato válido: se traslapan, así que no se puede deducir de la geometría. */
+function unidadesPorM2(codigo: string | null, slug: string): number | null {
+  const p = erpDeCodigo(codigo) ?? erpDeSlug(slug)[0] ?? null;
+  const m = p?.rendimiento?.match(/(\d+(?:[.,]\d+)?)\s*und/i);
+  return m ? Number.parseFloat(m[1].replace(",", ".")) : null;
+}
+
+/** "$ 1.600" → 1600 */
+function copANumero(v: string): number | null {
+  const d = v.replace(/[^\d]/g, "");
+  return d ? Number.parseInt(d, 10) : null;
+}
+
+/** Precio de referencia expresado SIEMPRE en la unidad en que se cotiza.
+ *
+ *  Sin esto el cotizador multiplicaba metros cuadrados por el precio de una
+ *  pieza: la teja colonial se vende por m² según el ERP, pero la web tiene su
+ *  precio por unidad ($ 1.600), y 60 m² salían en $ 96.000 cuando son 1.320
+ *  tejas — $ 2.112.000. Un error de 22 veces en un documento con precios.
+ *
+ *  La conversión usa el rendimiento del ERP. Si no lo publica, no se inventa un
+ *  número: se devuelve null y la línea queda "Consultar". */
+function precioEnUnidadDeVenta(
+  slug: string,
+  codigo: string | null,
+  precioWeb: string | undefined,
+  unidadVenta: string
+): string | null {
+  if (!precioWeb) return null;
+  const producto = getProduct(slug);
+  const precioEsPorM2 = producto?.priceUnitLabel === "m²";
+  if (unidadVenta !== "m2" || precioEsPorM2) return precioWeb;
+
+  const und = unidadesPorM2(codigo, slug);
+  const base = copANumero(precioWeb);
+  if (!und || !base) return null;
+  return `$ ${Math.round(base * und).toLocaleString("es-CO")}`;
 }
 
 /** Precio de referencia por dimensión, cuando difiere del precio base del
@@ -94,9 +135,12 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       unidadLabel: ERP_UNIDAD_LABEL[eq.unidad],
       image: assetUrl(p.image),
       refPrice:
-        (variantId && PRECIO_POR_VARIANTE[p.slug]?.[variantId]) ??
-        p.pricePerUnit ??
-        "Consultar",
+        precioEnUnidadDeVenta(
+          p.slug,
+          eq.codigo,
+          (variantId && PRECIO_POR_VARIANTE[p.slug]?.[variantId]) ?? p.pricePerUnit,
+          eq.unidad
+        ) ?? "Consultar",
       preciosPorColor,
     };
   });
