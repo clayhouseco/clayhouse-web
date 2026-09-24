@@ -7,6 +7,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/productos/enchape-rustico",
+      "destination": "/productos/categoria/enchapes",
+      "permanent": false
+    },
+    {
+      "source": "/productos/enchape-bocadillo",
+      "destination": "/productos/categoria/enchapes",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -159,12 +169,12 @@
     },
     {
       "source": "/enchapes-rusticos",
-      "destination": "/productos/enchape-rustico",
+      "destination": "/productos/categoria/enchapes",
       "permanent": true
     },
     {
       "source": "/enchapes-rusticos/:s*",
-      "destination": "/productos/enchape-rustico",
+      "destination": "/productos/categoria/enchapes",
       "permanent": true
     },
     {

@@ -1,5 +1,6 @@
 import { fichaPdf, productFolderImage } from "@/utils/paths";
 import { isAvailable } from "@/data/availability";
+import { erpPublica } from "@/data/erpFeed";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -760,17 +761,25 @@ export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
 }
 
-/** Un producto se muestra si no está oculto por código (hidden) y si el
- *  inventario de planta no lo desactivó desde la hoja.
- *  Úsalo en cualquier listado que genere enlaces a /productos/{slug}: esas
- *  páginas solo se construyen para productos visibles, así que enlazar uno
- *  oculto o desactivado produce un 404. */
+/**
+ * Un producto se muestra solo si los tres lados lo permiten:
+ *
+ *  1. El ERP lo publica. MANDA EL ERP: si allá no está marcado para la web, no
+ *     se ofrece aquí. Ofrecer algo que el ERP no reconoce produce cotizaciones
+ *     con códigos que no se pueden cargar, que es peor que no ofrecerlo.
+ *  2. El inventario de planta no lo desactivó (hoja de disponibilidad).
+ *  3. No está oculto a mano por código (`hidden`).
+ *
+ * Úsalo en cualquier listado que genere enlaces a /productos/{slug}: esas
+ * páginas solo se construyen para productos visibles, así que enlazar uno
+ * oculto o desactivado produce un 404.
+ */
 export function isVisible(p: Product): boolean {
-  return !p.hidden && isAvailable(p.slug);
+  return !p.hidden && isAvailable(p.slug) && erpPublica(p.slug);
 }
 
-/** Productos visibles en listados (excluye hidden:true y los desactivados
- *  desde la hoja de inventario). */
+/** Productos visibles en listados (excluye lo que el ERP no publica, lo
+ *  desactivado desde la hoja de inventario y lo oculto por código). */
 export function getVisibleProducts(): Product[] {
   return products.filter(isVisible);
 }
