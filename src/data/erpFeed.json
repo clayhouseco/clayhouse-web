@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-09-25T21:01:35.242Z",
+  "actualizado": "2026-09-25T21:22:39.627Z",
   "productos": [
     {
       "codigo": "ENC-THI",
@@ -473,78 +473,6 @@
       "colores": []
     },
     {
-      "codigo": "TOS",
-      "id": "toscano",
-      "nombre": "Toscano",
-      "categoria": "fachadas",
-      "pagina": "toscano",
-      "dimension": "14*5,2*28,5",
-      "rendimiento": "≈ 68 und/m²",
-      "pesoKg": 1.8,
-      "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Tallada"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205-2 / 4205-3"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Fachada"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 13% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
-        }
-      ],
-      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-      "fotos": [
-        "/productos/products/toscano/natural/toscano%20natural-n.webp",
-        "/productos/products/toscano/isometrico%20toscano.webp",
-        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "hex": "#6f3a2c",
-          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
-          "fotos": [],
-          "precio": 2250
-        },
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-          "fotos": [],
-          "precio": 2250
-        },
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-          "fotos": [],
-          "precio": 2250
-        }
-      ]
-    },
-    {
       "codigo": "CAL-10",
       "id": "calado-10",
       "nombre": "Calado 10",
@@ -671,6 +599,78 @@
             "/productos/products/romano/romano%20dimensiones.webp"
           ],
           "precio": 2450
+        }
+      ]
+    },
+    {
+      "codigo": "TOS",
+      "id": "toscano",
+      "nombre": "Toscano",
+      "categoria": "fachadas",
+      "pagina": "toscano",
+      "dimension": "14*5,2*28,5",
+      "rendimiento": "≈ 68 und/m²",
+      "pesoKg": 1.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Tallada"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205-2 / 4205-3"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 13% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
+        }
+      ],
+      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
+      "fotos": [
+        "/productos/products/toscano/natural/toscano%20natural-n.webp",
+        "/productos/products/toscano/isometrico%20toscano.webp",
+        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
+          "fotos": [],
+          "precio": 2250
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+          "fotos": [],
+          "precio": 2250
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
+          "fotos": [],
+          "precio": 2250
         }
       ]
     },
@@ -1041,12 +1041,20 @@
           "valor": "NTC 4205-3"
         },
         {
+          "etiqueta": "Absorción de agua",
+          "valor": "9%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "30 MPa"
+        },
+        {
           "etiqueta": "Textura",
           "valor": "Liso"
         },
         {
           "etiqueta": "Tipo de uso",
-          "valor": "Fachadas"
+          "valor": "Muros de fachada y divisorios"
         }
       ],
       "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790303699761-WhatsApp-Image-2026-09-22-at-08.00.22.jpeg",
@@ -1100,7 +1108,7 @@
           "hex": "#c8835f",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790366441103-catalanh1.jpeg",
           "fotos": [],
-          "precio": null
+          "precio": 2000
         }
       ]
     }

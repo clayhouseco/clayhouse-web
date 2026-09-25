@@ -183,14 +183,20 @@ const productosEscritos: Product[] = [
       "Muros a la vista en obra contemporánea",
       "Cerramientos y muros de acento",
     ],
-    color: "Terracota",
+    color: "Natural",
     texture: "Liso",
     featured: false,
     seoTitle: "Catalán Horizontal: ladrillo liso 30 cm | Clay House",
     seoDescription:
       "Ladrillo Catalán Horizontal de arcilla, cara lisa y formato 30 × 15 × 10 cm para fachadas de trazo largo. Fabricado en Amagá, Antioquia.",
     image: productFolderImage("catalan", "producto.jpg"),
+    // Precio del ERP (CAT, color Natural).
+    pricePerUnit: "$ 2.000",
     priceUnitLabel: "unidad",
+    gallery: [
+      productFolderImage("catalan", "catalan-1.jpg"),
+      productFolderImage("catalan", "catalan-2.jpg"),
+    ],
     dimensions: {
       // 10*15*30 en el ERP (alto·ancho·largo). Se confirma con su rendimiento:
       // 33 und/m² es la cara de 30 × 10 sin junta (33,3 redondeado hacia abajo).
