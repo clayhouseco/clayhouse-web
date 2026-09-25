@@ -1,52 +1,47 @@
 {
   "ok": true,
-  "actualizado": "2026-09-24T15:14:34.697Z",
+  "actualizado": "2026-09-25T02:45:20.024Z",
   "productos": [
     {
-      "codigo": "ENC-THI",
-      "id": "enchape-thinbrick",
-      "nombre": "Enchape Thinbrick",
-      "categoria": "enchapes",
-      "pagina": "enchape-thinbrick",
-      "dimension": null,
-      "rendimiento": null,
-      "pesoKg": 0.28,
-      "unidad": "m2",
-      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
-      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+      "codigo": "ROM",
+      "id": "romano",
+      "nombre": "Romano",
+      "categoria": "fachadas",
+      "pagina": "romano",
+      "dimension": "6*15*30",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 2.5,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
+      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
       "fotos": [],
       "orden": 0,
       "colores": [
         {
           "codigo": "NAT",
           "nombre": "Natural",
-          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
+            "/productos/products/romano/natural/Romano%20Natural.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ]
         },
         {
-          "codigo": "BIA",
-          "nombre": "Bianco",
-          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
+            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ]
         },
         {
-          "codigo": "CAP",
-          "nombre": "Capuccino",
-          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
-          ]
-        },
-        {
-          "codigo": "COC",
-          "nombre": "Cocoa",
-          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ]
         }
       ]
@@ -310,6 +305,55 @@
       ]
     },
     {
+      "codigo": "ENC-THI",
+      "id": "enchape-thinbrick",
+      "nombre": "Enchape Thinbrick",
+      "categoria": "enchapes",
+      "pagina": "enchape-thinbrick",
+      "dimension": null,
+      "rendimiento": null,
+      "pesoKg": 0.28,
+      "unidad": "m2",
+      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
+      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
+          ]
+        },
+        {
+          "codigo": "BIA",
+          "nombre": "Bianco",
+          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
+          ]
+        },
+        {
+          "codigo": "CAP",
+          "nombre": "Capuccino",
+          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
+          ]
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+          ]
+        }
+      ]
+    },
+    {
       "codigo": "CAL-15",
       "id": "calado-15",
       "nombre": "Calado 15",
@@ -362,14 +406,14 @@
           "fotos": []
         },
         {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
           "imagen": null,
           "fotos": []
         },
         {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
           "imagen": null,
           "fotos": []
         }
@@ -531,48 +575,20 @@
       ]
     },
     {
-      "codigo": "ROM",
-      "id": "romano",
-      "nombre": "Romano",
+      "codigo": "SUP",
+      "id": "super-terras-11-liso",
+      "nombre": "Super Terras 11 Liso",
       "categoria": "fachadas",
-      "pagina": "romano",
-      "dimension": "6*15*30",
-      "rendimiento": "≈ 60 und/m²",
+      "pagina": "superterras",
+      "dimension": "5*11*38",
+      "rendimiento": "43",
       "pesoKg": 2.5,
       "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
-      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+      "descripcion": null,
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790303699761-WhatsApp-Image-2026-09-22-at-08.00.22.jpeg",
       "fotos": [],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
-          "fotos": [
-            "/productos/products/romano/natural/Romano%20Natural.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
-          ]
-        },
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
-          "fotos": [
-            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
-          ]
-        },
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
-          "fotos": [
-            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
-          ]
-        }
-      ]
+      "orden": 3,
+      "colores": []
     }
   ]
 }

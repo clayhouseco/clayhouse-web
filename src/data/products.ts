@@ -131,6 +131,41 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("napolitano"),
   },
   {
+    name: "Super Terras 11 Liso",
+    slug: "superterras",
+    category: "Fachadas",
+    shortDescription:
+      "Formato largo de cara lisa (38 × 11 × 5 cm) para fachadas de línea limpia, con menos piezas por metro cuadrado.",
+    description:
+      "Pieza alargada de acabado liso para fachadas donde la horizontal manda. Sus 38 cm de largo estiran la lectura del muro y reducen el número de juntas frente a un formato tradicional.",
+    applications: [
+      "Fachadas de línea contemporánea",
+      "Muros a la vista de gran extensión",
+      "Zócalos y bases con lectura horizontal",
+    ],
+    color: "Natural",
+    texture: "Liso",
+    featured: false,
+    seoTitle: "Super Terras: ladrillo liso 38 cm para fachada | Clay House",
+    seoDescription:
+      "Ladrillo de fachada Super Terras, cara lisa y formato largo de 38 × 11 × 5 cm. Norma NTC 4205-3, fabricado en Amagá, Antioquia.",
+    image: productFolderImage("superterras", "producto.jpg"),
+    priceUnitLabel: "unidad",
+    dimensions: {
+      // 5*11*38 en el ERP (alto·ancho·largo). El orden se confirma con su propio
+      // rendimiento: 43 und/m² es exactamente el cálculo con junta de 1 cm.
+      alto: "5 cm",
+      ancho: "11 cm",
+      largo: "38 cm",
+      pesoAprox: "2,5 kg",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205-3" },
+      { label: "Tipo de uso", value: "Fachada" },
+    ],
+    technicalPdf: fichaPdf("superterras"),
+  },
+  {
     name: "Ladrillo Romano",
     slug: "romano",
     category: "Fachadas",

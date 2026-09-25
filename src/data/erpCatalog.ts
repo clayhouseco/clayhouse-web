@@ -84,6 +84,7 @@ interface ErpMapEntry {
  * confirmarse contra el ERP: MAC-CAM, BOC-PRE, BLQ, ENC-RUS, ENC-THB, ENC-BOC, NAP.
  */
 const ERP_MAP: Record<string, ErpMapEntry> = {
+  superterras: { codigo: "SUP", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   romano: { codigo: "ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   toscano: { codigo: "TOS", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   cartagena: { codigo: "CAR", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
