@@ -67,6 +67,9 @@ const IC = {
   tool: '<path d="M14 50l18-18"/><path d="M34 20a8 8 0 1 0 10 10l-6-6-4 2-2-4z"/><path d="M12 46l6 6"/>',
   wash: '<path d="M32 12c5 8 9 12 9 18a9 9 0 1 1-18 0c0-6 4-10 9-18z"/><path d="M46 40l3 3M50 30l4 1M15 44l-3 3"/>',
   warn: '<path d="M32 12l24 42H8z"/><path d="M32 28v12M32 46v0.5"/>',
+  // Textura: capas de arcilla. Faltaba, y la fila salía con un hueco donde va el dibujo.
+  layers: '<path d="M32 10l22 11-22 11-22-11z"/><path d="M10 32l22 11 22-11M10 42l22 11 22-11"/>',
+  info: '<path d="M32 8a24 24 0 1 0 0 48 24 24 0 0 0 0-48z"/><path d="M32 28v16M32 20v0.5"/>',
 };
 const icon = (n, size = 34, sw = 2.4, color = RED) =>
   `<svg viewBox="0 0 64 64" width="${size}" height="${size}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${IC[n] || ""}</svg>`;

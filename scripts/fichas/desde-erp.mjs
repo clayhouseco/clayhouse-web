@@ -73,6 +73,8 @@ export function espec(p, ...etiquetas) {
  */
 const ICONOS = [
   [/peso/, "weight"],
+  [/textura|acabado/, "layers"],
+  [/tipo de uso|aplicacion|uso/, "home"],
   [/dimension|medida|espesor/, "cube"],
   [/rendimiento|unidades/, "grid"],
   [/resistencia a la compresi|compresi/, "compress"],
@@ -111,11 +113,16 @@ export function datosDelErp(p) {
     const r = String(p.rendimiento).trim();
     filas.push(["grid", "RENDIMIENTO", /und/i.test(r) ? r : `${r} und/m²`, "(por metro cuadrado)"]);
   }
-  /* Las demás especificaciones, en el orden en que están en el ERP. La norma NO: tiene su
-     propio renglón arriba en el PDF, no va en la tabla. */
+  /**
+   * Las demás especificaciones, en el orden en que están en el ERP.
+   *
+   * La norma NO: tiene su propio renglón arriba en el PDF y saldría dos veces. La TEXTURA y el
+   * TIPO DE USO sí van —las fichas publicadas las llevan, con su icono de capas y de casa— y
+   * estaban fuera por un descuido mío al escribir esta lista.
+   */
   for (const e of p.especificaciones ?? []) {
     const et = norm(e.etiqueta);
-    if (et === "norma" || et === "textura" || et === "acabado" || et === "tipo de uso") continue;
+    if (et === "norma") continue;
     if (filas.some((f) => norm(f[1]) === et)) continue;
     filas.push([iconoDe(e.etiqueta), String(e.etiqueta).toUpperCase(), String(e.valor), ""]);
   }
