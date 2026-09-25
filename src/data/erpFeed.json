@@ -1,77 +1,83 @@
 {
   "ok": true,
-  "actualizado": "2026-09-25T20:28:55.095Z",
+  "actualizado": "2026-09-25T21:01:35.242Z",
   "productos": [
     {
-      "codigo": "ROM",
-      "id": "romano",
-      "nombre": "Romano",
-      "categoria": "fachadas",
-      "pagina": "romano",
-      "dimension": "6*15*30",
-      "rendimiento": "≈ 60 und/m²",
-      "pesoKg": 2.5,
-      "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
+      "codigo": "ENC-THI",
+      "id": "enchape-thinbrick",
+      "nombre": "Enchape Thinbrick",
+      "categoria": "enchapes",
+      "pagina": "enchape-thinbrick",
+      "dimension": null,
+      "rendimiento": null,
+      "pesoKg": 0.28,
+      "unidad": "m2",
+      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
       "especificaciones": [
         {
           "etiqueta": "Textura",
-          "valor": "Corcho"
+          "valor": "Rústico"
         },
         {
           "etiqueta": "Norma",
-          "valor": "NTC 4205-2 / 4205-3"
+          "valor": "NTC 4205 · contracción +0 / 2%"
+        },
+        {
+          "etiqueta": "Espesor",
+          "valor": "1 cm"
         },
         {
           "etiqueta": "Tipo de uso",
-          "valor": "Fachada"
+          "valor": "Revestimiento de muros interiores"
         },
         {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 13% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
+          "etiqueta": "Resistencia y absorción",
+          "valor": "No aplica (revestimiento)"
         }
       ],
-      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
       "fotos": [],
       "orden": 0,
       "colores": [
         {
           "codigo": "NAT",
           "nombre": "Natural",
-          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
           "fotos": [
-            "/productos/products/romano/natural/Romano%20Natural.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
           ],
-          "precio": 2450
+          "precio": null
         },
         {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+          "codigo": "BIA",
+          "nombre": "Bianco",
+          "hex": "#e8e2d8",
+          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
           "fotos": [
-            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
           ],
-          "precio": 2450
+          "precio": null
         },
         {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+          "codigo": "CAP",
+          "nombre": "Capuccino",
+          "hex": "#a9846b",
+          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
           "fotos": [
-            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
           ],
-          "precio": 2450
+          "precio": null
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "hex": "#5a4636",
+          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+          ],
+          "precio": null
         }
       ]
     },
@@ -339,6 +345,7 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
           "fotos": [],
           "precio": null
@@ -389,6 +396,7 @@
         {
           "codigo": "ARE",
           "nombre": "Arena",
+          "hex": "#c9a876",
           "imagen": "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
           "fotos": [
             "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
@@ -399,6 +407,7 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
           "fotos": [
             "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
@@ -409,6 +418,7 @@
         {
           "codigo": "COC",
           "nombre": "Cocoa",
+          "hex": "#5a4636",
           "imagen": "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
           "fotos": [
             "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
@@ -419,6 +429,7 @@
         {
           "codigo": "ADO",
           "nombre": "Adobe",
+          "hex": "#d8c9ae",
           "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
           "fotos": [
             "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
@@ -460,134 +471,6 @@
       ],
       "orden": 0,
       "colores": []
-    },
-    {
-      "codigo": "CAL-10",
-      "id": "calado-10",
-      "nombre": "Calado 10",
-      "categoria": "decorativos",
-      "pagina": "calado",
-      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
-      "rendimiento": "≈ 26 und/m²",
-      "pesoKg": 3.5,
-      "unidad": "unidad",
-      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Artesanal"
-        },
-        {
-          "etiqueta": "Calado 10 cm",
-          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
-        },
-        {
-          "etiqueta": "Calado 15 cm",
-          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
-        },
-        {
-          "etiqueta": "Patrón",
-          "valor": "Cuatrifolio calado"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Celosía divisoria / decorativa (no estructural)"
-        },
-        {
-          "etiqueta": "Acabado",
-          "valor": "Arcilla natural a la vista"
-        }
-      ],
-      "imagen": "/productos/products/calado/calado-muro.webp",
-      "fotos": [
-        "/productos/products/calado/calado-muro.webp",
-        "/productos/products/calado/10/calado-10-dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": [],
-          "precio": null
-        }
-      ]
-    },
-    {
-      "codigo": "ENC-THI",
-      "id": "enchape-thinbrick",
-      "nombre": "Enchape Thinbrick",
-      "categoria": "enchapes",
-      "pagina": "enchape-thinbrick",
-      "dimension": null,
-      "rendimiento": null,
-      "pesoKg": 0.28,
-      "unidad": "m2",
-      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rústico"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205 · contracción +0 / 2%"
-        },
-        {
-          "etiqueta": "Espesor",
-          "valor": "1 cm"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Revestimiento de muros interiores"
-        },
-        {
-          "etiqueta": "Resistencia y absorción",
-          "valor": "No aplica (revestimiento)"
-        }
-      ],
-      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
-      "fotos": [],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
-          ],
-          "precio": null
-        },
-        {
-          "codigo": "BIA",
-          "nombre": "Bianco",
-          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
-          ],
-          "precio": null
-        },
-        {
-          "codigo": "CAP",
-          "nombre": "Capuccino",
-          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
-          ],
-          "precio": null
-        },
-        {
-          "codigo": "COC",
-          "nombre": "Cocoa",
-          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
-          ],
-          "precio": null
-        }
-      ]
     },
     {
       "codigo": "TOS",
@@ -638,6 +521,7 @@
         {
           "codigo": "MO",
           "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
           "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
           "fotos": [],
           "precio": 2250
@@ -645,6 +529,7 @@
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
+          "hex": "#b06a45",
           "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
           "fotos": [],
           "precio": 2250
@@ -652,9 +537,140 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
           "fotos": [],
           "precio": 2250
+        }
+      ]
+    },
+    {
+      "codigo": "CAL-10",
+      "id": "calado-10",
+      "nombre": "Calado 10",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 3.5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Artesanal"
+        },
+        {
+          "etiqueta": "Calado 10 cm",
+          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
+        },
+        {
+          "etiqueta": "Calado 15 cm",
+          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
+        },
+        {
+          "etiqueta": "Patrón",
+          "valor": "Cuatrifolio calado"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Celosía divisoria / decorativa (no estructural)"
+        },
+        {
+          "etiqueta": "Acabado",
+          "valor": "Arcilla natural a la vista"
+        }
+      ],
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/10/calado-10-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": [],
+          "precio": null
+        }
+      ]
+    },
+    {
+      "codigo": "ROM",
+      "id": "romano",
+      "nombre": "Romano",
+      "categoria": "fachadas",
+      "pagina": "romano",
+      "dimension": "6*15*30",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 2.5,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Corcho"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205-2 / 4205-3"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 13% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
+        }
+      ],
+      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+          "fotos": [
+            "/productos/products/romano/natural/Romano%20Natural.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
+          ],
+          "precio": 2450
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+          "fotos": [
+            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
+          ],
+          "precio": 2450
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+          "fotos": [
+            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
+          ],
+          "precio": 2450
         }
       ]
     },
@@ -705,6 +721,7 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": "/productos/products/calado/calado-muro.webp",
           "fotos": [],
           "precio": null
@@ -748,6 +765,7 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": null,
           "fotos": [],
           "precio": 89500
@@ -755,6 +773,7 @@
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
+          "hex": "#b06a45",
           "imagen": null,
           "fotos": [],
           "precio": 89500
@@ -762,6 +781,7 @@
         {
           "codigo": "MO",
           "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
           "imagen": null,
           "fotos": [],
           "precio": 89500
@@ -804,6 +824,7 @@
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
+          "hex": "#b06a45",
           "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
           "fotos": [],
           "precio": null
@@ -811,6 +832,7 @@
         {
           "codigo": "MO",
           "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
           "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
           "fotos": [],
           "precio": null
@@ -959,6 +981,7 @@
         {
           "codigo": "ARE",
           "nombre": "Arena",
+          "hex": "#c9a876",
           "imagen": "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
           "fotos": [
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
@@ -969,6 +992,7 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
           "fotos": [
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
@@ -979,6 +1003,7 @@
         {
           "codigo": "COC",
           "nombre": "Cocoa",
+          "hex": "#5a4636",
           "imagen": "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
           "fotos": [
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
@@ -989,6 +1014,7 @@
         {
           "codigo": "ADO",
           "nombre": "Adobe",
+          "hex": "#d8c9ae",
           "imagen": "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
           "fotos": [
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
@@ -1030,6 +1056,7 @@
         {
           "codigo": "ARE",
           "nombre": "Arena",
+          "hex": "#c9a876",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790366186534-WhatsApp-Image-2026-09-22-at-08.00.22.jpeg",
           "fotos": [
             "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304007990-WhatsApp-Image-2026-09-22-at-08.00.23.jpeg"
@@ -1039,6 +1066,7 @@
         {
           "codigo": "TOPO",
           "nombre": "Topo",
+          "hex": "#7a533e",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790303852086-WhatsApp-Image-2026-09-16-at-15.26.08.jpeg",
           "fotos": [
             "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304025465-WhatsApp-Image-2026-09-16-at-15.33.47.jpeg"
@@ -1048,7 +1076,7 @@
       ]
     },
     {
-      "codigo": null,
+      "codigo": "CAT",
       "id": "catalan",
       "nombre": "Catalán Horizontal",
       "categoria": "fachadas",
@@ -1069,6 +1097,7 @@
         {
           "codigo": "NAT",
           "nombre": "Natural",
+          "hex": "#c8835f",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790366441103-catalanh1.jpeg",
           "fotos": [],
           "precio": null

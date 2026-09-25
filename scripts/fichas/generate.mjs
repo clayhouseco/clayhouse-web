@@ -78,7 +78,35 @@ const RECS = [
   ["warn", "NOTAS IMPORTANTES", "El tono varía ligeramente entre lotes; mezclar piezas de varias estibas para un acabado homogéneo."],
 ];
 
-const fotoURL = (foto) => BASE + foto.split("/").map(encodeURIComponent).join("/");
+/**
+ * Dónde está en el disco una foto escrita como ruta.
+ *
+ * Hay tres formas escritas en el catálogo, por capas de historia: «/public/images/products/…»
+ * (como la escribían las fichas), «/images/products/…» (como la sirve el sitio) y
+ * «/productos/products/…» (como quedó en el ERP para algunos). Se prueban todas en vez de
+ * exigir una: el producto no tiene la culpa de en qué momento lo cargaron.
+ */
+function rutaLocal(foto) {
+  const limpio = decodeURIComponent(String(foto || ""));
+  const archivo = limpio.split("/").pop();
+  const candidatos = [
+    limpio.replace(/^\/public\//, ""),
+    "public" + (limpio.startsWith("/") ? limpio : "/" + limpio),
+    limpio.replace(/^\/?productos\/products\//, "public/images/products/"),
+    archivo ? `public/images/products/${limpio.split("/").filter(Boolean).at(-2) ?? ""}/${archivo}` : "",
+  ].filter(Boolean);
+  for (const c of candidatos) {
+    const abs = path.join(ROOT, c);
+    if (fs.existsSync(abs)) return abs;
+  }
+  return path.join(ROOT, candidatos[0]);
+}
+
+const fotoURL = (foto) => {
+  if (!foto) return "";                                    // producto sin foto: el hueco, no un error
+  if (/^https?:\/\//.test(foto)) return foto;              // la del ERP se sirve tal cual
+  return BASE + foto.split("/").map(encodeURIComponent).join("/");
+};
 const br = (v) => String(v).replace(/ · /g, "<br>");
 
 function buildHtml(p, photoUrl) {
@@ -181,12 +209,23 @@ for (const slug of selected) {
 
   for (const spec of specs) {
     const tag = spec._id ? `${slug}-${spec._id}` : slug;
-    const srcPhoto = path.join(ROOT, decodeURIComponent(spec.foto.replace(/^\/public/, "public")));
+    /**
+     * LA FOTO PUEDE SER DE ACÁ O DEL ERP.
+     *
+     * Las de `public/images/products/` están tomadas con el protocolo de marca. Pero un producto
+     * recién creado todavía no tiene carpeta: su única foto es la que alguien le subió al ERP,
+     * que vive en el almacenamiento de Supabase y llega como `https://…`. Entre esa y un hueco
+     * blanco en la ficha, esa.
+     */
+    const remota = /^https?:\/\//.test(spec.foto || "");
     const photoOut = path.join(tmpDir, `${tag}-photo.jpg`);
     try {
-      await sharp(srcPhoto).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#FCFBF7" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
+      const origen = remota
+        ? Buffer.from(await (await fetch(spec.foto)).arrayBuffer())
+        : rutaLocal(spec.foto);
+      await sharp(origen).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#FCFBF7" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
     } catch {
-      console.warn(`  ⚠️  ${tag}: foto no encontrada (${spec.foto})`);
+      console.warn(`  ⚠️  ${tag}: foto no encontrada (${spec.foto || "sin foto"})`);
     }
     const photoUrl = fs.existsSync(photoOut)
       ? "file://" + photoOut.split(path.sep).map(encodeURIComponent).join("/")

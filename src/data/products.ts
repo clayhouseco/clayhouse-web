@@ -584,6 +584,8 @@ const productosEscritos: Product[] = [
       { label: "Tipo de uso", value: "Celosía divisoria / decorativa (no estructural)" },
       { label: "Acabado", value: "Arcilla natural a la vista" },
     ],
+    // La ficha se genera desde el ERP: scripts/fichas/generate.mjs --only calado
+    technicalPdf: fichaPdf("calado"),
   },
   {
     name: "Ladrillo Rayado Horizontal",
