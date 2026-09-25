@@ -6,6 +6,7 @@ import {
   type SplitVariantGallery,
 } from "@/utils/variantGallery";
 import { assetUrl, downloadUrl } from "@/utils/paths";
+import { variantesDeErp, idDeColor, codigoDeVariante } from "@/data/erpVariants";
 
 export interface ProductColorVariant {
   id: string;
@@ -18,6 +19,18 @@ export interface ProductColorVariant {
    *  un tamaño distinto, ej. 5×10×20 vs 6×12×24 en Macizo). Solo necesita
    *  largo y alto para el cálculo de rendimiento por m². */
   dimensions?: { largo: string; alto: string };
+  /**
+   * EL CÓDIGO DE ESE COLOR EN EL ERP (NAT, MC, MO, ARE, TOPO…).
+   *
+   * Solo hace falta cuando la web y el ERP le dicen distinto al mismo color: acá el enchape se
+   * vende como «Matizado» y en el ERP es «Matizado Claro». Sin esta llave el cruce por nombre
+   * no los reconoce como el mismo y aparece un botón repetido; y no se puede resolver
+   * comparando el principio del texto, porque «Matizado» también es el principio de «Matizado
+   * Oscuro», que sí es otro color.
+   *
+   * Cuando los dos nombres coinciden —que es lo normal— no hace falta ponerlo.
+   */
+  erpColor?: string;
 }
 
 export interface ProductDownload {
@@ -42,20 +55,98 @@ const manualFachadas: ProductDownload = {
   href: downloadUrl("Manual de Fachadas Clay House.pdf"),
 };
 
+/**
+ * EL ERP DECIDE QUÉ COLORES HAY Y CUÁNTO VALEN; LA WEB PONE LAS FOTOS.
+ *
+ * Gerencia: «nada que salen las variantes de colores de los productos nuevos». Los botones de
+ * color eran esta lista escrita a mano, y el feed del ERP solo rellenaba fotos y precio DE LO
+ * QUE YA ESTUVIERA ACÁ. Un color creado en el ERP no aparecía hasta que alguien viniera a
+ * escribirlo otra vez en este archivo.
+ *
+ * SE AÑADE, NO SE BORRA. Un color que el ERP publica y acá no está, se agrega solo. Un color
+ * escrito acá que el ERP no publica SE QUEDA: puede que no coincida el nombre por una tilde o
+ * una mayúscula, y hacer desaparecer un color que lleva meses en línea —con sus fotos, su URL
+ * y su posición en Google— por una diferencia de texto es un daño mucho peor que mostrar uno
+ * de más. `npm run verificar-erp` es el que señala esas diferencias para revisarlas a mano.
+ *
+ * EL PRECIO SÍ LO PISA EL ERP SIEMPRE. El de este archivo estaba escrito a mano y se quedaba
+ * viejo sin que nada lo delatara: subir un precio en el ERP no cambiaba la página.
+ */
 function buildManifest(
   slug: string,
   productName: string,
   variants: ProductColorVariant[],
   options?: { variantSelectorLabel?: string }
 ): ProductAssetManifest {
+  const fusionadas = fusionarConErp(slug, variants);
   return {
     slug,
-    variants,
-    galleriesByVariant: getSplitVariantGalleryMap(slug, variants, productName),
-    inspirationGallery: buildProjectsInspirationGallery(slug, variants, productName),
+    variants: fusionadas,
+    galleriesByVariant: conFotosDelErp(
+      getSplitVariantGalleryMap(slug, fusionadas, productName),
+      fusionadas,
+      productName,
+    ),
+    inspirationGallery: buildProjectsInspirationGallery(slug, fusionadas, productName),
     extraDownloads: [manualFachadas],
     variantSelectorLabel: options?.variantSelectorLabel,
   };
+}
+
+/** ¿Este botón escrito a mano y este color del ERP son el mismo? Se comparan sin tildes ni
+ *  mayúsculas contra las tres formas en que puede estar escrito acá. */
+const mismaVariante = (v: ProductColorVariant, e: { id: string; erpColor?: string }) => {
+  /* El código manda cuando está: es la llave que no cambia aunque cambie el nombre comercial. */
+  const cod = codigoDeVariante(v);
+  if (cod && e.erpColor) return cod === e.erpColor.toUpperCase();
+  return idDeColor(v.id) === e.id || idDeColor(v.colorLabel) === e.id || idDeColor(v.label) === e.id;
+};
+
+function fusionarConErp(slug: string, manuales: ProductColorVariant[]): ProductColorVariant[] {
+  const delErp = variantesDeErp(slug);
+  if (!delErp || !delErp.length) return manuales;   // el ERP no opina de esta página
+
+  const out: ProductColorVariant[] = manuales.map((v) => {
+    const e = delErp.find((x) => mismaVariante(v, x));
+    /* El precio del ERP manda; lo demás —carpeta de fotos, cómo se llama el botón, la medida
+       de un formato— se respeta, que es lo que este archivo sabe y el ERP no. */
+    return e?.pricePerUnit ? { ...v, pricePerUnit: e.pricePerUnit } : v;
+  });
+
+  for (const e of delErp) {
+    if (out.some((v) => mismaVariante(v, e))) continue;
+    out.push(e);   // color nuevo del ERP: entra con sus fotos y su precio
+  }
+  return out;
+}
+
+/**
+ * La galería de un color que la web todavía no ha fotografiado.
+ *
+ * Las fotos de `public/images/products/` están tomadas con el protocolo de marca, recortadas y
+ * nombradas para que la galería sepa cuál es la pieza y cuál el plano de dimensiones; una foto
+ * de WhatsApp subida al ERP no las reemplaza. Pero un color nuevo no tiene carpeta el primer
+ * día, y entre la foto del ERP y un recuadro vacío, la del ERP.
+ */
+function conFotosDelErp(
+  galerias: Record<string, SplitVariantGallery>,
+  variantes: ProductColorVariant[],
+  productName: string,
+): Record<string, SplitVariantGallery> {
+  for (const v of variantes) {
+    const fotos = (v as { fotosErp?: string[] }).fotosErp ?? [];
+    if (!fotos.length) continue;
+    if (galerias[v.id]?.hero.length) continue;   // la web ya tiene las suyas
+    galerias[v.id] = {
+      hero: fotos.map((src, i) => ({
+        src,
+        alt: `${productName} — ${v.colorLabel}`,
+        label: i === 0 ? v.colorLabel : undefined,
+      })),
+      inspiration: [],
+    };
+  }
+  return galerias;
 }
 
 const romanoVariants: ProductColorVariant[] = [
@@ -299,7 +390,8 @@ const enchapeRusticoVariants: ProductColorVariant[] = [
 
 const enchapeRomanoVariants: ProductColorVariant[] = [
   { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural" },
-  { id: "matizado", label: "Matizado", colorLabel: "Matizado", folder: "matizado" },
+  // El ERP lo llama «Matizado Claro» (MC); acá se vende como «Matizado».
+  { id: "matizado", label: "Matizado", colorLabel: "Matizado", folder: "matizado", erpColor: "MC" },
   {
     id: "matizado-oscuro",
     label: "Oscuro",

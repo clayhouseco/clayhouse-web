@@ -15,6 +15,9 @@ export interface ErpColor {
   nombre: string;
   imagen: string | null;
   fotos: string[];
+  /** Precio de lista de ESE color, en pesos. Dos colores del mismo producto pueden valer
+   *  distinto —es la razón de que el color forme parte del SKU en el ERP—. */
+  precio: number | null;
 }
 
 export interface ErpProducto {
