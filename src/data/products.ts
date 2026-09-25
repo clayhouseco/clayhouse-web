@@ -169,6 +169,41 @@ export const products: Product[] = [
     technicalPdf: fichaPdf("superterras"),
   },
   {
+    name: "Catalán Horizontal",
+    slug: "catalan",
+    category: "Fachadas",
+    shortDescription:
+      "Pieza de cara lisa y formato horizontal (30 × 15 × 10 cm) para fachadas de trazo largo, en tono terracota uniforme.",
+    description:
+      "Formato horizontal de cara amplia y acabado liso. Sus 30 cm de largo por 10 de alto acentúan la línea horizontal del muro y dejan menos juntas a la vista que un ladrillo tradicional.",
+    applications: [
+      "Fachadas de trazo horizontal",
+      "Muros a la vista en obra contemporánea",
+      "Cerramientos y muros de acento",
+    ],
+    color: "Terracota",
+    texture: "Liso",
+    featured: false,
+    seoTitle: "Catalán Horizontal: ladrillo liso 30 cm | Clay House",
+    seoDescription:
+      "Ladrillo Catalán Horizontal de arcilla, cara lisa y formato 30 × 15 × 10 cm para fachadas de trazo largo. Fabricado en Amagá, Antioquia.",
+    image: productFolderImage("catalan", "producto.jpg"),
+    priceUnitLabel: "unidad",
+    dimensions: {
+      // 10*15*30 en el ERP (alto·ancho·largo). Se confirma con su rendimiento:
+      // 33 und/m² es la cara de 30 × 10 sin junta (33,3 redondeado hacia abajo).
+      alto: "10 cm",
+      ancho: "15 cm",
+      largo: "30 cm",
+      pesoAprox: "3 kg",
+    },
+    specs: [
+      { label: "Norma", value: "NTC 4205" },
+      { label: "Tipo de uso", value: "Fachada" },
+    ],
+    technicalPdf: fichaPdf("catalan"),
+  },
+  {
     name: "Ladrillo Romano",
     slug: "romano",
     category: "Fachadas",

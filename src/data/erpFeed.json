@@ -1,51 +1,57 @@
 {
   "ok": true,
-  "actualizado": "2026-09-25T18:06:27.694Z",
+  "actualizado": "2026-09-25T18:20:56.298Z",
   "productos": [
     {
-      "codigo": "ROM",
-      "id": "romano",
-      "nombre": "Romano",
-      "categoria": "fachadas",
-      "pagina": "romano",
-      "dimension": "6*15*30",
-      "rendimiento": "≈ 60 und/m²",
-      "pesoKg": 2.5,
-      "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
-      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+      "codigo": "ENC-THI",
+      "id": "enchape-thinbrick",
+      "nombre": "Enchape Thinbrick",
+      "categoria": "enchapes",
+      "pagina": "enchape-thinbrick",
+      "dimension": null,
+      "rendimiento": null,
+      "pesoKg": 0.28,
+      "unidad": "m2",
+      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
+      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
       "fotos": [],
       "orden": 0,
       "colores": [
         {
           "codigo": "NAT",
           "nombre": "Natural",
-          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
           "fotos": [
-            "/productos/products/romano/natural/Romano%20Natural.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
           ],
-          "precio": 2450
+          "precio": null
         },
         {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+          "codigo": "BIA",
+          "nombre": "Bianco",
+          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
           "fotos": [
-            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
           ],
-          "precio": 2450
+          "precio": null
         },
         {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+          "codigo": "CAP",
+          "nombre": "Capuccino",
+          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
           "fotos": [
-            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
           ],
-          "precio": 2450
+          "precio": null
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+          ],
+          "precio": null
         }
       ]
     },
@@ -317,55 +323,76 @@
       ]
     },
     {
-      "codigo": "ENC-THI",
-      "id": "enchape-thinbrick",
-      "nombre": "Enchape Thinbrick",
-      "categoria": "enchapes",
-      "pagina": "enchape-thinbrick",
-      "dimension": null,
-      "rendimiento": null,
-      "pesoKg": 0.28,
-      "unidad": "m2",
-      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
-      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+      "codigo": "CAL-10",
+      "id": "calado-10",
+      "nombre": "Calado 10",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 3.5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/10/calado-10-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": [],
+          "precio": null
+        }
+      ]
+    },
+    {
+      "codigo": "ROM",
+      "id": "romano",
+      "nombre": "Romano",
+      "categoria": "fachadas",
+      "pagina": "romano",
+      "dimension": "6*15*30",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 2.5,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
+      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
       "fotos": [],
       "orden": 0,
       "colores": [
         {
           "codigo": "NAT",
           "nombre": "Natural",
-          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
+            "/productos/products/romano/natural/Romano%20Natural.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": null
+          "precio": 2450
         },
         {
-          "codigo": "BIA",
-          "nombre": "Bianco",
-          "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
+            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": null
+          "precio": 2450
         },
         {
-          "codigo": "CAP",
-          "nombre": "Capuccino",
-          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
+            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": null
-        },
-        {
-          "codigo": "COC",
-          "nombre": "Cocoa",
-          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
-          ],
-          "precio": null
+          "precio": 2450
         }
       ]
     },
@@ -588,33 +615,6 @@
       ]
     },
     {
-      "codigo": "CAL-10",
-      "id": "calado-10",
-      "nombre": "Calado 10",
-      "categoria": "decorativos",
-      "pagina": "calado",
-      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
-      "rendimiento": "≈ 26 und/m²",
-      "pesoKg": 3.5,
-      "unidad": "unidad",
-      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
-      "imagen": "/productos/products/calado/calado-muro.webp",
-      "fotos": [
-        "/productos/products/calado/calado-muro.webp",
-        "/productos/products/calado/10/calado-10-dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": [],
-          "precio": null
-        }
-      ]
-    },
-    {
       "codigo": "SUP",
       "id": "super-terras-11-liso",
       "nombre": "Super Terras 11 Liso",
@@ -648,6 +648,25 @@
           "precio": 2950
         }
       ]
+    },
+    {
+      "codigo": null,
+      "id": "catalan",
+      "nombre": "Catalán Horizontal",
+      "categoria": "fachadas",
+      "pagina": "catalan",
+      "dimension": "10*15*30",
+      "rendimiento": "33",
+      "pesoKg": 3,
+      "unidad": "unidad",
+      "descripcion": null,
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360212282-catalan-horizontal-apilado.jpeg",
+      "fotos": [
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360261698-catalanh2.jpeg",
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360262354-catalanh1.jpeg"
+      ],
+      "orden": 5,
+      "colores": []
     }
   ]
 }

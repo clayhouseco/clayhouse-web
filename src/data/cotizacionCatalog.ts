@@ -123,6 +123,13 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
   const preciosPorColor = variantes.length ? undefined : preciosPorColorDe(p.slug);
   return ids.map((variantId) => {
     const eq = erpEquivalencia(p.slug, variantId);
+    // Sin código del ERP la cotización no se puede cargar allá, así que el
+    // producto no se ofrece aquí: la ficha sigue publicada y visible, pero no
+    // entra al cotizador hasta que el ERP le asigne código. Es el mismo
+    // criterio con el que se retiraron los enchapes que el ERP dejó de
+    // publicar — ofrecer algo que el ERP no sabe atender genera solicitudes
+    // que nadie puede procesar.
+    if (!eq.codigo) return null;
     return {
       id: variantId ? `${p.slug}::${variantId}` : p.slug,
       label: variantId ? variantLabel(p.name, p.slug, variantId) : p.name,
@@ -144,4 +151,4 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       preciosPorColor,
     };
   });
-});
+}).filter((x): x is CotizableItem => x !== null);
