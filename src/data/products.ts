@@ -293,7 +293,7 @@ export const products: Product[] = [
     seoTitle: "Macizo Brix | Clay House",
     seoDescription:
       "Ladrillo macizo Brix en formato optimizado para obra moderna: buen rendimiento y acabado uniforme. Fabricado en Amagá por Clay House.",
-    image: productFolderImage("macizo-brix", "pieza/DSC_9310.jpg"),
+    image: productFolderImage("macizo-brix", "pieza/Macizo 6x12x24.jpg"),
     pricePerUnit: "$ 1.850",
     priceUnitLabel: "unidad",
     dimensions: {

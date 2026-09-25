@@ -79,7 +79,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   },
   "macizo-brix": {
     heroProductByVariant: {
-      pieza: "DSC_9310.jpg",
+      pieza: "Macizo 6x12x24.jpg",
     },
     sharedRootPattern: /^macizo 6x12x24 /i,
     dimensionesPattern: /macizo 6x12x24 dimensiones/i,

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-09-25T02:45:20.024Z",
+  "actualizado": "2026-09-25T18:06:27.694Z",
   "productos": [
     {
       "codigo": "ROM",
@@ -24,7 +24,8 @@
           "fotos": [
             "/productos/products/romano/natural/Romano%20Natural.webp",
             "/productos/products/romano/romano%20dimensiones.webp"
-          ]
+          ],
+          "precio": 2450
         },
         {
           "codigo": "MC",
@@ -33,7 +34,8 @@
           "fotos": [
             "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
             "/productos/products/romano/romano%20dimensiones.webp"
-          ]
+          ],
+          "precio": 2450
         },
         {
           "codigo": "MO",
@@ -42,7 +44,8 @@
           "fotos": [
             "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
             "/productos/products/romano/romano%20dimensiones.webp"
-          ]
+          ],
+          "precio": 2450
         }
       ]
     },
@@ -125,25 +128,6 @@
       "colores": []
     },
     {
-      "codigo": "MAC-624",
-      "id": "macizo-6-24",
-      "nombre": "Macizo",
-      "categoria": "fachadas",
-      "pagina": "macizo-brix",
-      "dimension": "6*12*24",
-      "rendimiento": "≈ 35 und/m²",
-      "pesoKg": 3.8,
-      "unidad": "unidad",
-      "descripcion": "Ladrillo macizo 7x12x24. Solo Primera.",
-      "imagen": "/productos/products/macizo-brix/pieza/DSC_9310.jpg",
-      "fotos": [
-        "/productos/products/macizo-brix/pieza/DSC_9310.jpg",
-        "/productos/products/macizo-brix/macizo%206x12x24%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": []
-    },
-    {
       "codigo": "TEJ-PLA",
       "id": "teja-plana",
       "nombre": "Teja Plana",
@@ -160,6 +144,26 @@
         "/productos/products/teja-plana/natural/teja%20plana%20natural%20dimensiones.webp",
         "/productos/products/teja-plana/chocolate/Teja%20Plana%20Chocolate%20Lisa-n.webp",
         "/productos/products/teja-plana/chocolate/teja%20plana%20chocolate%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": []
+    },
+    {
+      "codigo": "MAC-624",
+      "id": "macizo-6-24",
+      "nombre": "Macizo",
+      "categoria": "fachadas",
+      "pagina": "macizo-brix",
+      "dimension": "6*13*25",
+      "rendimiento": "≈ 35 und/m²",
+      "pesoKg": 3.8,
+      "unidad": "unidad",
+      "descripcion": "Ladrillo macizo 7x12x24. Solo Primera.",
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353709234-macizo-6-12-24.jpeg",
+      "fotos": [
+        "/productos/products/macizo-brix/macizo%206x12x24%20dimensiones.webp",
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353732758-macizo2.jpeg",
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353733576-macizo1.jpeg"
       ],
       "orden": 0,
       "colores": []
@@ -188,7 +192,8 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
-          "fotos": []
+          "fotos": [],
+          "precio": null
         }
       ]
     },
@@ -214,7 +219,8 @@
           "fotos": [
             "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
             "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "NAT",
@@ -223,7 +229,8 @@
           "fotos": [
             "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
             "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "COC",
@@ -232,7 +239,8 @@
           "fotos": [
             "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
             "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "ADO",
@@ -241,7 +249,8 @@
           "fotos": [
             "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
             "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         }
       ]
     },
@@ -288,19 +297,22 @@
           "codigo": "MO",
           "nombre": "Matizado Oscuro",
           "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
-          "fotos": []
+          "fotos": [],
+          "precio": 2250
         },
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
           "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-          "fotos": []
+          "fotos": [],
+          "precio": 2250
         },
         {
           "codigo": "NAT",
           "nombre": "Natural",
           "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-          "fotos": []
+          "fotos": [],
+          "precio": 2250
         }
       ]
     },
@@ -325,7 +337,8 @@
           "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
           "fotos": [
             "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "BIA",
@@ -333,7 +346,8 @@
           "imagen": "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp",
           "fotos": [
             "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "CAP",
@@ -341,7 +355,8 @@
           "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
           "fotos": [
             "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "COC",
@@ -349,7 +364,8 @@
           "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
           "fotos": [
             "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
-          ]
+          ],
+          "precio": null
         }
       ]
     },
@@ -375,7 +391,8 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": []
+          "fotos": [],
+          "precio": null
         }
       ]
     },
@@ -403,19 +420,22 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "imagen": null,
-          "fotos": []
-        },
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "imagen": null,
-          "fotos": []
+          "fotos": [],
+          "precio": 89500
         },
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
           "imagen": null,
-          "fotos": []
+          "fotos": [],
+          "precio": 89500
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": null,
+          "fotos": [],
+          "precio": 89500
         }
       ]
     },
@@ -437,7 +457,22 @@
         "/productos/products/macizo-campesino/matizado%20oscuro/Campesino%20Oscuro-n.webp"
       ],
       "orden": 0,
-      "colores": []
+      "colores": [
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
+          "fotos": [],
+          "precio": null
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
+          "fotos": [],
+          "precio": null
+        }
+      ]
     },
     {
       "codigo": "R10V",
@@ -517,7 +552,8 @@
           "fotos": [
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "NAT",
@@ -526,7 +562,8 @@
           "fotos": [
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "COC",
@@ -535,7 +572,8 @@
           "fotos": [
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         },
         {
           "codigo": "ADO",
@@ -544,7 +582,8 @@
           "fotos": [
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-dimensiones.webp"
-          ]
+          ],
+          "precio": null
         }
       ]
     },
@@ -570,7 +609,8 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": []
+          "fotos": [],
+          "precio": null
         }
       ]
     },
@@ -588,7 +628,26 @@
       "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790303699761-WhatsApp-Image-2026-09-22-at-08.00.22.jpeg",
       "fotos": [],
       "orden": 3,
-      "colores": []
+      "colores": [
+        {
+          "codigo": "ARE",
+          "nombre": "Arena",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304007990-WhatsApp-Image-2026-09-22-at-08.00.23.jpeg",
+          "fotos": [
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304007990-WhatsApp-Image-2026-09-22-at-08.00.23.jpeg"
+          ],
+          "precio": 2500
+        },
+        {
+          "codigo": "TOPO",
+          "nombre": "Topo",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790303852086-WhatsApp-Image-2026-09-16-at-15.26.08.jpeg",
+          "fotos": [
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304025465-WhatsApp-Image-2026-09-16-at-15.33.47.jpeg"
+          ],
+          "precio": 2950
+        }
+      ]
     }
   ]
 }
