@@ -210,6 +210,13 @@ export const cartagenaAssets: ProductAssetManifest = {
   ],
 };
 
+/** Colores y precios los publica el ERP (SUP-ARE / SUP-TOPO); las fotos por
+ *  color se bajaron de su almacenamiento a public/images/products/superterras/. */
+const superTerrasVariants: ProductColorVariant[] = [
+  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena", pricePerUnit: "$ 2.500" },
+  { id: "topo", label: "Topo", colorLabel: "Topo", folder: "topo", pricePerUnit: "$ 2.950" },
+];
+
 const macizoCampesinoVariants: ProductColorVariant[] = [
   {
     id: "matizado-claro",
@@ -366,6 +373,11 @@ const tejaColonialVariants: ProductColorVariant[] = [
   },
 ];
 
+export const superTerrasAssets = buildManifest(
+  "superterras",
+  "Super Terras 11 Liso",
+  superTerrasVariants
+);
 export const macizoCampesinoAssets = buildManifest(
   "macizo-campesino",
   "Macizo Campesino",
@@ -438,6 +450,7 @@ const manifests: Record<string, ProductAssetManifest> = {
   toscano: toscanoAssets,
   napolitano: napolitanoAssets,
   cartagena: cartagenaAssets,
+  superterras: superTerrasAssets,
   "macizo-campesino": macizoCampesinoAssets,
   "macizo-brix": macizoBrixAssets,
   "rayados-verticales": rayadosVerticalesAssets,

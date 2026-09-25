@@ -67,6 +67,15 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
     fichaPattern: /cartagena ficha/i,
     productFilePattern: /^cartagena /i,
   },
+  superterras: {
+    heroProductByVariant: {
+      arena: "superterras-arena.jpg",
+      topo: "superterras-topo.jpg",
+    },
+    sharedRootPattern: /^$/,
+    dimensionesPattern: /dimensiones/i,
+    productFilePattern: /^superterras/i,
+  },
   "macizo-campesino": {
     heroProductByVariant: {
       "matizado claro": "Campesino Claro-n.webp",
