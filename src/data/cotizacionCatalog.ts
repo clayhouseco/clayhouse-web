@@ -102,6 +102,21 @@ const PRECIO_POR_VARIANTE: Record<string, Record<string, string>> = {
  *  variantes son de dimensión, no de color). Así el precio vive en un solo
  *  lugar: las variantes en productVariants.ts. */
 function preciosPorColorDe(slug: string): Record<string, string> | undefined {
+  // 1) El ERP manda: publica el precio dentro de cada color, que es la
+  //    granularidad real con la que se vende. Super Terras cuesta $ 2.500 en
+  //    Arena y $ 2.950 en Topo, y sin esto el cotizador cobraba 2.500 por los
+  //    dos: $ 450 menos por unidad en cada pedido de Topo.
+  const delErp: Record<string, string> = {};
+  for (const p of erpDeSlug(slug)) {
+    for (const c of p.colores || []) {
+      if (typeof c.precio === "number" && c.codigo in ERP_COLORES) {
+        delErp[c.codigo] = `$ ${c.precio.toLocaleString("es-CO")}`;
+      }
+    }
+  }
+  if (new Set(Object.values(delErp)).size >= 2) return delErp;
+
+  // 2) Respaldo: los precios por variante escritos en la web (prensados).
   const assets = getProductAssets(slug);
   if (!assets) return undefined;
   const out: Record<string, string> = {};
