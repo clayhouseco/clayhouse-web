@@ -15,7 +15,7 @@
 
 import { erpDeSlug, erpDeCodigo, type ErpProducto } from "@/data/erpFeed";
 
-export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP";
+export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP" | "TOPO";
 export type CalidadCodigo = "PRI" | "SEG" | "MED";
 export type UnidadVenta = "unidad" | "m2" | "ml";
 
@@ -30,6 +30,9 @@ export const ERP_COLORES: Record<ColorCodigo, { nombre: string; hex: string }> =
   COC: { nombre: "Cocoa", hex: "#4b3225" },
   BIA: { nombre: "Bianco", hex: "#d9ccb6" },
   CAP: { nombre: "Capuccino", hex: "#b48f6a" },
+  // Super Terras. Sin esta entrada `coloresDelErp` lo descartaba en silencio y
+  // el cotizador caía al respaldo escrito a mano, que era otro color distinto.
+  TOPO: { nombre: "Topo", hex: "#8a7a66" },
 };
 
 export const ERP_CALIDADES: Record<CalidadCodigo, string> = {
@@ -84,7 +87,7 @@ interface ErpMapEntry {
  * confirmarse contra el ERP: MAC-CAM, BOC-PRE, BLQ, ENC-RUS, ENC-THB, ENC-BOC, NAP.
  */
 const ERP_MAP: Record<string, ErpMapEntry> = {
-  superterras: { codigo: "SUP", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
+  superterras: { codigo: "SUP", coloresPermitidos: ["ARE", "TOPO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
   romano: { codigo: "ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   toscano: { codigo: "TOS", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
   cartagena: { codigo: "CAR", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },

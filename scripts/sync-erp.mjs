@@ -114,6 +114,52 @@ const bloqueDe = (slug) => {
 const unidadWeb = (slug) => (bloqueDe(slug).match(/priceUnitLabel: "([^"]+)"/) || [, "unidad"])[1];
 const precioWeb = (slug) => (bloqueDe(slug).match(/pricePerUnit: "([^"]+)"/) || [, null])[1];
 
+/* ─── Comparación campo a campo contra el ERP ───────────────────────────────
+   El feed publica dimensión, peso, precio (dentro de `colores`) y fotos. La web
+   tiene su propia copia de todo eso, escrita a mano, y hasta ahora nadie las
+   comparaba: así vivieron meses el rendimiento inventado del Thin Brick, el
+   precio de la teja colonial que multiplicaba mal, y un macizo con el precio y
+   las medidas del 5x10x20 que se dejó de fabricar.
+
+   No se pisa nada. El campo `dimension` del ERP es texto libre y cada producto
+   usa un orden distinto (Toscano ancho·alto·largo, Cartagena largo·ancho·alto),
+   así que importarlo a ciegas rompería fichas técnicas publicadas. Se reporta,
+   y la decisión sigue siendo de quien conoce el producto. */
+const num = (v) => { const d = String(v ?? "").replace(/[^\d]/g, ""); return d ? parseInt(d, 10) : null; };
+const cm = (v) => { const m = String(v ?? "").match(/(\d+(?:[.,]\d+)?)/); return m ? parseFloat(m[1].replace(",", ".")) : null; };
+/** Las tres medidas del ERP, en el orden en que las escribió: "6*13*25" o "40 x 25 x 1.5 cm". */
+const medidasErp = (d) => (String(d ?? "").match(/\d+(?:[.,]\d+)?/g) || []).map((x) => parseFloat(x.replace(",", ".")));
+/** Precio del ERP: vive dentro de `colores`, así que una variante sin color lo pierde. */
+const precioErp = (ps) => {
+  const v = ps.flatMap((p) => (p.colores || []).map((c) => c.precio)).filter((x) => typeof x === "number");
+  return v.length ? Math.min(...v) : null;
+};
+
+const difPrecio = [], difMedida = [], difPeso = [], fotoNueva = [], sinPrecioErp = [];
+for (const [slug, ps] of porSlug) {
+  if (!slugsWeb.includes(slug)) continue;
+  const b = bloqueDe(slug);
+
+  const pe = precioErp(ps), pw = num((b.match(/pricePerUnit: "([^"]+)"/) || [])[1]);
+  if (pe === null) sinPrecioErp.push(slug);
+  else if (pw !== null && pe !== pw) difPrecio.push({ slug, web: pw, erp: pe });
+
+  const me = medidasErp(ps[0].dimension);
+  const mw = ["alto", "ancho", "largo"].map((k) => cm((b.match(new RegExp(`${k}: "([^"]+)"`)) || [])[1]));
+  if (me.length === 3 && mw.every((x) => x !== null)) {
+    // Se comparan como conjuntos: el ERP no respeta un orden fijo, así que lo
+    // que importa es si son las mismas tres medidas, no en qué orden están.
+    const a1 = [...me].sort((x, y) => x - y).join("·"), b1 = [...mw].sort((x, y) => x - y).join("·");
+    if (a1 !== b1) difMedida.push({ slug, web: mw.join(" × "), erp: ps[0].dimension });
+  }
+
+  const ke = ps[0].pesoKg, kw = cm((b.match(/pesoAprox: "([^"]+)"/) || [])[1]);
+  if (ke && kw && Math.abs(ke - kw) > 0.05) difPeso.push({ slug, web: kw, erp: ke });
+
+  const externas = ps.flatMap((p) => [p.imagen, ...(p.fotos || [])]).filter((u) => u && /^https?:/.test(u));
+  if (externas.length) fotoNueva.push({ slug, n: externas.length });
+}
+
 const unidadDistinta = [];
 for (const [slug, ps] of porSlug) {
   if (!slugsWeb.includes(slug)) continue;
@@ -137,6 +183,20 @@ if (unidadDistinta.length) lineas.push(`## Unidad de venta desalineada (${unidad
   unidadDistinta.map((d) =>
     `- \`${d.slug}\` — web: ${d.precio ?? "sin precio"} / ${d.web} · ERP: ${d.erp}${d.rend ? ` (${d.rend})` : ""}`
   ).join("\n"));
+if (difPrecio.length) lineas.push(`## Precio distinto al del ERP (${difPrecio.length})\n\n` +
+  `El ERP publica el precio dentro de cada color. Donde no coincide, la web está cotizando otra cifra.\n\n` +
+  difPrecio.map((d) => `- \`${d.slug}\` — web: $ ${d.web.toLocaleString("es-CO")} · ERP: $ ${d.erp.toLocaleString("es-CO")}`).join("\n"));
+if (difMedida.length) lineas.push(`## Dimensiones distintas a las del ERP (${difMedida.length})\n\n` +
+  `Se comparan como conjunto: el campo del ERP es texto libre y cada producto usa un orden distinto.\n\n` +
+  difMedida.map((d) => `- \`${d.slug}\` — web: ${d.web} · ERP: ${d.erp}`).join("\n"));
+if (difPeso.length) lineas.push(`## Peso distinto al del ERP (${difPeso.length})\n\n` +
+  difPeso.map((d) => `- \`${d.slug}\` — web: ${d.web} kg · ERP: ${d.erp} kg`).join("\n"));
+if (fotoNueva.length) lineas.push(`## Fotos subidas al ERP que la web no tiene (${fotoNueva.length})\n\n` +
+  `Están en el almacenamiento del ERP. La web sirve las suyas desde public/images/products/, así que hay que incorporarlas.\n\n` +
+  fotoNueva.map((d) => `- \`${d.slug}\` — ${d.n} foto(s)`).join("\n"));
+if (sinPrecioErp.length) lineas.push(`## Sin precio en el feed del ERP (${sinPrecioErp.length})\n\n` +
+  `El precio viaja dentro de \`colores\`, así que una variante sin color asignado lo pierde. Asignar el color en el ERP lo haría publicable.\n\n` +
+  sinPrecioErp.map((s) => `- \`${s}\``).join("\n"));
 if (codigosHuerfanos.length) lineas.push(`## Códigos que la web usa y el ERP no publica (${codigosHuerfanos.length})\n\n` +
   codigosHuerfanos.map((c) => `- \`${c}\` (${codigosWeb.get(c)}) — una cotización con este código no se puede cargar al ERP.`).join("\n"));
 
@@ -145,5 +205,6 @@ const reporte = `# Divergencias entre el ERP y la página web\n\n` +
   (lineas.length ? lineas.join("\n\n") : "Sin divergencias: los dos lados dicen lo mismo.\n");
 fs.writeFileSync(REPORTE, reporte);
 
-const total = soloWeb.length + soloErp.length + sinCodigo.length + sinColor.length + codigosHuerfanos.length + unidadDistinta.length;
+const total = soloWeb.length + soloErp.length + sinCodigo.length + sinColor.length + codigosHuerfanos.length +
+  unidadDistinta.length + difPrecio.length + difMedida.length + difPeso.length + fotoNueva.length + sinPrecioErp.length;
 console.log(total ? `⚠ ${total} divergencias con el ERP — detalle en erp-divergencias.md` : "✓ web y ERP dicen lo mismo");

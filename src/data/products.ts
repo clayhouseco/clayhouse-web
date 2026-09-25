@@ -143,13 +143,16 @@ export const products: Product[] = [
       "Muros a la vista de gran extensión",
       "Zócalos y bases con lectura horizontal",
     ],
-    color: "Natural",
+    color: "Arena, Topo",
     texture: "Liso",
     featured: false,
     seoTitle: "Super Terras: ladrillo liso 38 cm para fachada | Clay House",
     seoDescription:
       "Ladrillo de fachada Super Terras, cara lisa y formato largo de 38 × 11 × 5 cm. Norma NTC 4205-3, fabricado en Amagá, Antioquia.",
     image: productFolderImage("superterras", "producto.jpg"),
+    // Precios del ERP: Arena 2.500, Topo 2.950.
+    pricePerUnit: "$ 2.500",
+    priceFrom: "$ 2.500",
     priceUnitLabel: "unidad",
     dimensions: {
       // 5*11*38 en el ERP (alto·ancho·largo). El orden se confirma con su propio
@@ -294,12 +297,15 @@ export const products: Product[] = [
     seoDescription:
       "Ladrillo macizo Brix en formato optimizado para obra moderna: buen rendimiento y acabado uniforme. Fabricado en Amagá por Clay House.",
     image: productFolderImage("macizo-brix", "pieza/Macizo 6x12x24.jpg"),
-    pricePerUnit: "$ 1.850",
+    pricePerUnit: "$ 2.290",
     priceUnitLabel: "unidad",
     dimensions: {
+      // Medida que está saliendo hoy de planta. El formato nominal es
+      // 6×12×24 —y el código del ERP sigue siendo MAC-624— pero mientras la
+      // producción corra en 6×13×25 la ficha publica lo que se despacha.
       alto: "6 cm",
-      ancho: "12 cm",
-      largo: "24 cm",
+      ancho: "13 cm",
+      largo: "25 cm",
     },
     specs: [
       { label: "Norma", value: "NTC 4205" },

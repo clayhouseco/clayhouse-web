@@ -227,12 +227,14 @@ const macizoCampesinoVariants: ProductColorVariant[] = [
 
 const macizoBrixVariants: ProductColorVariant[] = [
   {
+    // El id sigue siendo 6x12x24: es la llave del código MAC-624 y del PDF de
+    // la ficha. Lo que cambia es la medida que se muestra y se calcula.
     id: "6x12x24",
-    label: "6×12×24 cm",
-    colorLabel: "6×12×24 cm",
+    label: "6×13×25 cm",
+    colorLabel: "6×13×25 cm",
     folder: "pieza",
-    pricePerUnit: "$ 1.850",
-    dimensions: { largo: "24 cm", alto: "6 cm" },
+    pricePerUnit: "$ 2.290",
+    dimensions: { largo: "25 cm", alto: "6 cm" },
   },
 ];
 
