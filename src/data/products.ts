@@ -1,6 +1,7 @@
 import { fichaPdf, productFolderImage } from "@/utils/paths";
 import { isAvailable } from "@/data/availability";
 import { erpPublica } from "@/data/erpFeed";
+import { productosNacidosEnErp } from "@/data/erpProductos";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -52,7 +53,8 @@ export interface Product {
   technicalPdf: string;
 }
 
-export const products: Product[] = [
+/** Las fichas escritas a mano: el texto de venta, las fotos y el SEO que nadie puede deducir. */
+const productosEscritos: Product[] = [
   {
     name: "Ladrillo Toscano",
     slug: "toscano",
@@ -813,6 +815,22 @@ export const products: Product[] = [
     ],
     technicalPdf: fichaPdf("teja-colonial"),
   },
+];
+
+/**
+ * EL CATÁLOGO: lo escrito a mano, más lo que el ERP publica y acá no está.
+ *
+ * Gerencia: «cuando creo el nuevo producto voy a la página web y sale error 404». Estas páginas
+ * eran solo las de arriba, así que crear un producto en el ERP —con su foto, sus colores y su
+ * precio— no alcanzaba para que su URL existiera, mientras el cotizador del ERP sí lo ofrecía.
+ *
+ * Los escritos a mano MANDAN sobre los del ERP: cuando alguien se sienta a escribirle a un
+ * producto su texto de venta y a fotografiarlo con el protocolo de marca, eso es mejor que
+ * cualquier cosa que se arme sola, y desde ese momento manda. Ver `erpProductos.ts`.
+ */
+export const products: Product[] = [
+  ...productosEscritos,
+  ...productosNacidosEnErp(new Set(productosEscritos.map((p) => p.slug))),
 ];
 
 /** Productos que deben aparecer primero en listados (orden definido por su posición en el array). */
