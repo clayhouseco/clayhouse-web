@@ -1,7 +1,7 @@
 import { fichaPdf, productFolderImage } from "@/utils/paths";
 import { isAvailable } from "@/data/availability";
 import { erpPublica } from "@/data/erpFeed";
-import { productosNacidosEnErp } from "@/data/erpProductos";
+import { productosNacidosEnErp, conDatosDelErp } from "@/data/erpProductos";
 import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
@@ -831,7 +831,9 @@ const productosEscritos: Product[] = [
  * cualquier cosa que se arme sola, y desde ese momento manda. Ver `erpProductos.ts`.
  */
 export const products: Product[] = [
-  ...productosEscritos,
+  /* Las escritas a mano, con sus DATOS traídos del ERP: ahí viven la norma, la absorción, la
+     resistencia y el precio, y tenerlos escritos dos veces era garantizar que se separaran. */
+  ...productosEscritos.map(conDatosDelErp),
   ...productosNacidosEnErp(new Set(productosEscritos.map((p) => p.slug))),
 ];
 

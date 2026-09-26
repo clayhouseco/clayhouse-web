@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-09-25T21:01:35.242Z",
+  "actualizado": "2026-09-26T00:05:11.967Z",
   "productos": [
     {
       "codigo": "ENC-THI",
@@ -47,7 +47,9 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "BIA",
@@ -57,7 +59,9 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "CAP",
@@ -67,7 +71,9 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "COC",
@@ -77,7 +83,9 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -348,7 +356,9 @@
           "hex": "#c8835f",
           "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
           "fotos": [],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -402,7 +412,9 @@
             "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
             "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "NAT",
@@ -413,7 +425,9 @@
             "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
             "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "COC",
@@ -424,7 +438,9 @@
             "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
             "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "ADO",
@@ -435,7 +451,9 @@
             "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
             "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -471,78 +489,6 @@
       ],
       "orden": 0,
       "colores": []
-    },
-    {
-      "codigo": "TOS",
-      "id": "toscano",
-      "nombre": "Toscano",
-      "categoria": "fachadas",
-      "pagina": "toscano",
-      "dimension": "14*5,2*28,5",
-      "rendimiento": "≈ 68 und/m²",
-      "pesoKg": 1.8,
-      "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Tallada"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205-2 / 4205-3"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Fachada"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 13% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
-        }
-      ],
-      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-      "fotos": [
-        "/productos/products/toscano/natural/toscano%20natural-n.webp",
-        "/productos/products/toscano/isometrico%20toscano.webp",
-        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "hex": "#6f3a2c",
-          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
-          "fotos": [],
-          "precio": 2250
-        },
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-          "fotos": [],
-          "precio": 2250
-        },
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-          "fotos": [],
-          "precio": 2250
-        }
-      ]
     },
     {
       "codigo": "CAL-10",
@@ -594,7 +540,9 @@
           "hex": "#c8835f",
           "imagen": "/productos/products/calado/calado-muro.webp",
           "fotos": [],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -648,7 +596,9 @@
             "/productos/products/romano/natural/Romano%20Natural.webp",
             "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": 2450
+          "precio": 2450,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "MC",
@@ -659,7 +609,9 @@
             "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
             "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": 2450
+          "precio": 2450,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "MO",
@@ -670,7 +622,87 @@
             "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
             "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": 2450
+          "precio": 2450,
+          "textura": null,
+          "texturaNombre": null
+        }
+      ]
+    },
+    {
+      "codigo": "TOS",
+      "id": "toscano",
+      "nombre": "Toscano",
+      "categoria": "fachadas",
+      "pagina": "toscano",
+      "dimension": "14*5,2*28,5",
+      "rendimiento": "≈ 68 und/m²",
+      "pesoKg": 1.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Tallada"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205-2 / 4205-3"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 13% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
+        }
+      ],
+      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
+      "fotos": [
+        "/productos/products/toscano/natural/toscano%20natural-n.webp",
+        "/productos/products/toscano/isometrico%20toscano.webp",
+        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
+          "fotos": [],
+          "precio": 2250,
+          "textura": null,
+          "texturaNombre": null
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+          "fotos": [],
+          "precio": 2250,
+          "textura": null,
+          "texturaNombre": null
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
+          "fotos": [],
+          "precio": 2250,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -724,7 +756,9 @@
           "hex": "#c8835f",
           "imagen": "/productos/products/calado/calado-muro.webp",
           "fotos": [],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -768,7 +802,9 @@
           "hex": "#c8835f",
           "imagen": null,
           "fotos": [],
-          "precio": 89500
+          "precio": 89500,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "MC",
@@ -776,7 +812,9 @@
           "hex": "#b06a45",
           "imagen": null,
           "fotos": [],
-          "precio": 89500
+          "precio": 89500,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "MO",
@@ -784,7 +822,9 @@
           "hex": "#6f3a2c",
           "imagen": null,
           "fotos": [],
-          "precio": 89500
+          "precio": 89500,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -827,7 +867,9 @@
           "hex": "#b06a45",
           "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
           "fotos": [],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "MO",
@@ -835,7 +877,9 @@
           "hex": "#6f3a2c",
           "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
           "fotos": [],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -987,7 +1031,9 @@
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "NAT",
@@ -998,7 +1044,9 @@
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "COC",
@@ -1009,7 +1057,9 @@
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "ADO",
@@ -1020,7 +1070,9 @@
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-dimensiones.webp"
           ],
-          "precio": null
+          "precio": null,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -1041,12 +1093,20 @@
           "valor": "NTC 4205-3"
         },
         {
+          "etiqueta": "Absorción de agua",
+          "valor": "9%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "30 MPa"
+        },
+        {
           "etiqueta": "Textura",
           "valor": "Liso"
         },
         {
           "etiqueta": "Tipo de uso",
-          "valor": "Fachadas"
+          "valor": "Muros de fachada y divisorios"
         }
       ],
       "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790303699761-WhatsApp-Image-2026-09-22-at-08.00.22.jpeg",
@@ -1061,7 +1121,9 @@
           "fotos": [
             "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304007990-WhatsApp-Image-2026-09-22-at-08.00.23.jpeg"
           ],
-          "precio": 2500
+          "precio": 2500,
+          "textura": null,
+          "texturaNombre": null
         },
         {
           "codigo": "TOPO",
@@ -1071,7 +1133,9 @@
           "fotos": [
             "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304025465-WhatsApp-Image-2026-09-16-at-15.33.47.jpeg"
           ],
-          "precio": 2950
+          "precio": 2950,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     },
@@ -1100,7 +1164,9 @@
           "hex": "#c8835f",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790366441103-catalanh1.jpeg",
           "fotos": [],
-          "precio": null
+          "precio": 2000,
+          "textura": null,
+          "texturaNombre": null
         }
       ]
     }

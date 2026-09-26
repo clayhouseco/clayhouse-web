@@ -26,7 +26,7 @@
  */
 import type { Product, ProductSpec } from "@/data/products";
 import type { ProductCategory } from "@/data/catalogCategories";
-import { erpProductos, type ErpProducto } from "@/data/erpFeed";
+import { erpProductos, erpDeSlug, type ErpProducto } from "@/data/erpFeed";
 import { precioTexto } from "@/data/erpVariants";
 import { fichaPdf } from "@/utils/paths";
 
@@ -150,4 +150,47 @@ export function productosNacidosEnErp(escritos: ReadonlySet<string>): Product[] 
   return [...porPagina.entries()]
     .sort((a, b) => (a[1][0].orden || 0) - (b[1][0].orden || 0))
     .map(([slug, ps]) => productoDeErp(ps, slug));
+}
+
+/**
+ * LOS DATOS DEL ERP TAMBIÉN MANDAN EN LAS FICHAS ESCRITAS A MANO.
+ *
+ * Gerencia: «hice cambios en Super Terras pero no los veo en la página». Los había hecho bien y
+ * el feed los traía: absorción 9%, resistencia 30 MPa, el tipo de uso corregido. Pero Super
+ * Terras está escrito a mano en `products.ts` y lo escrito a mano ganaba SIEMPRE, también en las
+ * especificaciones —que no son criterio editorial, son datos— y en el precio. Al Catalán le pasó
+ * lo mismo: le puso $2.000 en el ERP y la web no mostraba precio, porque su ficha no tenía uno
+ * escrito.
+ *
+ * La regla se afina: lo escrito a mano manda en lo que NO se puede deducir —el texto de venta,
+ * el SEO, la foto de marca— y el ERP manda en los DATOS. Es la misma línea que ya se trazó en la
+ * ficha técnica.
+ *
+ * LO QUE NO SE TOCA: las medidas y el peso. Son los ocho datos en disputa —el Cartagena a 1,6 kg
+ * en la web y 2,8 en el ERP, el Romano 28,3 × 14,5 contra 30 × 15— y hasta que alguien pese la
+ * pieza, publicar el del ERP sería tan arriesgado como dejar el de la web. Los lista
+ * `npm run fichas:verificar`.
+ */
+export function conDatosDelErp(p: Product): Product {
+  const ps = erpDeSlug(p.slug);
+  if (!ps.length) return p;
+  const e = ps[0];
+
+  /* La textura y el color ya se muestran como campos propios de la ficha: repetirlos en la
+     tabla los pondría dos veces. */
+  const YA_SON_CAMPO = ["textura", "acabado", "color", "colores"];
+  const delErp = especificacionesDe(e).filter((x) => !YA_SON_CAMPO.includes(norm(x.etiqueta)));
+  const vistas = new Set(delErp.map((x) => norm(x.etiqueta)));
+  const specs: ProductSpec[] = [
+    ...delErp.map((x) => ({ label: x.etiqueta, value: x.valor })),
+    /* Las que solo tiene la web se conservan: alguien las escribió y el ERP no las contradice. */
+    ...(p.specs ?? []).filter((s) => !vistas.has(norm(s.label))),
+  ];
+
+  const desde = precioDesde(e);
+  return {
+    ...p,
+    specs: specs.length ? specs : p.specs,
+    pricePerUnit: precioTexto(desde) ?? p.pricePerUnit,
+  };
 }
