@@ -106,14 +106,19 @@ function preciosPorColorDe(slug: string): Record<string, string> | undefined {
   //    granularidad real con la que se vende. Super Terras cuesta $ 2.500 en
   //    Arena y $ 2.950 en Topo, y sin esto el cotizador cobraba 2.500 por los
   //    dos: $ 450 menos por unidad en cada pedido de Topo.
-  const delErp: Record<string, string> = {};
+  const minimo: Record<string, number> = {};
   for (const p of erpDeSlug(slug)) {
     for (const c of p.colores || []) {
-      if (typeof c.precio === "number" && c.codigo in ERP_COLORES) {
-        delErp[c.codigo] = `$ ${c.precio.toLocaleString("es-CO")}`;
-      }
+      if (typeof c.precio !== "number" || !(c.codigo in ERP_COLORES)) continue;
+      /* Un color repetido en dos acabados trae dos precios. El cotizador solo maneja el
+         color, así que publica el menor y la cotización dice «preliminar»: el equipo
+         confirma el acabado y ajusta. Cobrar el mayor por defecto encarecería el acabado
+         más común, que es el liso. */
+      minimo[c.codigo] = Math.min(minimo[c.codigo] ?? Infinity, c.precio);
     }
   }
+  const delErp: Record<string, string> = {};
+  for (const [cod, v] of Object.entries(minimo)) delErp[cod] = `$ ${v.toLocaleString("es-CO")}`;
   if (new Set(Object.values(delErp)).size >= 2) return delErp;
 
   // 2) Respaldo: los precios por variante escritos en la web (prensados).

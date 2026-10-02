@@ -95,10 +95,23 @@ function buildManifest(
 
 /** ¿Este botón escrito a mano y este color del ERP son el mismo? Se comparan sin tildes ni
  *  mayúsculas contra las tres formas en que puede estar escrito acá. */
-const mismaVariante = (v: ProductColorVariant, e: { id: string; erpColor?: string }) => {
+const mismaVariante = (
+  v: ProductColorVariant,
+  e: { id: string; erpColor?: string; erpTextura?: string },
+) => {
   /* El código manda cuando está: es la llave que no cambia aunque cambie el nombre comercial. */
   const cod = codigoDeVariante(v);
-  if (cod && e.erpColor) return cod === e.erpColor.toUpperCase();
+  if (cod && e.erpColor) {
+    if (cod !== e.erpColor.toUpperCase()) return false;
+    /* EL COLOR SOLO NO IDENTIFICA LA VARIANTE cuando el mismo se vende en dos acabados.
+       Super Terras tiene Arena lisa a $ 2.500 y Arena rústica a $ 2.950: las dos son ARE, y
+       comparando solo el color la segunda se descartaba como repetida —desaparecía de la
+       página una referencia que el ERP sí vende—. Las escritas a mano no traen textura, así
+       que para ellas esto no cambia nada. */
+    const tv = (v as { erpTextura?: string }).erpTextura?.toUpperCase();
+    const te = e.erpTextura?.toUpperCase();
+    return tv && te ? tv === te : true;
+  }
   return idDeColor(v.id) === e.id || idDeColor(v.colorLabel) === e.id || idDeColor(v.label) === e.id;
 };
 
@@ -301,12 +314,6 @@ export const cartagenaAssets: ProductAssetManifest = {
   ],
 };
 
-/** Colores y precios los publica el ERP (SUP-ARE / SUP-TOPO); las fotos por
- *  color se bajaron de su almacenamiento a public/images/products/superterras/. */
-const superTerrasVariants: ProductColorVariant[] = [
-  { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena", pricePerUnit: "$ 2.500" },
-  { id: "topo", label: "Topo", colorLabel: "Topo", folder: "topo", pricePerUnit: "$ 2.950" },
-];
 
 const macizoCampesinoVariants: ProductColorVariant[] = [
   {
@@ -465,11 +472,7 @@ const tejaColonialVariants: ProductColorVariant[] = [
   },
 ];
 
-export const superTerrasAssets = buildManifest(
-  "superterras",
-  "Super Terras 11 Liso",
-  superTerrasVariants
-);
+export const superTerrasAssets = buildManifest("superterras", "Super Terras 11", []);
 export const macizoCampesinoAssets = buildManifest(
   "macizo-campesino",
   "Macizo Campesino",

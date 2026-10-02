@@ -55,6 +55,8 @@ export function fotosDeProducto(p: ErpProducto): string[] {
 export interface VarianteErp extends ProductColorVariant {
   /** Fotos del ERP para esta variante. Solo se usan si la web no tiene carpeta propia. */
   fotosErp: string[];
+  /** Código de textura del ERP (LIS, RUS…). Junto con el color identifica la variante. */
+  erpTextura?: string;
 }
 
 /** El código del color en el ERP (NAT, MC, MO, ARE, TOPO…). Es la llave que no cambia. */
@@ -90,13 +92,38 @@ export function variantesDeErp(slug: string): VarianteErp[] | null {
   const p = ps[0];
   const cols = p.colores ?? [];
   if (!cols.length) return [];
-  return cols.map((c) => ({
-    id: idDeColor(c.nombre),
-    label: c.nombre,
-    colorLabel: c.nombre,
-    folder: idDeColor(c.nombre),
-    erpColor: c.codigo,
-    pricePerUnit: precioTexto((c as { precio?: number | null }).precio),
-    fotosErp: fotosDeColor(c),
-  }));
+
+  /**
+   * EL MISMO COLOR EN DOS ACABADOS SON DOS VARIANTES, NO UNA.
+   *
+   * Gerencia: «lo que yo veo en el ERP es que hay tres colores». En la web salían dos.
+   *
+   * Super Terras se vende en Arena lisa a $ 2.500, Topo lisa a $ 2.950 y Arena RÚSTICA a
+   * $ 2.950. Las dos Arena comparten código de color, así que al nombrar el botón solo por el
+   * color las dos quedaban con la misma llave y la segunda pisaba a la primera: desaparecía de
+   * la página una referencia que el ERP sí vende, y la que quedaba cotizaba $ 450 de menos.
+   *
+   * La textura solo entra en el nombre cuando de verdad distingue —si todas las variantes
+   * comparten acabado, decirlo en cada botón es ruido—. Hoy Super Terras es el único producto
+   * del catálogo con dos texturas.
+   */
+  const texturaDe = (c: (typeof cols)[number]) => c.texturaNombre?.trim() || "";
+  const distingueTextura = new Set(cols.map(texturaDe).filter(Boolean)).size > 1;
+
+  return cols.map((c) => {
+    const textura = texturaDe(c);
+    const nombre = distingueTextura && textura ? `${c.nombre} ${textura}` : c.nombre;
+    return {
+      id: idDeColor(nombre),
+      label: nombre,
+      colorLabel: nombre,
+      // La carpeta de fotos sigue siendo la del color: las fotos están por color en
+      // public/images/products/<slug>/<color>/, no por acabado.
+      folder: idDeColor(c.nombre),
+      erpColor: c.codigo,
+      erpTextura: c.textura ?? undefined,
+      pricePerUnit: precioTexto((c as { precio?: number | null }).precio),
+      fotosErp: fotosDeColor(c),
+    };
+  });
 }

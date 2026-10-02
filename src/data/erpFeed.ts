@@ -18,6 +18,11 @@ export interface ErpColor {
   /** Precio de lista de ESE color, en pesos. Dos colores del mismo producto pueden valer
    *  distinto —es la razón de que el color forme parte del SKU en el ERP—. */
   precio: number | null;
+  /** Textura de ESA variante (RUS, LIS…). El mismo color puede venderse en dos acabados
+   *  —Super Terras tiene Arena lisa a $ 2.500 y Arena rústica a $ 2.950—, así que el color
+   *  solo no identifica la variante. */
+  textura?: string | null;
+  texturaNombre?: string | null;
 }
 
 export interface ErpProducto {

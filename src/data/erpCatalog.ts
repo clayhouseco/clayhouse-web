@@ -140,7 +140,14 @@ export interface ErpEquivalencia {
 /** Colores que el ERP publica de ese producto, dejando solo los que la web sabe pintar. */
 function coloresDelErp(p: ErpProducto | null): ColorCodigo[] {
   if (!p) return [];
-  return p.colores.map((c) => c.codigo).filter((c): c is ColorCodigo => c in ERP_COLORES);
+  /* Sin repetir: el mismo color puede venir dos veces cuando se vende en dos acabados
+     —Super Terras tiene Arena lisa y Arena rústica, ambas ARE—. El cotizador identifica el
+     color por su código y manda uno solo al ERP, así que mostrar «Arena» dos veces sería un
+     desplegable con dos opciones indistinguibles. La ficha del producto sí las separa. */
+  const vistos = new Set<string>();
+  return p.colores
+    .map((c) => c.codigo)
+    .filter((c): c is ColorCodigo => c in ERP_COLORES && !vistos.has(c) && !!vistos.add(c));
 }
 
 /**
