@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-10-02T15:28:51.692Z",
+  "actualizado": "2026-10-02T16:06:02.063Z",
   "productos": [
     {
       "codigo": "ROM",
@@ -1121,7 +1121,7 @@
           "fotos": [
             "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304007990-WhatsApp-Image-2026-09-22-at-08.00.23.jpeg"
           ],
-          "precio": 2500,
+          "precio": 2690,
           "textura": "LIS",
           "texturaNombre": "Liso"
         },
@@ -1133,7 +1133,7 @@
           "fotos": [
             "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790304025465-WhatsApp-Image-2026-09-16-at-15.33.47.jpeg"
           ],
-          "precio": 2950,
+          "precio": 2990,
           "textura": "LIS",
           "texturaNombre": "Liso"
         },
@@ -1141,9 +1141,25 @@
           "codigo": "ARE",
           "nombre": "Arena",
           "hex": "#c9a876",
-          "imagen": null,
-          "fotos": [],
-          "precio": 2950,
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956456785-WhatsApp-Image-2026-09-21-at-11.50.20.jpeg",
+          "fotos": [
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956550756-WhatsApp-Image-2026-09-21-at-12.06.57.jpeg",
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956551618-WhatsApp-Image-2026-09-21-at-12.06.58.jpeg"
+          ],
+          "precio": 2790,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
+        },
+        {
+          "codigo": "TOPO",
+          "nombre": "Topo",
+          "hex": "#7a533e",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956521021-WhatsApp-Image-2026-09-21-at-07.57.14.jpeg",
+          "fotos": [
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956572476-WhatsApp-Image-2026-09-21-at-07.57.14-2-.jpeg",
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956573393-WhatsApp-Image-2026-09-21-at-07.57.14-1-.jpeg"
+          ],
+          "precio": 3390,
           "textura": "RUS",
           "texturaNombre": "Rústico"
         }
