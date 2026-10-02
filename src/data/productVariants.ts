@@ -15,6 +15,9 @@ export interface ProductColorVariant {
   folder: string;
   /** Precio por unidad para esta variante (ej. "$ 1.500") */
   pricePerUnit?: string;
+  /** Acabado de ESTA variante ("Liso", "Rústico"). Solo lo traen los productos que se
+   *  venden en más de una textura; la ficha lo muestra y lo cambia al elegir. */
+  texturaNombre?: string;
   /** Dimensiones específicas del formato (cuando una variante representa
    *  un tamaño distinto, ej. 5×10×20 vs 6×12×24 en Macizo). Solo necesita
    *  largo y alto para el cálculo de rendimiento por m². */

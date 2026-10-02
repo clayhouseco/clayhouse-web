@@ -52,6 +52,7 @@ const showSelector = variants.length > 1;
           data-variant-id={v.id}
           data-variant-label={v.colorLabel}
           data-variant-price={v.pricePerUnit ?? ""}
+          data-variant-textura={v.texturaNombre ?? ""}
         >
           {v.label}
         </button>
@@ -84,6 +85,7 @@ const showSelector = variants.length > 1;
     >;
 
     const metaColor = page.querySelector<HTMLElement>("[data-product-color]");
+    const specTextura = page.querySelector<HTMLElement>('[data-spec="textura"]');
     const priceValueEl = page.querySelector<HTMLElement>("[data-product-price-value]");
     const galleryRoot = page.querySelector<HTMLElement>("[data-product-gallery]");
     const addBtn = page.querySelector<HTMLButtonElement>("[data-add-to-quote]");
@@ -118,6 +120,11 @@ const showSelector = variants.length > 1;
         });
 
         if (label && metaColor) metaColor.textContent = label;
+
+        /* El acabado de la ficha sigue a la variante: sin esto «Arena Rústico» se leía
+           con la textura «Liso», que es la de otra referencia del mismo producto. */
+        const textura = btn.dataset.variantTextura;
+        if (specTextura && textura) specTextura.textContent = textura;
 
         if (addBtn && label) addBtn.dataset.color = label;
         if (addBtn) addBtn.dataset.variantId = id;

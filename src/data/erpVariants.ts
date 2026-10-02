@@ -123,6 +123,7 @@ export function variantesDeErp(slug: string): VarianteErp[] | null {
       folder: idDeColor(nombre),
       erpColor: c.codigo,
       erpTextura: c.textura ?? undefined,
+      texturaNombre: distingueTextura ? textura || undefined : undefined,
       pricePerUnit: precioTexto((c as { precio?: number | null }).precio),
       fotosErp: fotosDeColor(c),
     };

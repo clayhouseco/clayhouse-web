@@ -162,8 +162,10 @@ const rendiPriceCop = (() => {
 /** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
 const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
 
-const specRows = [
-  { label: "Textura", value: product.texture },
+const specRows: ({ label: string; value: string; key?: string } | false | undefined | "")[] = [
+  // El acabado lo manda la variante cuando el producto se vende en varios: al elegir
+  // «Arena Rústico» la ficha decía «Liso», que es el acabado de otra referencia.
+  { label: "Textura", value: activeVariant?.texturaNombre ?? product.texture, key: "textura" },
   { label: "Color", value: product.color },
   dimensionesLine && { label: "Dimensiones", value: dimensionesLine },
   // En enchapes el espesor es el dato que decide si la pieza cabe en el muro,
@@ -183,7 +185,7 @@ const specRows = [
       value: (product.dimensions?.rendimiento ?? getErpRendimiento(product.slug))!,
     },
   ...(product.specs ?? []),
-].filter(Boolean) as { label: string; value: string }[];
+].filter(Boolean) as { label: string; value: string; key?: string }[];
 
 const recommendedUses = getRecommendedUses(product);
 const notRecommended = getNotRecommended(product);
@@ -341,7 +343,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               {specRows.map((row) => (
                 <div class="spec-item">
                   <dt>{row.label}</dt>
-                  <dd>
+                  <dd data-spec={row.key}>
                     {row.value}
                   </dd>
                 </div>
