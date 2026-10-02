@@ -117,9 +117,10 @@ export function variantesDeErp(slug: string): VarianteErp[] | null {
       id: idDeColor(nombre),
       label: nombre,
       colorLabel: nombre,
-      // La carpeta de fotos sigue siendo la del color: las fotos están por color en
-      // public/images/products/<slug>/<color>/, no por acabado.
-      folder: idDeColor(c.nombre),
+      /* La carpeta es la de la VARIANTE, no la del color. Arena lisa y Arena rústica son
+         dos piezas distintas y cada una tiene su foto; compartiendo carpeta las dos
+         mostraban la misma imagen. */
+      folder: idDeColor(nombre),
       erpColor: c.codigo,
       erpTextura: c.textura ?? undefined,
       pricePerUnit: precioTexto((c as { precio?: number | null }).precio),
