@@ -130,7 +130,7 @@ const GALLERY_CONFIG: Record<string, ProductGalleryConfig> = {
   "enchape-thinbrick": {
     heroProductByVariant: {
       natural: "enchape-thinbrick-natural.webp",
-      bianco: "enchape-thinbrick-bianco-real.jpg",
+      bianco: "enchape-thinbrick-bianco-real.webp",
       capuccino: "enchape-thinbrick-capuccino-real.webp",
       cocoa: "enchape-thinbrick-cocoa-real.webp",
     },
