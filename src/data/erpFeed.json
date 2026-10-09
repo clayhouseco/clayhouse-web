@@ -1,8 +1,9 @@
 {
   "ok": true,
-  "actualizado": "2026-10-02T16:06:02.063Z",
+  "actualizado": "2026-10-09T16:38:11.524Z",
   "productos": [
     {
+      "precio": 2450,
       "codigo": "ROM",
       "id": "romano",
       "nombre": "Romano",
@@ -85,6 +86,7 @@
       ]
     },
     {
+      "precio": 3190,
       "codigo": "R15V",
       "id": "rayado-15-v",
       "nombre": "Rayado de 15 Vertical",
@@ -118,6 +120,7 @@
       "colores": []
     },
     {
+      "precio": 1790,
       "codigo": "R10H",
       "id": "rayado-10-h",
       "nombre": "Rayado de 10 Horizontal",
@@ -151,6 +154,7 @@
       "colores": []
     },
     {
+      "precio": 2190,
       "codigo": "R12H",
       "id": "rayado-12-h",
       "nombre": "Rayado de 12 Horizontal",
@@ -184,6 +188,7 @@
       "colores": []
     },
     {
+      "precio": null,
       "codigo": "CAR",
       "id": "cartagena",
       "nombre": "Cartagena",
@@ -231,6 +236,7 @@
       "colores": []
     },
     {
+      "precio": null,
       "codigo": "TEJ-PLA",
       "id": "teja-plana",
       "nombre": "Teja Plana",
@@ -266,6 +272,7 @@
       "colores": []
     },
     {
+      "precio": 2290,
       "codigo": "MAC-624",
       "id": "macizo-6-24",
       "nombre": "Macizo",
@@ -300,6 +307,7 @@
       "colores": []
     },
     {
+      "precio": null,
       "codigo": "BLO",
       "id": "bloquelon",
       "nombre": "Bloquelón",
@@ -358,6 +366,7 @@
       ]
     },
     {
+      "precio": null,
       "codigo": "GFP",
       "id": "ladrillo-gran-formato-prensado",
       "nombre": "Ladrillo Gran Formato Prensado",
@@ -453,6 +462,7 @@
       ]
     },
     {
+      "precio": 2690,
       "codigo": "R12V",
       "id": "rayado-12-v",
       "nombre": "Rayado de 12 Vertical",
@@ -486,6 +496,7 @@
       "colores": []
     },
     {
+      "precio": null,
       "codigo": "CAL-10",
       "id": "calado-10",
       "nombre": "Calado 10",
@@ -542,13 +553,14 @@
       ]
     },
     {
+      "precio": 110000,
       "codigo": "ENC-THI",
       "id": "enchape-thinbrick",
       "nombre": "Enchape Thinbrick",
       "categoria": "enchapes",
       "pagina": "enchape-thinbrick",
       "dimension": null,
-      "rendimiento": null,
+      "rendimiento": "95",
       "pesoKg": 0.28,
       "unidad": "m2",
       "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
@@ -586,7 +598,7 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
           ],
-          "precio": null,
+          "precio": 110000,
           "textura": null,
           "texturaNombre": null
         },
@@ -598,7 +610,7 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/bianco/enchape-thinbrick-bianco-real.webp"
           ],
-          "precio": null,
+          "precio": 110000,
           "textura": null,
           "texturaNombre": null
         },
@@ -610,7 +622,7 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
           ],
-          "precio": null,
+          "precio": 110000,
           "textura": null,
           "texturaNombre": null
         },
@@ -622,13 +634,14 @@
           "fotos": [
             "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
           ],
-          "precio": null,
+          "precio": 110000,
           "textura": null,
           "texturaNombre": null
         }
       ]
     },
     {
+      "precio": 2250,
       "codigo": "TOS",
       "id": "toscano",
       "nombre": "Toscano",
@@ -707,6 +720,7 @@
       ]
     },
     {
+      "precio": null,
       "codigo": "CAL-15",
       "id": "calado-15",
       "nombre": "Calado 15",
@@ -763,6 +777,7 @@
       ]
     },
     {
+      "precio": 89500,
       "codigo": "ENC-ROM",
       "id": "enchape-romano",
       "nombre": "Enchape Romano",
@@ -829,6 +844,7 @@
       ]
     },
     {
+      "precio": null,
       "codigo": "MAC-CAM",
       "id": "macizo-campesino",
       "nombre": "Macizo Campesino",
@@ -884,6 +900,7 @@
       ]
     },
     {
+      "precio": 2360,
       "codigo": "R10V",
       "id": "rayado-10-v",
       "nombre": "Rayado de 10 Vertical",
@@ -917,6 +934,7 @@
       "colores": []
     },
     {
+      "precio": 2390,
       "codigo": "R15H",
       "id": "rayado-15-h",
       "nombre": "Rayado de 15 Horizontal",
@@ -950,6 +968,7 @@
       "colores": []
     },
     {
+      "precio": null,
       "codigo": "TEJ-COL",
       "id": "teja-colonial",
       "nombre": "Teja Colonial",
@@ -982,6 +1001,7 @@
       "colores": []
     },
     {
+      "precio": null,
       "codigo": "BOC",
       "id": "bocadillo-prensado",
       "nombre": "Bocadillo Prensado",
@@ -1077,6 +1097,7 @@
       ]
     },
     {
+      "precio": 2690,
       "codigo": "SUP",
       "id": "super-terras-11-liso",
       "nombre": "Super Terras 11",
@@ -1166,6 +1187,7 @@
       ]
     },
     {
+      "precio": 2000,
       "codigo": "CAT",
       "id": "catalan",
       "nombre": "Catalán Horizontal",

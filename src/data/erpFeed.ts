@@ -26,6 +26,13 @@ export interface ErpColor {
 }
 
 export interface ErpProducto {
+  /**
+   * Precio de lista más bajo del producto, en pesos. Lo publica el ERP para TODOS, tengan
+   * color comercial o no: antes el precio solo venía dentro de cada color, y los rayados, los
+   * pisos, los macizos y las tejas —que no manejan color— se quedaban sin ninguno. La web caía
+   * entonces en el precio escrito a mano y seguía mostrando el de hace meses.
+   */
+  precio?: number | null;
   codigo: string | null;
   id: string;
   nombre: string;

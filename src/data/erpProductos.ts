@@ -62,12 +62,21 @@ function medidaLegible(dimension: string | null): string {
   return partes.length ? `${partes.join(" × ")} cm` : "";
 }
 
-/** El precio más bajo entre los colores; si ninguno tiene, ninguno. */
+/**
+ * El precio más bajo entre los colores y, si el producto no maneja color, el suyo.
+ *
+ * Mirar solo los colores dejaba sin precio del ERP a 21 de los 22 productos —el Romano era el
+ * único con colores— y la página se quedaba con el escrito a mano, que es exactamente lo que
+ * gerencia vio: «el precio de los productos en la página web no se está actualizando cuando lo
+ * actualizo en el ERP».
+ */
 function precioDesde(p: ErpProducto): number | null {
   const vals = (p.colores ?? [])
     .map((c) => (c as { precio?: number | null }).precio)
     .filter((v): v is number => typeof v === "number" && v > 0);
-  return vals.length ? Math.min(...vals) : null;
+  if (vals.length) return Math.min(...vals);
+  const propio = (p as { precio?: number | null }).precio;
+  return typeof propio === "number" && propio > 0 ? propio : null;
 }
 
 function productoDeErp(ps: ErpProducto[], slug: string): Product {
@@ -187,10 +196,31 @@ export function conDatosDelErp(p: Product): Product {
     ...(p.specs ?? []).filter((s) => !vistas.has(norm(s.label))),
   ];
 
-  const desde = precioDesde(e);
+  /**
+   * EL «DESDE» DE UNA PÁGINA QUE AGRUPA FORMATOS ES EL MÁS BARATO DE TODOS.
+   *
+   * Los rayados comparten página: verticales son R10V, R12V y R15V, a $2.360, $2.690 y $3.190.
+   * Tomando el primero de la lista —como se hacía con el resto de los datos— la página habría
+   * anunciado «desde $3.190», que es el más caro: subirle el precio al cliente por un detalle
+   * de cómo está ordenado un arreglo.
+   */
+  const desde = ps.map(precioDesde).filter((v): v is number => typeof v === "number" && v > 0)
+    .reduce<number | null>((min, v) => (min === null || v < min ? v : min), null);
   return {
     ...p,
     specs: specs.length ? specs : p.specs,
     pricePerUnit: precioTexto(desde) ?? p.pricePerUnit,
+    /**
+     * TAMBIÉN EL «DESDE», O EL PRECIO DEL ERP NO SE VE.
+     *
+     * La etiqueta que se pinta usa `priceFrom` cuando existe y solo cae en `pricePerUnit` si no
+     * lo hay. El Súper Terras tenía los dos escritos a mano en $2.500: se actualizaba el de
+     * abajo con los $2.690 del ERP y la tarjeta seguía mostrando «Desde $2.500», que es el
+     * síntoma que gerencia reportó, con el precio ya corregido en el ERP.
+     *
+     * Solo se toca si el producto YA tenía «desde»: ponérselo a uno que no lo tiene cambiaría
+     * cómo se lee su precio, y eso sí es editorial.
+     */
+    priceFrom: p.priceFrom ? (precioTexto(desde) ?? p.priceFrom) : p.priceFrom,
   };
 }
