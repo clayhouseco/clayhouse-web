@@ -54,6 +54,44 @@ function erpUnidadesPorM2(slug: string): number | null {
   return m ? Number.parseFloat(m[1].replace(",", ".")) : null;
 }
 
+/**
+ * El precio por m² de cada variante.
+ *
+ * Gerencia: «el valor de 91.000 por m² no cambia cuando paso de muro 10 a muro 15».
+ *
+ * La cifra se calculaba una sola vez con el precio base del producto y se quedaba fija al
+ * cambiar de botón, aunque el precio por unidad sí cambiara justo encima. En el calado el
+ * de 15 cm cuesta $ 4.000 y no $ 3.500, y en los rayados cada formato tiene además otras
+ * medidas, así que cambian las dos mitades del cálculo: las piezas por m² y lo que vale
+ * cada una.
+ *
+ * Devuelve `{}` cuando el producto no tiene variantes con precio o medida propios: ahí la
+ * cifra del producto ya es correcta para todos los botones.
+ */
+export function getReferencePriceM2PorVariante(
+  product: Product,
+  variants: ReadonlyArray<{
+    id: string;
+    pricePerUnit?: string;
+    dimensions?: { largo: string; alto: string };
+  }>
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!variants.some((v) => v.pricePerUnit || v.dimensions)) return out;
+  for (const v of variants) {
+    const composite: Product = {
+      ...product,
+      pricePerUnit: v.pricePerUnit ?? product.pricePerUnit,
+      dimensions: v.dimensions
+        ? { ...(product.dimensions ?? {}), largo: v.dimensions.largo, alto: v.dimensions.alto }
+        : product.dimensions,
+    };
+    const precio = getReferencePriceM2(composite);
+    if (precio) out[v.id] = precio;
+  }
+  return out;
+}
+
 export function getReferencePriceM2(product: Product): string | null {
   if (!product.pricePerUnit) return null;
   if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;

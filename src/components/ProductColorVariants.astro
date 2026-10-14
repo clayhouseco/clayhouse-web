@@ -6,6 +6,8 @@ import { srcSetFor, thumbSrcFor } from "@/utils/responsive";
 interface Props {
   variants: ProductColorVariant[];
   galleriesByVariant: Record<string, SplitVariantGallery>;
+  /** Precio por m² de cada variante: cambia con el formato y con el precio del color. */
+  precioM2PorVariante?: Record<string, string>;
   activeId: string;
   productName: string;
   selectorLabel?: string;
@@ -25,7 +27,7 @@ function withResponsive(g: SplitVariantGallery): SplitVariantGallery {
   };
 }
 
-const { variants, galleriesByVariant, activeId, productName, selectorLabel = "Color" } =
+const { variants, galleriesByVariant, activeId, productName, selectorLabel = "Color", precioM2PorVariante = {} } =
   Astro.props;
 const showSelector = variants.length > 1;
 ---
@@ -53,6 +55,7 @@ const showSelector = variants.length > 1;
           data-variant-label={v.colorLabel}
           data-variant-price={v.pricePerUnit ?? ""}
           data-variant-textura={v.texturaNombre ?? ""}
+          data-variant-m2={precioM2PorVariante[v.id] ?? ""}
         >
           {v.label}
         </button>
@@ -86,6 +89,7 @@ const showSelector = variants.length > 1;
 
     const metaColor = page.querySelector<HTMLElement>("[data-product-color]");
     const specTextura = page.querySelector<HTMLElement>('[data-spec="textura"]');
+    const priceM2El = page.querySelector<HTMLElement>("[data-product-price-m2]");
     const priceValueEl = page.querySelector<HTMLElement>("[data-product-price-value]");
     const galleryRoot = page.querySelector<HTMLElement>("[data-product-gallery]");
     const addBtn = page.querySelector<HTMLButtonElement>("[data-add-to-quote]");
@@ -125,6 +129,12 @@ const showSelector = variants.length > 1;
            con la textura «Liso», que es la de otra referencia del mismo producto. */
         const textura = btn.dataset.variantTextura;
         if (specTextura && textura) specTextura.textContent = textura;
+
+        /* El precio por m² se quedaba en el del producto aunque cambiara el de la unidad
+           justo encima: en el calado, pasar de 10 a 15 cm sube la pieza de $ 3.500 a
+           $ 4.000 y el m² seguía marcando el del de 10. */
+        const m2 = btn.dataset.variantM2;
+        if (priceM2El && m2) priceM2El.textContent = m2;
 
         if (addBtn && label) addBtn.dataset.color = label;
         if (addBtn) addBtn.dataset.variantId = id;

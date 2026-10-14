@@ -34,6 +34,7 @@ import {
   getReferencePriceM2,
   getRendimientoFormats,
   getErpRendimiento,
+  getReferencePriceM2PorVariante,
 } from "@/utils/productPricing";
 
 export function getStaticPaths() {
@@ -135,7 +136,9 @@ const hasPriceSelector =
   !!assets && new Set(assets.variants.map((v) => v.pricePerUnit).filter(Boolean)).size > 1;
 const priceDesde = Boolean(product.priceFrom) && !hasPriceSelector;
 // Precio por m² de referencia (solo productos vendidos por unidad con rendimiento).
-const priceM2 = getReferencePriceM2(product);
+const priceM2PorVariante = getReferencePriceM2PorVariante(product, assets?.variants ?? []);
+// Arranca con el de la variante activa; el JS lo cambia al pulsar otro botón.
+const priceM2 = priceM2PorVariante[activeVariantId] ?? getReferencePriceM2(product);
 
 /** Dimensiones de menor a mayor (ej. 5 × 14 × 29 cm) */
 const dimensionesLine = product.dimensions
@@ -277,6 +280,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 activeId={activeVariantId}
                 productName={product.name}
                 selectorLabel={assets.variantSelectorLabel}
+                precioM2PorVariante={priceM2PorVariante}
               />
             )
           }
@@ -294,7 +298,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 </p>
               )
             }
-            {priceM2 && <p class="product-page__price-m2">≈ {priceM2} <span>de referencia</span></p>}
+            {priceM2 && (
+              <p class="product-page__price-m2">
+                ≈ <span data-product-price-m2>{priceM2}</span> <span>de referencia</span>
+              </p>
+            )}
           </div>
 
           <div class="product-page__order" data-product-order>
