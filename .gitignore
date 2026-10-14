@@ -42,3 +42,6 @@ scripts/fichas/_preview/
 
 # Reporte generado por sync:erp en cada build
 erp-divergencias.md
+
+# Imágenes de compartir: las regenera scripts/generate-og.mjs en cada build.
+public/images/og/

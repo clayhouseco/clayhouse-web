@@ -212,6 +212,12 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: product.name },
 ]);
 
+/** Imagen de compartir (WhatsApp, redes). La genera scripts/generate-og.mjs a 1200×630
+ *  en JPEG; si falta, se cae en la genérica del sitio en vez de romper la vista previa. */
+const ogProducto = fs.existsSync(`public/images/og/${product.slug}.jpg`)
+  ? `/images/og/${product.slug}.jpg`
+  : undefined;
+
 const whatsappMsg = encodeURIComponent(
   `Hola Clay House, me interesa cotizar ${product.name}.`
 );
@@ -219,7 +225,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
 ---
 
-<BaseLayout title={product.seoTitle} description={product.seoDescription}>
+<BaseLayout title={product.seoTitle} description={product.seoDescription} ogImage={ogProducto}>
   <article class="product-page">
     <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
