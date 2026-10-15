@@ -10,13 +10,17 @@ Lighthouse móvil, contra el sitio publicado, antes y después de la Fase 4:
 
 | Página | Rendimiento | LCP | CLS | Peso total |
 |---|---|---|---|---|
-| Inicio | 94 → **100** | 3,0 s → **1,8 s** | 0,000 → 0,003 | 1.902 → 1.645 KB |
-| Ficha del Romano | 91 → **99** | 3,5 s → **1,9 s** | 0,000 → 0,004 | 835 → 882 KB |
-| Cotizador | 98 → **100** | 1,8 s → **1,2 s** | 0,026 → **0,000** | 3.199 → **475 KB** |
-| Artículo técnico | 83 → **100** | 4,7 s → **1,5 s** | 0,014 → 0,014 | 1.491 → **635 KB** |
+| Inicio | 94 → **100** | 3,0 s → **1,3 s** | 0,000 → 0,001 | 1.902 → **664 KB** |
+| Catálogo | — → **100** | — → **1,3 s** | 0,012 | **565 KB** |
+| Ficha del Romano | 91 → **99** | 3,5 s → **1,9 s** | 0,000 → 0,000 | 835 → **516 KB** |
+| Cotizador | 98 → **100** | 1,8 s → **1,2 s** | 0,026 → 0,033 | 3.199 → **475 KB** |
+| Blog | — → **100** | — → **1,4 s** | 0,006 | **768 KB** |
+| Artículo técnico | 83 → **100** | 4,7 s → **1,4 s** | 0,014 → 0,050 | 1.491 → **635 KB** |
 
-Los objetivos de la auditoría —LCP bajo 2,5 s, rendimiento sobre 90, CLS cerca de 0— se
-cumplen en las cuatro.
+Los objetivos de la auditoría —LCP bajo 2,5 s, rendimiento sobre 90, CLS cerca de 0, página
+por debajo de 1-1,5 MB— se cumplen en las seis. El CLS del artículo y del cotizador (0,05 y
+0,03) sigue dentro de lo que Google considera bueno (<0,1), pero no es cero: queda apuntado
+para la fase de accesibilidad y diseño.
 
 Y lo que se descarga al abrir la página, simulando un teléfono de 390 px:
 
