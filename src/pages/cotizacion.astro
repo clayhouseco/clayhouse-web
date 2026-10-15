@@ -132,6 +132,7 @@ const DEPARTAMENTOS = [
               <span aria-hidden="true">✉️</span> Enviar por correo
             </button>
           </div>
+          <p class="cotz-estado" data-envio-estado role="status" aria-live="polite" hidden></p>
           <p class="cotz-legal">
             El flete no está incluido; nuestro equipo lo calcula según tu ubicación y te contacta.
             Al enviar aceptas el tratamiento de tus datos con fines comerciales.
@@ -272,12 +273,22 @@ const DEPARTAMENTOS = [
       const unidadEl = linea.querySelector("[data-unidad]");
       if (item && item.coloresPermitidos.length) {
         colorWrap.hidden = false;
-        colorSel.innerHTML = item.coloresPermitidos.map((c) => `<option value="${c.codigo}">${c.nombre}</option>`).join("");
+        // Se arma con la API del DOM: el resto del archivo escapa con esc() y esta
+        // era la única interpolación cruda. El dato viene del catálogo propio, no
+        // del usuario, pero dejarlo distinto invita a copiar el patrón inseguro.
+        colorSel.replaceChildren(
+          ...item.coloresPermitidos.map((c) => {
+            const o = document.createElement("option");
+            o.value = c.codigo;
+            o.textContent = c.nombre;
+            return o;
+          }),
+        );
         // Preselección: el color elegido si es válido; si no, Natural (NAT) por defecto.
         const valido = preset.color && item.coloresPermitidos.some((c) => c.codigo === preset.color);
         colorSel.value = valido ? preset.color
           : (item.coloresPermitidos.some((c) => c.codigo === "NAT") ? "NAT" : item.coloresPermitidos[0].codigo);
-      } else { colorWrap.hidden = true; colorSel.innerHTML = ""; }
+      } else { colorWrap.hidden = true; colorSel.replaceChildren(); }
       unidadEl.textContent = item ? item.unidadLabel : "";
     }
 
@@ -671,9 +682,30 @@ const DEPARTAMENTOS = [
         notas_comerciales: notas,
       };
     }
+    const estadoEl = form.querySelector("[data-envio-estado]");
+    function estado(texto, tono) {
+      if (!estadoEl) return;
+      estadoEl.hidden = !texto;
+      estadoEl.textContent = texto || "";
+      estadoEl.dataset.tono = tono || "";
+    }
+
+    /**
+     * Registra la solicitud ANTES de abrir el canal que eligió el cliente.
+     *
+     * Antes se llamaba sin esperar y justo después se hacía `window.print()`,
+     * `window.open()` o el envío del formulario: el navegador podía cortar la
+     * petición a medio camino y la solicitud se perdía. Y si el servidor la
+     * rechazaba, el error se tragaba en silencio — el cliente veía su WhatsApp
+     * abierto y creía que ya había cotizado.
+     *
+     * Devuelve true solo cuando el servidor confirmó. Quien la llama decide si
+     * sigue adelante; hoy se sigue siempre, porque dejar al cliente sin su
+     * WhatsApp sería peor, pero el aviso queda visible para que pueda reintentar.
+     */
     async function saveToErp() {
-      if (erpSaved) return; // evita duplicados aunque se usen varias opciones
-      erpSaved = true;
+      if (erpSaved) return true; // ya registrada: no se duplica aunque use varios canales
+      estado("Registrando tu solicitud…", "enviando");
       try {
         const res = await fetch(`${supabaseUrl}/rest/v1/cotizaciones`, {
           method: "POST",
@@ -684,38 +716,80 @@ const DEPARTAMENTOS = [
             Prefer: "return=minimal",
           },
           body: JSON.stringify(buildErpRow()),
+          // Si el usuario navega, el navegador termina de enviarla igual.
+          keepalive: true,
         });
-        if (!res.ok) erpSaved = false; // permite reintentar si el servidor rechazó
-      } catch { erpSaved = false; }
+        if (res.ok) {
+          erpSaved = true;
+          estado("Solicitud registrada. Nuestro equipo la recibe y te confirma precios y flete.", "ok");
+          return true;
+        }
+        estado(
+          "No pudimos registrar la solicitud (error " + res.status + "). Sigue por el canal que elegiste y, si puedes, vuelve a intentarlo.",
+          "error",
+        );
+        return false;
+      } catch {
+        estado(
+          "No pudimos registrar la solicitud: revisa tu conexión. Sigue por el canal que elegiste y vuelve a intentarlo.",
+          "error",
+        );
+        return false;
+      }
     }
 
     // ---- Opción 1: Imprimir / Guardar PDF ----
-    form.querySelector("[data-action-print]").addEventListener("click", () => {
+    form.querySelector("[data-action-print]").addEventListener("click", async (ev) => {
       const v = validar(); if (v) return avisar(v);
-      saveToErp();
+      const btn = ev.currentTarget;
+      btn.disabled = true;
+      await saveToErp();          // el diálogo de impresión congela la pestaña: primero se registra
+      btn.disabled = false;
       window.print();
     });
 
     // ---- Opción 2: Enviar al asesor por WhatsApp (texto, wa.me no adjunta PDF) ----
-    form.querySelector("[data-action-whatsapp]").addEventListener("click", () => {
+    form.querySelector("[data-action-whatsapp]").addEventListener("click", async (ev) => {
       const v = validar(); if (v) return avisar(v);
-      saveToErp();
-      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(quoteText())}`, "_blank", "noopener");
+      const btn = ev.currentTarget;
+      btn.disabled = true;
+      const texto = quoteText();   // se arma antes: el registro no debe cambiar lo que se envía
+      await saveToErp();
+      btn.disabled = false;
+      window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
     });
 
     // ---- Opción 3: Enviar por correo (Formspree si está configurado; si no, mailto) ----
-    form.addEventListener("submit", (e) => {
+    /**
+     * El envío por correo SIEMPRE se detiene primero.
+     *
+     * Tanto el `mailto:` como el POST a Formspree sacan al usuario de la página,
+     * y la petición de registro se quedaba a medias. Ahora se frena el envío,
+     * se registra, y solo entonces se continúa por donde corresponda.
+     */
+    let reenviando = false;
+    form.addEventListener("submit", async (e) => {
       const v = validar(); if (v) { e.preventDefault(); return avisar(v); }
-      saveToErp();
+      if (reenviando) return;     // segunda pasada: ya se registró, dejar seguir
+      e.preventDefault();
+
+      const btn = form.querySelector("[data-action-email]");
+      if (btn) btn.disabled = true;
+      const texto = quoteText();
+      await saveToErp();
+      if (btn) btn.disabled = false;
+
       const el = form.querySelector("[data-cotizacion-payload]");
-      if (el) el.value = quoteText().replace(/\*/g, ""); // texto legible (sin markdown de WhatsApp)
+      if (el) el.value = texto.replace(/\*/g, ""); // texto legible (sin markdown de WhatsApp)
+
       if (!form.getAttribute("action")) {
         // Sin Formspree: abrir el cliente de correo del usuario hacia ventas.
-        e.preventDefault();
-        window.location.href = `mailto:${ventasEmail}?subject=${encodeURIComponent("Solicitud de cotización — Clay House")}&body=${encodeURIComponent(quoteText())}`;
+        window.location.href = `mailto:${ventasEmail}?subject=${encodeURIComponent("Solicitud de cotización — Clay House")}&body=${encodeURIComponent(texto)}`;
         return;
       }
       try { localStorage.removeItem("clayhouse-quote-cart"); } catch {}
+      reenviando = true;
+      form.submit();              // ahora sí, con el registro confirmado
     });
   </script>
 </BaseLayout>
@@ -831,6 +905,30 @@ const DEPARTAMENTOS = [
   .cotz-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
   .cotz-action { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.75rem 1rem; font-size: 0.85rem; }
   .cotz-action[data-action-email] { grid-column: 1 / -1; }
+  /* Aviso de registro. Tres tonos: enviando, recibido y error — el error tiene
+     que leerse sin depender del color, por eso también cambia el peso. */
+  .cotz-estado {
+    margin: .75rem 0 0;
+    padding: .7rem .9rem;
+    border-radius: 8px;
+    font-size: .92rem;
+    line-height: 1.45;
+    border: 1px solid var(--color-arena, #ddd2c4);
+    background: var(--color-crema, #faf7f2);
+    color: var(--color-chocolate, #3a2a20);
+  }
+  .cotz-estado[data-tono="ok"] {
+    border-color: #2f7a5a;
+    background: #e9f3ee;
+    color: #1d5740;
+  }
+  .cotz-estado[data-tono="error"] {
+    border-color: #a3301c;
+    background: #fbeae6;
+    color: #8a2816;
+    font-weight: 600;
+  }
+
   .cotz-legal { margin-top: 0.7rem; font-size: 0.78rem; color: #8a807c; text-align: left; }
   .cotz-legal--warn { color: var(--color-terracota); }
 
