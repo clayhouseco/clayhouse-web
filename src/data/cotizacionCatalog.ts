@@ -25,6 +25,9 @@ export interface CotizableItem {
   id: string;
   label: string;
   slug: string;
+  /** Categoría del producto. La usa la medición para agrupar sin tener que cruzar
+   *  el catálogo en el navegador. */
+  categoria: string;
   variantId: string | null;
   /** Código ERP (null si el producto aún no existe en el ERP). */
   erpCodigo: string | null;
@@ -176,6 +179,7 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       id: variantId ? `${p.slug}::${variantId}` : p.slug,
       label: variantId ? variantLabel(p.name, p.slug, variantId) : p.name,
       slug: p.slug,
+      categoria: p.category,
       variantId,
       erpCodigo: eq.codigo,
       coloresPermitidos: eq.coloresPermitidos.map((c) => ({ codigo: c, ...ERP_COLORES[c] })),

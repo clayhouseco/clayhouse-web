@@ -260,6 +260,11 @@ const DEPARTAMENTOS = [
       linea.querySelector("[data-sel-img]").src = item.thumb;
       linea.querySelector("[data-sel-name]").textContent = item.label;
       linea.querySelector("[data-sel-code]").textContent = item.erpCodigo ? `SKU ${item.erpCodigo}` : "Código por confirmar";
+      begin();
+      track("quote_product_selected", {
+        currency: "COP",
+        items: [{ item_id: item.erpCodigo || "", item_category: item.categoria || "", price: Number(String(item.refPrice).replace(/[^\d]/g, "")) || 0 }],
+      });
       fillDependent(linea, item, preset);
       if (preset.cantidad) linea.querySelector('[data-campo="cantidad"]').value = preset.cantidad;
       linea.querySelector("[data-picker]").hidden = true;
@@ -638,6 +643,38 @@ const DEPARTAMENTOS = [
     // siguen como respaldo. No bloquea la UX si Supabase falla.
     let erpSaved = false;
     const z2 = (x) => String(x).padStart(2, "0");
+    /* ───────────────────────── medición ─────────────────────────
+       Al medidor viaja lo que describe el PEDIDO —código, categoría, cantidad, valor,
+       moneda y canal— y nada que describa a la persona. El nombre, el teléfono, el
+       correo y la dirección se quedan en la solicitud, que va al ERP por su camino. */
+    const track = (nombre, props) => { try { window.clayTrack && window.clayTrack(nombre, props); } catch {} };
+
+    function resumenMedicion(canal) {
+      const lineas = currentLineas();
+      const valor = lineas.reduce((t, r) => t + (r.precio || 0) * (r.cant || 0), 0);
+      return {
+        currency: "COP",
+        value: Math.round(valor),
+        lineas: lineas.length,
+        canal: canal || "",
+        items: lineas.map((r) => ({
+          item_id: (r.item && r.item.erpCodigo) || "",
+          item_category: (r.item && r.item.categoria) || "",
+          quantity: r.cant || 0,
+          price: r.precio || 0,
+          unidad: (r.item && r.item.unidad) || "",
+        })),
+      };
+    }
+
+    let empezada = false;
+    function begin() {
+      if (empezada) return;
+      empezada = true;
+      track("begin_quote", { currency: "COP" });
+    }
+    form.addEventListener("focusin", begin, { once: true });
+
     function buildErpRow() {
       const p = buildPayload();
       const u = p.entrega === "planta" ? {} : (p.ubicacion || {});
@@ -661,6 +698,19 @@ const DEPARTAMENTOS = [
       const numero = `WEB-${n.getFullYear()}${z2(n.getMonth() + 1)}${z2(n.getDate())}-${z2(n.getHours())}${z2(n.getMinutes())}${z2(n.getSeconds())}`;
       const notas = ["Solicitud desde la web (clayhouse.com.co)"];
       if (p.cliente.empresa) notas.push(`Empresa: ${p.cliente.empresa}`);
+      /* DE DÓNDE LLEGÓ. Quien abre la solicitud en el ERP no tiene forma de saber si vino
+         de un anuncio, de una búsqueda o de un enlace, y es lo primero que pregunta
+         comercial. Son datos de la campaña, no del visitante. */
+      try {
+        const o = (window.clayOrigen && window.clayOrigen()) || {};
+        const campana = [o.utm_source, o.utm_medium, o.utm_campaign].filter(Boolean).join(" / ");
+        if (campana) notas.push(`Origen: ${campana}`);
+        if (o.utm_content) notas.push(`Anuncio: ${o.utm_content}`);
+        if (o.utm_term) notas.push(`Búsqueda: ${o.utm_term}`);
+        for (const k of ["gclid", "gbraid", "wbraid"]) if (o[k]) notas.push(`${k}: ${o[k]}`);
+        if (o.landing) notas.push(`Entró por: ${o.landing}`);
+        if (o.referrer) notas.push(`Venía de: ${o.referrer}`);
+      } catch {}
       notas.push("Flete NO incluido — cotización preliminar");
       return {
         numero,
@@ -706,6 +756,7 @@ const DEPARTAMENTOS = [
      * sigue adelante; hoy se sigue siempre, porque dejar al cliente sin su
      * WhatsApp sería peor, pero el aviso queda visible para que pueda reintentar.
      */
+    let canalActual = "";
     async function saveToErp() {
       if (erpSaved) return true; // ya registrada: no se duplica aunque use varios canales
       estado("Registrando tu solicitud…", "enviando");
@@ -724,6 +775,11 @@ const DEPARTAMENTOS = [
         });
         if (res.ok) {
           erpSaved = true;
+          /* LA CONVERSIÓN ES ESTO, Y NADA ANTES.
+             No el clic en WhatsApp, no el envío del formulario: la fila escrita en la base
+             del ERP. Como `erpSaved` corta las llamadas siguientes, un cliente que use los
+             tres canales cuenta una sola conversión. */
+          track("generate_lead", resumenMedicion(canalActual));
           estado("Solicitud registrada. Nuestro equipo la recibe y te confirma precios y flete.", "ok");
           return true;
         }
@@ -746,8 +802,11 @@ const DEPARTAMENTOS = [
       const v = validar(); if (v) return avisar(v);
       const btn = ev.currentTarget;
       btn.disabled = true;
+      canalActual = "print";
+      track("quote_submit_attempt", resumenMedicion("print"));
       await saveToErp();          // el diálogo de impresión congela la pestaña: primero se registra
       btn.disabled = false;
+      track("quote_print", resumenMedicion("print"));
       window.print();
     });
 
@@ -757,8 +816,11 @@ const DEPARTAMENTOS = [
       const btn = ev.currentTarget;
       btn.disabled = true;
       const texto = quoteText();   // se arma antes: el registro no debe cambiar lo que se envía
+      canalActual = "whatsapp";
+      track("quote_submit_attempt", resumenMedicion("whatsapp"));
       await saveToErp();
       btn.disabled = false;
+      track("quote_whatsapp_open", resumenMedicion("whatsapp"));
       window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
     });
 
@@ -779,8 +841,11 @@ const DEPARTAMENTOS = [
       const btn = form.querySelector("[data-action-email]");
       if (btn) btn.disabled = true;
       const texto = quoteText();
+      canalActual = "email";
+      track("quote_submit_attempt", resumenMedicion("email"));
       await saveToErp();
       if (btn) btn.disabled = false;
+      track("quote_email_open", resumenMedicion("email"));
 
       const el = form.querySelector("[data-cotizacion-payload]");
       if (el) el.value = texto.replace(/\*/g, ""); // texto legible (sin markdown de WhatsApp)

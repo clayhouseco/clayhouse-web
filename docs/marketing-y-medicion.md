@@ -42,39 +42,106 @@ Si el build sale sin analítica, `Analytics.astro` lo avisa por consola.
 
 ### Eventos instrumentados
 
-Están cableados con atributos `data-track` en el HTML y los recoge
-`src/utils/analytics.client.ts`:
+Los de clic están cableados con atributos `data-track` en el HTML; los del cotizador los
+dispara su propio script. Todos pasan por `trackEvent` en `src/utils/analytics.client.ts`.
 
-| Evento | Dónde |
+| Evento | Cuándo | Qué lleva |
+|---|---|---|
+| `view_item` | Se abre la ficha de un producto | SKU del ERP, nombre, categoría, precio |
+| `add_to_quote` | «Agregar a cotización», en ficha y catálogo | SKU o slug, dónde se pulsó |
+| `begin_quote` | Primer contacto con el cotizador | moneda |
+| `quote_product_selected` | Se elige un producto en una línea | SKU, categoría, precio |
+| `quote_submit_attempt` | Se pulsa enviar, por cualquiera de los tres canales | canal, valor, líneas, artículos |
+| `generate_lead` | **El servidor confirmó la solicitud** | canal, valor, líneas, artículos |
+| `quote_whatsapp_open` | Se abre WhatsApp con la cotización | ídem |
+| `quote_email_open` | Se envía por correo | ídem |
+| `quote_print` | Se imprime o se guarda en PDF | ídem |
+| `technical_sheet_download` | Descarga de una ficha técnica | producto, dónde |
+| `cotizar_click` | Botones de «cotizar» repartidos por el sitio | dónde |
+| `whatsapp_click` | Enlaces de WhatsApp fuera del cotizador | dónde |
+| `form_start` | Primer foco en el formulario de contacto | formulario |
+| `form_submit_attempt` | Se envía el formulario de contacto | formulario, canal |
+
+**Lo que NO viaja al medidor:** nombre, teléfono, correo, dirección, coordenadas ni texto
+libre. Lo que viaja describe el pedido —código, categoría, cantidad, valor, moneda, canal—,
+nunca a la persona. Los datos de contacto van a la solicitud que recibe el ERP, por su
+propio camino. Está comprobado en una prueba de navegador: ver más abajo.
+
+### `generate_lead` es la fila escrita, no el clic
+
+Antes se disparaba al enviar el formulario. Un envío no es un lead: Formspree puede
+rechazarlo, la red puede caerse y el visitante puede cerrar la pestaña. Ahora:
+
+- **Cotizador:** se dispara en el punto exacto donde Supabase responde que guardó la
+  solicitud. Ni antes ni por otro camino.
+- **Formulario de contacto:** en `/contacto/gracias`, a la que solo se llega si Formspree
+  aceptó el mensaje.
+
+**No se duplica entre canales.** Un cliente puede mandar la misma cotización por WhatsApp,
+por correo y además imprimirla. La solicitud se registra una sola vez —`erpSaved` corta las
+siguientes— y la conversión cuelga de ese mismo punto, así que cuenta una. Los eventos de
+canal (`quote_whatsapp_open`, `quote_email_open`, `quote_print`) sí se disparan cada vez:
+sirven para saber qué canal prefiere la gente, y no son conversión.
+
+### Lo que hay que marcar en GA4 y en Google Ads
+
+En **GA4 → Administrar → Eventos clave**, marcar solo estos dos:
+
+| Evento | Por qué |
 |---|---|
-| `cotizar_click` | Botones de cotizar (82 en el sitio) |
-| `whatsapp_click` | Enlaces de WhatsApp (60) |
-| `producto_agregado` | Añadir al carrito de cotización (34) |
-| `ficha_descargada` | Descarga de ficha técnica PDF (21) |
-| `form_start` | Primer foco en un campo del formulario |
-| `generate_lead` | Envío del formulario de contacto |
+| `generate_lead` | Es el lead: solicitud confirmada por el servidor |
+| `whatsapp_click` | Contacto directo fuera del cotizador, que no deja rastro en la web |
 
-### Eventos clave y conversiones
-
-En GA4 solo dos están marcados como **evento clave**, y son los dos importados a
-Google Ads como conversión:
+Y en **Google Ads → Objetivos → Conversiones → Importar desde GA4**, importar esos dos:
 
 - `generate_lead` → categoría *Enviar formulario de clientes potenciales*
 - `whatsapp_click` → categoría *Contacto*
 
-Los otros cuatro **se siguen midiendo** pero no son conversión. Es deliberado:
-si todo es conversión, Google Ads optimiza hacia la señal más fácil de
-conseguir. `form_start` es el caso extremo — se dispara con tocar un campo, sin
-enviar nada.
+**Qué NO marcar como conversión, y por qué.** `quote_submit_attempt`, `begin_quote`,
+`add_to_quote`, `view_item`, `technical_sheet_download` y los tres de canal se siguen
+midiendo, pero marcarlos haría que Ads optimizara hacia la señal más fácil de conseguir en
+vez de hacia la venta. `quote_submit_attempt` es el caso claro: se dispara aunque el
+registro falle, que es justo lo contrario de una conversión.
 
-Ambas conversiones usan **recuento "una vez por sesión"**, no "una vez por
-evento" (que es lo que Google recomienda por defecto). Razón: la gente reenvía
-formularios y toca varios botones de WhatsApp mientras navega; contar cada uno
-inflaría los leads.
+Ambas conversiones con **recuento «una vez por sesión»**, no «una vez por evento»: la gente
+reenvía formularios y toca varios botones de WhatsApp mientras navega.
 
-Ninguna lleva **valor predeterminado**. Google propone 1 USD, que es moneda
-equivocada y cifra inventada; un valor falso corrompe cualquier puja por valor.
-Cuando se sepa cuánto vale un lead, se pone en pesos.
+**Sobre el valor:** `generate_lead` ahora lleva `value` —la suma de la cotización en pesos—
+y `currency: "COP"`. Es el valor del PEDIDO, no el del lead: no toda cotización se cierra.
+Si algún día se puja por valor, hay que fijar en Ads un valor de conversión realista (el
+valor del pedido por la tasa de cierre), no este. Mientras tanto, no se pone valor
+predeterminado en Ads: una cifra inventada corrompe cualquier puja por valor.
+
+### Cómo comprobar que mide
+
+**GA4 DebugView** (lo que de verdad llega a Google):
+
+1. Instalar la extensión *Google Analytics Debugger* en Chrome y activarla, o abrir el sitio
+   con `?debug_mode=1` en la URL.
+2. GA4 → Administrar → **DebugView**. Aparece el dispositivo en cuanto cargue una página.
+3. Aceptar el banner de cookies: sin consentimiento los eventos viajan sin identificador y
+   DebugView puede no mostrarlos.
+4. Recorrer: abrir una ficha (`view_item`) → «agregar a cotización» (`add_to_quote`) → ir a
+   `/cotizacion`, elegir producto (`begin_quote`, `quote_product_selected`) → llenar nombre y
+   teléfono → WhatsApp (`quote_submit_attempt`, `generate_lead`, `quote_whatsapp_open`).
+5. Pulsar cada evento en DebugView y revisar sus parámetros: tiene que haber `item_id`,
+   `item_category`, `value`, `currency` y `canal`, y **no** puede haber nombre ni teléfono.
+
+Ojo: ese recorrido **escribe una solicitud real** en la bandeja del ERP. Conviene avisar al
+equipo comercial, o usar un nombre reconocible como «PRUEBA MEDICIÓN».
+
+**Tag Assistant** (lo que la página dispara, sin esperar a GA4):
+
+1. Abrir [tagassistant.google.com](https://tagassistant.google.com) → *Add domain* →
+   `https://clayhouse.com.co`.
+2. Se abre una ventana con la etiqueta instrumentada. Hacer el mismo recorrido.
+3. En *Tags fired* debe aparecer `G-VJPB3P55VJ` con los eventos en orden, y en *Consent* el
+   estado `denied` antes de aceptar el banner y `granted` después.
+
+**Sin tocar producción**, el repositorio trae la prueba en navegador que se usó para
+verificar esta fase: levanta el sitio construido, sustituye `fetch` por un doble que no
+escribe en Supabase y comprueba la secuencia, que no haya conversión cuando el servidor
+falla, que un segundo canal no duplique y que no viaje ningún dato personal.
 
 ---
 

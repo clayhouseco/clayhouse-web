@@ -11,6 +11,10 @@ declare global {
       plausibleDomain?: string;
       ga4Id?: string;
     };
+    /** Para los scripts en línea de la página (el cotizador no se empaqueta con
+     *  este módulo, así que no puede importarlo). */
+    clayTrack?: (name: string, props?: Record<string, unknown>) => void;
+    clayOrigen?: () => Record<string, string>;
   }
 }
 
@@ -73,13 +77,83 @@ export function applyConsent(granted: boolean) {
   if (cfg.ga4Id) updateConsent(granted);
 }
 
-export function trackEvent(name: string, props?: Record<string, string>) {
+/**
+ * Un evento, a los dos medidores.
+ *
+ * GA4 admite objetos y listas —los eventos de comercio llevan `items: [...]`—; Plausible
+ * solo admite texto plano, así que recibe las propiedades simples y descarta el resto en
+ * vez de mandar «[object Object]».
+ *
+ * NUNCA se envía un dato personal. Lo que viaja es el código del producto, la categoría,
+ * la cantidad, el valor estimado y el canal; el nombre, el teléfono, el correo, la
+ * dirección y cualquier texto libre se quedan en la solicitud, que va al ERP por su
+ * propio camino. Un nombre dentro de Analytics es un problema de protección de datos sin
+ * ninguna ganancia de medición.
+ */
+export function trackEvent(name: string, props?: Record<string, unknown>) {
   if (window.plausible) {
-    window.plausible(name, props ? { props } : undefined);
+    const planas: Record<string, string> = {};
+    for (const [k, v] of Object.entries(props ?? {})) {
+      if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
+        planas[k] = String(v);
+      }
+    }
+    window.plausible(name, Object.keys(planas).length ? { props: planas } : undefined);
   }
   if (window.gtag) {
     window.gtag("event", name, props ?? {});
   }
+}
+
+/**
+ * DE DÓNDE LLEGÓ LA VISITA — para el registro comercial, no para Analytics.
+ *
+ * Google ya sabe lo suyo; quien no lo sabe es el asesor que abre la solicitud en el ERP y
+ * no tiene cómo saber si vino de un anuncio, de una búsqueda o de un enlace. Esto se
+ * captura al entrar y viaja con la cotización, en las notas comerciales.
+ *
+ * Se guarda en `sessionStorage` y solo lo que identifica la CAMPAÑA: nada del visitante.
+ * Se escribe una sola vez por sesión —la primera página manda, que es la que trae los
+ * parámetros del anuncio— y se borra al cerrar la pestaña.
+ */
+const ORIGEN_KEY = "clayhouse-origen";
+const PARAMS = [
+  "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
+  "gclid", "gbraid", "wbraid",
+];
+
+export function capturarOrigen(): Record<string, string> {
+  let guardado: Record<string, string> = {};
+  try {
+    guardado = JSON.parse(sessionStorage.getItem(ORIGEN_KEY) || "{}");
+  } catch {
+    guardado = {};
+  }
+  if (Object.keys(guardado).length) return guardado;
+
+  const url = new URL(window.location.href);
+  const origen: Record<string, string> = {};
+  for (const k of PARAMS) {
+    const v = url.searchParams.get(k);
+    if (v) origen[k] = v.slice(0, 120);
+  }
+  origen.landing = url.pathname.slice(0, 160);
+  /* El referente, solo el dominio: la ruta completa de otro sitio puede llevar datos de
+     quien navega y no aporta nada a la gestión comercial. */
+  try {
+    if (document.referrer) {
+      const r = new URL(document.referrer);
+      if (r.hostname && r.hostname !== url.hostname) origen.referrer = r.hostname;
+    }
+  } catch {
+    /* referente ilegible */
+  }
+  try {
+    sessionStorage.setItem(ORIGEN_KEY, JSON.stringify(origen));
+  } catch {
+    /* modo privado */
+  }
+  return origen;
 }
 
 let formStartTracked = false;
@@ -113,11 +187,32 @@ export function bindAnalyticsEvents() {
     true
   );
 
-  // Conversión de lead: se dispara una sola vez al enviar el formulario
-  // (antes se duplicaba con el data-track del botón, que ya se quitó).
+  /* La ficha de producto deja sus datos en un atributo del contenedor; acá se leen y se
+     manda `view_item` una vez por carga. El catálogo del ERP ya puso ahí el código con el
+     que se factura, así que GA4 y el ERP hablan del mismo artículo. */
+  const vista = document.querySelector("[data-view-item]");
+  if (vista instanceof HTMLElement && vista.dataset.viewItem) {
+    try {
+      trackEvent("view_item", JSON.parse(vista.dataset.viewItem));
+    } catch {
+      /* atributo ilegible: no se mide, pero la página sigue */
+    }
+  }
+
+  /* El intento de envío NO es una conversión: Formspree puede rechazarlo, la red puede
+     caerse y el visitante puede cerrar la pestaña. Se mide el intento acá y la conversión
+     en la página de gracias, a la que solo se llega cuando el envío salió bien.
+     Lleva nombre propio y no `quote_submit_attempt`: este formulario es el de contacto, y
+     mezclarlo con el del cotizador ensucia el embudo de cotización. */
   document.getElementById("contact-form")?.addEventListener("submit", () => {
-    trackEvent("generate_lead", { form: "contact" });
+    trackEvent("form_submit_attempt", { form: "contact", canal: "email" });
   });
+
+  /* La página de gracias es la confirmación del servidor: Formspree redirige a ella solo
+     si aceptó el mensaje. Se dispara una vez por carga. */
+  if (window.location.pathname.replace(/\/$/, "") === "/contacto/gracias") {
+    trackEvent("generate_lead", { form: "contact", canal: "email", currency: "COP" });
+  }
 }
 
 export function initAnalyticsOnLoad() {
@@ -128,5 +223,10 @@ export function initAnalyticsOnLoad() {
   // por defecto resuelto antes de la primera vista de página. Aquí solo queda
   // Plausible (que no usa cookies y no necesita banner) y los eventos.
   if (cfg.plausibleDomain) injectPlausible(cfg.plausibleDomain);
+  capturarOrigen();
+  /* El cotizador vive en un `<script define:vars>`, que Astro no empaqueta: no puede
+     importar nada. Se le deja la puerta abierta por el objeto global. */
+  window.clayTrack = trackEvent;
+  window.clayOrigen = capturarOrigen;
   bindAnalyticsEvents();
 }

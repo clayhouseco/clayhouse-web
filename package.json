@@ -12,6 +12,7 @@
     "sync:inventario": "node scripts/fetch-availability.mjs",
     "verificar:datos": "node scripts/verificar-datos.mjs",
     "verificar:csp": "node scripts/verificar-csp.mjs",
+    "probar:medicion": "node scripts/probar-medicion.mjs",
     "verificar:erp": "node scripts/verificar-erp.mjs",
     "fichas:verificar": "node scripts/fichas/verificar.mjs",
     "fichas": "node scripts/fichas/generate.mjs",

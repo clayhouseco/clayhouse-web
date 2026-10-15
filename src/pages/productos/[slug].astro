@@ -237,7 +237,21 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 ---
 
 <BaseLayout title={product.seoTitle} description={product.seoDescription} ogImage={ogProducto}>
-  <article class="product-page">
+  <article
+    class="product-page"
+    data-view-item={JSON.stringify({
+      currency: "COP",
+      value: Number((displayPrice ?? "").replace(/[^\d]/g, "")) || 0,
+      items: [
+        {
+          item_id: erpEquiv.codigo ?? product.slug,
+          item_name: product.name,
+          item_category: product.category,
+          price: Number((displayPrice ?? "").replace(/[^\d]/g, "")) || 0,
+        },
+      ],
+    })}
+  >
     <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
     <div class="container product-page__breadcrumb">
@@ -339,6 +353,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               type="button"
               class="btn btn--primary btn--block"
               data-add-to-quote
+              data-track="add_to_quote"
+              data-track-label={erpEquiv.codigo ?? product.slug}
+              data-track-location="ficha"
               data-slug={product.slug}
               data-name={product.name}
               data-category={product.category}
@@ -654,6 +671,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                     class="download-link"
                     data-ficha-link
                     data-ficha-map={fichaMapJson}
+                    data-track="technical_sheet_download"
+                    data-track-label={product.name}
+                    data-track-location="ficha"
                   >
                     <span class="download-link__title">Ficha técnica (PDF)</span>
                     <span class="download-link__meta">
