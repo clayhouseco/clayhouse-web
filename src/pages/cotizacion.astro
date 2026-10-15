@@ -449,9 +449,12 @@ const DEPARTAMENTOS = [
         const L = (await import("leaflet")).default;
         await import("leaflet/dist/leaflet.css");
         L.Icon.Default.mergeOptions({
-          iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-          iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-          shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+          /* Servidos desde acá y no desde unpkg: son los mismos archivos que ya trae el
+             paquete de Leaflet (copiados a public/images/leaflet/), y así el mapa no depende
+             de un CDN ajeno ni hay que abrirle la puerta en la política de seguridad. */
+          iconUrl: "/images/leaflet/marker-icon.png",
+          iconRetinaUrl: "/images/leaflet/marker-icon-2x.png",
+          shadowUrl: "/images/leaflet/marker-shadow.png",
         });
         return L;
       })();

@@ -127,7 +127,7 @@ const sorted = [...reviews].sort(
         );
       }
 
-      window.__clayReviews = function (list) {
+      function pintar(list) {
         if (!Array.isArray(list) || list.length === 0) return; // mantiene el fallback estático
         list.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
         col.innerHTML =
@@ -152,9 +152,20 @@ const sorted = [...reviews].sort(
         }
       };
 
-      const s = document.createElement("script");
-      s.src = endpoint + "?callback=__clayReviews&_=" + Date.now();
-      document.head.appendChild(s);
+      /* JSON con CORS, no JSONP.
+         Antes esto inyectaba un <script> desde script.google.com y ejecutaba lo que
+         viniera: para que funcionara, la política de seguridad del sitio tendría que
+         admitir scripts de ese dominio, que es justo el agujero que la política existe
+         para cerrar. El mismo endpoint ya devuelve JSON con `access-control-allow-origin: *`
+         cuando se le pide sin `callback`, así que se lee con fetch y lo que llega son
+         datos, no código.
+
+         Si falla —la hoja caída, el visitante sin conexión— no pasa nada visible: la
+         página ya trae publicadas las reseñas que tiene el repositorio. */
+      fetch(endpoint, { headers: { accept: "application/json" } })
+        .then((r) => (r.ok ? r.json() : null))
+        .then(pintar)
+        .catch(() => {});
     })();
   </script>
 </BaseLayout>
