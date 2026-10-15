@@ -1,6 +1,11 @@
 ---
 import { CONSENT_KEY } from "@/utils/analytics.client";
 
+/* SI SE ENCIENDE PLAUSIBLE, HAY QUE ABRIRLE LA PUERTA EN vercel.json.
+   La política de seguridad del sitio solo permite los dominios que hoy se usan, y
+   plausible.io no está entre ellos: definir esta variable sin añadir `https://plausible.io`
+   a `script-src` y `connect-src` deja el script bloqueado por el navegador, sin error
+   visible en el build ni en los registros. `npm run verificar:csp` lo señala. */
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN?.trim();
 const ga4Id = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID?.trim();
 const hasPlausible = Boolean(plausibleDomain);
