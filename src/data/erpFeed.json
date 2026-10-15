@@ -1,46 +1,42 @@
 {
   "ok": true,
-  "actualizado": "2026-10-14T16:17:16.949Z",
+  "actualizado": "2026-10-15T17:10:46.581Z",
   "productos": [
     {
-      "precio": 2450,
-      "codigo": "ROM",
-      "id": "romano",
-      "nombre": "Romano",
-      "categoria": "fachadas",
-      "pagina": "romano",
-      "dimension": "6*15*30",
-      "rendimiento": "≈ 60 und/m²",
-      "pesoKg": 2.5,
-      "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
+      "precio": 110000,
+      "codigo": "ENC-THI",
+      "id": "enchape-thinbrick",
+      "nombre": "Enchape Thinbrick",
+      "categoria": "enchapes",
+      "pagina": "enchape-thinbrick",
+      "dimension": null,
+      "rendimiento": "95",
+      "pesoKg": 0.28,
+      "unidad": "m2",
+      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
       "especificaciones": [
         {
           "etiqueta": "Textura",
-          "valor": "Corcho"
+          "valor": "Rústico"
         },
         {
           "etiqueta": "Norma",
-          "valor": "NTC 4205-2 / 4205-3"
+          "valor": "NTC 4205 · contracción +0 / 2%"
+        },
+        {
+          "etiqueta": "Espesor",
+          "valor": "1 cm"
         },
         {
           "etiqueta": "Tipo de uso",
-          "valor": "Fachada"
+          "valor": "Revestimiento de muros interiores"
         },
         {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 13% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
+          "etiqueta": "Resistencia y absorción",
+          "valor": "No aplica (revestimiento)"
         }
       ],
-      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
       "fotos": [],
       "orden": 0,
       "colores": [
@@ -48,40 +44,128 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "hex": "#c8835f",
-          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
+          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
           "fotos": [
-            "/productos/products/romano/natural/Romano%20Natural.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
+            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
           ],
-          "precio": 2450,
+          "precio": 110000,
           "textura": null,
           "texturaNombre": null
+        },
+        {
+          "codigo": "BIA",
+          "nombre": "Bianco",
+          "hex": "#e8e2d8",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568935184-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg",
+          "fotos": [
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568984005-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg"
+          ],
+          "precio": 110000,
+          "textura": null,
+          "texturaNombre": null
+        },
+        {
+          "codigo": "CAP",
+          "nombre": "Capuccino",
+          "hex": "#a9846b",
+          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
+          ],
+          "precio": 110000,
+          "textura": null,
+          "texturaNombre": null
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "hex": "#5a4636",
+          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+          ],
+          "precio": 110000,
+          "textura": null,
+          "texturaNombre": null
+        }
+      ]
+    },
+    {
+      "precio": 2700,
+      "codigo": "CAR",
+      "id": "cartagena",
+      "nombre": "Cartagena",
+      "categoria": "fachadas",
+      "pagina": "cartagena",
+      "dimension": "30*11*4.5",
+      "rendimiento": "≈ 72 und/m²",
+      "pesoKg": 2.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada comercializada Cartagena. Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Texturizado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada y muro"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 4%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
+        }
+      ],
+      "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
+      "fotos": [
+        "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
+        "/productos/products/cartagena/Cartagena%20dimensiones.webp",
+        "/productos/products/cartagena/matizado%20claro/Cartagena%20Matizado-n.webp",
+        "/productos/products/cartagena/matizado%20oscuro/Cartagena%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro.webp",
+          "fotos": [],
+          "precio": 2700,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
         },
         {
           "codigo": "MC",
           "nombre": "Matizado Claro",
           "hex": "#b06a45",
-          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
-          "fotos": [
-            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
-          ],
-          "precio": 2450,
-          "textura": null,
-          "texturaNombre": null
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792081518760-Cartagena-Matizado-n.webp",
+          "fotos": [],
+          "precio": 2700,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
         },
         {
           "codigo": "MO",
           "nombre": "Matizado Oscuro",
           "hex": "#6f3a2c",
-          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
-          "fotos": [
-            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
-            "/productos/products/romano/romano%20dimensiones.webp"
-          ],
-          "precio": 2450,
-          "textura": null,
-          "texturaNombre": null
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792081540180-Cartagena-Oscuro-n.webp",
+          "fotos": [],
+          "precio": 2700,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
         }
       ]
     },
@@ -189,54 +273,6 @@
     },
     {
       "precio": null,
-      "codigo": "CAR",
-      "id": "cartagena",
-      "nombre": "Cartagena",
-      "categoria": "fachadas",
-      "pagina": "cartagena",
-      "dimension": "30*11*4.5",
-      "rendimiento": "≈ 72 und/m²",
-      "pesoKg": 2.8,
-      "unidad": "unidad",
-      "descripcion": "Fachada comercializada Cartagena. Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Texturizado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Fachada y muro"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 4%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
-        }
-      ],
-      "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
-      "fotos": [
-        "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
-        "/productos/products/cartagena/Cartagena%20dimensiones.webp",
-        "/productos/products/cartagena/matizado%20claro/Cartagena%20Matizado-n.webp",
-        "/productos/products/cartagena/matizado%20oscuro/Cartagena%20Oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": []
-    },
-    {
-      "precio": null,
       "codigo": "TEJ-PLA",
       "id": "teja-plana",
       "nombre": "Teja Plana",
@@ -305,65 +341,6 @@
       ],
       "orden": 0,
       "colores": []
-    },
-    {
-      "precio": null,
-      "codigo": "BLO",
-      "id": "bloquelon",
-      "nombre": "Bloquelón",
-      "categoria": "divisorios",
-      "pagina": "bloquelon",
-      "dimension": "23 x 8 x 80 cm",
-      "rendimiento": null,
-      "pesoKg": 10,
-      "unidad": "unidad",
-      "descripcion": "Bloque de arcilla para muros divisorios (no estructural). NTC 4205-2/3.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Liso"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205-2 / 4205-3"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Muros divisorios (no estructural)"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 20 MPa · Individual 15 MPa"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 17% · Individual 19%"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        }
-      ],
-      "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
-      "fotos": [
-        "/productos/products/bloquelon/bloquelon-cara.webp",
-        "/productos/products/bloquelon/bloquelon-celdas.webp",
-        "/productos/products/bloquelon/bloquelon-dimensiones.webp",
-        "/productos/products/bloquelon/bloquelon-iso.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
-          "fotos": [],
-          "precio": null,
-          "textura": null,
-          "texturaNombre": null
-        }
-      ]
     },
     {
       "precio": null,
@@ -496,97 +473,44 @@
       "colores": []
     },
     {
-      "precio": null,
-      "codigo": "CAL-10",
-      "id": "calado-10",
-      "nombre": "Calado 10",
-      "categoria": "decorativos",
-      "pagina": "calado",
-      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
-      "rendimiento": "≈ 26 und/m²",
-      "pesoKg": 3.5,
+      "precio": 2450,
+      "codigo": "ROM",
+      "id": "romano",
+      "nombre": "Romano",
+      "categoria": "fachadas",
+      "pagina": "romano",
+      "dimension": "6*15*30",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 2.5,
       "unidad": "unidad",
-      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
+      "descripcion": "Fachada fabricada tipo Romano (Corcho). Junta de 1 cm cuando aplique.",
       "especificaciones": [
         {
           "etiqueta": "Textura",
-          "valor": "Artesanal"
-        },
-        {
-          "etiqueta": "Calado 10 cm",
-          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
-        },
-        {
-          "etiqueta": "Calado 15 cm",
-          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
-        },
-        {
-          "etiqueta": "Patrón",
-          "valor": "Cuatrifolio calado"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Celosía divisoria / decorativa (no estructural)"
-        },
-        {
-          "etiqueta": "Acabado",
-          "valor": "Arcilla natural a la vista"
-        }
-      ],
-      "imagen": "/productos/products/calado/calado-muro.webp",
-      "fotos": [
-        "/productos/products/calado/calado-muro.webp",
-        "/productos/products/calado/10/calado-10-dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": [],
-          "precio": null,
-          "textura": null,
-          "texturaNombre": null
-        }
-      ]
-    },
-    {
-      "precio": 110000,
-      "codigo": "ENC-THI",
-      "id": "enchape-thinbrick",
-      "nombre": "Enchape Thinbrick",
-      "categoria": "enchapes",
-      "pagina": "enchape-thinbrick",
-      "dimension": null,
-      "rendimiento": "95",
-      "pesoKg": 0.28,
-      "unidad": "m2",
-      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rústico"
+          "valor": "Corcho"
         },
         {
           "etiqueta": "Norma",
-          "valor": "NTC 4205 · contracción +0 / 2%"
-        },
-        {
-          "etiqueta": "Espesor",
-          "valor": "1 cm"
+          "valor": "NTC 4205-2 / 4205-3"
         },
         {
           "etiqueta": "Tipo de uso",
-          "valor": "Revestimiento de muros interiores"
+          "valor": "Fachada"
         },
         {
-          "etiqueta": "Resistencia y absorción",
-          "valor": "No aplica (revestimiento)"
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 13% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
         }
       ],
-      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+      "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
       "fotos": [],
       "orden": 0,
       "colores": [
@@ -594,47 +518,93 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "hex": "#c8835f",
-          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+          "imagen": "/productos/products/romano/natural/Romano%20Natural.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
+            "/productos/products/romano/natural/Romano%20Natural.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": 110000,
+          "precio": 2450,
           "textura": null,
           "texturaNombre": null
         },
         {
-          "codigo": "BIA",
-          "nombre": "Bianco",
-          "hex": "#e8e2d8",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568935184-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg",
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
           "fotos": [
-            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568984005-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg"
+            "/productos/products/romano/matizado%20claro/Romano%20Matizado.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": 110000,
+          "precio": 2450,
           "textura": null,
           "texturaNombre": null
         },
         {
-          "codigo": "CAP",
-          "nombre": "Capuccino",
-          "hex": "#a9846b",
-          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
           "fotos": [
-            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
+            "/productos/products/romano/matizado-oscuro/Romano%20Matizado%20Oscuro.webp",
+            "/productos/products/romano/romano%20dimensiones.webp"
           ],
-          "precio": 110000,
+          "precio": 2450,
           "textura": null,
           "texturaNombre": null
+        }
+      ]
+    },
+    {
+      "precio": 4350,
+      "codigo": "BLO",
+      "id": "bloquelon",
+      "nombre": "Bloquelón",
+      "categoria": "divisorios",
+      "pagina": "bloquelon",
+      "dimension": "23 x 8 x 80 cm",
+      "rendimiento": null,
+      "pesoKg": 10,
+      "unidad": "unidad",
+      "descripcion": "Bloque de arcilla para muros divisorios (no estructural). NTC 4205-2/3.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Liso con ranuras longitudinales"
         },
         {
-          "codigo": "COC",
-          "nombre": "Cocoa",
-          "hex": "#5a4636",
-          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
-          ],
-          "precio": 110000,
+          "etiqueta": "Norma",
+          "valor": "NTC 6170 / NTC 4017"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Aligeramiento de placas y mampostería no estructural"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Mínimo 2 MPa"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "Largo ± 12 mm · Ancho ± 6 mm · Alto ± 4 mm"
+        }
+      ],
+      "imagen": "/productos/products/bloquelon/bloquelon-celdas.webp",
+      "fotos": [
+        "/productos/products/bloquelon/bloquelon-cara.webp",
+        "/productos/products/bloquelon/bloquelon-celdas.webp",
+        "/productos/products/bloquelon/bloquelon-dimensiones.webp",
+        "/productos/products/bloquelon/bloquelon-iso.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/bloquelon/bloquelon-iso.webp",
+          "fotos": [],
+          "precio": 4350,
           "textura": null,
           "texturaNombre": null
         }
@@ -714,63 +684,6 @@
           "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
           "fotos": [],
           "precio": 2250,
-          "textura": null,
-          "texturaNombre": null
-        }
-      ]
-    },
-    {
-      "precio": null,
-      "codigo": "CAL-15",
-      "id": "calado-15",
-      "nombre": "Calado 15",
-      "categoria": "decorativos",
-      "pagina": "calado",
-      "dimension": "19.5 x 20 cm · espesor 14 cm",
-      "rendimiento": "≈ 26 und/m²",
-      "pesoKg": 5,
-      "unidad": "unidad",
-      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 15 cm. Ventila y tamiza la luz.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Artesanal"
-        },
-        {
-          "etiqueta": "Calado 10 cm",
-          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
-        },
-        {
-          "etiqueta": "Calado 15 cm",
-          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
-        },
-        {
-          "etiqueta": "Patrón",
-          "valor": "Cuatrifolio calado"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Celosía divisoria / decorativa (no estructural)"
-        },
-        {
-          "etiqueta": "Acabado",
-          "valor": "Arcilla natural a la vista"
-        }
-      ],
-      "imagen": "/productos/products/calado/calado-muro.webp",
-      "fotos": [
-        "/productos/products/calado/calado-muro.webp",
-        "/productos/products/calado/15/calado-15-dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": [],
-          "precio": null,
           "textura": null,
           "texturaNombre": null
         }
@@ -1001,7 +914,64 @@
       "colores": []
     },
     {
-      "precio": null,
+      "precio": 4000,
+      "codigo": "CAL-15",
+      "id": "calado-15",
+      "nombre": "Calado 15",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 20 cm · espesor 14 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 15 cm. Ventila y tamiza la luz.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Artesanal"
+        },
+        {
+          "etiqueta": "Calado 10 cm",
+          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
+        },
+        {
+          "etiqueta": "Calado 15 cm",
+          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
+        },
+        {
+          "etiqueta": "Patrón",
+          "valor": "Cuatrifolio calado"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Celosía divisoria / decorativa (no estructural)"
+        },
+        {
+          "etiqueta": "Acabado",
+          "valor": "Arcilla natural a la vista"
+        }
+      ],
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/15/calado-15-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": [],
+          "precio": 4000,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 1990,
       "codigo": "BOC",
       "id": "bocadillo-prensado",
       "nombre": "Bocadillo Prensado",
@@ -1051,9 +1021,9 @@
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-n2.webp",
             "/productos/products/bocadillo-prensado/arena/bocadillo-prensado-arena-dimensiones.webp"
           ],
-          "precio": null,
-          "textura": null,
-          "texturaNombre": null
+          "precio": 2300,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
         },
         {
           "codigo": "NAT",
@@ -1064,9 +1034,9 @@
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-n2.webp",
             "/productos/products/bocadillo-prensado/natural/bocadillo-prensado-natural-dimensiones.webp"
           ],
-          "precio": null,
-          "textura": null,
-          "texturaNombre": null
+          "precio": 1990,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
         },
         {
           "codigo": "COC",
@@ -1077,9 +1047,9 @@
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-n2.webp",
             "/productos/products/bocadillo-prensado/cocoa/bocadillo-prensado-cocoa-dimensiones.webp"
           ],
-          "precio": null,
-          "textura": null,
-          "texturaNombre": null
+          "precio": 2700,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
         },
         {
           "codigo": "ADO",
@@ -1090,9 +1060,66 @@
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-n2.webp",
             "/productos/products/bocadillo-prensado/adobe/bocadillo-prensado-adobe-dimensiones.webp"
           ],
-          "precio": null,
-          "textura": null,
-          "texturaNombre": null
+          "precio": 2400,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 3500,
+      "codigo": "CAL-10",
+      "id": "calado-10",
+      "nombre": "Calado 10",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 19.5 cm · espesor 9.3 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 3.5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 10 cm. Ventila y tamiza la luz.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Artesanal"
+        },
+        {
+          "etiqueta": "Calado 10 cm",
+          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
+        },
+        {
+          "etiqueta": "Calado 15 cm",
+          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
+        },
+        {
+          "etiqueta": "Patrón",
+          "valor": "Cuatrifolio calado"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Celosía divisoria / decorativa (no estructural)"
+        },
+        {
+          "etiqueta": "Acabado",
+          "valor": "Arcilla natural a la vista"
+        }
+      ],
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/10/calado-10-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": [],
+          "precio": 3500,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
         }
       ]
     },
