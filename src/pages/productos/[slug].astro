@@ -20,6 +20,7 @@ import {
   getVariantGallery,
 } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
+import { srcSetFor, SIZES } from "@/utils/responsive";
 import fs from "node:fs";
 import crypto from "node:crypto";
 import { buildProductJsonLd } from "@/utils/productSchema";
@@ -713,10 +714,13 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   >
                     <img
                       src={getCatalogImage(p.slug, p.image)}
+                      srcset={srcSetFor(getCatalogImage(p.slug, p.image))}
+                      sizes={SIZES.card}
                       alt={p.name}
                       width="600"
                       height="600"
                       loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <p class="related-card__meta">{p.category}</p>

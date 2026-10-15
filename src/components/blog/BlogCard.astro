@@ -1,4 +1,5 @@
 ---
+import { srcSetFor, SIZES } from "@/utils/responsive";
 import type { CollectionEntry } from "astro:content";
 import { blogTypeLabels, formatBlogDate } from "@/data/blog";
 
@@ -25,10 +26,13 @@ const primaryTopic = tags && tags.length > 0 ? tags[0] : null;
       coverImage ? (
         <img
           src={coverImage}
+          srcset={srcSetFor(coverImage)}
+          sizes={variant === "featured" ? "(max-width: 900px) 100vw, 60vw" : SIZES.card}
           alt=""
           width={variant === "featured" ? "1600" : "800"}
           height={variant === "featured" ? "1000" : "500"}
           loading={variant === "featured" ? "eager" : "lazy"}
+          decoding="async"
         />
       ) : (
         <div class="blog-card__placeholder" aria-hidden="true">

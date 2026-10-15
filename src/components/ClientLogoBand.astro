@@ -1,4 +1,5 @@
 ---
+import { srcPara } from "@/utils/responsive";
 import fs from "node:fs";
 import path from "node:path";
 import { brandClients } from "@/data/clients";
@@ -45,7 +46,7 @@ const trackItems = [...items, ...items];
             <div class="client-band__item">
               {entry.logo ? (
                 <img
-                  src={entry.logo}
+                  src={srcPara(entry.logo, 480)}
                   alt={entry.name}
                   class="client-band__img"
                   width="200"

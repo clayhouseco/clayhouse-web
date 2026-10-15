@@ -1,5 +1,5 @@
 ---
-import { srcSetFor, SIZES } from "@/utils/responsive";
+import { srcSetFor, SIZES, thumbSrcFor } from "@/utils/responsive";
 
 export interface GalleryImage {
   src: string;
@@ -77,7 +77,7 @@ const { images } = Astro.props;
           aria-selected={i === 0 ? "true" : "false"}
           aria-label={img.label}
         >
-          <img src={img.src} alt="" width="120" height="120" loading="lazy" decoding="async" />
+          <img src={thumbSrcFor(img.src)} alt="" width="120" height="120" loading="lazy" decoding="async" />
         </button>
       ))
     }

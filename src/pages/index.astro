@@ -15,6 +15,7 @@ import StarRating from "@/components/StarRating.astro";
 import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
 import "@/styles/reviews-page.css";
 import { Picture, Image, getImage } from "astro:assets";
+import { srcSetFor } from "@/utils/responsive";
 import heroImageSrc from "@/assets/images/hero/DSC08862.jpg";
 import redescubrePergamino from "@/assets/images/redescubre/pergamino.jpg";
 import redescubreMundoVerde from "@/assets/images/redescubre/mundo-verde.jpg";
@@ -214,10 +215,13 @@ const reviewsAverage = getAverageRating();
               <div class="romano-showcase__media">
                 <img
                   src={variant.image}
+                  srcset={srcSetFor(variant.image)}
+                  sizes="(max-width: 640px) 45vw, 220px"
                   alt={`Ladrillo Romano ${variant.label}`}
                   width="800"
                   height="800"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div class="romano-showcase__body">
@@ -244,7 +248,18 @@ const reviewsAverage = getAverageRating();
             <a href={cat.href} class="card category-card">
               {cat.badge && <span class="category-card__badge">{cat.badge}</span>}
               <div class="card__img">
-                <img src={cat.image} alt="" width="600" height="600" loading="lazy" />
+                {/* Las tarjetas de categoría traían el archivo de producto entero —entre 100 y
+                    300 KB— para un cuadro de 300 px. Con srcset el navegador elige. */}
+                <img
+                  src={cat.image}
+                  srcset={srcSetFor(cat.image)}
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 300px"
+                  alt=""
+                  width="600"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div class="category-card__body">
                 <h3>{cat.title}</h3>
