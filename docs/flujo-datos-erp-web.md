@@ -12,10 +12,17 @@ tres recorridos guiados y exportación a PNG/SVG.
 
 - **Baja el catálogo.** Supabase (`productos`, `producto_variantes`, filtrados por
   `mostrar_web` y `activo_ventas`) → `/api/catalogo-web` → `sync-erp.mjs`, que
-  congela `src/data/erpFeed.json` en git antes de cada build. Si el ERP no
-  responde, sigue con la última copia bajada en vez de romper el build.
+  congela `src/data/erpFeed.json` en git. Si el ERP no responde, sigue con la
+  última copia bajada en vez de dejar sin catálogo.
+- **Bajarlo es un paso aparte, no parte del build.** `npm run sync` lo baja y deja
+  el cambio en el diff; `npm run build` ya no sale a internet ni reescribe nada
+  versionado, así que dos builds del mismo commit publican exactamente lo mismo.
+  Un cambio del ERP llega a la web cuando alguien sincroniza y lo sube.
 - **Lo que no coincide.** Donde el ERP y la web tienen dato y difieren, no se pisa
-  nada: se reporta en `erp-divergencias.md`.
+  nada: se reporta en `erp-divergencias.md` (`npm run verificar:datos`), con quién
+  debería decidir cada campo. Antes de publicar, `npm run build:prod` corre esa
+  misma verificación en modo estricto y falla si el catálogo está vacío, viejo, sin
+  códigos o con un precio que no se puede expresar en la unidad en que se vende.
 - **Vuelve la cotización.** El cotizador escribe directo en Supabase desde el
   navegador del visitante (`POST /rest/v1/cotizaciones`, clave anónima pública),
   y el CRM del ERP la atiende. Es la única escritura de la web hacia el ERP: el

@@ -18,30 +18,48 @@ import { datosDelErp, claveFila } from "./desde-erp.mjs";
 const igual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const corto = (v) => (typeof v === "string" ? v : JSON.stringify(v)).slice(0, 46);
 
-const fisicos = [], textuales = [], huerfanas = [];
+/**
+ * Qué dice distinto cada ficha de lo que dice el ERP.
+ *
+ * Se exporta para que `npm run verificar:datos` arme UNA sola tabla con todo: la ficha que
+ * se descarga en PDF y la página del producto salen del mismo catálogo, y tenerlas en dos
+ * informes separados obligaba a cruzarlos a mano para saber si un dato estaba mal en un
+ * sitio o en los dos.
+ */
+export function conflictosDeFichas() {
+  const fisicos = [], textuales = [], huerfanas = [];
+  for (const e of editorial) {
+    const ps = erpDeFicha(e.slug);
+    if (!ps.length) { huerfanas.push(e.slug); continue; }
+    const erp = datosDelErp(ps[0]);
 
-for (const e of editorial) {
-  const ps = erpDeFicha(e.slug);
-  if (!ps.length) { huerfanas.push(e.slug); continue; }
-  const erp = datosDelErp(ps[0]);
-
-  for (const campo of ["titulo", "norma", "dims", "colores"]) {
-    if (e[campo] === undefined || erp[campo] === undefined || igual(e[campo], erp[campo])) continue;
-    (campo === "dims" ? fisicos : textuales).push([e.slug, campo, corto(e[campo]), corto(erp[campo])]);
+    for (const campo of ["titulo", "norma", "dims", "colores"]) {
+      if (e[campo] === undefined || erp[campo] === undefined || igual(e[campo], erp[campo])) continue;
+      (campo === "dims" ? fisicos : textuales).push([e.slug, campo, corto(e[campo]), corto(erp[campo])]);
+    }
+    for (const fila of e.specsRow ?? []) {
+      const x = (erp.specsRow ?? []).find((y) => claveFila(y[1]) === claveFila(fila[1]));
+      if (!x || igual(x, fila)) continue;
+      if (x[2] === fila[2]) continue;                       // solo cambia el icono: no es un dato
+      const n = (s) => Number(String(s).match(/[\d,.]+/)?.[0]?.replace(",", ".") ?? NaN);
+      const [a, b] = [n(fila[2]), n(x[2])];
+      /* Misma cifra escrita distinto no es una disputa: «13 und/m²» y «≈ 13 und/m²» dicen lo
+         mismo, igual que «0,280 kg» y «0,28 kg». Listarlas gastaba la atención de quien
+         revisa en tres renglones donde no hay nada que decidir. */
+      if (Number.isFinite(a) && Number.isFinite(b) && a === b) continue;
+      const lejos = Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) / Math.max(a, b) > 0.03;
+      (lejos ? fisicos : textuales).push([e.slug, fila[1], corto(fila[2]), corto(x[2])]);
+    }
   }
-  for (const fila of e.specsRow ?? []) {
-    const x = (erp.specsRow ?? []).find((y) => claveFila(y[1]) === claveFila(fila[1]));
-    if (!x || igual(x, fila)) continue;
-    if (x[2] === fila[2]) continue;                       // solo cambia el icono: no es un dato
-    const n = (s) => Number(String(s).match(/[\d,.]+/)?.[0]?.replace(",", ".") ?? NaN);
-    const [a, b] = [n(fila[2]), n(x[2])];
-    const lejos = Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) / Math.max(a, b) > 0.03;
-    (lejos ? fisicos : textuales).push([e.slug, fila[1], corto(fila[2]), corto(x[2])]);
-  }
+  return { fisicos, textuales, huerfanas };
 }
 
+const { fisicos, textuales, huerfanas } = conflictosDeFichas();
+
+const corriendoSolo = process.argv[1] && process.argv[1].endsWith("fichas/verificar.mjs");
 const tabla = (t) => t.map(([s, c, a, b]) => `  ${s.padEnd(22)} ${String(c).padEnd(28)} ficha: ${a.padEnd(48)} ERP: ${b}`).join("\n");
 
+if (corriendoSolo) {
 console.log(`Fichas técnicas contra el ERP — catálogo del ${String(catalogoActualizado).slice(0, 10)}\n`);
 console.log(`═══ DATOS FÍSICOS QUE NO COINCIDEN (${fisicos.length}) ═══`);
 console.log("El cliente calcula con estos números: cuánto pesa un muro, cuántas piezas caben en");
@@ -57,3 +75,4 @@ if (huerfanas.length) {
   for (const s of huerfanas) console.log(`  ${s}`);
 }
 console.log(`\nTotal: ${fisicos.length + textuales.length} dato(s) en disputa.`);
+}

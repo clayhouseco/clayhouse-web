@@ -23,6 +23,37 @@ Abre **http://localhost:4321**
 | `/contacto` | Formulario + WhatsApp |
 | `/descargas` | Listado PDFs (enlazar archivos cuando los tengas) |
 
+## Datos del ERP: sincronizar y publicar
+
+El catálogo —qué productos se ofrecen, sus códigos, colores, precios y la unidad
+en que se venden— lo manda el ERP. La web guarda su copia en
+`src/data/erpFeed.json`, **versionada en git**: lo que está en el commit es lo
+que sale publicado.
+
+```bash
+npm run sync              # baja el catálogo del ERP y el inventario
+npm run verificar:datos   # en qué no coinciden el ERP y la web, y quién manda
+npm run build             # construye el sitio, sin red y sin tocar nada versionado
+npm run build:prod        # lo mismo, pero antes se niega a publicar datos rotos
+```
+
+**Un cambio hecho en el ERP no llega solo a la página.** Hay que correr
+`npm run sync`, revisar el diff de `erpFeed.json` y subirlo. Es a propósito: así
+un cambio de precio se ve en el historial, dos builds del mismo commit publican
+lo mismo, y una caída del ERP a mitad de un despliegue no cambia lo que el
+visitante ve.
+
+Si el catálogo versionado tiene **más de 30 días**, `build:prod` se niega a
+publicarlo: corre `npm run sync` y sube el resultado. (Se puede mover con
+`ERP_FEED_DIAS_MAXIMOS`, pero el punto es que nadie despliegue con una foto
+vieja del catálogo sin enterarse.)
+
+`npm run verificar:datos` escribe `erp-divergencias.md` con la tabla completa:
+producto, campo, valor en la web, valor en el ERP, quién debería decidirlo y qué
+hay que hacer. No decide nada por su cuenta —el peso de un ladrillo lo resuelve
+una balanza— pero sí señala lo que no debería salir a producción, y eso es lo
+que bloquea `npm run build:prod`, que es el comando que corre Vercel.
+
 ## Editar contenido (sin Framer)
 
 | Qué cambiar | Archivo |

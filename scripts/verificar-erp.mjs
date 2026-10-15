@@ -49,8 +49,14 @@ if (rotos.length) {
   console.error("\n   Una cotización con estos códigos no se puede cargar al ERP.");
 }
 if (sinPublicar.length) {
-  console.log("\n⚠️  Publicados en el ERP y no mapeados en la web (no se ofrecen):");
+  /* SÍ se ofrecen. Sin entrada en ERP_MAP la web usa el código que publique el ERP para esa
+     página, así que el producto se cotiza igual: el mapa solo hace falta cuando hay que
+     restringir colores o calidades, o cuando una página agrupa varios formatos. Decir que
+     «no se ofrecen» mandó a buscar un problema que no existía con el Catalán. */
+  console.log("\n· Publicados en el ERP y sin entrada en ERP_MAP:");
   for (const p of sinPublicar) console.log(`   ${String(p.codigo).padEnd(10)} ${p.nombre} → /${p.pagina}`);
+  console.log("   Se cotizan con el código del ERP. Solo hace falta mapearlos para limitar");
+  console.log("   colores o calidades, o si la página agrupa varios formatos.");
 }
 if (!rotos.length && !sinPublicar.length) console.log("✅ Los dos catálogos coinciden.");
 process.exit(rotos.length ? 1 : 0);
