@@ -15,6 +15,10 @@ export interface ProductColorVariant {
   folder: string;
   /** Precio por unidad para esta variante (ej. "$ 1.500") */
   pricePerUnit?: string;
+  /** El precio lo puso el ERP, así que ya viene en su unidad de venta. Los escritos a mano
+   *  están en la unidad de la ficha, que puede ser otra: la teja colonial tiene acá el
+   *  precio de la pieza y el ERP la vende por m². `precioDeVariante` los convierte. */
+  precioDelErp?: boolean;
   /** Acabado de ESTA variante ("Liso", "Rústico"). Solo lo traen los productos que se
    *  venden en más de una textura; la ficha lo muestra y lo cambia al elegir. */
   texturaNombre?: string;
@@ -126,12 +130,13 @@ function fusionarConErp(slug: string, manuales: ProductColorVariant[]): ProductC
     const e = delErp.find((x) => mismaVariante(v, x));
     /* El precio del ERP manda; lo demás —carpeta de fotos, cómo se llama el botón, la medida
        de un formato— se respeta, que es lo que este archivo sabe y el ERP no. */
-    return e?.pricePerUnit ? { ...v, pricePerUnit: e.pricePerUnit } : v;
+    return e?.pricePerUnit ? { ...v, pricePerUnit: e.pricePerUnit, precioDelErp: true } : v;
   });
 
   for (const e of delErp) {
     if (out.some((v) => mismaVariante(v, e))) continue;
-    out.push(e);   // color nuevo del ERP: entra con sus fotos y su precio
+    // Color nuevo del ERP: entra con sus fotos y su precio, que ya viene en la unidad del ERP.
+    out.push(e.pricePerUnit ? { ...e, precioDelErp: true } : e);
   }
   return out;
 }

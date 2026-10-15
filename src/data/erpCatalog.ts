@@ -14,10 +14,13 @@
  */
 
 import { erpDeSlug, erpDeCodigo, type ErpProducto } from "@/data/erpFeed";
+import { UNIDAD_LABEL, normalizarUnidad, unidadDeVenta, type UnidadVenta } from "@/data/unidades";
 
 export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP" | "TOPO";
 export type CalidadCodigo = "PRI" | "SEG" | "MED";
-export type UnidadVenta = "unidad" | "m2" | "ml";
+/** La unidad de venta se define en un solo lugar —`@/data/unidades`— porque la ficha, el
+ *  cotizador y el feed comercial tienen que decir la misma. */
+export type { UnidadVenta };
 
 export const ERP_COLORES: Record<ColorCodigo, { nombre: string; hex: string }> = {
   NAT: { nombre: "Natural", hex: "#c8835f" },
@@ -41,11 +44,7 @@ export const ERP_CALIDADES: Record<CalidadCodigo, string> = {
   MED: "Medio",
 };
 
-export const ERP_UNIDAD_LABEL: Record<UnidadVenta, string> = {
-  unidad: "Unidad",
-  m2: "m²",
-  ml: "ml",
-};
+export const ERP_UNIDAD_LABEL = UNIDAD_LABEL;
 
 /** Nombres de color de la web → código ERP. `null` si no tiene equivalente. */
 const COLOR_NOMBRE_A_CODIGO: Record<string, ColorCodigo | null> = {
@@ -132,6 +131,15 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
 export interface ErpEquivalencia {
   /** Código ERP del producto, o null si aún no existe en el ERP. */
   codigo: string | null;
+  /**
+   * El ERP PUBLICA ese código hoy.
+   *
+   * No es lo mismo que tenerlo: `ERP_MAP` guarda códigos que se asignaron desde la web para
+   * que ninguna cotización saliera sin uno, y tres de ellos —NAP, ENC-RUS, ENC-BOC— el ERP no
+   * los reconoce. Una cotización con uno de esos no se puede cargar allá: el cliente recibe
+   * su PDF, nadie puede procesarlo y la solicitud se pierde sin que nada falle a la vista.
+   */
+  reconocido: boolean;
   coloresPermitidos: ColorCodigo[];
   calidadesPermitidas: CalidadCodigo[];
   unidad: UnidadVenta;
@@ -168,9 +176,11 @@ export function erpEquivalencia(slug: string, variantId?: string | null): ErpEqu
     const sola = filas.length === 1 ? filas[0] : null;
     return {
       codigo: sola?.codigo ?? null,
+      // Sale del propio feed: si tiene código, el ERP lo publica por definición.
+      reconocido: !!sola?.codigo,
       coloresPermitidos: coloresDelErp(sola),
       calidadesPermitidas: ["PRI", "SEG", "MED"],
-      unidad: (sola?.unidad as UnidadVenta) ?? "unidad",
+      unidad: unidadDeVenta(slug),
     };
   }
 
@@ -181,8 +191,11 @@ export function erpEquivalencia(slug: string, variantId?: string | null): ErpEqu
   const colores = coloresDelErp(enErp);
   return {
     codigo,
+    reconocido: !!enErp,
     coloresPermitidos: colores.length ? colores : entry.coloresPermitidos,
-    unidad: (enErp?.unidad as UnidadVenta) ?? entry.unidad,
+    /* La fila del ERP que corresponde a ESE código: en una página con varios formatos
+       cada uno trae la suya. Sin fila, la escrita a mano es lo único que hay. */
+    unidad: enErp ? normalizarUnidad(enErp.unidad) : entry.unidad,
     calidadesPermitidas: entry.calidadesPermitidas,
   };
 }

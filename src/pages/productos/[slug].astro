@@ -35,6 +35,7 @@ import {
   getRendimientoFormats,
   getErpRendimiento,
   getReferencePriceM2PorVariante,
+  precioDeVariante,
 } from "@/utils/productPricing";
 
 export function getStaticPaths() {
@@ -129,11 +130,17 @@ if (!assets) {
 }
 
 const displayColor = activeVariant?.colorLabel ?? product.color;
-const displayPrice = activeVariant?.pricePerUnit ?? product.pricePerUnit;
+/* El precio del botón activo, en la unidad en que se vende. Ver `precioDeVariante`: el de la
+   teja colonial está escrito por pieza y el ERP la despacha por m². */
+const preciosPorVariante: Record<string, string> = {};
+for (const v of assets?.variants ?? []) {
+  const precio = precioDeVariante(product, v);
+  if (precio) preciosPorVariante[v.id] = precio;
+}
+const displayPrice = precioDeVariante(product, activeVariant);
 // "Desde" cuando hay varios precios y la página NO tiene un selector que cambie
 // el precio (ej. calado / macizo-brix, cuyas dimensiones solo se eligen en el cotizador).
-const hasPriceSelector =
-  !!assets && new Set(assets.variants.map((v) => v.pricePerUnit).filter(Boolean)).size > 1;
+const hasPriceSelector = new Set(Object.values(preciosPorVariante)).size > 1;
 const priceDesde = Boolean(product.priceFrom) && !hasPriceSelector;
 // Precio por m² de referencia (solo productos vendidos por unidad con rendimiento).
 const priceM2PorVariante = getReferencePriceM2PorVariante(product, assets?.variants ?? []);
@@ -281,6 +288,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                 productName={product.name}
                 selectorLabel={assets.variantSelectorLabel}
                 precioM2PorVariante={priceM2PorVariante}
+                precioPorVariante={preciosPorVariante}
               />
             )
           }
@@ -295,6 +303,15 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
                   <span class="product-page__price-unit">
                     / {product.priceUnitLabel ?? "unidad"}
                   </span>
+                </p>
+              )
+            }
+            {
+              /* El precio se convirtió a la unidad de venta del ERP: el de la pieza sigue
+                 siendo el que el cliente reconoce y se dice al lado, no en su lugar. */
+              product.priceBasis && product.priceLiteralUnit && (
+                <p class="product-page__price-basis">
+                  equivale a {product.priceBasis} por {product.priceLiteralUnit}
                 </p>
               )
             }
@@ -1125,6 +1142,14 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     font-weight: 500;
     color: var(--color-text-muted);
     font-family: var(--font-body);
+  }
+
+  .product-page__price-basis {
+    margin: 0.15rem 0 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    line-height: 1.2;
   }
 
   .product-page__price-m2 {

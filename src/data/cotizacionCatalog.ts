@@ -1,6 +1,7 @@
 import { getVisibleProducts, getProduct } from "@/data/products";
 import { erpDeCodigo, erpDeSlug } from "@/data/erpFeed";
 import { getProductAssets } from "@/data/productVariants";
+import { precioDeVariante } from "@/utils/productPricing";
 import { assetUrl } from "@/utils/paths";
 import {
   erpEquivalencia,
@@ -13,6 +14,7 @@ import {
   type CalidadCodigo,
   type UnidadVenta,
 } from "@/data/erpCatalog";
+import { normalizarUnidad, numeroACop, precioEnUnidadDeVenta } from "@/data/unidades";
 
 /** Una opción cotizable, a la granularidad del ERP (cada dimensión de
  *  rayado/macizo es una opción distinta). Es lo que se elige por línea en
@@ -47,44 +49,49 @@ function variantLabel(name: string, slug: string, id: string): string {
   return `${name} ${id}`;
 }
 
-/** "≈ 22 und/m²" → 22. Es el rendimiento que publica el ERP, y en tejas es el
- *  único dato válido: se traslapan, así que no se puede deducir de la geometría. */
-function unidadesPorM2(codigo: string | null, slug: string): number | null {
-  const p = erpDeCodigo(codigo) ?? erpDeSlug(slug)[0] ?? null;
-  const m = p?.rendimiento?.match(/(\d+(?:[.,]\d+)?)\s*und/i);
-  return m ? Number.parseFloat(m[1].replace(",", ".")) : null;
+/**
+ * El precio que el ERP publica para ESE código, en la unidad del ERP.
+ *
+ * Los rayados son tres códigos en una sola página —R10V, R12V, R15V, a $ 2.360, $ 2.690 y
+ * $ 3.190— y el precio del producto es el más barato de los tres. Tomando ese para las tres
+ * líneas, el cotizador cobraba el formato de 15 al precio del de 10.
+ */
+function precioDelCodigo(codigo: string | null): string | null {
+  const p = erpDeCodigo(codigo);
+  if (!p) return null;
+  const colores = (p.colores ?? [])
+    .map((c) => c.precio)
+    .filter((v): v is number => typeof v === "number" && v > 0);
+  const valor = colores.length ? Math.min(...colores) : p.precio ?? null;
+  return typeof valor === "number" && valor > 0 ? numeroACop(valor) : null;
 }
 
-/** "$ 1.600" → 1600 */
-function copANumero(v: string): number | null {
-  const d = v.replace(/[^\d]/g, "");
-  return d ? Number.parseInt(d, 10) : null;
-}
+/**
+ * Precio de referencia expresado SIEMPRE en la unidad en que se cotiza.
+ *
+ * Sin esto el cotizador multiplicaba metros cuadrados por el precio de una pieza: la teja
+ * colonial se vende por m² según el ERP, pero la web tenía su precio por unidad ($ 1.600), y
+ * 60 m² salían en $ 96.000 cuando son 1.320 tejas — $ 2.112.000. Un error de 22 veces en un
+ * documento con precios.
+ *
+ * El orden es el que manda en todo lo demás: primero el ERP para ese código, después lo
+ * escrito a mano para ese formato —convertido, porque está en la unidad de la ficha— y por
+ * último el precio del producto, que `conDatosDelErp` ya dejó en la unidad de venta.
+ *
+ * Si no hay forma de expresarlo en la unidad que se cotiza, no se inventa un número: la
+ * línea queda "Consultar" y el equipo la confirma.
+ */
+function refPrecio(slug: string, codigo: string | null, variantId: string | null, unidad: UnidadVenta): string | null {
+  const delErp = precioDelCodigo(codigo);
+  if (delErp) return delErp;
 
-/** Precio de referencia expresado SIEMPRE en la unidad en que se cotiza.
- *
- *  Sin esto el cotizador multiplicaba metros cuadrados por el precio de una
- *  pieza: la teja colonial se vende por m² según el ERP, pero la web tiene su
- *  precio por unidad ($ 1.600), y 60 m² salían en $ 96.000 cuando son 1.320
- *  tejas — $ 2.112.000. Un error de 22 veces en un documento con precios.
- *
- *  La conversión usa el rendimiento del ERP. Si no lo publica, no se inventa un
- *  número: se devuelve null y la línea queda "Consultar". */
-function precioEnUnidadDeVenta(
-  slug: string,
-  codigo: string | null,
-  precioWeb: string | undefined,
-  unidadVenta: string
-): string | null {
-  if (!precioWeb) return null;
   const producto = getProduct(slug);
-  const precioEsPorM2 = producto?.priceUnitLabel === "m²";
-  if (unidadVenta !== "m2" || precioEsPorM2) return precioWeb;
-
-  const und = unidadesPorM2(codigo, slug);
-  const base = copANumero(precioWeb);
-  if (!und || !base) return null;
-  return `$ ${Math.round(base * und).toLocaleString("es-CO")}`;
+  const literal = variantId ? PRECIO_POR_VARIANTE[slug]?.[variantId] : undefined;
+  if (literal) {
+    const unidadDelLiteral = normalizarUnidad(producto?.priceLiteralUnit ?? producto?.priceUnitLabel);
+    return precioEnUnidadDeVenta(slug, literal, unidadDelLiteral, unidad)?.texto ?? null;
+  }
+  return producto?.pricePerUnit ?? null;
 }
 
 /** Precio de referencia por dimensión, cuando difiere del precio base del
@@ -118,16 +125,21 @@ function preciosPorColorDe(slug: string): Record<string, string> | undefined {
     }
   }
   const delErp: Record<string, string> = {};
-  for (const [cod, v] of Object.entries(minimo)) delErp[cod] = `$ ${v.toLocaleString("es-CO")}`;
+  for (const [cod, v] of Object.entries(minimo)) delErp[cod] = numeroACop(v);
   if (new Set(Object.values(delErp)).size >= 2) return delErp;
 
   // 2) Respaldo: los precios por variante escritos en la web (prensados).
   const assets = getProductAssets(slug);
   if (!assets) return undefined;
   const out: Record<string, string> = {};
+  const producto = getProduct(slug);
   for (const v of assets.variants) {
     const codigo = colorCodigo(v.colorLabel);
-    if (codigo && v.pricePerUnit) out[codigo] = v.pricePerUnit;
+    if (!codigo || !producto) continue;
+    /* Estos precios están escritos en la unidad de la ficha, no en la del ERP: se convierten
+       igual que el del producto, o la línea queda sin cifra en vez de con una de otra escala. */
+    const precio = precioDeVariante(producto, v);
+    if (precio) out[codigo] = precio;
   }
   // Solo tiene sentido si el precio realmente varía según el color (≥2 precios
   // distintos); si todos valen igual, el precio base (refPrice) ya lo cubre.
@@ -143,13 +155,18 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
   const preciosPorColor = variantes.length ? undefined : preciosPorColorDe(p.slug);
   return ids.map((variantId) => {
     const eq = erpEquivalencia(p.slug, variantId);
-    // Sin código del ERP la cotización no se puede cargar allá, así que el
-    // producto no se ofrece aquí: la ficha sigue publicada y visible, pero no
-    // entra al cotizador hasta que el ERP le asigne código. Es el mismo
-    // criterio con el que se retiraron los enchapes que el ERP dejó de
-    // publicar — ofrecer algo que el ERP no sabe atender genera solicitudes
-    // que nadie puede procesar.
-    if (!eq.codigo) return null;
+    // Sin código del ERP —o con uno que el ERP no publica— la cotización no se
+    // puede cargar allá, así que el producto no se ofrece aquí: la ficha sigue
+    // publicada y visible, pero no entra al cotizador hasta que el ERP le
+    // asigne código. Es el mismo criterio con el que se retiraron los enchapes
+    // que el ERP dejó de publicar — ofrecer algo que el ERP no sabe atender
+    // genera solicitudes que nadie puede procesar.
+    //
+    // `reconocido` es la segunda mitad: ERP_MAP guarda tres códigos que se
+    // asignaron desde la web —NAP, ENC-RUS, ENC-BOC— y que el ERP no tiene.
+    // Hoy esos productos ya no son visibles por otras razones; esto hace que
+    // volver a publicarlos en la web no alcance para colarlos al cotizador.
+    if (!eq.codigo || !eq.reconocido) return null;
     return {
       id: variantId ? `${p.slug}::${variantId}` : p.slug,
       label: variantId ? variantLabel(p.name, p.slug, variantId) : p.name,
@@ -161,13 +178,7 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       unidad: eq.unidad,
       unidadLabel: ERP_UNIDAD_LABEL[eq.unidad],
       image: assetUrl(p.image),
-      refPrice:
-        precioEnUnidadDeVenta(
-          p.slug,
-          eq.codigo,
-          (variantId && PRECIO_POR_VARIANTE[p.slug]?.[variantId]) ?? p.pricePerUnit,
-          eq.unidad
-        ) ?? "Consultar",
+      refPrice: refPrecio(p.slug, eq.codigo, variantId, eq.unidad) ?? "Consultar",
       preciosPorColor,
     };
   });

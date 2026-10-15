@@ -8,6 +8,9 @@ interface Props {
   galleriesByVariant: Record<string, SplitVariantGallery>;
   /** Precio por m² de cada variante: cambia con el formato y con el precio del color. */
   precioM2PorVariante?: Record<string, string>;
+  /** Precio de cada variante en la unidad de venta del ERP. Lo calcula la ficha con
+   *  `precioDeVariante`: el del botón puede estar escrito en otra unidad. */
+  precioPorVariante?: Record<string, string>;
   activeId: string;
   productName: string;
   selectorLabel?: string;
@@ -27,8 +30,15 @@ function withResponsive(g: SplitVariantGallery): SplitVariantGallery {
   };
 }
 
-const { variants, galleriesByVariant, activeId, productName, selectorLabel = "Color", precioM2PorVariante = {} } =
-  Astro.props;
+const {
+  variants,
+  galleriesByVariant,
+  activeId,
+  productName,
+  selectorLabel = "Color",
+  precioM2PorVariante = {},
+  precioPorVariante = {},
+} = Astro.props;
 const showSelector = variants.length > 1;
 ---
 
@@ -53,7 +63,7 @@ const showSelector = variants.length > 1;
           aria-selected={v.id === activeId ? "true" : "false"}
           data-variant-id={v.id}
           data-variant-label={v.colorLabel}
-          data-variant-price={v.pricePerUnit ?? ""}
+          data-variant-price={precioPorVariante[v.id] ?? v.pricePerUnit ?? ""}
           data-variant-textura={v.texturaNombre ?? ""}
           data-variant-m2={precioM2PorVariante[v.id] ?? ""}
         >

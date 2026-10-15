@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { cotizableCatalog } from "@/data/cotizacionCatalog";
+import type { UnidadVenta } from "@/data/unidades";
 import { getProduct } from "@/data/products";
 import { site } from "@/data/site";
 
@@ -29,6 +30,20 @@ function esc(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * La unidad de venta como la escribe Merchant Center.
+ *
+ * `g:unit_pricing_measure` solo acepta sus propios tokens —`sqm`, `m`, `ct`…—, y hasta ahora
+ * se enviaba la etiqueta de la web: «1 m²» y «1 unidad», que Merchant no reconoce y que le
+ * cuestan al artículo una advertencia en un feed que ya estuvo sancionado. Para lo que se
+ * vende por pieza se omite: el campo es opcional y «1 ct» no le dice nada a nadie.
+ */
+function medidaMerchant(unidad: UnidadVenta): string | null {
+  if (unidad === "m2") return "1 sqm";
+  if (unidad === "ml") return "1 m";
+  return null;
+}
+
 /** "$ 2.450" → 2450. null si no hay importe. */
 function priceNumber(raw?: string): number | null {
   const digits = (raw ?? "").replace(/[^\d]/g, "");
@@ -49,6 +64,7 @@ export const GET: APIRoute = async () => {
         ? `${site.url}/productos/${item.slug}?color=${encodeURIComponent(item.variantId)}`
         : `${site.url}/productos/${item.slug}`;
       const image = new URL(item.image, site.url).href;
+      const medida = medidaMerchant(item.unidad);
 
       return `    <item>
       <g:id>${esc(item.erpCodigo ?? item.id)}</g:id>
@@ -62,8 +78,9 @@ export const GET: APIRoute = async () => {
       <g:brand>${esc(site.name)}</g:brand>
       <g:mpn>${esc(item.id)}</g:mpn>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>${esc(product.category)}</g:product_type>
-      <g:unit_pricing_measure>1 ${esc(item.unidadLabel)}</g:unit_pricing_measure>
+      <g:product_type>${esc(product.category)}</g:product_type>${
+        medida ? `\n      <g:unit_pricing_measure>${esc(medida)}</g:unit_pricing_measure>` : ""
+      }
     </item>`;
     })
     .filter(Boolean);

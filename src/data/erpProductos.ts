@@ -28,6 +28,12 @@ import type { Product, ProductSpec } from "@/data/products";
 import type { ProductCategory } from "@/data/catalogCategories";
 import { erpProductos, erpDeSlug, type ErpProducto } from "@/data/erpFeed";
 import { precioTexto } from "@/data/erpVariants";
+import {
+  UNIDAD_PRECIO_LABEL,
+  normalizarUnidad,
+  precioEnUnidadDeVenta,
+  unidadDeVenta,
+} from "@/data/unidades";
 import { fichaPdf } from "@/utils/paths";
 
 /** El ERP nombra sus categorías en minúscula; el catálogo de la web, capitalizadas. */
@@ -137,7 +143,9 @@ function productoDeErp(ps: ErpProducto[], slug: string): Product {
         }
       : undefined,
     pricePerUnit: precioTexto(desde),
-    priceUnitLabel: p.unidad === "m2" ? "m²" : "unidad",
+    /* El precio del ERP ya viene en la unidad del ERP: acá no hay nada que convertir, solo
+       nombrarla igual que en el resto de la web. */
+    priceUnitLabel: UNIDAD_PRECIO_LABEL[normalizarUnidad(p.unidad)],
     specs,
     technicalPdf: fichaPdf(slug),
   };
@@ -206,10 +214,31 @@ export function conDatosDelErp(p: Product): Product {
    */
   const desde = ps.map(precioDesde).filter((v): v is number => typeof v === "number" && v > 0)
     .reduce<number | null>((min, v) => (min === null || v < min ? v : min), null);
+
+  /**
+   * LA UNIDAD DE VENTA TAMBIÉN LA MANDA EL ERP, Y ARRASTRA AL PRECIO.
+   *
+   * El precio del ERP ya viene en la unidad del ERP: no hay nada que convertir. El escrito a
+   * mano viene en la unidad que diga la ficha, y cuando las dos no coinciden la página
+   * publicaba una cifra que la cotización contradecía —la teja colonial a «$ 1.600 / unidad»
+   * en la ficha y por m² en el cotizador—. Se convierte con el rendimiento del ERP, que es el
+   * mismo cálculo que ya hace el cotizador, o se deja sin precio si no hay con qué.
+   */
+  const unidad = unidadDeVenta(p.slug, p.priceUnitLabel);
+  const unidadDelLiteral = normalizarUnidad(p.priceUnitLabel);
+  const precioDelErp = precioTexto(desde);
+  const convertido = precioDelErp
+    ? { texto: precioDelErp }
+    : precioEnUnidadDeVenta(p.slug, p.pricePerUnit, unidadDelLiteral, unidad);
+  const huboConversion = !precioDelErp && unidad !== unidadDelLiteral && !!convertido;
+
   return {
     ...p,
     specs: specs.length ? specs : p.specs,
-    pricePerUnit: precioTexto(desde) ?? p.pricePerUnit,
+    priceUnitLabel: UNIDAD_PRECIO_LABEL[unidad],
+    pricePerUnit: convertido?.texto,
+    priceBasis: convertido?.equivale,
+    priceLiteralUnit: huboConversion ? UNIDAD_PRECIO_LABEL[unidadDelLiteral] : undefined,
     /**
      * TAMBIÉN EL «DESDE», O EL PRECIO DEL ERP NO SE VE.
      *
@@ -219,8 +248,11 @@ export function conDatosDelErp(p: Product): Product {
      * síntoma que gerencia reportó, con el precio ya corregido en el ERP.
      *
      * Solo se toca si el producto YA tenía «desde»: ponérselo a uno que no lo tiene cambiaría
-     * cómo se lee su precio, y eso sí es editorial.
+     * cómo se lee su precio, y eso sí es editorial. Y va en la unidad de venta, igual que el
+     * otro: un «desde» por pieza debajo de un precio por m² son dos escalas en dos líneas.
      */
-    priceFrom: p.priceFrom ? (precioTexto(desde) ?? p.priceFrom) : p.priceFrom,
+    priceFrom: p.priceFrom
+      ? precioDelErp ?? precioEnUnidadDeVenta(p.slug, p.priceFrom, unidadDelLiteral, unidad)?.texto
+      : p.priceFrom,
   };
 }

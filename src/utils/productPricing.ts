@@ -1,5 +1,10 @@
 import type { Product } from "@/data/products";
 import { erpDeSlug } from "@/data/erpFeed";
+import {
+  normalizarUnidad,
+  precioEnUnidadDeVenta,
+  unidadesPorM2 as erpUnidadesPorM2,
+} from "@/data/unidades";
 
 function parseCopAmount(value: string): number | null {
   const digits = value.replace(/[^\d]/g, "");
@@ -35,7 +40,13 @@ export function getReferencePriceLabel(product: Product): string | null {
   if (!base) return null;
   const prefix = product.priceFrom ? "Desde " : "";
   const unit = product.priceUnitLabel ?? "unidad";
-  return `${prefix}${base.trim()}/${unit} + IVA (precio referencia, sin envío)`;
+  /* Cuando el precio se convirtió a la unidad de venta, el de la pieza sigue siendo el que el
+     cliente reconoce: se dice al lado en vez de reemplazar al que se cobra. */
+  const base2 =
+    product.priceBasis && product.priceLiteralUnit
+      ? `precio referencia, sin envío · ${product.priceBasis} por ${product.priceLiteralUnit}`
+      : "precio referencia, sin envío";
+  return `${prefix}${base.trim()}/${unit} + IVA (${base2})`;
 }
 
 /** Precio por m² de referencia (una sola cifra), para mostrarlo junto al precio
@@ -48,10 +59,29 @@ export function getErpRendimiento(slug: string): string | null {
   return erpDeSlug(slug)[0]?.rendimiento ?? null;
 }
 
-/** "≈ 22 und/m²" del catálogo del ERP → 22. */
-function erpUnidadesPorM2(slug: string): number | null {
-  const m = erpDeSlug(slug)[0]?.rendimiento?.match(/(\d+(?:[.,]\d+)?)\s*und/i);
-  return m ? Number.parseFloat(m[1].replace(",", ".")) : null;
+/**
+ * EL PRECIO DE LA VARIANTE ACTIVA, EN LA UNIDAD EN QUE SE VENDE.
+ *
+ * Los botones de color traen su propio precio. Cuando lo puso el ERP ya viene en su unidad;
+ * cuando está escrito a mano viene en la de la ficha, que puede ser otra —la teja colonial
+ * tiene «$ 1.600» por pieza y el ERP la vende por m²—, y ese era el precio que el botón
+ * «agregar a cotización» mandaba al carrito con la unidad del ERP pegada al lado.
+ *
+ * Devuelve `null` cuando el precio existe pero no hay forma de expresarlo en la unidad de
+ * venta: la ficha no muestra cifra y el cliente la pide en la cotización. Es preferible a
+ * publicar una que no se va a poder cobrar.
+ */
+export function precioDeVariante(
+  product: Product,
+  variant?: { pricePerUnit?: string; precioDelErp?: boolean } | null
+): string | null {
+  const literal = variant?.pricePerUnit;
+  if (!literal) return product.pricePerUnit ?? null;
+  if (variant?.precioDelErp || !product.priceLiteralUnit) return literal;
+  return (
+    precioEnUnidadDeVenta(product.slug, literal, normalizarUnidad(product.priceLiteralUnit))
+      ?.texto ?? null
+  );
 }
 
 /**

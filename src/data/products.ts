@@ -47,7 +47,21 @@ export interface Product {
   /** Si el producto tiene varios precios (por color/dimensión), el más bajo
    *  para mostrar "Desde $X". */
   priceFrom?: string;
+  /** Unidad en la que está expresado `pricePerUnit`. La fija el ERP, que es quien
+   *  factura; ver `conDatosDelErp` en erpProductos.ts. */
   priceUnitLabel?: string;
+  /**
+   * El precio original, cuando hubo que convertirlo a la unidad de venta del ERP.
+   *
+   * La teja colonial se vende por m² y la web tenía su precio por pieza: la ficha mostraba
+   * «$ 1.600 / unidad» y el cotizador pedía metros. Ahora muestra el precio por m² y esto
+   * guarda el de la pieza, que es el que el cliente reconoce.
+   */
+  priceBasis?: string;
+  /** Unidad en la que están escritos los precios a mano de este producto —los de los
+   *  botones de color incluidos— cuando el ERP vende en otra. Solo aparece si hubo
+   *  conversión; `precioDeVariante` la necesita para convertir también esos. */
+  priceLiteralUnit?: string;
   /** Filas extra de ficha técnica */
   specs?: ProductSpec[];
   technicalPdf: string;
