@@ -1695,4 +1695,56 @@ export const editorial = [
       ]
     ],
   },
+  {
+    /* El ERP trae medidas, peso, rendimiento y el color, y nada más: ni norma ni textos.
+       La norma es la que ya publica la página del producto. No se inventan ensayos. */
+    "slug": "catalan",
+    "subtitulo": "LADRILLO DE ARCILLA COCIDA",
+    "clasificacion": "CATALÁN",
+    "norma": "NTC 4205",
+    "foto": "/public/images/products/catalan/catalan-2.jpg",
+    "features": [
+      [
+        "ruler",
+        "FORMATO HORIZONTAL",
+        "Cara de 30 × 10 cm. Acentúa la línea del muro y deja menos juntas a la vista."
+      ],
+      [
+        "thermo",
+        "DURABILIDAD",
+        "Resistente al fuego, intemperie y desgaste."
+      ],
+      [
+        "leaf",
+        "MATERIAL NATURAL",
+        "Arcilla 100% natural, sustentable y reciclable."
+      ]
+    ],
+    "usos": [
+      "Fachadas de trazo horizontal",
+      "Muros a la vista en obra contemporánea",
+      "Cerramientos y muros de acento"
+    ],
+    "specsRow": [
+      [
+        "layers",
+        "TEXTURA",
+        "Liso",
+        ""
+      ],
+      [
+        "home",
+        "TIPO DE USO",
+        "Fachada",
+        ""
+      ]
+    ],
+    "orden": [
+      "PESO APROX.",
+      "DIMENSIONES",
+      "RENDIMIENTO",
+      "TEXTURA",
+      "TIPO DE USO"
+    ],
+  },
 ];
