@@ -4,6 +4,9 @@ export interface FeaturedProjectSlide {
   src: string;
   alt: string;
   label: string;
+  /** srcset propio, para las fotos que optimiza Astro (`/ch-assets/…`): `srcSetFor`
+   *  solo sabe de las que viven en `public/images`. */
+  srcset?: string;
 }
 
 interface Props {
@@ -39,7 +42,7 @@ const total = slides.length;
               >
                 <img
                   src={slide.src}
-                  srcset={srcSetFor(slide.src)}
+                  srcset={slide.srcset ?? srcSetFor(slide.src)}
                   sizes={SIZES.gallery}
                   alt={slide.alt}
                   width="1200"

@@ -76,8 +76,21 @@ const categories = catalogCategories.map((cat) => {
 const processVideoId = "vO0brjwa7So";
 const processVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${processVideoId}`;
 const processLogo = logos.header;
-const pergaminoOpt = await getImage({ src: redescubrePergamino, format: "webp", width: 1200 });
-const mundoVerdeOpt = await getImage({ src: redescubreMundoVerde, format: "webp", width: 1200 });
+/* Dos fotos del carrusel que no viven en `public/images` sino en `src/assets`, así que las
+   optimiza Astro y no el generador de variantes. Pedían un solo tamaño de 1.200 px —205 y
+   165 KB— para un hueco de 45vw: ahora van con srcset y el navegador elige. */
+const CARRUSEL_WIDTHS = [480, 800, 1200];
+async function slideSrcset(src: ImageMetadata) {
+  const v = await Promise.all(
+    CARRUSEL_WIDTHS.map((width) => getImage({ src, format: "webp", width }))
+  );
+  return {
+    src: v[v.length - 1].src,
+    srcset: v.map((img, i) => `${img.src} ${CARRUSEL_WIDTHS[i]}w`).join(", "),
+  };
+}
+const pergaminoOpt = await slideSrcset(redescubrePergamino);
+const mundoVerdeOpt = await slideSrcset(redescubreMundoVerde);
 
 const featuredProjects = [
   {
@@ -103,11 +116,13 @@ const featuredProjects = [
   },
   {
     src: pergaminoOpt.src,
+    srcset: pergaminoOpt.srcset,
     alt: "Pergamino Café con ladrillo Clay House",
     label: "Pergamino",
   },
   {
     src: mundoVerdeOpt.src,
+    srcset: mundoVerdeOpt.srcset,
     alt: "Mundo Verde con ladrillo Clay House",
     label: "Mundo Verde",
   },
