@@ -7,6 +7,7 @@ import { isVisible, products } from "@/data/products";
 import { resolveAudioEmbed, resolveVideoEmbed } from "@/utils/mediaEmbed";
 import { buildArticleJsonLd } from "@/utils/articleSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
+import { srcSetFor, srcPara } from "@/utils/responsive";
 import "@/styles/blog-page.css";
 
 export async function getStaticPaths() {
@@ -90,7 +91,20 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
         {
           coverImage && !videoEmbed && (
             <figure class="blog-post-cover">
-              <img src={coverImage} alt="" width="1600" height="900" loading="eager" />
+              {/* La portada es el LCP del artículo. Servía el archivo de 1.600 px —280 KB—
+                  a un teléfono que la pinta a 390. Con srcset el navegador se lleva la
+                  variante de 800 y la decide él, que es quien sabe el ancho real. */}
+              <img
+                src={srcPara(coverImage, 1200)}
+                srcset={srcSetFor(coverImage)}
+                sizes="(max-width: 900px) 100vw, 760px"
+                alt=""
+                width="1600"
+                height="900"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
             </figure>
           )
         }

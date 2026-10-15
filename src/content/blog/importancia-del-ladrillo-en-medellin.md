@@ -14,7 +14,10 @@ relatedProducts: ["romano", "macizo-campesino"]
 Medellín tiene un acento construido. Las laderas del Valle de Aburrá se leen en ladrillo: fachadas a la vista, frontones, escaleras y cornisas que llevan ese tono rojizo-matizado que solo da el horno. No es un detalle decorativo; es la materialidad que organiza el paisaje urbano paisa desde mediados del siglo XX.
 
 <figure>
-  <img src="/images/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01.jpg" alt="Edificio El Solar en Medellín con fachada en Ladrillo Romano." loading="lazy" />
+  <img src="/images/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01.jpg" alt="Edificio El Solar en Medellín con fachada en Ladrillo Romano." loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01-320.webp 320w, /images/_responsive/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01-480.webp 480w, /images/_responsive/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01-800.webp 800w, /images/_responsive/products/romano/proyectos/edificio-el-solar/edificio-el-solar-01-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1600" height="1066" decoding="async" />
   <figcaption>Edificio El Solar — fachada contemporánea en Medellín con Ladrillo Romano.</figcaption>
 </figure>
 
@@ -25,7 +28,10 @@ Antioquia tiene arcillas de la cuenca del Sinifaná con propiedades muy específ
 Cuando un arquitecto en Envigado, Sabaneta o El Poblado especifica fachada en ladrillo, está hablando con un material que tiene **cantera local, fabricación cercana y memoria visual reconocible** por el cliente. Esa es una ventaja que difícilmente se replica con materiales importados o sintéticos.
 
 <figure>
-  <img src="/images/products/romano/proyectos/edificio-8k/edificio-8k-suites-01.JPG" alt="Edificio 8K Suites con fachada en Ladrillo Romano en Medellín." loading="lazy" />
+  <img src="/images/products/romano/proyectos/edificio-8k/edificio-8k-suites-01.JPG" alt="Edificio 8K Suites con fachada en Ladrillo Romano en Medellín." loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/edificio-8k/edificio-8k-suites-01-320.webp 320w, /images/_responsive/products/romano/proyectos/edificio-8k/edificio-8k-suites-01-480.webp 480w, /images/_responsive/products/romano/proyectos/edificio-8k/edificio-8k-suites-01-800.webp 800w, /images/_responsive/products/romano/proyectos/edificio-8k/edificio-8k-suites-01-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1600" height="1066" decoding="async" />
   <figcaption>Edificio 8K Suites — Ladrillo Romano en fachada de vivienda multifamiliar en Medellín.</figcaption>
 </figure>
 

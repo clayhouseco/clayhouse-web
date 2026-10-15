@@ -3,7 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogCard from "@/components/blog/BlogCard.astro";
 import { getCollection } from "astro:content";
 import { blogFilters } from "@/data/blog";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import heroImg from "@/assets/images/hero/Dos Santos.jpg";
 import "@/styles/blog-page.css";
 
@@ -33,12 +33,13 @@ const visibleBlogFilters = blogFilters.filter(
 >
   <section class="page-hero page-hero--image blog-hero">
     <div class="page-hero__media">
-      <Image
+      <Picture
         src={heroImg}
         alt="Dos Santos Cantina con enchape Clay House"
         widths={[640, 960, 1280, 1920]}
         sizes="100vw"
-        formats={["avif", "webp"]}
+        formats={["avif"]}
+        fallbackFormat="webp"
         loading="eager"
         fetchpriority="high"
         width={1920}

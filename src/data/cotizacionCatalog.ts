@@ -3,6 +3,7 @@ import { erpDeCodigo, erpDeSlug } from "@/data/erpFeed";
 import { getProductAssets } from "@/data/productVariants";
 import { precioDeVariante } from "@/utils/productPricing";
 import { assetUrl } from "@/utils/paths";
+import { thumbSrcFor } from "@/utils/responsive";
 import {
   erpEquivalencia,
   erpVariantIds,
@@ -32,6 +33,10 @@ export interface CotizableItem {
   unidad: UnidadVenta;
   unidadLabel: string;
   image: string;
+  /** La misma foto, reducida a 320 px. Las tarjetas del selector y la línea elegida la
+   *  pintan a 56-72 px: con `image` se bajaban 22 fotos de 250-350 KB para eso. `image`
+   *  se conserva porque el feed de Merchant necesita la grande. */
+  thumb: string;
   /** Precio de referencia de la web (no es el precio final de la cotización). */
   refPrice: string;
   /** Precio de referencia por color (código ERP → precio), cuando el producto
@@ -178,6 +183,7 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       unidad: eq.unidad,
       unidadLabel: ERP_UNIDAD_LABEL[eq.unidad],
       image: assetUrl(p.image),
+      thumb: thumbSrcFor(p.image),
       refPrice: refPrecio(p.slug, eq.codigo, variantId, eq.unidad) ?? "Consultar",
       preciosPorColor,
     };

@@ -15,7 +15,10 @@ Especificar ladrillo bien no es elegir un color en un catálogo. Es decidir qué
 ## 1. Empezar por el tipo de uso, no por la foto
 
 <figure>
-  <img src="/images/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06.jpg" alt="Plaza de Mercado de Envigado: fachada extensa en Ladrillo Romano matizado" loading="lazy" />
+  <img src="/images/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06.jpg" alt="Plaza de Mercado de Envigado: fachada extensa en Ladrillo Romano matizado" loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06-320.webp 320w, /images/_responsive/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06-480.webp 480w, /images/_responsive/products/romano/proyectos/plaza-mercado-envigado/plaza-mercado-evg-06-800.webp 800w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1200" height="1600" decoding="async" />
   <figcaption>Plaza de Mercado de Envigado — Ladrillo Romano en fachada de gran formato.</figcaption>
 </figure>
 
@@ -36,7 +39,10 @@ Para fachadas y muros estructurales el ladrillo debe cumplir **NTC 4205-2 (perfo
 ## 3. Dimensiones, rendimiento y peso
 
 <figure>
-  <img src="/images/products/romano/romano dimensiones.webp" alt="Diagrama de dimensiones del Ladrillo Romano: alto, ancho, largo y peso." loading="lazy" />
+  <img src="/images/products/romano/romano dimensiones.webp" alt="Diagrama de dimensiones del Ladrillo Romano: alto, ancho, largo y peso." loading="lazy"
+    srcset="/images/_responsive/products/romano/romano%20dimensiones-320.webp 320w, /images/_responsive/products/romano/romano%20dimensiones-480.webp 480w, /images/_responsive/products/romano/romano%20dimensiones-800.webp 800w, /images/_responsive/products/romano/romano%20dimensiones-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1535" height="1024" decoding="async" />
   <figcaption>Ficha de dimensiones del Ladrillo Romano. Cada referencia trae su diagrama equivalente.</figcaption>
 </figure>
 
@@ -57,7 +63,10 @@ Recomendamos **modular los huecos** en múltiplos de la pieza desde planos: evit
 ## 5. Color y matizado: gestionar la expectativa
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-retiro/casa-EF-02.jpg" alt="Casa en Retiro: muro en Ladrillo Romano mostrando variación natural de tono entre piezas." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-retiro/casa-EF-02.jpg" alt="Casa en Retiro: muro en Ladrillo Romano mostrando variación natural de tono entre piezas." loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/casa-retiro/casa-EF-02-320.webp 320w, /images/_responsive/products/romano/proyectos/casa-retiro/casa-EF-02-480.webp 480w, /images/_responsive/products/romano/proyectos/casa-retiro/casa-EF-02-800.webp 800w, /images/_responsive/products/romano/proyectos/casa-retiro/casa-EF-02-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1600" height="1066" decoding="async" />
   <figcaption>Casa Retiro — el matizado natural del Romano se lee como una sola superficie pese a las variaciones entre piezas.</figcaption>
 </figure>
 

@@ -144,7 +144,7 @@ const DEPARTAMENTOS = [
       <aside class="cotz__doc-col">
         <div class="cotz-doc" data-doc>
           <header class="cotz-doc__top">
-            <img src={logos.headerWhite} alt="Clay House" class="cotz-doc__logo" />
+            <img src={logos.headerWhite} alt="Clay House" class="cotz-doc__logo" width="360" height="70" />
             <div class="cotz-doc__badge">
               <span>COTIZACIÓN</span>
               <strong>PRELIMINAR</strong>
@@ -245,7 +245,7 @@ const DEPARTAMENTOS = [
         .map(
           (c) =>
             `<button type="button" class="cotz-cardp" data-pick="${c.id}">` +
-            `<img src="${c.image}" alt="" loading="lazy" width="72" height="72" />` +
+            `<img src="${c.thumb}" alt="" loading="lazy" decoding="async" width="72" height="72" />` +
             `<span class="cotz-cardp__name">${esc(c.label)}</span>` +
             `<span class="cotz-cardp__code">${c.erpCodigo ? esc(c.erpCodigo) : "por confirmar"}</span>` +
             `</button>`
@@ -257,7 +257,7 @@ const DEPARTAMENTOS = [
       const item = byId[id];
       if (!item) return;
       linea.querySelector('[data-campo="item"]').value = id;
-      linea.querySelector("[data-sel-img]").src = item.image;
+      linea.querySelector("[data-sel-img]").src = item.thumb;
       linea.querySelector("[data-sel-name]").textContent = item.label;
       linea.querySelector("[data-sel-code]").textContent = item.erpCodigo ? `SKU ${item.erpCodigo}` : "Código por confirmar";
       fillDependent(linea, item, preset);

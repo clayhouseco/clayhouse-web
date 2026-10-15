@@ -10,7 +10,7 @@ import {
   aboutVision,
   aboutExtras,
 } from "@/data/nosotros";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import heroImg from "@/assets/images/hero/Mina.JPG";
 import "@/styles/nosotros-page.css";
 ---
@@ -22,12 +22,13 @@ import "@/styles/nosotros-page.css";
   <div class="nosotros-page">
     <section class="page-hero page-hero--image">
       <div class="page-hero__media">
-        <Image
+        <Picture
           src={heroImg}
           alt="Planta de Clay House en Amagá, Antioquia — extracción de arcilla"
           widths={[640, 960, 1280, 1920]}
           sizes="100vw"
-          formats={["avif", "webp"]}
+          formats={["avif"]}
+        fallbackFormat="webp"
           loading="eager"
           fetchpriority="high"
           width={1920}

@@ -17,7 +17,10 @@ Esta vivienda ilustra cómo el **Ladrillo Romano** en tono matizado oscuro aport
 El equipo de arquitectura buscaba un material de origen local, con variación honesta entre piezas y buen comportamiento en fachada a la vista. Se priorizó continuidad visual en planta baja y segundo piso, con juntas definidas.
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-senderos/casa-SDV-20.jpg" alt="Casa Senderos del Retiro: fachada en Ladrillo Romano." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-senderos/casa-SDV-20.jpg" alt="Casa Senderos del Retiro: fachada en Ladrillo Romano." loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-20-320.webp 320w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-20-480.webp 480w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-20-800.webp 800w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-20-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1600" height="1066" decoding="async" />
   <figcaption>Fachada principal en Romano matizado oscuro.</figcaption>
 </figure>
 
@@ -28,7 +31,10 @@ El equipo de arquitectura buscaba un material de origen local, con variación ho
 - Asesoría Clay House en muestras físicas y ficha técnica NTC 4205.
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-senderos/casa-SDV-02.jpg" alt="Detalle del aparejo en Ladrillo Romano." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-senderos/casa-SDV-02.jpg" alt="Detalle del aparejo en Ladrillo Romano." loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-02-320.webp 320w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-02-480.webp 480w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-02-800.webp 800w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-02-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1365" height="2048" decoding="async" />
   <figcaption>Lectura del aparejo en cerca de cerramiento — el matizado natural se aprecia en planos amplios.</figcaption>
 </figure>
 
@@ -37,7 +43,10 @@ El equipo de arquitectura buscaba un material de origen local, con variación ho
 El equipo en obra recibió **muestras físicas** antes de pedir el lote definitivo. Eso permitió validar el tono con el cliente sobre el material real, no sobre una pantalla. Una vez aprobado, el pedido se entregó con consistencia de lote — algo importante en una fachada extensa donde la lectura uniforme es crítica.
 
 <figure>
-  <img src="/images/products/romano/proyectos/casa-senderos/casa-SDV-01.jpg" alt="Casa Senderos del Retiro: muro de acento interior en Ladrillo Romano." loading="lazy" />
+  <img src="/images/products/romano/proyectos/casa-senderos/casa-SDV-01.jpg" alt="Casa Senderos del Retiro: muro de acento interior en Ladrillo Romano." loading="lazy"
+    srcset="/images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-01-320.webp 320w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-01-480.webp 480w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-01-800.webp 800w, /images/_responsive/products/romano/proyectos/casa-senderos/casa-SDV-01-1200.webp 1200w"
+    sizes="(max-width: 900px) 100vw, 760px"
+    width="1600" height="1066" decoding="async" />
   <figcaption>El Romano reacciona a la luz cálida del interior y define el muro de acento de la zona social.</figcaption>
 </figure>
 

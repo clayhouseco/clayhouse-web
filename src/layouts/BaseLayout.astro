@@ -21,6 +21,11 @@ interface Props {
   hideQuoteCart?: boolean;
   /** Imagen LCP de la página (se hace preload con fetchpriority=high) */
   preloadImage?: string;
+  /** srcset de la imagen LCP. Tiene que ser EL MISMO que el del `<picture>`, o el
+   *  navegador precarga un archivo y pinta otro: dos descargas de la foto más pesada. */
+  preloadImageSrcset?: string;
+  /** `sizes` de la imagen LCP, igual que el del `<picture>` por la misma razón. */
+  preloadImageSizes?: string;
   /** Tipo MIME del preload image, p.ej. "image/jpeg" o "image/webp" */
   preloadImageType?: string;
   /** Páginas de confirmación y similares: fuera del índice de Google. */
@@ -34,6 +39,8 @@ const {
   ogType = "website",
   hideQuoteCart = false,
   preloadImage,
+  preloadImageSrcset,
+  preloadImageSizes,
   preloadImageType,
   noindex = false,
 } = Astro.props;
@@ -69,11 +76,13 @@ const ogImageUrl = ogImagePath.startsWith("http")
     <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin />
     <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
     <link rel="dns-prefetch" href="https://wa.me" />
-    {preloadImage && (
+    {(preloadImage || preloadImageSrcset) && (
       <link
         rel="preload"
         as="image"
         href={preloadImage}
+        imagesrcset={preloadImageSrcset}
+        imagesizes={preloadImageSizes}
         type={preloadImageType}
         fetchpriority="high"
       />

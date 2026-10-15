@@ -14,12 +14,29 @@ import ReviewCard from "@/components/ReviewCard.astro";
 import StarRating from "@/components/StarRating.astro";
 import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
 import "@/styles/reviews-page.css";
-import { Image, getImage } from "astro:assets";
+import { Picture, Image, getImage } from "astro:assets";
 import heroImageSrc from "@/assets/images/hero/DSC08862.jpg";
 import redescubrePergamino from "@/assets/images/redescubre/pergamino.jpg";
 import redescubreMundoVerde from "@/assets/images/redescubre/mundo-verde.jpg";
 
-const heroOptimized = await getImage({ src: heroImageSrc, format: "avif", width: 1920 });
+/**
+ * EL HERO SE DESCARGABA DOS VECES.
+ *
+ * La página precargaba un AVIF de 1920 px con `fetchpriority="high"` —202 KB en un
+ * teléfono— y el `<img>` de abajo ofrecía un srcset de WebP, así que el navegador bajaba
+ * también el WebP de 960 y pintaba ESE. El AVIF precargado no se usaba para nada: era la
+ * imagen más pesada de la página y no llegaba a verse.
+ *
+ * Ahora la precarga y la etiqueta hablan del mismo archivo. Se generan los cuatro anchos en
+ * AVIF, el `<picture>` los ofrece primero —con WebP detrás para quien no lo soporte— y el
+ * `preload` lleva el MISMO `imagesrcset` y el mismo `sizes`, que es la única forma de que el
+ * navegador resuelva las dos cosas al mismo candidato y descargue uno solo.
+ */
+const HERO_WIDTHS = [640, 960, 1280, 1920];
+const heroAvif = await Promise.all(
+  HERO_WIDTHS.map((width) => getImage({ src: heroImageSrc, format: "avif", width }))
+);
+const heroPreloadSrcset = heroAvif.map((img, i) => `${img.src} ${HERO_WIDTHS[i]}w`).join(", ");
 
 const featured = getFeaturedProducts();
 /** Para los contadores por categoría: no debe incluir los desactivados. */
@@ -56,7 +73,6 @@ const categories = catalogCategories.map((cat) => {
   };
 });
 
-const heroImage = heroOptimized.src;
 const processVideoId = "vO0brjwa7So";
 const processVideoEmbedUrl = `https://www.youtube-nocookie.com/embed/${processVideoId}`;
 const processLogo = logos.header;
@@ -144,17 +160,19 @@ const reviewsAverage = getAverageRating();
 <BaseLayout
   title="Clay House | Ladrillo que convierte piezas en sueños"
   description={site.description}
-  preloadImage={heroOptimized.src}
+  preloadImageSrcset={heroPreloadSrcset}
+  preloadImageSizes="100vw"
   preloadImageType="image/avif"
 >
   <section class="hero">
     <div class="hero__media">
-      <Image
+      <Picture
         src={heroImageSrc}
         alt="Edificio en ladrillo con balcones y vegetación — Clay House"
-        widths={[640, 960, 1280, 1920]}
+        widths={HERO_WIDTHS}
         sizes="100vw"
-        formats={["avif", "webp"]}
+        formats={["avif"]}
+        fallbackFormat="webp"
         loading="eager"
         fetchpriority="high"
         width={1920}

@@ -3,7 +3,7 @@ import { site, nav, socialLinks } from "@/data/site";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
 import { logos } from "@/utils/media";
 import FooterSocialIcon from "@/components/FooterSocialIcon.astro";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import footerBg from "@/assets/images/footer/footer-pisos.jpg";
 
 const year = new Date().getFullYear();
@@ -11,12 +11,13 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="footer__bg" aria-hidden="true">
-    <Image
+    <Picture
       src={footerBg}
       alt=""
       widths={[768, 1280, 1920]}
       sizes="100vw"
-      formats={["avif", "webp"]}
+      formats={["avif"]}
+        fallbackFormat="webp"
       loading="lazy"
       width={1920}
       height={1280}
