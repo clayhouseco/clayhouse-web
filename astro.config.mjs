@@ -6,6 +6,11 @@ export default defineConfig({
   build: {
     assets: "ch-assets",
   },
+  vite: {
+    build: {
+      cssTarget: ["chrome111", "edge111", "firefox115", "safari16.4"],
+    },
+  },
   image: {
     service: { entrypoint: "astro/assets/services/sharp" },
   },

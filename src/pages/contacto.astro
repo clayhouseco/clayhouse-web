@@ -213,9 +213,10 @@ const thankYouPath = "/contacto/gracias/";
     useFormspree: Boolean(formAction),
   }}
 >
+  /* Sin `return` suelto: el compilador de Astro 7 ya no envuelve el script en una función y
+     un return de primer nivel es un error de sintaxis. */
   const form = document.getElementById("contact-form");
-  if (!form || useFormspree) return;
-
+  if (form && !useFormspree) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const fd = new FormData(form);
@@ -233,6 +234,7 @@ const thankYouPath = "/contacto/gracias/";
     window.open(`${whatsappUrl}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
     window.location.href = thankYouPath;
   });
+  }
 </script>
 
 <script>
