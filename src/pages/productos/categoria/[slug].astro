@@ -28,6 +28,11 @@ const { categoryId } = Astro.props;
 const def = catalogCategories.find((c) => c.id === categoryId)!;
 const filtered = filterProductsByCategory(categoryId);
 
+/* Cada categoría se presenta con el producto que ya la representa en el catálogo, cuya
+   imagen de compartir genera `scripts/generate-og.mjs`. Así el enlace de «Enchapes» no
+   llega igual que el de «Techos». */
+const ogImage = `/images/og/${def.coverProductSlug}.jpg`;
+
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: "Inicio", href: "/" },
   { name: "Productos", href: "/productos" },
@@ -35,7 +40,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
 ]);
 ---
 
-<BaseLayout title={def.seoTitle} description={def.seoDescription}>
+<BaseLayout title={def.seoTitle} description={def.seoDescription} ogImage={ogImage}>
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <section class="page-hero page-hero--image">
     <div class="page-hero__media">

@@ -48,7 +48,9 @@ const linkedProducts =
     ?.map((slug) => products.find((p) => p.slug === slug))
     .filter((p): p is NonNullable<typeof p> => p !== undefined && isVisible(p)) ?? [];
 
-const ogImage = coverImage ?? undefined;
+/* Sin portada propia, la del blog antes que la genérica del sitio: al menos el enlace
+   llega con una foto distinta a la de las demás páginas. */
+const ogImage = coverImage ?? "/images/og/pagina-blog.jpg";
 
 const articleJsonLd = buildArticleJsonLd(post);
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([

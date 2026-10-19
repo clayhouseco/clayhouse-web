@@ -18,6 +18,17 @@
  * Se regeneran en cada build y viven en public/images/og/. Son artefactos, no originales:
  * si la foto del producto cambia, la de compartir se rehace sola.
  *
+ * LAS PÁGINAS QUE NO SON FICHA TAMBIÉN TIENEN LA SUYA.
+ *
+ * Gerencia, otra vez: «cuando mando https://clayhouse.com.co/productos sale la misma imagen
+ * de antes». Las fichas ya tenían la suya, pero el catálogo, el cotizador, nosotros,
+ * contacto, proyectos y el blog seguían cayendo en `/og-image.jpg` —la foto de una fachada—,
+ * así que todos los enlaces que no fueran de producto llegaban iguales a WhatsApp.
+ *
+ * Estas se recortan a 1200×630 en vez de encajarse sobre blanco: son fotos de obra, no
+ * piezas sobre fondo claro, y dejarlas con franjas blancas a los lados se ve peor que
+ * recortarlas.
+ *
  *   node scripts/generate-og.mjs [--force]
  */
 import sharp from "sharp";
@@ -54,6 +65,23 @@ function imagenesDeProductos() {
   return out;
 }
 
+/**
+ * La foto con la que cada página se presenta cuando alguien manda su enlace.
+ *
+ * Es la misma que abre la página, así que quien recibe el enlace por WhatsApp ve lo que va
+ * a encontrar al abrirlo. Las páginas de aviso legal y utilidades no están acá a propósito:
+ * se quedan con la genérica del sitio, que para ellas es lo correcto.
+ */
+const PAGINAS = [
+  { nombre: "inicio", fuente: "src/assets/images/hero/DSC08862.jpg" },
+  { nombre: "productos", fuente: "src/assets/images/hero/DSC08873.jpg" },
+  { nombre: "cotizacion", fuente: "src/assets/images/hero/DSC08873.jpg" },
+  { nombre: "nosotros", fuente: "src/assets/images/hero/Mina.JPG" },
+  { nombre: "contacto", fuente: "src/assets/images/hero/Plaza de Envigado.jpg" },
+  { nombre: "proyectos", fuente: "src/assets/images/hero/Edificio 8k.jpg" },
+  { nombre: "blog", fuente: "src/assets/images/hero/Dos Santos.jpg" },
+];
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 let hechas = 0, reusadas = 0, sinFuente = 0, fallidas = 0;
@@ -80,6 +108,27 @@ for (const { slug, file } of imagenesDeProductos()) {
   } catch (e) {
     fallidas++;
     console.warn(`  ⚠️  ${slug}: ${e.message}`);
+  }
+}
+
+/* Las páginas: recorte a 1200×630 desde el centro, que es donde está el motivo en todas. */
+for (const { nombre, fuente } of PAGINAS) {
+  const out = path.join(OUT_DIR, `pagina-${nombre}.jpg`);
+  if (!fs.existsSync(fuente)) { sinFuente++; continue; }
+  if (!FORCE && fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(fuente).mtimeMs) {
+    reusadas++;
+    continue;
+  }
+  try {
+    await sharp(fuente)
+      .rotate()
+      .resize(ANCHO, ALTO, { fit: "cover", position: "attention" })
+      .jpeg({ quality: 86, mozjpeg: true })
+      .toFile(out);
+    hechas++;
+  } catch (e) {
+    fallidas++;
+    console.warn(`  ⚠️  pagina-${nombre}: ${e.message}`);
   }
 }
 
