@@ -179,6 +179,20 @@ p {
   color: var(--color-white) !important;
 }
 
+/* SOBRE FONDO OSCURO. Vivía dentro de los estilos de la portada, que no alcanzan a los
+   componentes: el botón «Rechazar» del banner de cookies lo usaba y se quedaba con el gris
+   por defecto del navegador —texto crema sobre #efefef, 1,11:1—, invisible. */
+.btn--ghost {
+  background: transparent;
+  color: var(--color-bg);
+  border: 1px solid rgba(255, 251, 249, 0.5);
+}
+
+.btn--ghost:hover {
+  background: var(--color-bg);
+  color: var(--color-chocolate);
+}
+
 .btn--light {
   background: var(--color-white);
   color: var(--color-chocolate);

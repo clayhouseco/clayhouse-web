@@ -18,6 +18,7 @@
  *
  * axe-core se baja de su CDN la primera vez y queda en node_modules/.cache.
  */
+import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { abrirChrome, esperar, servirDist } from "./lib/navegador.mjs";
@@ -29,10 +30,11 @@ const PAGINAS = ["/", "/productos", "/productos/romano", "/cotizacion", "/resena
 const AXE_URL = "https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.10.2/axe.min.js";
 const CACHE = "node_modules/.cache/axe-core.js";
 
-if (!fs.existsSync("dist")) {
-  console.error("✗ No hay dist/. Corre `npm run build` antes.");
-  process.exit(1);
-}
+/* Se construye con una cuenta de medición de prueba para que exista el banner de cookies:
+   sin ella no se emite, y su botón «Rechazar» llevaba meses con texto crema sobre el gris
+   por defecto del navegador —1,11:1— sin que ninguna revisión local lo viera. */
+console.log("Construyendo el sitio para la revisión…\n");
+execSync("npx astro build", { stdio: "ignore", env: { ...process.env, PUBLIC_GA4_MEASUREMENT_ID: "G-PRUEBAA11Y" } });
 
 async function axe() {
   if (fs.existsSync(CACHE)) return fs.readFileSync(CACHE, "utf8");
@@ -81,6 +83,39 @@ for (const ruta of PAGINAS) {
   }
 }
 console.log(`\n  ${total} elemento(s) con problemas en ${PAGINAS.length} páginas.`);
+
+/* Los estados que solo existen tras una interacción: el banner de cookies y el carrito.
+   Una revisión que solo mira la página en reposo no los ve nunca. */
+await ir("/");
+await evaluar(AXE);
+const estados = await evaluar(`(async () => {
+  const salida = [];
+  const banner = document.getElementById("cookie-consent");
+  if (banner) {
+    banner.hidden = false;
+    const r = await axe.run(banner, { resultTypes: ["violations"] });
+    salida.push(["banner de cookies", r.violations.map(v => v.id + " ×" + v.nodes.length)]);
+  }
+  const abrir = document.querySelector("[data-quote-cart-open]");
+  if (abrir) {
+    abrir.click();
+    await new Promise(r => setTimeout(r, 400));
+    const cart = document.querySelector(".quote-cart");
+    if (cart && !cart.hidden) {
+      const r = await axe.run(cart, { resultTypes: ["violations"] });
+      salida.push(["carrito de cotización", r.violations.map(v => v.id + " ×" + v.nodes.length)]);
+    }
+  }
+  return JSON.stringify(salida);
+})()`);
+for (const [nombre, violaciones] of JSON.parse(estados || "[]")) {
+  if (violaciones.length) {
+    console.log(`  ✗ ${nombre}: ${violaciones.join(", ")}`);
+    fallos.push(nombre);
+  } else {
+    console.log(`  ✓ ${nombre} (abierto)`);
+  }
+}
 
 /* ─────────────────────────── 2. el teclado ─────────────────────────── */
 console.log("\nNavegación con teclado:\n");
