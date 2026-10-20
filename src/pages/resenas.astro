@@ -120,6 +120,9 @@ const sorted = [...reviews].sort(
           '<footer class="review-card__author">' +
           "<strong>" + esc(rev.nombre) + "</strong>" +
           (rev.rol ? "<span>" + esc(rev.rol) + "</span>" : "") +
+          /* La hoja la devuelve cuando tiene la columna `empresa`; mientras no la tenga,
+             no viene y la tarjeta queda igual que antes. */
+          (rev.empresa ? '<span class="review-card__company">' + esc(rev.empresa) + "</span>" : "") +
           (rev.producto
             ? '<span class="review-card__product">' + esc(rev.producto) + "</span>"
             : "") +

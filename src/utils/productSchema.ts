@@ -58,10 +58,12 @@ export function buildProductJsonLd(
   const offer: Record<string, unknown> = {
     "@type": "Offer",
     priceCurrency: "COP",
-    /* Gerencia confirmó que todo se produce bajo pedido: «InStock» significa listo para
-       despachar y eso no es lo que pasa. `MadeToOrder` es exactamente esto, y no obliga a
-       declarar una fecha que no se puede dar de antemano. */
-    availability: "https://schema.org/MadeToOrder",
+    /* DECISIÓN DE GERENCIA (20 oct 2026): el material se declara disponible.
+       Se había pasado a `MadeToOrder` al confirmar que la producción es bajo pedido, pero
+       la disponibilidad que se declara a Google es la misma que la del feed de Merchant, y
+       ahí el material figura en stock. Las dos señales dicen lo mismo a propósito: que
+       digan cosas distintas es lo que levanta avisos en Merchant Center. */
+    availability: "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
     url,
     priceValidUntil: endOfCurrentYearIso(),

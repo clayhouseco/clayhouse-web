@@ -112,6 +112,21 @@ Si algún día se puja por valor, hay que fijar en Ads un valor de conversión r
 valor del pedido por la tasa de cierre), no este. Mientras tanto, no se pone valor
 predeterminado en Ads: una cifra inventada corrompe cualquier puja por valor.
 
+### Reseñas: falta una columna en la hoja
+
+El formulario de `/resenas` ya pide **empresa, obra o proyecto**, que es lo que hace
+comprobable una reseña: un nombre y un rol no se pueden verificar, una obra sí.
+
+**Mientras la hoja no tenga la columna, ese dato se pierde al llegar.** El Apps Script
+guarda las columnas que conoce e ignora el resto. Para que quede:
+
+1. En la hoja «Reseñas Clay House», añadir una columna `empresa`.
+2. En el Apps Script, en `doPost`, añadirla al arreglo que se escribe en la fila, en el
+   mismo orden que la cabecera.
+3. En `doGet`, incluirla en el objeto que devuelve (`empresa: fila[n]`).
+
+La página ya la muestra en cuanto empiece a llegar: no hay que tocar nada más acá.
+
 ### Cómo comprobar que mide
 
 **GA4 DebugView** (lo que de verdad llega a Google):

@@ -91,6 +91,15 @@
   color: var(--color-text-muted);
 }
 
+/* La obra o la empresa de quien escribe: lo que permite comprobar la reseña. Se ve antes
+   que el producto, en el tono del texto, para que lea como parte de la firma y no como
+   una etiqueta más. */
+.review-card__company {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
 .review-card__product {
   display: inline-block;
   margin-top: 0.35rem;

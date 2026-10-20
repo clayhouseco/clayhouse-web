@@ -7,6 +7,9 @@ export interface Review {
   /** ISO date YYYY-MM-DD */
   date: string;
   product?: string;
+  /** Empresa, obra o proyecto. Es lo que hace comprobable una reseña: un nombre y un rol
+   *  no se pueden verificar, una obra sí. Opcional: nadie tiene que decirlo. */
+  company?: string;
   featured?: boolean;
   /** Apta para Schema.org. Google prohíbe el marcado de reseñas escritas por el
    *  propio negocio ("reseñas de la empresa sobre sí misma"): publicarlas como

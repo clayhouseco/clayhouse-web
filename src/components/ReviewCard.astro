@@ -23,6 +23,7 @@ const dateLabel = new Date(review.date).toLocaleDateString("es-CO", {
   <footer class="review-card__author">
     <strong>{review.author}</strong>
     {review.role && <span>{review.role}</span>}
+    {review.company && <span class="review-card__company">{review.company}</span>}
     {review.product && <span class="review-card__product">{review.product}</span>}
   </footer>
 </article>

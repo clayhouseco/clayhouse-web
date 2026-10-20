@@ -64,6 +64,20 @@ const thankYouPath = "/resenas/gracias/";
       </select>
     </label>
 
+    {/* QUÉ HACE VERIFICABLE A UNA RESEÑA.
+        Un nombre y un rol no se pueden comprobar; la obra sí. Este campo es opcional —nadie
+        tiene que decir en qué trabaja para dejar una reseña— pero cuando viene, la reseña
+        deja de ser anónima y pasa a ser comprobable, que es lo que le importa a un
+        arquitecto que la lee antes de especificar.
+
+        OJO: el Apps Script de la hoja tiene que tener la columna `empresa`. Mientras no la
+        tenga, el dato se escribe en el formulario y se pierde al llegar: la hoja guarda las
+        columnas que conoce e ignora el resto. */}
+    <label>
+      Empresa, obra o proyecto (opcional)
+      <input type="text" name="empresa" autocomplete="organization" maxlength="80" />
+    </label>
+
     <label>
       Email *
       <input type="email" name="email" required autocomplete="email" />
