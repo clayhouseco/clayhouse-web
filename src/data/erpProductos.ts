@@ -107,7 +107,9 @@ function productoDeErp(ps: ErpProducto[], slug: string): Product {
     .filter((e) => !YA_LOS_MUESTRA.includes(norm(e.etiqueta)))
     .map((e) => ({ label: e.etiqueta, value: e.valor }));
   if (p.rendimiento && !specs.some((s) => norm(s.label) === "rendimiento")) {
-    specs.push({ label: "Rendimiento", value: `${p.rendimiento} und/m²` });
+    /* En Colombia el decimal va con coma. El ERP manda «10.5» y la ficha lo ponía tal cual,
+       justo al lado de «3,3 kg»: dos formas de escribir un decimal en la misma tabla. */
+    specs.push({ label: "Rendimiento", value: `${String(p.rendimiento).replace(/(\d)\.(\d)/g, "$1,$2")} und/m²` });
   }
 
   const desde = precioDesde(p);

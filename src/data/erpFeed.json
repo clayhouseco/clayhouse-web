@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-10-20T16:14:27.373Z",
+  "actualizado": "2026-10-20T17:22:07.807Z",
   "productos": [
     {
       "precio": 4350,
@@ -58,37 +58,34 @@
       ]
     },
     {
-      "precio": 4880,
-      "codigo": "TEJ-PLA",
-      "id": "teja-plana",
-      "nombre": "Teja Plana",
+      "precio": 3320,
+      "codigo": "TES",
+      "id": "teja-s",
+      "nombre": "Teja S",
       "categoria": "techos",
-      "pagina": "teja-plana",
-      "dimension": "40 x 25 x 1.5 cm",
-      "rendimiento": "≈ 13 und/m²",
-      "pesoKg": 2.7,
+      "pagina": "teja-s",
+      "dimension": "30*45*9",
+      "rendimiento": "10.5",
+      "pesoKg": 3.3,
       "unidad": "unidad",
-      "descripcion": "Teja Plana comercializada. Colores Natural y Chocolate. m². Solo Primera.",
+      "descripcion": "La Teja Ese (también llamada teja \"S\") es una variante moderna de arcilla o gres que simula visualmente la combinación de una teja canal y una cobija en una sola pieza",
       "especificaciones": [
         {
           "etiqueta": "Textura",
-          "valor": "Plana"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
+          "valor": "Liso"
         },
         {
           "etiqueta": "Tipo de uso",
           "valor": "Cubierta visible"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4051- NTC 2086"
         }
       ],
-      "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790959448507-Teja-S.png",
       "fotos": [
-        "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
-        "/productos/products/teja-plana/natural/teja%20plana%20natural%20dimensiones.webp",
-        "/productos/products/teja-plana/chocolate/Teja%20Plana%20Chocolate%20Lisa-n.webp",
-        "/productos/products/teja-plana/chocolate/teja%20plana%20chocolate%20dimensiones.webp"
+        "/productos/products/teja-s/DSC_9381.jpg"
       ],
       "orden": 0,
       "colores": [
@@ -96,19 +93,9 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "hex": "#c8835f",
-          "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural.webp",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790960111302-Teja-S.png",
           "fotos": [],
-          "precio": 4880,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
-        },
-        {
-          "codigo": "CHO",
-          "nombre": "Chocolate",
-          "hex": "#4a2c20",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792426347064-Teja-Plana-Chcolate-Lisa.png",
-          "fotos": [],
-          "precio": 6000,
+          "precio": 3320,
           "textura": "LIS",
           "texturaNombre": "Liso"
         }
@@ -487,21 +474,37 @@
       ]
     },
     {
-      "precio": 3320,
-      "codigo": "TES",
-      "id": "teja-s",
-      "nombre": "Teja S",
+      "precio": 4880,
+      "codigo": "TEJ-PLA",
+      "id": "teja-plana",
+      "nombre": "Teja Plana",
       "categoria": "techos",
-      "pagina": "teja-s",
-      "dimension": "30*45*9",
-      "rendimiento": "10.5",
-      "pesoKg": 3.3,
+      "pagina": "teja-plana",
+      "dimension": "40 x 25 x 1.5 cm",
+      "rendimiento": "≈ 13 und/m²",
+      "pesoKg": 2.7,
       "unidad": "unidad",
-      "descripcion": null,
-      "especificaciones": [],
-      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790959448507-Teja-S.png",
+      "descripcion": "Teja Plana comercializada. Colores Natural y Chocolate. m². Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Plana"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Cubierta visible"
+        }
+      ],
+      "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
       "fotos": [
-        "/productos/products/teja-s/DSC_9381.jpg"
+        "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
+        "/productos/products/teja-plana/natural/teja%20plana%20natural%20dimensiones.webp",
+        "/productos/products/teja-plana/chocolate/Teja%20Plana%20Chocolate%20Lisa-n.webp",
+        "/productos/products/teja-plana/chocolate/teja%20plana%20chocolate%20dimensiones.webp"
       ],
       "orden": 0,
       "colores": [
@@ -509,9 +512,19 @@
           "codigo": "NAT",
           "nombre": "Natural",
           "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790960111302-Teja-S.png",
+          "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural.webp",
           "fotos": [],
-          "precio": 3320,
+          "precio": 4880,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        },
+        {
+          "codigo": "CHO",
+          "nombre": "Chocolate",
+          "hex": "#4a2c20",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792426347064-Teja-Plana-Chcolate-Lisa.png",
+          "fotos": [],
+          "precio": 6000,
           "textura": "LIS",
           "texturaNombre": "Liso"
         }
@@ -897,20 +910,20 @@
       "orden": 0,
       "colores": [
         {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
           "fotos": [],
           "precio": 89500,
           "textura": "COR",
           "texturaNombre": "Corcho"
         },
         {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
           "fotos": [],
           "precio": 89500,
           "textura": "COR",
