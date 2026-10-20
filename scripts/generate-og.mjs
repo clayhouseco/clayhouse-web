@@ -82,22 +82,71 @@ const PAGINAS = [
   { nombre: "blog", fuente: "src/assets/images/hero/Dos Santos.jpg" },
 ];
 
+/**
+ * Los productos que nacieron en el ERP y todavía no tienen ficha escrita en la web.
+ *
+ * Su página existe —la arma `productosNacidosEnErp`— pero `products.ts` no los nombra, así
+ * que sin esto se quedaban sin imagen de compartir y su enlace llegaba a WhatsApp con la
+ * genérica del sitio, que es justo lo que se vino arreglando. La foto es la que el ERP
+ * tenga puesta, que puede vivir en su almacenamiento.
+ */
+function imagenesDelErp(yaCubiertos) {
+  let feed;
+  try {
+    feed = JSON.parse(fs.readFileSync("src/data/erpFeed.json", "utf8"));
+  } catch {
+    return [];
+  }
+  const out = [];
+  for (const p of feed.productos ?? []) {
+    if (!p.pagina || yaCubiertos.has(p.pagina)) continue;
+    const foto = p.imagen || (p.colores ?? []).map((c) => c.imagen).find(Boolean);
+    if (!foto) continue;
+    out.push({ slug: p.pagina, file: foto });
+    yaCubiertos.add(p.pagina);
+  }
+  return out;
+}
+
+/** La foto, venga del repositorio o del almacenamiento del ERP. `null` si no se pudo. */
+async function leerFuente(file) {
+  if (/^https?:\/\//.test(file)) {
+    try {
+      const r = await fetch(file, { signal: AbortSignal.timeout(20_000) });
+      if (!r.ok) return null;
+      return Buffer.from(await r.arrayBuffer());
+    } catch {
+      return null;
+    }
+  }
+  const p = path.join(SRC_ROOT, decodeURIComponent(file));
+  return fs.existsSync(p) ? p : null;
+}
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 let hechas = 0, reusadas = 0, sinFuente = 0, fallidas = 0;
 
-for (const { slug, file } of imagenesDeProductos()) {
-  const src = path.join(SRC_ROOT, decodeURIComponent(file));
-  const out = path.join(OUT_DIR, `${slug}.jpg`);
+const deProductos = imagenesDeProductos();
+const todas = [...deProductos, ...imagenesDelErp(new Set(deProductos.map((x) => x.slug)))];
 
-  if (!fs.existsSync(src)) { sinFuente++; continue; }
-  if (!FORCE && fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs) {
+for (const { slug, file } of todas) {
+  const out = path.join(OUT_DIR, `${slug}.jpg`);
+  const local = !/^https?:\/\//.test(file);
+  const src = local ? path.join(SRC_ROOT, decodeURIComponent(file)) : null;
+
+  if (local && !fs.existsSync(src)) { sinFuente++; continue; }
+  /* La del ERP no tiene fecha local con la que comparar: se rehace solo con --force. */
+  if (!FORCE && fs.existsSync(out) && (!local || fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs)) {
     reusadas++;
     continue;
   }
 
+  const fuente = await leerFuente(file);
+  if (!fuente) { sinFuente++; continue; }
+
   try {
-    const pieza = await sharp(src)
+    const pieza = await sharp(fuente)
       .resize(ANCHO - MARGEN * 2, ALTO - MARGEN * 2, { fit: "inside", withoutEnlargement: false })
       .toBuffer();
     await sharp({ create: { width: ANCHO, height: ALTO, channels: 3, background: "#ffffff" } })
