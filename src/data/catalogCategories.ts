@@ -19,6 +19,15 @@ export interface CatalogCategoryDef {
   seoTitle: string;
   /** Meta description: qué es + norma + dónde se fabrica + qué sigue. */
   seoDescription: string;
+  /**
+   * El titular de la página de categoría.
+   *
+   * Era la palabra de la pestaña —«fachadas», «techos»—, que no describe nada: el titular
+   * de una página es lo que más pesa para quien busca «teja de arcilla» y para quien llega
+   * sin saber qué vende la empresa. Se mantiene en minúscula, que es el tratamiento del
+   * hero.
+   */
+  heroTitle: string;
 }
 
 export const catalogCategories: CatalogCategoryDef[] = [
@@ -32,6 +41,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     seoTitle: "Ladrillo a la vista para fachada | Clay House Antioquia",
     seoDescription:
       "Ladrillo de fachada a la vista: romano, toscano, cartagena y macizos. Arcilla cocida bajo norma NTC 4205, fabricada en Amagá. Cotiza en 24 horas.",
+    heroTitle: "ladrillo a la vista",
     coverProductSlug: "romano",
     coverFallback: "/images/products/romano/proyectos/casa-retiro/casa-EF-03.jpg",
   },
@@ -44,6 +54,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     seoTitle: "Ladrillo divisorio y rayado para muro | Clay House",
     seoDescription:
       "Ladrillo rayado horizontal y vertical para muros divisorios y cerramientos con textura. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
+    heroTitle: "ladrillo divisorio y rayado",
     coverProductSlug: "rayados-verticales",
     coverFallback: "/images/Fotos Productos/Rayado Vertical.jpg",
   },
@@ -56,6 +67,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     seoTitle: "Enchapes de ladrillo para muro y fachada | Clay House",
     seoDescription:
       "Enchapes de arcilla para revestir muros interiores, exteriores y detalles de acento: rústico, romano, thin brick y bocadillo. Fabricación en Amagá, Antioquia.",
+    heroTitle: "enchape de ladrillo",
     coverProductSlug: "enchape-romano",
     coverFallback: "/images/Fotos Productos/Enchape Thin Brick.jpg",
   },
@@ -68,6 +80,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     seoTitle: "Teja de barro para cubierta: plana y colonial | Clay House",
     seoDescription:
       "Teja de arcilla para cubiertas visibles en perfil plano y colonial, norma NTC 4205. Fabricación propia en Amagá, Antioquia, con despacho a toda Colombia.",
+    heroTitle: "teja de arcilla",
     coverProductSlug: "teja-plana",
     coverFallback: "/images/products/teja-plana/natural/Teja Plana Natural.webp",
   },
@@ -80,6 +93,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     seoTitle: "Calados y celosías de arcilla | Clay House",
     seoDescription:
       "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas.",
+    heroTitle: "calados y celosías",
     coverProductSlug: "calado",
     coverFallback: "/images/products/calado/calado-muro.webp",
   },

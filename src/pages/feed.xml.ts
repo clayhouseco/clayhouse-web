@@ -51,6 +51,10 @@ function priceNumber(raw?: string): number | null {
 }
 
 export const GET: APIRoute = async () => {
+  /* Cuántas referencias cotizables cuelgan de cada página. */
+  const grupos = new Map<string, number>();
+  for (const it of cotizableCatalog) grupos.set(it.slug, (grupos.get(it.slug) ?? 0) + 1);
+
   const items = cotizableCatalog
     .map((item) => {
       const price = priceNumber(item.refPrice);
@@ -76,8 +80,17 @@ export const GET: APIRoute = async () => {
       <g:condition>new</g:condition>
       <g:price>${price}.00 COP</g:price>
       <g:brand>${esc(site.name)}</g:brand>
-      <g:mpn>${esc(item.id)}</g:mpn>
-      <g:identifier_exists>no</g:identifier_exists>
+      <g:mpn>${esc(item.erpCodigo ?? item.id)}</g:mpn>${
+        /* Se declaraba `identifier_exists: no` —«este artículo no tiene identificadores»— y
+           al mismo tiempo se mandaba un MPN. Con marca y MPN, Google ya tiene con qué
+           identificarlo: la contradicción sobraba y le costaba avisos al feed. */
+        ""
+      }${
+        /* Las referencias que comparten página son variantes de un mismo artículo (los tres
+           formatos de rayado). Sin agruparlas, Merchant las trata como productos sueltos que
+           compiten entre sí. */
+        grupos.get(item.slug) > 1 ? `\n      <g:item_group_id>${esc(item.slug)}</g:item_group_id>` : ""
+      }
       <g:product_type>${esc(product.category)}</g:product_type>${
         medida ? `\n      <g:unit_pricing_measure>${esc(medida)}</g:unit_pricing_measure>` : ""
       }

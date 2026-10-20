@@ -1,0 +1,269 @@
+---
+/**
+ * LO QUE UNA PÁGINA DE CATEGORÍA TIENE QUE RESPONDER.
+ *
+ * Eran una frase y una grilla de fotos: 225 palabras contando el menú y el pie. Quien busca
+ * «teja de arcilla» o «ladrillo para muro divisorio» llega con tres preguntas —cuál me
+ * sirve, en qué se diferencian, cómo se instala— y las tenía que resolver abriendo una por
+ * una las fichas.
+ *
+ * NADA DE ESTO SE INVENTA. La tabla sale del catálogo del ERP —medida, piezas por metro,
+ * acabado, precio— y las recomendaciones son las mismas que ya publica cada ficha técnica
+ * en PDF. Si un dato no está, la fila lo deja en blanco en vez de rellenarlo.
+ */
+import type { Product } from "@/data/products";
+import { erpDeSlug } from "@/data/erpFeed";
+import { getErpRendimiento } from "@/utils/productPricing";
+import { getReferencePriceParts } from "@/utils/productPricing";
+
+interface Props {
+  titulo: string;
+  productos: Product[];
+}
+
+const { titulo, productos } = Astro.props;
+
+const spec = (p: Product, etiqueta: string) =>
+  p.specs?.find((s) => s.label.toLowerCase().startsWith(etiqueta.toLowerCase()))?.value;
+
+/**
+ * «6 × 15 × 30 cm», de menor a mayor, como en la ficha.
+ *
+ * Las tejas no llevan las tres medidas escritas en su ficha de la web —se describen por el
+ * formato de cubierta— y la tabla las dejaba en blanco. Cuando falta, se usa la que publica
+ * el ERP tal cual, que es la que el cliente va a ver también en la cotización.
+ */
+function medida(p: Product): string {
+  const d = p.dimensions;
+  const partes = d ? [d.alto, d.ancho, d.largo].filter(Boolean) : [];
+  /* Cada medida trae su «cm»; en una sola línea se dice una vez al final. */
+  if (partes.length) return `${partes.map((x) => String(x).replace(/\s*cm\s*$/i, "")).join(" × ")} cm`;
+  const delErp = erpDeSlug(p.slug)[0]?.dimension;
+  if (!delErp) return "—";
+  const nums = delErp.match(/\d+(?:[.,]\d+)?/g);
+  return nums?.length
+    ? `${nums.map((n) => n.replace(".", ",")).join(" × ")} cm`
+    : delErp;
+}
+
+function piezas(p: Product): string {
+  const r = p.dimensions?.rendimiento ?? getErpRendimiento(p.slug);
+  if (!r) return "—";
+  const n = String(r).match(/[\d.,]+/);
+  return n ? `${n[0].replace(".", ",")} und/m²` : String(r);
+}
+
+const filas = productos.map((p) => ({
+  slug: p.slug,
+  nombre: p.name,
+  medida: medida(p),
+  piezas: piezas(p),
+  acabado: spec(p, "textura") ?? p.texture ?? "—",
+  precio: getReferencePriceParts(p)?.amount ?? "Consultar",
+}));
+
+/** Las normas que declaran los productos de esta categoría, sin repetir. */
+const normas = [...new Set(productos.map((p) => spec(p, "norma")).filter(Boolean))] as string[];
+
+/** Para qué dice el ERP que sirve cada uno, sin repetir. */
+const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boolean))] as string[];
+---
+
+<section class="guia">
+  <div class="container">
+    <h2 class="guia__titulo">Cómo elegir entre las referencias de {titulo}</h2>
+
+    <div class="guia__tabla-scroll">
+      <table class="guia__tabla">
+        <caption class="visually-hidden">
+          Comparación de medidas, rendimiento, acabado y precio de referencia
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Referencia</th>
+            <th scope="col">Medida</th>
+            <th scope="col">Piezas por m²</th>
+            <th scope="col">Acabado</th>
+            <th scope="col">Desde</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            filas.map((f) => (
+              <tr>
+                <th scope="row">
+                  <a href={`/productos/${f.slug}`}>{f.nombre}</a>
+                </th>
+                <td>{f.medida}</td>
+                <td class="guia__num">{f.piezas}</td>
+                <td>{f.acabado}</td>
+                <td class="guia__num">{f.precio}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="guia__nota">
+      Las piezas por metro cuadrado son el rendimiento que publica la fábrica, con junta
+      corriente. Los precios son de referencia, sin IVA ni flete: la cotización confirma el
+      valor según volumen y destino.
+    </p>
+
+    <div class="guia__bloques">
+      {
+        usos.length > 0 && (
+          <article class="guia__bloque">
+            <h3>Para qué se usa</h3>
+            <ul>
+              {usos.map((u) => (
+                <li>{u}</li>
+              ))}
+            </ul>
+          </article>
+        )
+      }
+
+      <article class="guia__bloque">
+        <h3>Instalación</h3>
+        <ul>
+          <li>Humedecer las piezas antes de pegar.</li>
+          <li>Juntas uniformes de 10 mm (±3 mm) para que el aparejo lea parejo.</li>
+          <li>Mortero compatible con la absorción de la pieza y curado húmedo.</li>
+          <li>
+            El detalle completo está en el{" "}
+            <a href="/descargas">manual de fachadas</a>.
+          </li>
+        </ul>
+      </article>
+
+      <article class="guia__bloque">
+        <h3>Mantenimiento</h3>
+        <ul>
+          <li>Tras el fraguado, limpiar con agua y cepillo de cerdas suaves.</li>
+          <li>Prevenir eflorescencias: evitar que el muro trabaje con humedad atrapada.</li>
+          <li>Almacenar en sitio plano, seco y aislado del terreno; no apilar a más de 1,5 m.</li>
+          <li>El tono varía entre lotes: mezclar piezas de varias estibas para un acabado homogéneo.</li>
+        </ul>
+      </article>
+
+      {
+        normas.length > 0 && (
+          <article class="guia__bloque">
+            <h3>Norma</h3>
+            <ul>
+              {normas.map((n) => (
+                <li>{n}</li>
+              ))}
+            </ul>
+            <p class="guia__pie">
+              Los certificados de ensayo y las fichas técnicas se descargan en{" "}
+              <a href="/descargas">Descargas</a>.
+            </p>
+          </article>
+        )
+      }
+    </div>
+
+    <p class="guia__cta">
+      <a href="/proyectos" class="btn btn--outline">Ver obras construidas con estas referencias</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .guia {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    background: var(--color-white);
+  }
+
+  .guia__titulo {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    margin: 0 0 1.5rem;
+    text-wrap: balance;
+  }
+
+  .guia__tabla-scroll {
+    overflow-x: auto;
+  }
+
+  .guia__tabla {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .guia__tabla th,
+  .guia__tabla td {
+    text-align: left;
+    padding: 0.7rem 0.9rem 0.7rem 0;
+    border-bottom: 1px solid rgba(71, 36, 16, 0.12);
+    vertical-align: top;
+  }
+
+  .guia__tabla thead th {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .guia__tabla tbody th {
+    font-weight: 600;
+  }
+
+  .guia__tabla tbody th a {
+    color: var(--color-terracota);
+    text-decoration: none;
+  }
+
+  .guia__tabla tbody th a:hover {
+    text-decoration: underline;
+  }
+
+  .guia__num {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .guia__nota,
+  .guia__pie {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin: 0.8rem 0 0;
+    max-width: 46rem;
+  }
+
+  .guia__bloques {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .guia__bloque h3 {
+    font-size: 1rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .guia__bloque ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .guia__bloque a {
+    color: var(--color-terracota);
+  }
+
+  .guia__cta {
+    margin: 2.5rem 0 0;
+  }
+</style>

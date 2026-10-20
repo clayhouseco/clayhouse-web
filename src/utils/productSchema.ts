@@ -1,6 +1,8 @@
 import type { Product } from "@/data/products";
 import type { Review } from "@/data/reviews";
+import { erpEquivalencia } from "@/data/erpCatalog";
 import { site } from "@/data/site";
+import { UNIDAD_PRECIO_LABEL, normalizarUnidad } from "@/data/unidades";
 import { assetUrl } from "@/utils/paths";
 
 function parsePriceNumber(price?: string): string | undefined {
@@ -47,6 +49,11 @@ export function buildProductJsonLd(
 ) {
   const url = new URL(`/productos/${product.slug}`, site.url).href;
   const price = parsePriceNumber(product.pricePerUnit);
+  /* El código con el que se factura, no el slug de la web. Google lo usa para reconocer el
+     mismo artículo entre el sitio, el feed de Merchant y los anuncios; con «romano» en vez
+     de «ROM» estaba nombrando algo que no existe en ningún sistema de la empresa. */
+  const eq = erpEquivalencia(product.slug);
+  const unidad = normalizarUnidad(product.priceUnitLabel);
 
   const offer: Record<string, unknown> = {
     "@type": "Offer",
@@ -60,6 +67,15 @@ export function buildProductJsonLd(
 
   if (price) {
     offer.price = price;
+    /* EN QUÉ UNIDAD. «110.000» sin más se lee como el precio de una pieza, y el enchape se
+       vende por metro cuadrado. Lo dice la misma unidad que publica la ficha. */
+    offer.priceSpecification = {
+      "@type": "UnitPriceSpecification",
+      priceCurrency: "COP",
+      price,
+      unitText: UNIDAD_PRECIO_LABEL[unidad],
+      ...(unidad === "m2" ? { unitCode: "MTK" } : { unitCode: "C62" }),
+    };
   } else {
     offer.priceSpecification = {
       "@type": "PriceSpecification",
@@ -72,7 +88,8 @@ export function buildProductJsonLd(
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    sku: product.slug,
+    sku: eq.codigo ?? product.slug,
+    ...(eq.codigo ? { mpn: eq.codigo } : {}),
     description: product.shortDescription,
     image: new URL(assetUrl(imagePath ?? product.image), site.url).href,
     brand: { "@type": "Brand", name: site.name },

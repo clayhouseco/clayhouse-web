@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CatalogFilters from "@/components/catalog/CatalogFilters.astro";
 import ProductGrid from "@/components/catalog/ProductGrid.astro";
+import CategoryGuide from "@/components/catalog/CategoryGuide.astro";
 import {
   catalogCategories,
   getCategorySlug,
@@ -59,7 +60,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
       <div class="page-hero__overlay"></div>
     </div>
     <div class="container page-hero__content">
-      <h1>{def.title.toLowerCase()}</h1>
+      <h1>{def.heroTitle}</h1>
       <p class="page-hero__lead">{def.description}</p>
     </div>
   </section>
@@ -81,6 +82,8 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
 
     </div>
   </section>
+
+  {filtered.length > 0 && <CategoryGuide titulo={def.label} productos={filtered} />}
 </BaseLayout>
 
 <style>
