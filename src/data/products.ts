@@ -88,7 +88,7 @@ const productosEscritos: Product[] = [
     featured: true,
     seoTitle: "Ladrillo toscano para fachada a la vista | Clay House",
     seoDescription:
-      "Ladrillo toscano de arcilla para fachada a la vista, tono claro y textura rústica. Norma NTC 4205, fabricado en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Ladrillo toscano de arcilla para fachada a la vista, tono claro y textura rústica. Norma NTC 4205, fabricado en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     image: productFolderImage("toscano", "natural/toscano natural-n.webp"),
     pricePerUnit: "$ 2.250",
     priceUnitLabel: "unidad",
@@ -243,7 +243,7 @@ const productosEscritos: Product[] = [
     featured: true,
     seoTitle: "Ladrillo romano a la vista: medidas y precio | Clay House",
     seoDescription:
-      "Ladrillo romano de arcilla para fachada a la vista, formato alargado y acabado matizado. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Ladrillo romano de arcilla para fachada a la vista, formato alargado y acabado matizado. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     image: productFolderImage("romano", "matizado claro/Romano Matizado.webp"),
     pricePerUnit: "$ 2.450",
     priceUnitLabel: "unidad",
@@ -319,7 +319,7 @@ const productosEscritos: Product[] = [
     featured: true,
     seoTitle: "Ladrillo macizo campesino de arcilla | Clay House",
     seoDescription:
-      "Ladrillo macizo campesino de arcilla cocida para muros y fachadas a la vista. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Ladrillo macizo campesino de arcilla cocida para muros y fachadas a la vista. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     image: productFolderImage("macizo-campesino", "matizado claro/Campesino Claro-n.webp"),
     pricePerUnit: "$ 1.650",
     priceUnitLabel: "unidad",
@@ -625,7 +625,7 @@ const productosEscritos: Product[] = [
     featured: false,
     seoTitle: "Ladrillo rayado horizontal para muro divisorio | Clay House",
     seoDescription:
-      "Ladrillo rayado horizontal de arcilla para muros divisorios y cerramientos. Norma NTC 4205, fabricado en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Ladrillo rayado horizontal de arcilla para muros divisorios y cerramientos. Norma NTC 4205, fabricado en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     image: productFolderImage(
       "rayados-horizontales",
       "rayado 12-horizontal/rayado 12 horizontal apilados.webp"
@@ -699,7 +699,7 @@ const productosEscritos: Product[] = [
     featured: false,
     seoTitle: "Enchape romano en ladrillo: precio por m² | Clay House",
     seoDescription:
-      "Enchape romano de arcilla, formato alargado para muros de acento en interior y fachada. Fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Enchape romano de arcilla, formato alargado para muros de acento en interior y fachada. Fabricación en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     image: productFolderImage("enchape-romano", "natural/Enchape Natural-n.webp"),
     pricePerUnit: "$ 89.500",
     priceUnitLabel: "m²",
@@ -799,7 +799,7 @@ const productosEscritos: Product[] = [
     featured: false,
     seoTitle: "Teja plana de barro para cubierta | Clay House",
     seoDescription:
-      "Teja plana de arcilla para cubiertas visibles, norma NTC 4205. Estética tradicional y contemporánea, fabricada en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Teja plana de arcilla para cubiertas visibles, norma NTC 4205. Estética tradicional y contemporánea, fabricada en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     image: productFolderImage("teja-plana", "natural/Teja Plana Natural-n.webp"),
     pricePerUnit: "$ 60.000",
     priceUnitLabel: "m²",

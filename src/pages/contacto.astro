@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/data/site";
 import { Picture } from "astro:assets";
+import { faqsComerciales } from "@/data/faqs";
 import heroImg from "@/assets/images/hero/Plaza de Envigado.jpg";
 import "@/styles/page-hero.css";
 
@@ -204,6 +205,24 @@ const thankYouPath = "/contacto/gracias/";
           <p class="form-legal">Al enviar aceptas el tratamiento de tus datos para responder tu solicitud.</p>
         </form>
       </div>
+    </div>
+  </section>
+
+  {/* Las preguntas que el equipo comercial repite cada semana. Estaban escritas en el CMS
+      y no se publicaban en ninguna parte. */}
+  <section class="section preguntas">
+    <div class="container">
+      <h2>Preguntas frecuentes</h2>
+      <dl class="preguntas__lista">
+        {
+          faqsComerciales.map((f) => (
+            <div class="preguntas__item">
+              <dt>{f.pregunta}</dt>
+              <dd>{f.respuesta}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 </BaseLayout>
@@ -505,6 +524,31 @@ const thankYouPath = "/contacto/gracias/";
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
+  .preguntas h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    margin: 0 0 1.75rem;
+  }
+
+  .preguntas__lista {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: 1.5rem 2.5rem;
+    max-width: 62rem;
+  }
+
+  .preguntas__item dt {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .preguntas__item dd {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
   .form-legal {
     font-size: 0.78rem;
     /* Es la frase sobre el tratamiento de datos: la que la ley pide que se pueda leer.

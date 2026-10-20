@@ -40,7 +40,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     order: 1,
     seoTitle: "Ladrillo a la vista para fachada | Clay House Antioquia",
     seoDescription:
-      "Ladrillo de fachada a la vista: romano, toscano, cartagena y macizos. Arcilla cocida bajo norma NTC 4205, fabricada en Amagá. Cotiza en 24 horas.",
+      "Ladrillo de fachada a la vista: romano, toscano, cartagena y macizos. Arcilla cocida bajo norma NTC 4205, fabricada en Amagá. Cotiza en 24 horas hábiles.",
     heroTitle: "ladrillo a la vista",
     coverProductSlug: "romano",
     coverFallback: "/images/products/romano/proyectos/casa-retiro/casa-EF-03.jpg",
@@ -53,7 +53,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     order: 2,
     seoTitle: "Ladrillo divisorio y rayado para muro | Clay House",
     seoDescription:
-      "Ladrillo rayado horizontal y vertical para muros divisorios y cerramientos con textura. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Ladrillo rayado horizontal y vertical para muros divisorios y cerramientos con textura. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     heroTitle: "ladrillo divisorio y rayado",
     coverProductSlug: "rayados-verticales",
     coverFallback: "/images/Fotos Productos/Rayado Vertical.jpg",
@@ -92,7 +92,7 @@ export const catalogCategories: CatalogCategoryDef[] = [
     order: 6,
     seoTitle: "Calados y celosías de arcilla | Clay House",
     seoDescription:
-      "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas.",
+      "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
     heroTitle: "calados y celosías",
     coverProductSlug: "calado",
     coverFallback: "/images/products/calado/calado-muro.webp",

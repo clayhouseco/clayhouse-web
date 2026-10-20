@@ -86,4 +86,4 @@ El ladrillo cumple décadas sin tratamiento si se especificó bien. Recomendacio
 
 ## En resumen
 
-La especificación bien hecha cubre seis frentes: **tipo de pieza**, **norma**, **dimensiones**, **aparejo**, **color** y **mantenimiento**. Si tiene un proyecto en mesa y necesita ayuda para especificarlo, [escríbanos](/contacto) — respondemos en menos de 24 horas con cotización, fichas técnicas y, si aplica, una caja de muestras físicas en su estudio.
+La especificación bien hecha cubre seis frentes: **tipo de pieza**, **norma**, **dimensiones**, **aparejo**, **color** y **mantenimiento**. Si tiene un proyecto en mesa y necesita ayuda para especificarlo, [escríbanos](/contacto) — respondemos en menos de 24 horas hábiles con cotización, fichas técnicas y, si aplica, una caja de muestras físicas en su estudio.

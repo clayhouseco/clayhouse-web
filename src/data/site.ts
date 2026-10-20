@@ -3,7 +3,7 @@ export const site = {
   legalName: "Clay House",
   tagline: "Convirtiendo piezas en sueños",
   description:
-    "Ladrillo, teja y enchape de arcilla con fabricación neoartesanal y norma NTC 4205. Entrega en Antioquia y toda Colombia. Cotiza en 24 horas.",
+    "Ladrillo, teja y enchape de arcilla con fabricación neoartesanal y norma NTC 4205. Entrega en Antioquia y toda Colombia. Cotiza en 24 horas hábiles.",
   /** Imagen por defecto para Open Graph y Twitter (1200×630 recomendado) */
   defaultOgImage: "/og-image.jpg",
   url: "https://clayhouse.com.co",

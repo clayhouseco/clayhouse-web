@@ -13,6 +13,7 @@
  */
 import type { Product } from "@/data/products";
 import { erpDeSlug } from "@/data/erpFeed";
+import { faqsTecnicas } from "@/data/faqs";
 import { getErpRendimiento } from "@/utils/productPricing";
 import { getReferencePriceParts } from "@/utils/productPricing";
 
@@ -165,6 +166,20 @@ const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boo
       }
     </div>
 
+    <div class="guia__preguntas">
+      <h3>Preguntas frecuentes</h3>
+      <dl>
+        {
+          faqsTecnicas.map((f) => (
+            <>
+              <dt>{f.pregunta}</dt>
+              <dd>{f.respuesta}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </div>
+
     <p class="guia__cta">
       <a href="/proyectos" class="btn btn--outline">Ver obras construidas con estas referencias</a>
     </p>
@@ -261,6 +276,34 @@ const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boo
 
   .guia__bloque a {
     color: var(--color-terracota);
+  }
+
+  .guia__preguntas {
+    margin-top: 2.5rem;
+    max-width: 46rem;
+  }
+
+  .guia__preguntas h3 {
+    font-size: 1rem;
+    margin: 0 0 0.8rem;
+  }
+
+  .guia__preguntas dl {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .guia__preguntas dt {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .guia__preguntas dd {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
   }
 
   .guia__cta {

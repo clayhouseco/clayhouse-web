@@ -58,7 +58,10 @@ export function buildProductJsonLd(
   const offer: Record<string, unknown> = {
     "@type": "Offer",
     priceCurrency: "COP",
-    availability: "https://schema.org/InStock",
+    /* Gerencia confirmó que todo se produce bajo pedido: «InStock» significa listo para
+       despachar y eso no es lo que pasa. `MadeToOrder` es exactamente esto, y no obliga a
+       declarar una fecha que no se puede dar de antemano. */
+    availability: "https://schema.org/MadeToOrder",
     itemCondition: "https://schema.org/NewCondition",
     url,
     priceValidUntil: endOfCurrentYearIso(),
