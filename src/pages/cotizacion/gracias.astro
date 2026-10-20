@@ -1,0 +1,79 @@
+---
+/**
+ * DÓNDE CAE EL CLIENTE DESPUÉS DE ENVIAR LA COTIZACIÓN POR CORREO.
+ *
+ * Caía en la página genérica de Formspree —fondo blanco, «Thanks!» en inglés, sin logo ni
+ * teléfono—: el último paso del camino comercial estaba en manos de un tercero y en otro
+ * idioma. Acá se le dice qué pasó, qué sigue y cómo alcanzarnos mientras tanto.
+ *
+ * NO dispara `generate_lead`: la conversión ya se contó cuando el servidor confirmó la
+ * solicitud, antes de salir de /cotizacion. Contarla otra vez acá inflaría los leads de
+ * Google Ads justo en el canal que mejor funciona.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+---
+
+<BaseLayout
+  noindex
+  title="Cotización enviada"
+  description="Recibimos su solicitud de cotización. Le respondemos con precio, flete y plazo."
+  hideQuoteCart
+>
+  <section class="page-hero page-hero--center">
+    <div class="container narrow">
+      <p class="eyebrow">Cotización enviada</p>
+      <h1>Su solicitud ya está con nosotros</h1>
+      <p class="text-muted page-hero__lead">
+        Quedó registrada con su número de solicitud. El equipo comercial revisa las
+        referencias y las cantidades y le responde con <strong>precio, flete y plazo</strong>
+        dentro de las próximas 24 horas hábiles.
+      </p>
+      <div class="thanks__actions">
+        <a
+          href={site.whatsapp}
+          class="btn btn--primary"
+          target="_blank"
+          rel="noopener"
+          data-track="whatsapp_click"
+          data-track-location="gracias-cotizacion"
+        >
+          Hablar con un asesor ahora
+        </a>
+        <a href="/descargas" class="btn btn--outline">Descargar fichas técnicas</a>
+      </div>
+      <p class="thanks__note">
+        ¿Olvidó una referencia?{" "}
+        <a href="/cotizacion">agregarla a una nueva solicitud</a> o escribir a{" "}
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { clearQuoteCart } from "@/utils/quoteCart";
+  /* El carrito ya cumplió: dejarlo lleno hace que la próxima visita arranque con la
+     cotización que acaba de enviarse. */
+  clearQuoteCart();
+</script>
+
+<style>
+  .thanks__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .thanks__note {
+    margin-top: 1.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .thanks__note a {
+    color: var(--color-terracota);
+  }
+</style>

@@ -41,7 +41,8 @@ const year = new Date().getFullYear();
       </article>
 
       <article class="footer__card footer__card--menu">
-        <p class="footer__heading">Navegación</p>
+        <details class="footer__grupo" data-footer-grupo>
+          <summary class="footer__heading">Navegación</summary>
         <ul class="footer__links">
           {nav.map((item) => (
             <li>
@@ -52,10 +53,12 @@ const year = new Date().getFullYear();
             <a href="/comprar-ladrillo-medellin">Comprar en Medellín y Antioquia</a>
           </li>
         </ul>
+        </details>
       </article>
 
       <article class="footer__card footer__card--menu">
-        <p class="footer__heading">Contacto</p>
+        <details class="footer__grupo" data-footer-grupo>
+          <summary class="footer__heading">Contacto</summary>
         <ul class="footer__links">
           <li>
             <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -66,10 +69,12 @@ const year = new Date().getFullYear();
           <li>{site.address}</li>
           <li class="footer__hours">{site.hours}</li>
         </ul>
+        </details>
       </article>
 
       <article class="footer__card footer__card--menu">
-        <p class="footer__heading">Catálogo</p>
+        <details class="footer__grupo" data-footer-grupo>
+          <summary class="footer__heading">Catálogo</summary>
         <ul class="footer__links">
           {
             catalogCategories.map((cat) => (
@@ -79,6 +84,7 @@ const year = new Date().getFullYear();
             ))
           }
         </ul>
+        </details>
       </article>
 
       <article class="footer__card footer__card--menu footer__card--social">
@@ -110,6 +116,18 @@ const year = new Date().getFullYear();
     </p>
   </div>
 </footer>
+
+<script>
+  /* EL PIE EN MÓVIL ERA UNA COLUMNA DE VEINTE ENLACES.
+     En escritorio las tres listas se ven siempre; en móvil se pliegan y se abren al tocar
+     el título. Se usa <details>, que ya trae el teclado y el lector de pantalla resueltos;
+     lo único que hace este script es decidir el estado inicial según el ancho. */
+  const grupos = document.querySelectorAll<HTMLDetailsElement>("[data-footer-grupo]");
+  const ancho = window.matchMedia("(min-width: 769px)");
+  const aplicar = () => grupos.forEach((g) => (g.open = ancho.matches));
+  aplicar();
+  ancho.addEventListener("change", aplicar);
+</script>
 
 <style>
   .footer {
@@ -234,6 +252,49 @@ const year = new Date().getFullYear();
     margin: 0 0 0.65rem;
     width: 100%;
     text-align: center;
+  }
+
+  .footer__grupo summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    /* La tarjeta centra su contenido: sin esto el título y la flecha quedan pegados en
+       mitad de la tarjeta en vez de ocupar el ancho tocable. */
+    width: 100%;
+    padding-block: 0.35rem;
+  }
+
+  .footer__grupo summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* La flecha solo donde el grupo se puede plegar. */
+  .footer__grupo summary::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s var(--ease);
+    opacity: 0.6;
+  }
+
+  .footer__grupo[open] summary::after {
+    transform: rotate(-135deg);
+  }
+
+  @media (min-width: 769px) {
+    .footer__grupo summary {
+      cursor: default;
+    }
+
+    .footer__grupo summary::after {
+      display: none;
+    }
   }
 
   .footer__links {

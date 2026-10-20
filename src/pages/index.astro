@@ -206,7 +206,21 @@ const reviewsAverage = getAverageRating();
       <p class="hero__sub">Reinventando el barro desde 1965.</p>
       <div class="hero__actions">
         <a href="/productos" class="btn btn--light">Ver catálogo</a>
+        {/* El camino comercial no estaba en la primera pantalla: para pedir precio había
+            que entrar al catálogo y buscar el botón. */}
+        <a href="/cotizacion" class="btn btn--primary" data-track="cotizar_click" data-track-location="hero">
+          Cotizar proyecto
+        </a>
       </div>
+      {/* LO QUE RESPONDE A «¿Y ESTOS QUIÉNES SON?» SIN BAJAR.
+          Cinco datos comprobables: la fábrica, dónde está, bajo qué norma, hasta dónde
+          despacha y en cuánto contesta. Ninguno es un adjetivo. */}
+      <ul class="hero__claves">
+        <li>Fábrica propia en Amagá, Antioquia</li>
+        <li>Norma NTC 4205</li>
+        <li>Despacho a todo Colombia</li>
+        <li>Cotización en 24 horas hábiles</li>
+      </ul>
     </div>
   </section>
 
@@ -455,7 +469,10 @@ const reviewsAverage = getAverageRating();
   /* ---------------- HERO ---------------- */
   .hero {
     position: relative;
-    min-height: 110vh;
+    /* Eran 110vh: la primera pantalla no cabía en la pantalla, así que nada de lo que
+       sigue —el producto insignia, las categorías, las reseñas— existía hasta que alguien
+       se desplazara. Con 85 el hero sigue mandando y se asoma lo que viene abajo. */
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -515,12 +532,50 @@ const reviewsAverage = getAverageRating();
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    margin-top: 3rem;
+    margin-top: 2.5rem;
+  }
+
+  .hero__claves {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.75rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.94);
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  }
+
+  .hero__claves li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+
+  /* Un punto de barro, no un icono de interfaz: la marca es la arcilla. */
+  .hero__claves li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--color-ambar);
   }
 
   @media (max-width: 768px) {
     .hero {
       min-height: 75vh;
+    }
+
+    .hero__claves {
+      gap: 0.35rem 1rem;
+      font-size: 0.75rem;
+      margin-top: 1.5rem;
     }
 
     .hero__title {

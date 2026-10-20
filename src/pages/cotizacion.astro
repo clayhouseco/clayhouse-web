@@ -28,13 +28,16 @@ const DEPARTAMENTOS = [
       <p class="cotz__eyebrow">Comercial</p>
       <h1>Solicitar cotización</h1>
       <p class="cotz__lead">
-        Agrega los productos con su color y cantidad. A la derecha ves tu cotización
+        Agrega los productos con su color y cantidad. Mientras agregas se arma tu cotización
         preliminar; al enviarla, nuestro equipo te confirma precios finales, flete y condiciones.
       </p>
     </div>
 
     <form class="container cotz__grid" id="cotizacion-form" method={formAction ? "POST" : "get"} action={formAction}>
       {formAction && <input type="hidden" name="_subject" value="Nueva cotización desde la web" />}
+      {/* Sin esto, Formspree deja al cliente en su propia página de gracias: fondo blanco,
+          «Thanks!» en inglés y ningún camino de vuelta. */}
+      {formAction && <input type="hidden" name="_next" value={new URL("/cotizacion/gracias", site.url).href} />}
       <input type="hidden" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
       <input type="hidden" name="Detalle de la cotización" data-cotizacion-payload />
 
@@ -1080,11 +1083,19 @@ const DEPARTAMENTOS = [
 
   @media (max-width: 960px) {
     .cotz__grid { grid-template-columns: 1fr; }
-    .cotz__doc-col { position: static; order: -1; }
+    /* El documento iba ARRIBA del formulario (`order: -1`): en un teléfono lo primero que
+       se veía era una cotización vacía y había que pasarla de largo para empezar a pedir.
+       Es el resultado, no el punto de partida: va después. */
+    .cotz__doc-col { position: static; }
   }
   @media (max-width: 620px) {
     .cotz-fields { grid-template-columns: 1fr; }
     .cotz-linea__grid { grid-template-columns: 1fr 1fr; }
     .cotz-linea__prod { grid-column: 1 / -1; }
+    /* Color, cantidad y unidad no caben en una fila de 390 px: la unidad se salía de la
+       pantalla, justo debajo del botón flotante de WhatsApp. */
+    .cotz-sel__fields { display: grid; grid-template-columns: 1fr auto auto; align-items: end; }
+    .cotz-sel__fields label[data-campo-wrap="color"] { grid-column: 1 / -1; }
+    .cotz-linea__qty { max-width: 5.5rem; }
   }
 </style>

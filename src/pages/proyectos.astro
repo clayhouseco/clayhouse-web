@@ -201,7 +201,14 @@ const totalProjects = allProjects.length;
         Conversemos sobre la especificación, los acabados y los tiempos de entrega.
       </p>
       <p class="projects-cta__actions">
-        <a href="/contacto" class="btn btn--primary">Cotizar mi proyecto</a>
+        {/* Decía «Cotizar mi proyecto» y llevaba a /contacto, que es un formulario de
+            mensaje: quien venía a pedir precio terminaba escribiendo un correo. */}
+        <a
+          href="/cotizacion"
+          class="btn btn--primary"
+          data-track="cotizar_click"
+          data-track-location="proyectos"
+        >Cotizar mi proyecto</a>
         <a href="/productos" class="btn btn--outline">Ver catálogo</a>
       </p>
     </div>
@@ -612,8 +619,23 @@ const totalProjects = allProjects.length;
     transition: opacity 0.3s var(--ease);
   }
 
-  .project-card:hover .project-card__overlay {
+  .project-card:hover .project-card__overlay,
+  .project-card:focus-visible .project-card__overlay {
     opacity: 1;
+  }
+
+  /**
+   * EN UN TELÉFONO NO HAY «PASAR EL RATÓN».
+   *
+   * «Ver proyecto →» solo aparecía al hacer hover: en táctil —que es la mayoría del
+   * tráfico— la tarjeta no decía en ninguna parte que se pudiera abrir. Ahí la señal se
+   * queda puesta, con un degradado más suave para no tapar la foto.
+   */
+  @media (hover: none) {
+    .project-card__overlay {
+      opacity: 1;
+      background: linear-gradient(to top, rgba(71, 36, 16, 0.72) 0%, transparent 42%);
+    }
   }
 
   .project-card__cta {

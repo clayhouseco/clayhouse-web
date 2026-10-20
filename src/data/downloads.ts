@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { products } from "@/data/products";
+import { isVisible, products } from "@/data/products";
 import {
   catalogCategories,
   type ProductCategory,
@@ -30,7 +30,10 @@ function tieneFicha(ruta: string): boolean {
 
 /** Fichas técnicas activas (una por producto del catálogo que tenga el PDF hecho) */
 export const downloads: Download[] = products
-  .filter((p) => p.technicalPdf && tieneFicha(p.technicalPdf))
+  /* Y solo de lo que se vende: /descargas ofrecía la ficha del Napolitano, del Gran Formato
+     y del Enchape Rústico, que el ERP dejó de publicar. Descargar la ficha de algo que no
+     se puede comprar es una visita perdida y una llamada que nadie puede atender. */
+  .filter((p) => isVisible(p) && p.technicalPdf && tieneFicha(p.technicalPdf))
   .map((p, index) => ({
   title: p.name,
   slug: `ficha-${p.slug}`,
