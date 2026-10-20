@@ -85,7 +85,7 @@ function buildManifest(
   variants: ProductColorVariant[],
   options?: { variantSelectorLabel?: string }
 ): ProductAssetManifest {
-  const fusionadas = fusionarConErp(slug, variants);
+  const fusionadas = fusionarConErp(slug, variants, options?.variantSelectorLabel);
   return {
     slug,
     variants: fusionadas,
@@ -122,9 +122,24 @@ const mismaVariante = (
   return idDeColor(v.id) === e.id || idDeColor(v.colorLabel) === e.id || idDeColor(v.label) === e.id;
 };
 
-function fusionarConErp(slug: string, manuales: ProductColorVariant[]): ProductColorVariant[] {
+function fusionarConErp(
+  slug: string,
+  manuales: ProductColorVariant[],
+  selector?: string,
+): ProductColorVariant[] {
   const delErp = variantesDeErp(slug);
   if (!delErp || !delErp.length) return manuales;   // el ERP no opina de esta página
+
+  /**
+   * UN SELECTOR DE FORMATO NO ADMITE COLORES.
+   *
+   * El Macizo elige formato —«6×13×25 cm»— y el ERP le asignó el color Natural. Sin esta
+   * salida, el botón del color entraba a la misma fila que el del formato y la ficha
+   * ofrecía «6×13×25 cm» y «Natural» como si fueran alternativas entre sí. El precio y las
+   * fotos del color siguen llegando por `conDatosDelErp`; lo único que no entra es un
+   * botón que no corresponde a esa pregunta.
+   */
+  if (selector && selector.toLowerCase() !== "color") return manuales;
 
   const out: ProductColorVariant[] = manuales.map((v) => {
     const e = delErp.find((x) => mismaVariante(v, x));
@@ -477,6 +492,10 @@ const tejaColonialVariants: ProductColorVariant[] = [
     colorLabel: "Roja",
     folder: "roja",
     pricePerUnit: "$ 1.600",
+    /* En el ERP este color se llama «Natural». Sin esta llave, el cruce por nombre no los
+       reconoce como el mismo y la ficha muestra dos botones —«Roja» y «Natural»— para el
+       único color que existe. */
+    erpColor: "NAT",
   },
 ];
 

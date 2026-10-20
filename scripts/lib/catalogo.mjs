@@ -190,6 +190,14 @@ export function conflictos(feed) {
   const codigos = codigosDeLaWeb();
   const codigosErp = new Set((feed.productos ?? []).map((p) => p.codigo).filter(Boolean));
 
+  /* La pieza más barata que vende la fábrica, según el propio catálogo. Sirve de referencia
+     para saber si un precio por m² está en la escala de un metro o en la de una pieza. */
+  const piezaMasBarata = (feed.productos ?? [])
+    .filter((p) => normalizarUnidad(p.unidad) === "unidad")
+    .map(precioDeErp)
+    .filter((v) => typeof v === "number" && v > 0)
+    .reduce((min, v) => (min === null || v < min ? v : min), null);
+
   /* ── 1. Quién está en cada lista ── */
   for (const p of web) {
     if (porSlug.has(p.slug)) continue;
@@ -243,6 +251,33 @@ export function conflictos(feed) {
       filas.push(fila(slug, "precio", p.precio, `$ ${pe.toLocaleString("es-CO")}`, MANDA.erp,
         "la página ya publica el del ERP: actualizar o borrar el escrito a mano en products.ts"));
     }
+    /**
+     * UN PRECIO POR PIEZA ETIQUETADO COMO PRECIO POR METRO.
+     *
+     * La teja colonial llegó del ERP a $ 1.600 con la unidad en m². Son $ 1.600 por teja
+     * —y van 20 en un metro—, así que publicarlo tal cual pone el metro 20 veces más
+     * barato de lo que cuesta. Es el mismo error que costó meses al revés, cuando el
+     * cotizador multiplicaba metros por el precio de una pieza.
+     *
+     * Se detecta sin inventar cifras: si el producto se vende por m² y publica su
+     * rendimiento, el precio de una pieza sale de dividir. Cuando esa división queda muy
+     * por debajo de la pieza más barata del propio catálogo, lo que hay no es un precio
+     * por metro.
+     */
+    if (unidadErp === "m2" && pe !== null) {
+      const und = unidadesPorM2(filasErp);
+      const porPieza = und ? pe / und : null;
+      if (porPieza !== null && piezaMasBarata !== null && porPieza < piezaMasBarata / 4) {
+        filas.push(fila(slug, "precio", p.precio ?? "—",
+          `$ ${pe.toLocaleString("es-CO")} / m² (≈ $ ${Math.round(porPieza).toLocaleString("es-CO")} por pieza)`,
+          MANDA.erp,
+          `con ${und} piezas por m², ese precio por metro sale a menos de lo que cuesta una pieza: ` +
+          `parece el precio de la unidad puesto en un producto que se vende por m². Corregir en el ERP ` +
+          `—precio por m², o unidad «unidad»— antes de publicarlo`,
+          true));
+      }
+    }
+
     /* Uno por uno, no solo el más barato: la página publica el mínimo, pero el cotizador
        cobra el del color que elija el cliente. Un cero o un dígito de más en un solo color
        se cuela en una cotización sin aparecer en ninguna etiqueta. */
