@@ -49,7 +49,12 @@ const currentPath = Astro.url.pathname;
     <div class="header__actions">
       <a href="/cotizacion" class="header__cta btn btn--primary" data-track="cotizar_click" data-track-location="header">Cotizar</a>
     </div>
-    <button class="header__toggle" aria-label="Abrir menú" aria-expanded="false">
+    <button
+      class="header__toggle"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="header-nav"
+    >
       <span></span>
       <span></span>
     </button>
@@ -83,7 +88,11 @@ const currentPath = Astro.url.pathname;
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setNavOpen(false);
+    if (e.key !== "Escape" || !nav?.classList.contains("header__nav--open")) return;
+    setNavOpen(false);
+    /* El foco vuelve al botón que abrió el menú. Sin esto se quedaba dentro de un menú ya
+       cerrado y el siguiente tabulador saltaba a cualquier parte de la página. */
+    (toggle as HTMLElement | null)?.focus();
   });
 </script>
 

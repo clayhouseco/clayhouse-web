@@ -242,7 +242,7 @@ const year = new Date().getFullYear();
     padding: 0;
     font-size: 0.875rem;
     font-weight: 500;
-    line-height: 1.55;
+    line-height: 1.25;
     color: var(--color-chocolate);
     width: 100%;
   }
@@ -256,6 +256,11 @@ const year = new Date().getFullYear();
     font-weight: 500;
     text-decoration: none;
     transition: color 0.2s var(--ease);
+    /* Un enlace de 0,875rem en una línea mide 22 px de alto: por debajo de los 24 que pide
+       la norma para tocar con el dedo, y son dieciséis enlaces juntos. Con esto cada uno
+       pasa de 34 px sin cambiar cómo se ve la lista. */
+    display: block;
+    padding-block: 0.35rem;
   }
 
   .footer__links a:hover {

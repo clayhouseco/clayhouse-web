@@ -76,6 +76,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
 ></script>
 
 <script>
+  import { atraparFoco } from "@/utils/dialogo.client";
   import {
     QUOTE_CART_EVENT,
     clearQuoteCart,
@@ -98,17 +99,22 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
   const summaryList = document.querySelector("[data-quote-summary-list]");
   const summaryTotal = document.querySelector("[data-quote-summary-total]");
 
+  let soltarFoco = null;
+
   function openCart() {
     if (!root) return;
     root.hidden = false;
     document.body.classList.add("quote-cart-open");
-    root.querySelector(".quote-cart__close")?.focus();
+    /* Con el carrito abierto el tabulador se quedaba recorriendo la página de atrás. */
+    soltarFoco = atraparFoco(root.querySelector(".quote-cart__panel") ?? root);
   }
 
   function closeCart() {
     if (!root) return;
     root.hidden = true;
     document.body.classList.remove("quote-cart-open");
+    soltarFoco?.();
+    soltarFoco = null;
   }
 
   function renderItem(item) {
@@ -441,7 +447,9 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
     align-items: center;
     gap: 0.5rem;
     font-size: 0.8125rem;
-    color: rgba(71, 36, 16, 0.4);
+    /* «Elegir · Datos · Enviar»: son las instrucciones del carrito. A 0,4 de opacidad daban
+       2,4:1, que es gris sobre blanco. */
+    color: rgba(71, 36, 16, 0.74);
     position: relative;
     padding-right: 2rem;
   }
@@ -465,7 +473,7 @@ import { quoteProductCatalog } from "@/data/quoteCatalog";
     font-weight: 700;
     border-radius: 0.35rem;
     background: rgba(71, 36, 16, 0.08);
-    color: rgba(71, 36, 16, 0.45);
+    color: rgba(71, 36, 16, 0.78);
     transform: rotate(-3deg);
   }
 

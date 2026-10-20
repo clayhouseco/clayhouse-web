@@ -211,6 +211,20 @@ p {
   color: rgba(255, 251, 249, 0.8);
 }
 
+/* Para lectores de pantalla y no para la vista. Vivía solo en la hoja de reseñas, así que
+   un `visually-hidden` escrito en cualquier otra página salía a la vista. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .text-muted {
   color: var(--color-text-muted);
 }
@@ -265,4 +279,20 @@ p {
 a:focus:not(:focus-visible),
 button:focus:not(:focus-visible) {
   outline: none;
+}
+
+/* QUIEN PIDE MENOS MOVIMIENTO, LO PIDE EN TODO EL SITIO.
+   El respeto a `prefers-reduced-motion` estaba repartido por componentes: cada hoja
+   apagaba lo suyo y lo que no estuviera contemplado —el pulso del botón de WhatsApp, las
+   transiciones de los botones, el carrusel— seguía moviéndose. Esto lo apaga de raíz y las
+   reglas de cada componente siguen valiendo como afinado. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

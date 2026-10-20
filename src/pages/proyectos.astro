@@ -142,6 +142,10 @@ const totalProjects = allProjects.length;
         Mostrando <strong>{totalProjects}</strong> de {totalProjects} proyectos
       </p>
 
+      {/* La página salta de su h1 a los h3 de las tarjetas: un lector de pantalla que
+          navega por encabezados oye un nivel que no existe. El título de la lista estaba
+          dicho visualmente por el contador de arriba, no en la estructura. */}
+      <h2 class="visually-hidden">Proyectos construidos con material Clay House</h2>
       <div class="projects-grid" data-projects-grid>
         {
           allProjects.map((project) => (
@@ -237,6 +241,7 @@ const totalProjects = allProjects.length;
 </BaseLayout>
 
 <script>
+  import { atraparFoco } from "@/utils/dialogo.client";
   const filters = document.querySelector<HTMLElement>("[data-projects-filters]");
   const grid = document.querySelector<HTMLElement>("[data-projects-grid]");
   const empty = document.querySelector<HTMLElement>("[data-projects-empty]");
@@ -375,6 +380,8 @@ const totalProjects = allProjects.length;
     if (nextBtn) nextBtn.hidden = !multi;
   }
 
+  let soltarFoco: (() => void) | null = null;
+
   function openViewer(id: string, trigger: HTMLElement) {
     const project = projectsData[id];
     if (!project || !viewer) return;
@@ -388,6 +395,9 @@ const totalProjects = allProjects.length;
     viewer.hidden = false;
     viewer.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    /* Ya devolvía el foco al cerrar; lo que faltaba era encerrarlo mientras está abierto:
+       con el visor tapando la página, el tabulador seguía recorriendo lo de atrás. */
+    soltarFoco = atraparFoco(viewer);
     viewer.querySelector<HTMLButtonElement>("[data-viewer-close]")?.focus();
   }
 
@@ -397,6 +407,8 @@ const totalProjects = allProjects.length;
     viewer.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
     current = null;
+    soltarFoco?.();
+    soltarFoco = null;
     lastFocused?.focus();
   }
 

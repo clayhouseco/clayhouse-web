@@ -285,7 +285,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
           </nav>
         </div>
 
-        <aside class="product-page__info-card">
+        <div class="product-page__info-card">
           <header class="product-page__header">
             <h1>{displayName}</h1>
             <span data-product-color hidden>{displayColor}</span>
@@ -379,7 +379,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               Ver cotización (<span data-quote-header-count>0</span>)
             </button>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
 
@@ -795,7 +795,10 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         type="button"
         class="product-page__sticky-btn product-page__sticky-btn--quote"
         data-sticky-add-to-quote
-        aria-label={`Agregar ${product.name} a cotización`}
+        {/* El nombre accesible tiene que contener el texto que se ve —«Agregar a
+            cotización»—, o quien dicta por voz nombra un botón que el navegador no
+            reconoce. El producto va después, no en medio. */}
+        aria-label={`Agregar a cotización: ${product.name}`}
       >
         Agregar a cotización
       </button>
@@ -1719,7 +1722,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   }
 
   .product-page__panel--dark .spec-item dt {
-    color: var(--color-salmon);
+    /* El salmón de marca sobre el terracota da 3,57:1 y la norma pide 4,5 para texto
+       pequeño: estas son las etiquetas de la ficha técnica —peso, norma, absorción—, que
+       es justo lo que alguien va a leer con atención. Un tono más claro del mismo salmón
+       llega a 4,86 sin salirse de la paleta. */
+    color: #fdc3bd;
   }
 
   .product-page__panel--dark .spec-item dd {
@@ -2168,7 +2175,9 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     }
 
     .product-page__sticky-btn--whatsapp {
-      background: #25d366;
+      /* Ver la nota del botón flotante en BaseLayout: el verde claro con texto blanco no
+         llega ni a 2:1. */
+      background: #075e54;
       color: white;
     }
 

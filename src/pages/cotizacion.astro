@@ -142,7 +142,7 @@ const DEPARTAMENTOS = [
       </div>
 
       <!-- ============ COLUMNA DERECHA: DOCUMENTO ============ -->
-      <aside class="cotz__doc-col">
+      <div class="cotz__doc-col">
         <div class="cotz-doc" data-doc>
           <header class="cotz-doc__top">
             <img src={logos.headerWhite} alt="Clay House" class="cotz-doc__logo" width="360" height="70" />
@@ -190,7 +190,7 @@ const DEPARTAMENTOS = [
             </footer>
           </div>
         </div>
-      </aside>
+      </div>
     </form>
   </section>
 
@@ -611,7 +611,38 @@ const DEPARTAMENTOS = [
       if (!currentLineas().length) return { msg: "Agrega al menos un producto a la cotización.", el: form.querySelector("[data-add-linea]") };
       return null;
     };
-    const avisar = (v) => { alert(v.msg); if (v.el) { v.el.focus(); v.el.scrollIntoView({ behavior: "smooth", block: "center" }); } };
+    /**
+     * EL ERROR, JUNTO AL CAMPO QUE LO CAUSA.
+     *
+     * Era un `alert()` del navegador: corta todo, no dice a qué campo se refiere más que
+     * por el texto, y al aceptarlo desaparece —quien use lector de pantalla y se distraiga
+     * no tiene cómo volver a oírlo—. Ahora el mensaje se queda escrito debajo del campo,
+     * el campo se marca como inválido para la tecnología de apoyo, y el foco va ahí.
+     */
+    const avisar = (v) => {
+      limpiarErrores();
+      estado(v.msg, "error");
+      if (!v.el) return;
+      const id = (v.el.id || v.el.name || "campo") + "-error";
+      const aviso = document.createElement("span");
+      aviso.className = "cotz-error";
+      aviso.id = id;
+      aviso.textContent = v.msg;
+      v.el.setAttribute("aria-invalid", "true");
+      v.el.setAttribute("aria-describedby", id);
+      (v.el.closest("label") || v.el.parentElement)?.appendChild(aviso);
+      v.el.focus();
+      v.el.scrollIntoView({ behavior: "smooth", block: "center" });
+      v.el.addEventListener("input", limpiarErrores, { once: true });
+    };
+
+    function limpiarErrores() {
+      form.querySelectorAll(".cotz-error").forEach((e) => e.remove());
+      form.querySelectorAll("[aria-invalid]").forEach((e) => {
+        e.removeAttribute("aria-invalid");
+        e.removeAttribute("aria-describedby");
+      });
+    }
 
     // Texto legible de la cotización (para WhatsApp y correo).
     const quoteText = () => {
@@ -895,7 +926,10 @@ const DEPARTAMENTOS = [
   .cotz-pill { padding: 0.5rem 1rem; border: 1px solid rgba(71, 36, 16, 0.2); border-radius: 999px; background: var(--color-white); color: var(--color-chocolate); font-weight: 500; cursor: pointer; }
   .cotz-pill--active { background: var(--color-terracota); border-color: var(--color-terracota); color: #fff; }
   .cotz-flete-nota { grid-column: 1 / -1; margin: 0; font-size: 0.82rem; color: #5c534f; background: rgba(124, 72, 44, 0.06); border-left: 3px solid var(--color-terracota); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); }
-  .cotz-hint { font-size: 0.72rem; font-weight: 400; color: rgba(71, 36, 16, 0.5); }
+  /* Son las instrucciones de cómo poner la dirección de obra: a 0,5 de opacidad daban
+     2,98:1 y es texto chico. A 0,78 llegan a 5,3. */
+  .cotz-error { display: block; margin-top: 0.3rem; font-size: 0.75rem; font-weight: 600; color: #a3311f; }
+  .cotz-hint { font-size: 0.72rem; font-weight: 400; color: rgba(71, 36, 16, 0.78); }
   .cotz-ac { position: relative; }
   .cotz-ac__list { list-style: none; margin: 0.35rem 0 0; padding: 0.25rem; border: 1px solid rgba(71, 36, 16, 0.15); border-radius: var(--radius-sm); background: var(--color-white); box-shadow: 0 8px 20px rgba(71, 36, 16, 0.12); max-height: 14rem; overflow-y: auto; }
   .cotz-ac__list li { padding: 0.5rem 0.6rem; font-size: 0.8rem; font-weight: 400; color: var(--color-chocolate); border-radius: 4px; cursor: pointer; line-height: 1.3; }
@@ -954,7 +988,9 @@ const DEPARTAMENTOS = [
     line-height: 1.25;
     min-height: 1.95em;
   }
-  .cotz-cardp__code { display: block; margin-top: 0.1rem; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em; color: rgba(71, 36, 16, 0.45); }
+  /* 0,45 de opacidad daba 2,65:1 sobre blanco, y es el código con el que el cliente
+     identifica lo que pide. Subido a 0,74 llega a 4,85. */
+  .cotz-cardp__code { display: block; margin-top: 0.1rem; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.04em; color: rgba(71, 36, 16, 0.74); }
 
   /* Producto seleccionado */
   .cotz-sel__head { display: flex; align-items: center; gap: 0.65rem; }
@@ -998,7 +1034,9 @@ const DEPARTAMENTOS = [
     font-weight: 600;
   }
 
-  .cotz-legal { margin-top: 0.7rem; font-size: 0.78rem; color: #8a807c; text-align: left; }
+  /* Los grises de este bloque y del documento imprimible daban entre 3,1 y 3,7 sobre
+     blanco. Es la cotización que el cliente guarda en PDF: tiene que leerse impresa. */
+  .cotz-legal { margin-top: 0.7rem; font-size: 0.78rem; color: #6f6660; text-align: left; }
   .cotz-legal--warn { color: var(--color-terracota); }
 
   /* Imprimir / Guardar PDF: solo el documento de la derecha. */
@@ -1022,14 +1060,14 @@ const DEPARTAMENTOS = [
   .cotz-doc__body { padding: 1.5rem; }
   .cotz-doc__datos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.78rem; color: #5c534f; margin-bottom: 1.25rem; }
   .cotz-doc__datos p { margin: 0 0 0.2rem; }
-  .cotz-doc__datos span { color: #9a908b; }
+  .cotz-doc__datos span { color: #6f6660; }
   .cotz-doc__datos b { color: var(--color-chocolate); font-weight: 600; }
   .cotz-doc__tabla { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
   .cotz-doc__tabla thead th { background: var(--color-chocolate); color: #fff; text-align: left; padding: 0.5rem 0.6rem; font-size: 0.68rem; letter-spacing: 0.04em; }
   .cotz-doc__tabla th.num, .cotz-doc__tabla td.num { text-align: right; }
   .cotz-doc__tabla td { padding: 0.55rem 0.6rem; border-bottom: 1px solid #eee; vertical-align: top; }
-  .cotz-doc__det { color: #9a908b; font-size: 0.72rem; }
-  .cotz-doc__vacio { text-align: center; color: #9a908b; padding: 1.25rem; }
+  .cotz-doc__det { color: #6f6660; font-size: 0.72rem; }
+  .cotz-doc__vacio { text-align: center; color: #6f6660; padding: 1.25rem; }
   .cotz-doc__totales { margin-top: 0.85rem; }
   .cotz-doc__total-row { display: flex; justify-content: space-between; padding: 0.5rem 0.6rem; font-size: 0.85rem; }
   .cotz-doc__total-row b { color: var(--color-chocolate); }
@@ -1037,7 +1075,7 @@ const DEPARTAMENTOS = [
   .cotz-doc__total-row--flete b { color: var(--color-terracota); }
   .cotz-doc__notas { margin-top: 1rem; font-size: 0.75rem; line-height: 1.45; color: #5c534f; background: rgba(124, 72, 44, 0.06); border: 1px solid rgba(124, 72, 44, 0.16); border-radius: var(--radius-sm); padding: 0.8rem; }
   .cotz-doc__notas p { margin: 0; }
-  .cotz-doc__pie { margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px solid #eee; font-size: 0.72rem; color: #8a807c; }
+  .cotz-doc__pie { margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px solid #eee; font-size: 0.72rem; color: #6f6660; }
   .cotz-doc__pie b { color: var(--color-chocolate); }
 
   @media (max-width: 960px) {

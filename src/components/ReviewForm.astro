@@ -44,6 +44,9 @@ const thankYouPath = "/resenas/gracias/";
       name="_gotcha"
       tabindex="-1"
       autocomplete="off"
+      {/* Campo trampa para robots: quien usa lector de pantalla tampoco debe encontrarlo,
+          o se le pide llenar algo que no existe. */}
+      aria-hidden="true"
       class="review-form__honeypot"
       aria-hidden="true"
     />

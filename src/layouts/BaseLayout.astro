@@ -113,6 +113,9 @@ const ogImageUrl = ogImagePath.startsWith("http")
     {!hideQuoteCart && <QuoteCart />}
     <Analytics />
     <CookieConsent />
+    {/* Envuelto en un punto de referencia: suelto en el <body> no pertenecía a ninguno, y
+        quien navega por regiones —con lector de pantalla— no llegaba nunca a él. */}
+    <aside class="whatsapp-fab-wrap" aria-label="Contacto directo">
     <a
       href={site.whatsapp}
       class="whatsapp-fab"
@@ -130,6 +133,7 @@ const ogImageUrl = ogImagePath.startsWith("http")
       </svg>
       <span class="whatsapp-fab__label">Escríbenos</span>
     </a>
+    </aside>
   </body>
 </html>
 
@@ -167,7 +171,10 @@ const ogImageUrl = ogImagePath.startsWith("http")
     justify-content: center;
     gap: 0;
     padding: 0;
-    background: #25d366;
+    /* Verde oscuro de WhatsApp (#075e54) en vez del claro (#25d366): el icono y el texto
+       blancos sobre el claro daban 1,98:1, cuando la norma pide 4,5 para texto y 3 para un
+       icono. Sobre este llegan a 7,67 y sigue siendo un verde de la misma marca. */
+    background: #075e54;
     color: white;
     border-radius: 999px;
     box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35), 0 4px 12px rgba(0, 0, 0, 0.18);
@@ -217,6 +224,7 @@ const ogImageUrl = ogImagePath.startsWith("http")
     position: absolute;
     inset: 0;
     border-radius: 50%;
+    /* Decorativo (aria-hidden): acá el verde vivo no tiene que cumplir contraste. */
     background: #25d366;
     opacity: 0.45;
     animation: whatsapp-pulse 2.2s var(--ease) infinite;

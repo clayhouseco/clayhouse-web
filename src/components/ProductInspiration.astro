@@ -65,9 +65,12 @@ const INTRO =
                     class="inspiration-card__open"
                     data-inspiration-open={i}
                     aria-label={
+                      /* Tiene que CONTENER el texto que se ve —el título y, si lo lleva,
+                         el «+N fotos» del distintivo—, o quien navega por voz nombra un
+                         botón que el navegador no encuentra. */
                       multi
-                        ? `Ver ${card.images.length} fotos de ${card.title}`
-                        : `Ampliar ${card.title}`
+                        ? `${card.title} +${card.images.length - 1} fotos — ver galería`
+                        : `${card.title} — ampliar foto`
                     }
                   >
                     <figure class="inspiration-card__media">
@@ -142,6 +145,7 @@ const INTRO =
 }
 
 <script>
+  import { atraparFoco } from "@/utils/dialogo.client";
   interface GalleryImage {
     src: string;
     alt: string;
@@ -245,6 +249,8 @@ const INTRO =
       });
     };
 
+    let soltarFoco: (() => void) | null = null;
+
     const openLightbox = (cardIndex: number, imageIndex = 0) => {
       if (!lightbox || !cards[cardIndex]) return;
       activeCard = cards[cardIndex];
@@ -254,7 +260,9 @@ const INTRO =
       lightbox.hidden = false;
       lightbox.classList.add("inspiration-lightbox--open");
       document.body.style.overflow = "hidden";
-      lightbox.querySelector<HTMLButtonElement>(".inspiration-lightbox__close")?.focus();
+      /* El visor tapa la página entera: el tabulador tiene que quedarse adentro, y al salir
+         el foco vuelve a la foto desde la que se abrió. */
+      soltarFoco = atraparFoco(lightbox);
     };
 
     const closeLightbox = () => {
@@ -262,6 +270,8 @@ const INTRO =
       lightbox.hidden = true;
       lightbox.classList.remove("inspiration-lightbox--open");
       document.body.style.overflow = "";
+      soltarFoco?.();
+      soltarFoco = null;
       activeCard = null;
       activeIndex = 0;
       if (lbThumbs) {

@@ -354,7 +354,7 @@ const reviewsAverage = getAverageRating();
       }
       <p class="reviews-teaser__cta">
         <a href="/resenas" class="btn btn--primary">Ver todas las reseñas</a>
-        <a href="/resenas/#dejar-resena" class="btn btn--ghost">Dejar mi reseña</a>
+        <a href="/resenas/#dejar-resena" class="btn btn--outline">Dejar mi reseña</a>
       </p>
     </div>
   </section>
@@ -544,6 +544,9 @@ const reviewsAverage = getAverageRating();
     color: var(--color-bg);
   }
 
+  /* SOLO SOBRE FONDO OSCURO. Es texto casi blanco con borde claro: en la sección de
+     reseñas, que es clara, el botón «Dejar mi reseña» quedaba con un contraste de 1,02
+     —invisible— y así estuvo publicado. Ahí va `.btn--outline`. */
   .btn--ghost {
     background: transparent;
     color: var(--color-bg);
