@@ -33,9 +33,27 @@ function leerSnapshot() {
   try { return JSON.parse(fs.readFileSync(DESTINO, "utf8")); } catch { return null; }
 }
 
+/**
+ * EL CATÁLOGO, RECIÉN HECHO — NO EL QUE HAYA EN LA CACHÉ.
+ *
+ * Gerencia: «ya organicé ambos», y la sincronización seguía trayendo los datos viejos. El
+ * API del ERP se sirve detrás de una caché (`x-vercel-cache: HIT`): respondía con la copia
+ * guardada minutos antes, con el mismo `actualizado` y todo, así que un cambio hecho en el
+ * ERP podía tardar en aparecer sin que nada lo delatara. Es, con toda probabilidad, parte
+ * de las veces que «el ERP ya lo tiene y la página no lo muestra».
+ *
+ * Se pide sin caché por los dos caminos que existen: la cabecera y un parámetro distinto en
+ * cada llamada, que es lo único que una caché intermedia no puede ignorar.
+ */
 async function bajar() {
   const ctrl = AbortSignal.timeout(20_000);
-  const r = await fetch(FEED, { signal: ctrl, headers: { accept: "application/json" } });
+  const url = new URL(FEED);
+  url.searchParams.set("_", String(Date.now()));
+  const r = await fetch(url, {
+    signal: ctrl,
+    cache: "no-store",
+    headers: { accept: "application/json", "cache-control": "no-cache", pragma: "no-cache" },
+  });
   if (!r.ok) throw new Error(`el ERP respondió ${r.status}`);
   const j = await r.json();
   if (!j?.ok || !Array.isArray(j.productos)) throw new Error(j?.error || "respuesta sin productos");

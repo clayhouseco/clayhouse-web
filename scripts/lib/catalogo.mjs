@@ -232,12 +232,19 @@ export function conflictos(feed) {
     const unidadWeb = normalizarUnidad(p.unidad);
     if (unidadErp !== unidadWeb) {
       const und = unidadesPorM2(filasErp);
+      /* Si el ERP publica su propio precio, no hay nada que convertir: la página usa ese, en
+         la unidad del ERP, y lo escrito a mano queda de respaldo viejo —molesto, no grave—.
+         Solo cuando el precio lo pone la web hay que llevarlo a la otra unidad, y entonces
+         sí importa si se puede. */
+      const loResuelveElErp = precioDePagina(filasErp) !== null;
       const convertible = unidadErp === "m2" && unidadWeb === "unidad" && !!und && !!numero(p.precio);
       filas.push(fila(slug, "unidad de venta", `precio por ${unidadWeb}`, unidadErp, MANDA.erp,
-        convertible
-          ? `la página convierte con el rendimiento del ERP (${und} und/m²); poner el precio por m² en el ERP para no depender de la conversión`
-          : "no hay rendimiento publicado con el que convertir el precio: la página no muestra cifra hasta que el ERP publique precio por m²",
-        !convertible));
+        loResuelveElErp
+          ? `la página publica el precio del ERP en su unidad; el escrito a mano en products.ts quedó en ${unidadWeb} y conviene actualizarlo o borrarlo`
+          : convertible
+            ? `la página convierte con el rendimiento del ERP (${und} und/m²); poner el precio por m² en el ERP para no depender de la conversión`
+            : "no hay rendimiento publicado con el que convertir el precio: la página no muestra cifra hasta que el ERP publique precio por m²",
+        !loResuelveElErp && !convertible));
     }
 
     // Precio. Manda el ERP y la página ya lo usa; el escrito a mano queda como respaldo

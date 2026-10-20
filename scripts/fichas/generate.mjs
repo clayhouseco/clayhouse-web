@@ -171,7 +171,14 @@ body{font-family:'M',sans-serif;color:#3a3230;background:#FCFBF7;width:340mm;hei
 </style></head><body>
 <div class="top">
   <div class="title"><h1>${p.titulo}</h1><p>${p.subtitulo}</p></div>
-  <div class="clsbox"><div class="k">CLASIFICACIÓN</div><div class="v">${p.clasificacion}</div><div class="k">NORMA DE REFERENCIA</div><div class="v" style="font-size:12pt;margin:0">${p.norma}</div></div>
+  <div class="clsbox"><div class="k">CLASIFICACIÓN</div><div class="v">${p.clasificacion}</div>${
+    /* Sin norma no se escribe el renglón. Decía «NORMA DE REFERENCIA: undefined» en los
+       productos recién creados en el ERP, que es lo que le pasó al Catalán y a la Teja S:
+       un PDF que el cliente descarga, con una palabra de programador donde va una norma. */
+    p.norma
+      ? `<div class="k">NORMA DE REFERENCIA</div><div class="v" style="font-size:12pt;margin:0">${p.norma}</div>`
+      : ""
+  }</div>
 </div>
 <div class="mid">
   <div>${feat}</div>
@@ -240,6 +247,9 @@ for (const slug of selected) {
       : spec._id
         ? path.join(ROOT, "public/images/products", slug, "fichas", `${spec._id}.pdf`)
         : path.join(ROOT, "public/images/products", slug, "ficha.pdf");
+    /* Un producto recién creado en el ERP no tiene carpeta en el repositorio. Chrome no la
+       crea: escribe en la nada y el error aparece después, al medir el archivo. */
+    fs.mkdirSync(path.dirname(out), { recursive: true });
     execFileSync(CHROME, ["--headless", "--disable-gpu", "--no-pdf-header-footer", `--print-to-pdf=${out}`, "file://" + htmlPath.split(path.sep).map(encodeURIComponent).join("/")], { stdio: "ignore" });
     const kb = (fs.statSync(out).size / 1024).toFixed(0);
     console.log(`  ✓ ${tag.padEnd(26)} ${kb} KB${preview ? "  (preview)" : ""}`);
