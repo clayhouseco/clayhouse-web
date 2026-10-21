@@ -13,5 +13,3 @@ export function isAvailable(slug: string): boolean {
   return !inactiveSlugs.has(slug);
 }
 
-/** Fecha del último cambio traído de la hoja (para diagnóstico). */
-export const availabilityUpdatedAt: string = availability.updatedAt;

@@ -52,9 +52,6 @@ export interface ErpProducto {
 
 const productos = (feed.productos ?? []) as ErpProducto[];
 
-/** Cuándo se bajó el catálogo del ERP que está usando este build. */
-export const erpActualizado: string = feed.actualizado ?? "";
-
 const porPagina = new Map<string, ErpProducto[]>();
 const porCodigo = new Map<string, ErpProducto>();
 for (const p of productos) {

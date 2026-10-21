@@ -270,7 +270,7 @@ export function getRendimientoFormats(
         const a = parseCm(v.dimensions!.alto);
         return l && a ? { variantId: v.id, label: v.label, largoCm: l, altoCm: a } : null;
       })
-      .filter((x): x is RendiFormato => x !== null);
+      .filter((x) => x !== null);
     return fmts.length ? fmts : null;
   }
   const l = parseCm(product.dimensions?.largo);

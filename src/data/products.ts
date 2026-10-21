@@ -2,7 +2,6 @@ import { fichaPdf, productFolderImage } from "@/utils/paths";
 import { isAvailable } from "@/data/availability";
 import { erpPublica } from "@/data/erpFeed";
 import { productosNacidosEnErp, conDatosDelErp } from "@/data/erpProductos";
-import { romanoAssets } from "@/data/productVariants";
 
 export type { ProductCategory } from "@/data/catalogCategories";
 export { productCategories } from "@/data/catalogCategories";
@@ -780,6 +779,7 @@ const productosEscritos: Product[] = [
       { label: "Tipo de uso", value: "Revestimiento de muros interiores" },
       { label: "Acabado", value: "Arcilla natural a la vista" },
     ],
+    technicalPdf: fichaPdf("enchape-bocadillo"),
   },
   {
     name: "Teja Plana",

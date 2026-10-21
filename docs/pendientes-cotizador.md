@@ -40,16 +40,43 @@ La política del repositorio es `with check (true)`: cualquiera con la clave
 pública —que viaja en el HTML, como debe ser— puede insertar lo que quiera, con
 el tamaño que quiera y tantas veces como quiera.
 
-`supabase/cotizaciones-rls.sql` deja preparadas las restricciones. **Requiere
-autorización antes de correrlo**, y antes de eso hay que resolver el punto 1:
-la migración apunta a la tabla que se decida.
+`supabase/cotizaciones-rls.sql` deja preparadas las restricciones, ya listas
+para pegar en el editor SQL de Supabase. **Requiere autorización antes de
+correrlo.**
 
-Lo que endurece:
+**Corrección (21 oct 2026): el punto 1 NO lo bloquea.** Se decía que había que
+resolver antes qué tabla es la oficial. No es así para lo que importa: la
+política de inserción ataña solo al rol `anon` —la clave publicable, es decir el
+navegador— y el ERP entra con credenciales de servicio, que se saltan RLS. Se
+puede aplicar hoy sobre `public.cotizaciones`, que es donde escribe la web, sin
+tocar nada de lo que hace el ERP. Si algún día la web pasa a `cotizaciones_web`,
+se vuelve a correr cambiando el nombre.
 
-- Longitud máxima de nombre, teléfono, correo, proyecto y dirección.
-- Cantidad entre 1 y 100.000 por línea.
-- Como máximo 40 líneas por solicitud.
-- Sin lectura, actualización ni borrado anónimos.
+El archivo va en tres pasos por una razón:
+
+- **Paso 0 — mirar.** Dos consultas de solo lectura: qué políticas hay hoy y con
+  qué nombres (los `drop policy` borran por nombre, así que si en producción se
+  llaman distinto las suyas seguirían abiertas), y si alguna fila existente
+  incumpliría los topes del paso 2.
+- **Paso 1 — la política de inserción.** Es lo que cierra el agujero. Solo
+  afecta a `anon`. Longitud máxima de nombre, teléfono, correo, proyecto y
+  dirección; cantidad hasta 100.000; hasta 40 líneas por solicitud —el catálogo
+  cotizable tiene 23 opciones, así que un pedido legítimo no llega ahí ni
+  pidiendo cada una dos veces—; coordenadas válidas; y sin lectura,
+  actualización ni borrado anónimos.
+- **Paso 2 — límites en el esquema.** **Este sí afecta al ERP**, porque una
+  restricción de tabla se aplica venga de donde venga. Si el ERP guarda acá sus
+  cotizaciones internas y alguna trae un nombre largo o más de 40 líneas, a
+  partir de ese momento se le rechazaría. De ahí que el paso 0.b exista.
+
+También había un defecto en el archivo: usaba `\set TABLA` y `:TABLA`, que son
+comandos de `psql`. El editor SQL de Supabase no los entiende, así que pegarlo
+habría fallado en la primera línea. Ahora lleva el nombre de la tabla escrito.
+
+Comprobado el 21 de octubre con la clave publicable, sin escribir nada: una
+lectura de `public.cotizaciones` devuelve 200 y **cero filas**. O la tabla está
+vacía, o RLS ya filtra la lectura; el paso 0 lo dice sin ambigüedad desde
+dentro. Lo que sigue sin acotar es la escritura.
 
 Lo que **no** resuelve y necesita decisión aparte: límite de peticiones por IP.
 PostgREST no lo hace solo; exige una Edge Function delante o el rate limiting

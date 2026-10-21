@@ -114,18 +114,7 @@ export function getCategorySlug(id: ProductCategory): string {
   return categorySlugById[id];
 }
 
-export function parseCategorySlug(slug: string): ProductCategory | null {
-  const entry = (
-    Object.entries(categorySlugById) as [ProductCategory, string][]
-  ).find(([, s]) => s === slug);
-  return entry?.[0] ?? null;
-}
-
 export function getCatalogCategoryHref(id: ProductCategory): string {
   return `/productos/categoria/${getCategorySlug(id)}`;
 }
 
-export function parseCategoryParam(value: string | null): ProductCategory | null {
-  if (!value) return null;
-  return catalogCategories.some((c) => c.id === value) ? (value as ProductCategory) : null;
-}

@@ -52,7 +52,7 @@ const FORCE = process.argv.includes("--force");
  */
 function imagenesDeProductos() {
   const ts = fs.readFileSync("src/data/products.ts", "utf8");
-  const inicios = [...ts.matchAll(/\n    slug: "/g)].map((m) => m.index);
+  const inicios = [...ts.matchAll(/\n {4}slug: "/g)].map((m) => m.index);
   const out = [];
   for (let i = 0; i < inicios.length; i++) {
     const bloque = ts.slice(inicios[i], inicios[i + 1] ?? ts.length);

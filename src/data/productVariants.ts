@@ -177,7 +177,7 @@ function conFotosDelErp(
       hero: fotos.map((src, i) => ({
         src,
         alt: `${productName} — ${v.colorLabel}`,
-        label: i === 0 ? v.colorLabel : undefined,
+        label: i === 0 ? v.colorLabel : "",
       })),
       inspiration: [],
     };

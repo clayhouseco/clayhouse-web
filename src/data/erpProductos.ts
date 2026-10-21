@@ -131,8 +131,8 @@ function productoDeErp(ps: ErpProducto[], slug: string): Product {
     seoTitle: `${p.nombre} | Clay House`,
     seoDescription: [descripcion, norma && `Norma ${norma}.`, "Fabricado en Amagá, Antioquia."]
       .filter(Boolean).join(" ").slice(0, 300),
-    image: p.imagen ?? "",
-    gallery: p.fotos ?? [],
+    image: fotosDelErp([p.imagen])[0] ?? "",
+    gallery: fotosDelErp(p.fotos ?? []),
     /* De «5*11*38» el ERP escribe espesor, ancho y largo; la ficha quiere largo y alto, y el
        largo de un ladrillo es siempre su medida mayor. */
     dimensions: nums.length === 3
@@ -169,6 +169,33 @@ export function productosNacidosEnErp(escritos: ReadonlySet<string>): Product[] 
   return [...porPagina.entries()]
     .sort((a, b) => (a[1][0].orden || 0) - (b[1][0].orden || 0))
     .map(([slug, ps]) => productoDeErp(ps, slug));
+}
+
+
+/**
+ * LAS FOTOS DEL ERP, TRADUCIDAS A DONDE DE VERDAD ESTÁN.
+ *
+ * El ERP guarda las rutas con el prefijo de su propio sitio —`/productos/products/romano/
+ * natural/Romano Natural.webp`— y en este repositorio ese archivo vive en
+ * `/images/products/…`. Son los mismos archivos con otro prefijo. Para los productos
+ * escritos a mano no importaba, porque su galería se arma leyendo las carpetas; pero un
+ * producto que nace en el ERP solo tiene estas rutas, y la ficha publicaba un `<img>` hacia
+ * un 404: una galería con un hueco y una miniatura vacía, sin que nada lo delatara.
+ *
+ * Acá solo se traduce el prefijo, sin tocar el disco. Comprobar que el archivo exista es
+ * trabajo de `galeriaDeProducto` en `@/utils/fichaProducto`, que solo corre en el servidor:
+ * este archivo llega al navegador por la cadena del carrito —`quoteCatalog` → `products` →
+ * acá— y un `node:fs` en esa cadena se convierte en un módulo vacío que rompe la página
+ * entera con un `TypeError` en consola.
+ */
+const PREFIJO_ERP = /^\/productos\//;
+
+function fotosDelErp(rutas: (string | null | undefined)[]): string[] {
+  return rutas.flatMap((u) => {
+    if (!u) return [];
+    if (/^https?:/i.test(u)) return [u];
+    return [u.replace(PREFIJO_ERP, "/images/")];
+  });
 }
 
 /**

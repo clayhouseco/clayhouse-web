@@ -61,6 +61,10 @@ const NO_SON_RECURSOS = new Set([
   "www.facebook.com", "www.instagram.com", "www.tiktok.com", "www.linkedin.com",
   "co.pinterest.com", "www.youtube.com", "www.openstreetmap.org", "www.google.com",
   "maps.app.goo.gl", "g.page", "search.google.com", "unpkg.com",
+  /* Leaflet escribe su propia atribución en el mapa —«Leaflet | © OpenStreetMap»— y ese
+     enlace va dentro de su código, así que aparece en el paquete. Es un `<a href>` que abre
+     el visitante, no un recurso que cargue la página. */
+  "leafletjs.com",
 ]);
 
 const RECURSO = /(?:src|href)\s*=\s*["']https:\/\/([a-z0-9.-]+)/gi;

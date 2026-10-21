@@ -38,17 +38,6 @@ export function normalizePriceDisplay(price: string): string {
   return price.replace(/^desde\s+/i, "").trim();
 }
 
-function resolvePrice(
-  itemPrice: string | undefined,
-  catalogPrice: string | undefined
-): string {
-  const candidate =
-    itemPrice && itemPrice !== "Consultar" && !/^desde\s/i.test(itemPrice)
-      ? itemPrice
-      : (catalogPrice ?? itemPrice ?? "Consultar");
-  return normalizePriceDisplay(candidate);
-}
-
 /** Completa ítems guardados antes de tener imagen/precio.
  *  El catálogo es la fuente de verdad: si existe el slug, sus datos
  *  (imagen, precio, categoría, textura, URL) reemplazan los guardados. */
@@ -120,37 +109,12 @@ export function addToQuoteCart(
   saveQuoteCart(cart);
 }
 
-export function removeFromQuoteCart(slug: string, color?: string, calidad?: string): void {
-  const key = cartKey({ slug, color, calidad });
-  saveQuoteCart(getQuoteCart().filter((i) => cartKey(i) !== key));
-}
-
-export function updateQuoteCartItem(
-  slug: string,
-  color: string | undefined,
-  quantity: number,
-  catalog?: Partial<QuoteCartItem>[],
-  calidad?: string
-): void {
-  const cat = catalog ?? getClientCatalog();
-  const key = cartKey({ slug, color, calidad });
-  const cart = getQuoteCart(cat);
-  const item = cart.find((i) => cartKey(i) === key);
-  if (!item || quantity < 1) return;
-  item.quantity = quantity;
-  saveQuoteCart(cart);
-}
-
 export function clearQuoteCart(): void {
   saveQuoteCart([]);
 }
 
 export function getQuoteCartCount(): number {
   return getQuoteCart().length;
-}
-
-export function formatPriceLabel(item: QuoteCartItem): string {
-  return `${normalizePriceDisplay(item.pricePerUnit)} / ${item.unitLabel}`;
 }
 
 export function formatLineSubtotal(item: QuoteCartItem): string {
@@ -182,15 +146,3 @@ export function formatCartLine(item: QuoteCartItem): string {
   return `• ${item.name}${colorPart} — ${item.quantity} ${item.unitLabel} — ${subtotal}`;
 }
 
-export function buildQuoteMessage(items: QuoteCartItem[]): string {
-  if (!items.length) return "";
-  return ["Solicito cotización de:", "", ...items.map(formatCartLine)].join("\n");
-}
-
-export function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

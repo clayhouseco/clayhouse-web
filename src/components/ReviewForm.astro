@@ -39,16 +39,15 @@ const thankYouPath = "/resenas/gracias/";
 
 <div class="review-form-wrap">
   <form class="review-form" id={id} data-reviews-form>
+    {/* Campo trampa para robots: quien usa lector de pantalla tampoco debe encontrarlo,
+        o se le pide llenar algo que no existe. */}
     <input
       type="text"
       name="_gotcha"
       tabindex="-1"
       autocomplete="off"
-      {/* Campo trampa para robots: quien usa lector de pantalla tampoco debe encontrarlo,
-          o se le pide llenar algo que no existe. */}
       aria-hidden="true"
       class="review-form__honeypot"
-      aria-hidden="true"
     />
 
     <label>
@@ -149,7 +148,6 @@ const thankYouPath = "/resenas/gracias/";
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
-      const original = btn ? btn.textContent : "";
       if (btn) {
         btn.disabled = true;
         btn.textContent = "Enviando…";
@@ -162,7 +160,7 @@ const thankYouPath = "/resenas/gracias/";
           mode: "no-cors",
           body: new URLSearchParams(new FormData(form)),
         });
-      } catch (err) {
+      } catch {
         /* Aun con error de red intentamos continuar al "gracias". */
       }
       window.location.href = thankYouPath;

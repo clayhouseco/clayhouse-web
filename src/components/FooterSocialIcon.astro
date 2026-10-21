@@ -7,12 +7,14 @@ interface Props {
 
 const { id } = Astro.props;
 
+/* `satisfies` deja que TypeScript compruebe los atributos sin perder sus tipos literales:
+   sin esto, `fill` y `aria-hidden` llegan como `string` y el <svg> los rechaza. */
 const svgAttrs = {
   viewBox: "0 0 24 24",
   fill: "currentColor",
   "aria-hidden": "true",
   class: "footer-social-icon",
-};
+} satisfies astroHTML.JSX.SVGAttributes;
 ---
 
 {

@@ -1,0 +1,58 @@
+---
+/**
+ * UNA LÍNEA DE LA COTIZACIÓN: EL SELECTOR DE PRODUCTO Y LO ELEGIDO.
+ *
+ * Se usa dos veces en `/cotizacion`: como la primera línea, ya pintada por el servidor, y
+ * dentro del `<template>` del que el navegador clona las siguientes. Es el mismo marcado en
+ * los dos sitios, que es justo lo que antes no pasaba: la plantilla venía vacía y el
+ * selector —veintidós tarjetas con su foto— lo armaba el navegador con `innerHTML` al
+ * arrancar. Dos consecuencias, y las dos se ven:
+ *
+ *  · El formulario se pintaba vacío y crecía de golpe cuando el módulo acababa de cargar.
+ *    Lighthouse lo medía: 0,236 de desplazamiento acumulado en móvil, contra 0,002 cuando el
+ *    código iba en línea. Lo que se mueve al cargar es lo que se pulsa por error.
+ *  · El catálogo viajaba dos veces —una en el JSON de configuración y otra armada a mano en
+ *    cadenas de HTML— y solo la primera estaba escapada por una función.
+ *
+ * Ahora el selector viene en el HTML y el módulo solo le pone los oyentes.
+ */
+import { cotizableCatalog } from "@/data/cotizacionCatalog";
+---
+
+<div class="cotz-linea" data-linea>
+  <input type="hidden" data-campo="item" />
+  <div class="cotz-picker" data-picker>
+    <p class="cotz-picker__hint">Elige un producto:</p>
+    <div class="cotz-picker__grid" data-picker-grid>
+      {
+        cotizableCatalog.map((c) => (
+          <button type="button" class="cotz-cardp" data-pick={c.id}>
+            <img src={c.thumb} alt="" loading="lazy" decoding="async" width="72" height="72" />
+            <span class="cotz-cardp__name">{c.label}</span>
+            <span class="cotz-cardp__code">{c.erpCodigo ?? "por confirmar"}</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+  <div class="cotz-sel" data-selected hidden>
+    <div class="cotz-sel__head">
+      <img class="cotz-sel__thumb" data-sel-img alt="" width="56" height="56" />
+      <div class="cotz-sel__info">
+        <b data-sel-name></b>
+        <span class="cotz-sel__code" data-sel-code></span>
+      </div>
+      <button type="button" class="cotz-sel__cambiar" data-cambiar>Cambiar</button>
+      <button type="button" class="cotz-linea__del" data-del-linea aria-label="Quitar producto">×</button>
+    </div>
+    <div class="cotz-sel__fields">
+      <label data-campo-wrap="color" hidden>Color
+        <select data-campo="color"></select>
+      </label>
+      <label class="cotz-linea__qty">Cantidad
+        <input type="number" min="1" value="1" data-campo="cantidad" />
+      </label>
+      <span class="cotz-linea__u" data-unidad></span>
+    </div>
+  </div>
+</div>

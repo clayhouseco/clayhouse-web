@@ -25,7 +25,7 @@
  * subir un precio en el ERP no cambiaba la página; el de acá se quedaba viejo sin que nada lo
  * delatara. Gerencia autorizó publicar el precio de lista, y el de lista es el del ERP.
  */
-import { erpDeSlug, type ErpProducto } from "@/data/erpFeed";
+import { erpDeSlug } from "@/data/erpFeed";
 import type { ProductColorVariant } from "@/data/productVariants";
 
 /** «Matizado Claro» → «matizado-claro»: la llave del botón y el nombre de la carpeta de fotos. */
@@ -45,11 +45,6 @@ export function precioTexto(valor: number | null | undefined): string | undefine
 /** Las fotos que el ERP publica para un color, la portada primero y sin repetir. */
 export function fotosDeColor(c: { imagen: string | null; fotos: string[] }): string[] {
   return [...new Set([c.imagen, ...(c.fotos ?? [])].filter((x): x is string => !!x))];
-}
-
-/** Las fotos del producto entero (cuando no hay color, o el color no tiene las suyas). */
-export function fotosDeProducto(p: ErpProducto): string[] {
-  return [...new Set([p.imagen, ...(p.fotos ?? [])].filter((x): x is string => !!x))];
 }
 
 export interface VarianteErp extends ProductColorVariant {

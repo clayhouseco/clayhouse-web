@@ -49,11 +49,11 @@ export function edadDelFeed(feed) {
  */
 export function productosDeLaWeb() {
   const ts = dato("products.ts");
-  const inicios = [...ts.matchAll(/\n    slug: "/g)].map((m) => m.index);
+  const inicios = [...ts.matchAll(/\n {4}slug: "/g)].map((m) => m.index);
   const out = [];
   for (let i = 0; i < inicios.length; i++) {
     const b = ts.slice(inicios[i], inicios[i + 1] ?? ts.length);
-    const uno = (re) => (b.match(re) || [, undefined])[1];
+    const uno = (re) => b.match(re)?.[1];
     out.push({
       slug: uno(/slug: "([^"]+)"/),
       nombre: uno(/name: "([^"]+)"/),
@@ -214,6 +214,26 @@ export function conflictos(feed) {
     filas.push(fila(p.pagina ?? p.id, "código", "—", "publicado sin código", MANDA.erp,
       "asignarle código en el ERP: sin él no se puede cotizar ni inventariar", true));
   }
+  /* Fotos que el ERP nombra y el repositorio no tiene. Va acá y no en el repaso campo a
+     campo porque ese solo mira los productos con ficha escrita a mano, y un producto nacido
+     en el ERP no tiene otras fotos: si su ruta no existe, su galería se queda vacía.
+
+     El ERP las guarda con el prefijo de su propio sitio (`/productos/…` donde acá es
+     `/images/…`), así que se prueban las dos formas, igual que `fotosServibles` en
+     erpProductos.ts. Lo que queda es lo que de verdad falta: la ficha ya no publica una
+     imagen rota, pero la foto sigue haciendo falta y solo alguien puede subirla. */
+  const hayArchivo = (u) =>
+    fs.existsSync(path.join("public", decodeURIComponent(u).replace(/^\//, "")));
+  for (const [slug, filasErp] of porSlug) {
+    const faltantes = [...new Set(filasErp
+      .flatMap((x) => [x.imagen, ...(x.fotos || []), ...(x.colores || []).flatMap((c) => [c.imagen, ...(c.fotos || [])])])
+      .filter((u) => u && !/^https?:/.test(u))
+      .filter((u) => !hayArchivo(u) && !hayArchivo(u.replace(/^\/productos\//, "/images/"))))];
+    if (faltantes.length)
+      filas.push(fila(slug, "fotos", "no tiene el archivo", faltantes.join(", "), MANDA.web,
+        "subir la foto al repositorio en esa ruta, o quitar la referencia en el ERP"));
+  }
+
   for (const [codigo, de] of codigos) {
     if (codigosErp.has(codigo)) continue;
     filas.push(fila(de.slug, "código", codigo, "no existe", MANDA.erp,
@@ -332,6 +352,7 @@ export function conflictos(feed) {
     if (externas.length)
       filas.push(fila(slug, "fotos", "sirve las del repositorio", `${externas.length} foto(s) subidas al ERP`, MANDA.web,
         "revisar si cumplen el protocolo de marca y bajarlas al repositorio"));
+
   }
 
   /* ── 3. Las fichas técnicas en PDF ──

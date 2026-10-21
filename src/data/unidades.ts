@@ -16,6 +16,7 @@
  * una unidad y cobrarla en otra.
  */
 import { erpDeSlug } from "@/data/erpFeed";
+import { copANumero, numeroACop } from "@/utils/pesos";
 
 export type UnidadVenta = "unidad" | "m2" | "ml";
 
@@ -67,17 +68,10 @@ export function unidadesPorM2(slug: string): number | null {
   return null;
 }
 
-/** "$ 1.600" → 1600. null si no hay cifra. */
-export function copANumero(valor: string | null | undefined): number | null {
-  const d = String(valor ?? "").replace(/[^\d]/g, "");
-  if (!d) return null;
-  const n = Number.parseInt(d, 10);
-  return Number.isFinite(n) && n > 0 ? n : null;
-}
-
-export function numeroACop(valor: number): string {
-  return `$ ${Math.round(valor).toLocaleString("es-CO")}`;
-}
+/* El manejo del dinero vive en `@/utils/pesos`, que no importa nada: así el cotizador lo usa
+   en el navegador sin arrastrar el feed del ERP. Se re-exporta para no mover a quien ya lo
+   importaba desde acá. */
+export { copANumero, numeroACop } from "@/utils/pesos";
 
 export interface PrecioEnUnidad {
   /** El precio ya expresado en la unidad de venta. */

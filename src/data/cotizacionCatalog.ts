@@ -192,4 +192,4 @@ export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p
       preciosPorColor,
     };
   });
-}).filter((x): x is CotizableItem => x !== null);
+}).filter((x) => x !== null);

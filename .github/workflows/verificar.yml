@@ -1,0 +1,79 @@
+# LO QUE SE COMPRUEBA ANTES DE QUE UN CAMBIO LLEGUE A LA PÁGINA.
+#
+# Hasta ahora no había nada: cada comprobación existía como un script que alguien tenía que
+# acordarse de correr, y la única señal real era el sitio ya publicado. Esto corre lo mismo
+# en cada empujón, en el orden en que vale la pena fallar: primero lo que cuesta segundos
+# (tipos, lint, pruebas), después el build, y al final lo que necesita el sitio construido
+# (enlaces, política de seguridad, medición, accesibilidad).
+#
+# El trabajo NO publica nada y no escribe en ninguna parte: ni en el ERP, ni en Supabase, ni
+# en la cuenta de medición. La prueba de medición sustituye `fetch` por un doble antes de
+# pulsar un botón, y la del ERP lee el feed versionado del repositorio, no la API.
+
+name: Verificar
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          # La misma que exige `engines` en package.json.
+          node-version: "22.22.0"
+          cache: npm
+
+      - name: Instalar exactamente lo que dice el lock
+        run: npm ci
+
+      - name: Tipos
+        run: npm run check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Pruebas
+        run: npm test
+
+      - name: Catálogo del ERP contra la web
+        # Sin --strict: los conflictos son decisiones de gerencia, no errores de código.
+        # Lo que sí corta el despliegue (un precio incoherente con su unidad, un producto
+        # publicado sin código) ya lo marca `bloquea` y lo aplica `build:prod`.
+        run: npm run verificar:datos
+
+      - name: Construir
+        run: npm run build
+
+      - name: Enlaces y sitemap
+        run: npm run verificar:enlaces -- --strict
+
+      - name: Política de seguridad contra lo construido
+        run: npm run verificar:csp
+
+      - name: Imágenes de producto
+        run: npm run verificar:imagenes
+
+      - name: Medición
+        # Chrome viene en la imagen del runner; `scripts/lib/navegador.mjs` lo encuentra solo.
+        run: npm run probar:medicion
+
+      - name: El camino de la ficha al cotizador
+        # No pulsa ningún botón de envío: comprueba lo que llega al cotizador y lo que dice
+        # la validación. Nada toca el ERP ni la base.
+        run: npm run probar:cotizador
+
+      - name: Accesibilidad y teclado
+        run: npm run probar:accesibilidad
+
+      - name: Vulnerabilidades en lo que se publica
+        # Solo dependencias de producción: lo que viaja al navegador del visitante.
+        run: npm audit --omit=dev --audit-level=high

@@ -17,15 +17,18 @@ import {
   getCatalogImageScale,
   getProductAssets,
   getProductInspiration,
-  getVariantGallery,
 } from "@/data/productVariants";
-import { assetUrl } from "@/utils/paths";
+import {
+  descargasDeFicha,
+  filasDeEspecificacion,
+  galeriaDeProducto,
+  imagenDeCompartir,
+  type FilaDeEspecificacion,
+} from "@/utils/fichaProducto";
 import { srcSetFor, SIZES } from "@/utils/responsive";
-import fs from "node:fs";
-import crypto from "node:crypto";
 import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
-import { getReviewsForProduct, getSchemaReviewsForProduct } from "@/data/reviews";
+import { getSchemaReviewsForProduct } from "@/data/reviews";
 import { erpEquivalencia } from "@/data/erpCatalog";
 import { site } from "@/data/site";
 import {
@@ -34,7 +37,6 @@ import {
   getFloorRendimientoTable,
   getReferencePriceM2,
   getRendimientoFormats,
-  getErpRendimiento,
   getReferencePriceM2PorVariante,
   precioDeVariante,
 } from "@/utils/productPricing";
@@ -53,43 +55,14 @@ if (!product) {
 
 const assets = getProductAssets(product.slug);
 
-// Cache-busting de la ficha: añade ?v=<hash> según el contenido del PDF, para
-// que al actualizar el archivo el navegador siempre baje la versión nueva
-// (los PDF viven en /public con URL fija y se cachean si no cambia la ruta).
-function versionedPdf(pdfUrl: string): string | null {
-  const file = "public" + decodeURIComponent(pdfUrl.split("?")[0]);
-  try {
-    const hash = crypto.createHash("md5").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
-    return `${pdfUrl}?v=${hash}`;
-  } catch {
-    // Sin archivo no se ofrece el enlace: una descarga rota es peor que
-    // ninguna. Pasa con productos que el ERP publica sin ficha adjunta.
-    return null;
-  }
-}
-const technicalPdfUrl = product.technicalPdf ? versionedPdf(product.technicalPdf) : null;
-
-// Fichas por dimensión (rayados, macizo-brix): una ficha por variante en
-// public/images/products/<slug>/fichas/<id>.pdf. El link principal sigue la
-// selección del cliente y además se listan todas.
-const fichasDir = `public/images/products/${product.slug}/fichas`;
-const fichaVariants =
-  fs.existsSync(fichasDir) && assets
-    ? assets.variants
-        .filter((v) => fs.existsSync(`${fichasDir}/${v.id}.pdf`))
-        .map((v) => ({
-          id: v.id,
-          label: v.label,
-          url: versionedPdf(`/images/products/${product.slug}/fichas/${v.id}.pdf`)!,
-        }))
-    : [];
+/* Las fichas en PDF —versión por contenido, una por dimensión cuando las hay— en
+   `@/utils/fichaProducto`. */
+const fichas = descargasDeFicha(product, assets);
+const fichaVariants = fichas.variantes;
 const hasVariantFichas = fichaVariants.length > 0;
-const mainFichaUrl = hasVariantFichas ? fichaVariants[0].url : technicalPdfUrl;
-const fichaMapJson = hasVariantFichas
-  ? JSON.stringify(Object.fromEntries(fichaVariants.map((v) => [v.id, { url: v.url, label: v.label }])))
-  : null;
-// Hay descargas si existe ficha (principal o por dimensión) o extras del manifest.
-const hasDownloads = !!mainFichaUrl || (assets?.extraDownloads?.length ?? 0) > 0;
+const mainFichaUrl = fichas.principal;
+const fichaMapJson = fichas.mapaJson;
+const hasDownloads = fichas.hayDescargas;
 
 const defaultVariantId = assets?.variants[0]?.id ?? "default";
 const activeVariant = assets?.variants.find((v) => v.id === defaultVariantId) ?? assets?.variants[0];
@@ -100,35 +73,8 @@ const activeVariantId = activeVariant?.id ?? defaultVariantId;
 const erpEquiv = erpEquivalencia(product.slug, activeVariantId);
 const defaultCalidad = erpEquiv.calidadesPermitidas[0] ?? "PRI";
 
-const galleryImages: GalleryImage[] = assets
-  ? getVariantGallery(assets, activeVariantId)
-  : [{ src: assetUrl(product.image), alt: product.name, label: "Producto" }];
-
+const galleryImages: GalleryImage[] = galeriaDeProducto(product, assets, activeVariantId);
 const inspirationCards = assets ? getProductInspiration(assets) : [];
-
-if (!assets) {
-  product.gallery?.forEach((path, i) => {
-    galleryImages.push({
-      src: assetUrl(path),
-      alt: `${product.name} — detalle ${i + 1}`,
-      label: "Detalle",
-    });
-  });
-  if (product.imageDimensiones) {
-    galleryImages.push({
-      src: assetUrl(product.imageDimensiones),
-      alt: `Dimensiones ${product.name}`,
-      label: "Dimensiones",
-    });
-  }
-  if (product.imageFachada) {
-    galleryImages.push({
-      src: assetUrl(product.imageFachada),
-      alt: `${product.name} en fachada`,
-      label: "En obra",
-    });
-  }
-}
 
 const displayColor = activeVariant?.colorLabel ?? product.color;
 /* El precio del botón activo, en la unidad en que se vende. Ver `precioDeVariante`: el de la
@@ -148,12 +94,6 @@ const priceM2PorVariante = getReferencePriceM2PorVariante(product, assets?.varia
 // Arranca con el de la variante activa; el JS lo cambia al pulsar otro botón.
 const priceM2 = priceM2PorVariante[activeVariantId] ?? getReferencePriceM2(product);
 
-/** Dimensiones de menor a mayor (ej. 5 × 14 × 29 cm) */
-const dimensionesLine = product.dimensions
-  ? [product.dimensions.alto, product.dimensions.ancho, product.dimensions.largo]
-      .filter(Boolean)
-      .join(" × ")
-  : null;
 
 const rendimientoVariants = assets
   ? getRendimientoTablesByVariant(product, assets.variants)
@@ -164,39 +104,13 @@ const rendimientoTable = rendimientoVariants
 const floorTable = getFloorRendimientoTable(product);
 // Formatos (largo × alto) para la calculadora interactiva con barra de junta.
 const rendiFormats = getRendimientoFormats(product, assets?.variants);
-// Precio por unidad (número) para no depender de la tabla en la calculadora.
-const rendiPriceCop = (() => {
-  const digits = (product.pricePerUnit ?? "").replace(/[^\d]/g, "");
-  return digits ? Number.parseInt(digits, 10) : null;
-})();
-
 /** Visible en el h1: quita el prefijo "Ladrillo " y baja a minúsculas. */
 const displayName = product.name.replace(/^Ladrillo\s+/i, "").toLowerCase();
 
-const specRows: ({ label: string; value: string; key?: string } | false | undefined | "")[] = [
-  // El acabado lo manda la variante cuando el producto se vende en varios: al elegir
-  // «Arena Rústico» la ficha decía «Liso», que es el acabado de otra referencia.
-  { label: "Textura", value: activeVariant?.texturaNombre ?? product.texture, key: "textura" },
-  { label: "Color", value: product.color },
-  dimensionesLine && { label: "Dimensiones", value: dimensionesLine },
-  // En enchapes el espesor es el dato que decide si la pieza cabe en el muro,
-  // y no entra en la línea de dimensiones (que solo lleva alto × ancho × largo).
-  product.dimensions?.espesor && { label: "Espesor", value: product.dimensions.espesor },
-  product.dimensions?.pesoAprox && { label: "Peso", value: product.dimensions.pesoAprox },
-  // Solo mostramos la fila Rendimiento si NO hay tabla calculable (ej. Cartagena
-  // con dimensiones variables). Si hay tabla (de ladrillo o piso), la sección
-  // Rendimiento de abajo reemplaza esta fila con los escenarios completos.
-  // Si no hay tabla, se publica el rendimiento como dato suelto: el propio del
-  // producto, o el del ERP. Las tejas dependen de este último —se traslapan, no
-  // se calculan— y sin él la ficha no explicaba de dónde sale el precio por m².
-  !rendimientoTable &&
-    !floorTable &&
-    (product.dimensions?.rendimiento || getErpRendimiento(product.slug)) && {
-      label: "Rendimiento",
-      value: (product.dimensions?.rendimiento ?? getErpRendimiento(product.slug))!,
-    },
-  ...(product.specs ?? []),
-].filter(Boolean) as { label: string; value: string; key?: string }[];
+/* Qué filas lleva la tabla, y con qué criterio, en `@/utils/fichaProducto`. */
+const specRows: FilaDeEspecificacion[] = filasDeEspecificacion(product, activeVariant, {
+  hayTablaDeRendimiento: Boolean(rendimientoTable || floorTable),
+});
 
 const recommendedUses = getRecommendedUses(product);
 const notRecommended = getNotRecommended(product);
@@ -211,7 +125,6 @@ const relatedPosts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 3);
 
-const productReviews = getReviewsForProduct(product.name);
 // El JSON-LD solo lleva reseñas aptas (ver `schemaOk` en reviews.ts); la página
 // sigue mostrando todas.
 const productJsonLd = buildProductJsonLd(product, product.image, getSchemaReviewsForProduct(product.name));
@@ -223,11 +136,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: product.name },
 ]);
 
-/** Imagen de compartir (WhatsApp, redes). La genera scripts/generate-og.mjs a 1200×630
- *  en JPEG; si falta, se cae en la genérica del sitio en vez de romper la vista previa. */
-const ogProducto = fs.existsSync(`public/images/og/${product.slug}.jpg`)
-  ? `/images/og/${product.slug}.jpg`
-  : undefined;
+const ogProducto = imagenDeCompartir(product.slug);
 
 const whatsappMsg = encodeURIComponent(
   `Hola Clay House, me interesa cotizar ${product.name}.`
@@ -272,7 +181,11 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
           </div>
           <nav class="product-page__quick-nav" aria-label="Secciones del producto">
             <a href="#especificaciones" class="quick-pill">Especificaciones</a>
-            {(rendimientoTable || floorTable) && (
+            {/* La condición es la misma con la que se dibuja la sección (`rendiFormats ||
+                floorTable`). Con `rendimientoTable` la pastilla aparecía en productos que
+                no tienen esa sección —Teja S, por ejemplo— y el clic no llevaba a ningún
+                lado. */}
+            {(rendiFormats || floorTable) && (
               <a href="#rendimiento" class="quick-pill">Rendimiento</a>
             )}
             <a href="#usos" class="quick-pill">Usos</a>
@@ -370,14 +283,16 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
             >
               Agregar a cotización
             </button>
-            <button
-              type="button"
+            {/* Antes abría un cajón lateral que repetía la página de cotización. Ahora
+                lleva a la página, que es donde se revisa y se envía. */}
+            <a
+              href="/cotizacion"
               class="btn btn--outline btn--block product-page__view-cart"
               data-quote-cart-open
               hidden
             >
               Ver cotización (<span data-quote-header-count>0</span>)
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -791,13 +706,13 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         </svg>
         <span>WhatsApp</span>
       </a>
+      {/* El nombre accesible tiene que contener el texto que se ve —«Agregar a cotización»—,
+          o quien dicta por voz nombra un botón que el navegador no reconoce. El producto va
+          después, no en medio. */}
       <button
         type="button"
         class="product-page__sticky-btn product-page__sticky-btn--quote"
         data-sticky-add-to-quote
-        {/* El nombre accesible tiene que contener el texto que se ve —«Agregar a
-            cotización»—, o quien dicta por voz nombra un botón que el navegador no
-            reconoce. El producto va después, no en medio. */}
         aria-label={`Agregar a cotización: ${product.name}`}
       >
         Agregar a cotización
@@ -843,7 +758,6 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
   }
 
   document.addEventListener(QUOTE_CART_EVENT, refreshProductCartBtn);
-  document.addEventListener("quote-cart-added", refreshProductCartBtn);
   document.addEventListener("quote-variant-changed", refreshProductCartBtn);
   refreshProductCartBtn();
 

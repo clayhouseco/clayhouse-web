@@ -89,7 +89,7 @@ export const GET: APIRoute = async () => {
         /* Las referencias que comparten página son variantes de un mismo artículo (los tres
            formatos de rayado). Sin agruparlas, Merchant las trata como productos sueltos que
            compiten entre sí. */
-        grupos.get(item.slug) > 1 ? `\n      <g:item_group_id>${esc(item.slug)}</g:item_group_id>` : ""
+        (grupos.get(item.slug) ?? 0) > 1 ? `\n      <g:item_group_id>${esc(item.slug)}</g:item_group_id>` : ""
       }
       <g:product_type>${esc(product.category)}</g:product_type>${
         medida ? `\n      <g:unit_pricing_measure>${esc(medida)}</g:unit_pricing_measure>` : ""

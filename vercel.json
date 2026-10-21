@@ -243,6 +243,11 @@
       "permanent": true
     },
     {
+      "source": "/images/products/rayados-horizontales/ficha.pdf",
+      "destination": "/productos/rayados-horizontales",
+      "permanent": true
+    },
+    {
       "source": "/pisos-rusticos",
       "destination": "/productos",
       "permanent": true
@@ -269,6 +274,16 @@
     },
     {
       "source": "/pisos/:s*",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/productos/categoria/pisos",
+      "destination": "/productos",
+      "permanent": true
+    },
+    {
+      "source": "/productos/categoria/pisos/",
       "destination": "/productos",
       "permanent": true
     },

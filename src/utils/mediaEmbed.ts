@@ -13,10 +13,10 @@ function youtubeId(url: string): string | null {
     if (u.hostname.includes("youtube.com")) {
       return u.searchParams.get("v") || u.pathname.split("/").pop() || null;
     }
+    return null;
   } catch {
     return null;
   }
-  return null;
 }
 
 function vimeoId(url: string): string | null {
@@ -28,7 +28,6 @@ function vimeoId(url: string): string | null {
   } catch {
     return null;
   }
-  return null;
 }
 
 export function resolveVideoEmbed(url: string): MediaEmbed | null {

@@ -19,6 +19,9 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { fichas } from "./fichas.data.mjs";
+/* Dónde está Chrome: la búsqueda vive en ../lib/navegador.mjs. Estaba escrita tres veces
+   y solo una de las tres sabía mirar en Linux. */
+import { CHROME } from "../lib/navegador.mjs";
 
 const ROOT = path.resolve(fileURLToPath(new URL(".", import.meta.url)), "../..");
 const BASE = "file://" + ROOT.split(path.sep).map(encodeURIComponent).join("/");
@@ -36,19 +39,6 @@ else if (!args.includes("--all") && onlyIdx === -1) {
   process.exit(1);
 }
 
-// ---- Chrome ----
-function findChrome() {
-  const candidates = [
-    process.env.CHROME_PATH,
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "/usr/bin/google-chrome",
-    "/usr/bin/chromium-browser",
-  ].filter(Boolean);
-  for (const c of candidates) if (fs.existsSync(c)) return c;
-  throw new Error("No se encontró Chrome. Instálalo o exporta CHROME_PATH.");
-}
-const CHROME = findChrome();
 
 // ---- Íconos SVG (línea) ----
 const IC = {

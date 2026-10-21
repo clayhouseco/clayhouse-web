@@ -200,11 +200,6 @@ export function erpEquivalencia(slug: string, variantId?: string | null): ErpEqu
   };
 }
 
-/** Calidad por defecto de un producto (la primera permitida; casi siempre PRI). */
-export function calidadPorDefecto(slug: string, variantId?: string | null): CalidadCodigo {
-  return erpEquivalencia(slug, variantId).calidadesPermitidas[0] ?? "PRI";
-}
-
 /** Ids de dimensión de un producto con variantes ERP (rayados, macizo-brix); [] si no. */
 export function erpVariantIds(slug: string): string[] {
   const e = ERP_MAP[slug];

@@ -25,6 +25,7 @@
  *
  *   npm run probar:medicion
  */
+import { CHROME } from "./lib/navegador.mjs";
 import { spawn, execSync } from "node:child_process";
 import fs from "node:fs";
 import http from "node:http";
@@ -32,8 +33,6 @@ import path from "node:path";
 
 const PUERTO_WEB = 4399;
 const PUERTO_CDP = 9335;
-const CHROME =
-  process.env.CHROME_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
 const fallos = [];

@@ -127,7 +127,7 @@ export function capturarOrigen(): Record<string, string> {
   try {
     guardado = JSON.parse(sessionStorage.getItem(ORIGEN_KEY) || "{}");
   } catch {
-    guardado = {};
+    /* sin sessionStorage se vuelve a leer la URL */
   }
   if (Object.keys(guardado).length) return guardado;
 

@@ -85,10 +85,13 @@ const { images } = Astro.props;
 </div>
 
 <script>
+  /* Las mismas que arriba: el visor del cliente también recibe las variantes reducidas. */
   interface GalleryImage {
     src: string;
     alt: string;
     label: string;
+    srcset?: string;
+    thumb?: string;
   }
 
   function bindGallery(root: HTMLElement) {

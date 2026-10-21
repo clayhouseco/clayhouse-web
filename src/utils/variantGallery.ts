@@ -5,7 +5,6 @@ import { assetUrl, productFolderImage } from "@/utils/paths";
 
 const IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
 const SKIP = new Set([".ds_store", ".gitkeep"]);
-const SKIP_DIRS = new Set(["web", "_shared", "proyectos"]);
 const PROJECTS_DIR = "proyectos";
 
 /** Archivos generados por IA o legado — no mostrar en galería */
@@ -14,7 +13,9 @@ const SKIP_FILES =
 
 interface ProductGalleryConfig {
   heroProductByVariant: Record<string, string>;
-  sharedRootPattern: RegExp;
+  /** Patrón de la carpeta común cuando todas las variantes comparten fotos. Hay productos
+   *  que no la tienen —cada color con su carpeta— y por eso es opcional. */
+  sharedRootPattern?: RegExp;
   dimensionesPattern: RegExp;
   fichaPattern?: RegExp;
   /** Patrones de dimensiones/ficha por id de variante (cuando hay varios formatos) */
@@ -352,10 +353,13 @@ export function splitHeroGallery(
   const file = (img: GalleryImage) => filenameFromSrc(img.src);
   const preferred = config.heroProductByVariant[variantFolder];
 
+  /* `||` y no `??`: con `variantId` vacío la primera mitad vale "" —no null—, así que el
+     `??` no caía al patrón general y dejaba una cadena vacía donde se espera una expresión
+     regular. Al primer `.test()` eso revienta. */
   const dimensionesPattern =
-    (variantId && config.dimensionesByVariant?.[variantId]) ?? config.dimensionesPattern;
+    (variantId && config.dimensionesByVariant?.[variantId]) || config.dimensionesPattern;
   const fichaPattern =
-    (variantId && config.fichaByVariant?.[variantId]) ?? config.fichaPattern;
+    (variantId && config.fichaByVariant?.[variantId]) || config.fichaPattern;
 
   const product =
     (preferred && images.find((img) => file(img) === preferred)) ||
@@ -378,11 +382,6 @@ export function splitHeroGallery(
     hero,
     inspiration: images.filter((img) => !heroSrcs.has(img.src)),
   };
-}
-
-/** @deprecated use splitHeroGallery */
-export function splitRomanoGallery(images: GalleryImage[], variantFolder: string): SplitVariantGallery {
-  return splitHeroGallery("romano", images, variantFolder);
 }
 
 export function getSplitVariantGalleryMap(
@@ -544,5 +543,3 @@ export function buildProjectsInspirationGallery(
   return [...projects, ...otrasIdeas];
 }
 
-/** @deprecated use buildProjectsInspirationGallery */
-export const buildRomanoInspirationGallery = buildProjectsInspirationGallery;

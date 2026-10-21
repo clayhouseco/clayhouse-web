@@ -17,10 +17,6 @@ export function assetUrl(path: string): string {
   return encodeURI(decoded.normalize("NFD"));
 }
 
-export function productAiImage(slug: string, type: "dimensiones" | "fachada"): string {
-  return `/images/products/${slug}/${type}.jpg`;
-}
-
 /** Imagen en carpeta del producto (ej. producto.jpg, detalle-1.jpg) */
 export function productFolderImage(slug: string, filename: string): string {
   return `/images/products/${slug}/${filename}`;
@@ -35,7 +31,3 @@ export function downloadUrl(filename: string): string {
   return assetUrl(`/downloads/${filename}`);
 }
 
-/** Fotos retocadas en public/images/Editadas/{carpeta}/{archivo} */
-export function editadaUrl(folder: string, file: string): string {
-  return assetUrl(`/images/Editadas/${folder}/${file}`);
-}

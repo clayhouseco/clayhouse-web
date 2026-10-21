@@ -1,0 +1,9 @@
+dist
+node_modules
+.astro
+public/images
+src/assets
+src/data/erpFeed.json
+src/data/inventario.json
+package-lock.json
+audit.json

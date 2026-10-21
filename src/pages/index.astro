@@ -1,20 +1,19 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/data/site";
-import { getFeaturedProducts, getVisibleProducts } from "@/data/products";
+import { getVisibleProducts } from "@/data/products";
 import { assetUrl } from "@/utils/paths";
 import { logos } from "@/utils/media";
 import { catalogCategories, getCatalogCategoryHref } from "@/data/catalogCategories";
 import { getCatalogCoverImage } from "@/utils/catalog";
 import HomeFeaturedProjects from "@/components/HomeFeaturedProjects.astro";
 import ClientLogoBand from "@/components/ClientLogoBand.astro";
-import CatalogProductCard from "@/components/catalog/CatalogProductCard.astro";
 import "@/styles/catalog-page.css";
 import ReviewCard from "@/components/ReviewCard.astro";
 import StarRating from "@/components/StarRating.astro";
 import { getFeaturedReviews, getAverageRating } from "@/data/reviews";
 import "@/styles/reviews-page.css";
-import { Picture, Image, getImage } from "astro:assets";
+import { Picture, getImage } from "astro:assets";
 import { srcSetFor } from "@/utils/responsive";
 import heroImageSrc from "@/assets/images/hero/DSC08862.jpg";
 import redescubrePergamino from "@/assets/images/redescubre/pergamino.jpg";
@@ -39,7 +38,6 @@ const heroAvif = await Promise.all(
 );
 const heroPreloadSrcset = heroAvif.map((img, i) => `${img.src} ${HERO_WIDTHS[i]}w`).join(", ");
 
-const featured = getFeaturedProducts();
 /** Para los contadores por categoría: no debe incluir los desactivados. */
 const visibleProducts = getVisibleProducts();
 

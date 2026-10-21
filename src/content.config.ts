@@ -1,4 +1,6 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+/* `z` desde "astro:content" quedó obsoleto: Astro 8 lo quita. Mismo zod, otra puerta. */
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 const blog = defineCollection({

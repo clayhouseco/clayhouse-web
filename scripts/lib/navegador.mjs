@@ -17,8 +17,27 @@ const TIPOS = {
   ".woff2": "font/woff2", ".woff": "font/woff", ".pdf": "application/pdf", ".ico": "image/x-icon",
 };
 
-export const CHROME =
-  process.env.CHROME_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+/**
+ * DÓNDE ESTÁ CHROME.
+ *
+ * Estaba escrito tres veces —acá, en la prueba de medición y en el generador de fichas— y
+ * solo una de las tres sabía mirar en Linux. Eso bastaba para que las pruebas de navegador
+ * no se pudieran correr en una máquina que no fuera el Mac de quien las escribió, que es
+ * justo donde hace falta correrlas: en el servidor de integración.
+ */
+const CANDIDATOS = [
+  process.env.CHROME_PATH,
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/usr/bin/google-chrome",
+  "/usr/bin/google-chrome-stable",
+  "/usr/bin/chromium",
+  "/usr/bin/chromium-browser",
+].filter(Boolean);
+
+/** La primera ruta que exista. Si no hay ninguna, la primera candidata, para que el mensaje
+ *  de error diga dónde se buscó. */
+export const CHROME = CANDIDATOS.find((c) => fs.existsSync(c)) ?? CANDIDATOS[0];
 
 export const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -42,7 +61,7 @@ export function servirDist(puerto) {
 
 /** Abre Chrome sin ventana y devuelve `{ evaluar, enviar, tecla, cerrar }`. */
 export async function abrirChrome(puertoCdp) {
-  if (!fs.existsSync(CHROME)) throw new Error(`No encuentro Chrome en ${CHROME}. Defina CHROME_PATH.`);
+  if (!fs.existsSync(CHROME)) throw new Error(`No encuentro Chrome (busqué en ${CANDIDATOS.join(", ")}). Defina CHROME_PATH.`);
   const perfil = fs.mkdtempSync("/tmp/clayhouse-chrome-");
   const chrome = spawn(CHROME, [
     `--remote-debugging-port=${puertoCdp}`, "--headless=new", "--no-first-run",

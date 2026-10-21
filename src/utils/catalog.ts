@@ -8,10 +8,6 @@ import {
 import { getCatalogImage } from "@/data/productVariants";
 import { assetUrl } from "@/utils/paths";
 
-export function getCatalogCategoryDef(id: ProductCategory): CatalogCategoryDef | undefined {
-  return catalogCategories.find((c) => c.id === id);
-}
-
 export function filterProductsByCategory(id: ProductCategory): Product[] {
   return sortProductsByPriority(products.filter((p) => p.category === id && isVisible(p)));
 }

@@ -83,10 +83,6 @@ const currentPath = Astro.url.pathname;
     link.addEventListener("click", () => setNavOpen(false));
   });
 
-  document.querySelectorAll("[data-quote-cart-open]").forEach((btn) => {
-    btn.addEventListener("click", () => setNavOpen(false));
-  });
-
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || !nav?.classList.contains("header__nav--open")) return;
     setNavOpen(false);
