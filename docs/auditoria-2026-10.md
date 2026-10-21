@@ -325,7 +325,8 @@ Por tipo: 47 en fichas técnicas en PDF, 8 de fotos, 7 de precio, 5 de dimension
 publicación, 4 de peso, 3 de código, 1 de unidad de venta.
 
 Ninguno es un error de código: son dos fuentes que dicen cosas distintas y alguien tiene que
-decidir cuál vale. Los que no pueden esperar:
+decidir cuál vale. Hoy **ninguno bloquea el despliegue**: `verificar-datos --strict` sale con
+código 0. Los que no deberían esperar:
 
 **Cinco fotos que el ERP nombra y el repositorio no tiene.** La ficha ya no publica una
 imagen rota, pero la foto sigue faltando:
@@ -340,9 +341,17 @@ macizo-campesino  …/macizo-campesino/matizado claro/Campesino Claro.webp
 
 Hay que subirlas al repositorio en esa ruta, o quitar la referencia en el ERP.
 
-**Tres productos publicados sin código del ERP.** Sin código no se pueden cotizar ni
-inventariar, así que la web los muestra pero no los ofrece en el cotizador. Esto **corta el
-despliegue** en `build:prod` a propósito.
+**Tres productos que la web tiene y el ERP ya no publica:** Napolitano, Enchape Rústico y
+Enchape Bocadillo. Tienen ficha escrita a mano, PDF publicado y un código en el mapa de la
+web —`NAP`, `ENC-RUS`, `ENC-BOC`— que el ERP no reconoce. No entran al cotizador, por el
+criterio de no ofrecer lo que el ERP no sabe atender, pero sus páginas siguen en pie. Hay que
+decidir: o el ERP los vuelve a publicar con su código, o se bajan de la web.
+
+*(Corrección: una versión anterior de este informe decía que eran «productos publicados sin
+código» y que eso cortaba el despliegue. Las dos cosas estaban mal. Es al revés —la web
+tiene códigos que el ERP no tiene— y no corta nada: `verificar-datos --strict` sale con
+código 0. La regla que sí bloquea existe, para un producto que el ERP publique sin código,
+pero hoy no la incumple ninguno.)*
 
 **La hoja de inventario nunca se publicó.** La disponibilidad sigue siendo la semilla inicial
 del 9 de julio de 2026: hoy el único filtro real es lo que el ERP marque para la web.
