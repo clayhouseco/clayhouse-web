@@ -28,7 +28,10 @@ import {
 import { srcSetFor, SIZES } from "@/utils/responsive";
 import { buildProductJsonLd } from "@/utils/productSchema";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
-import { getSchemaReviewsForProduct } from "@/data/reviews";
+import { getReviewsForProduct, getSchemaReviewsForProduct } from "@/data/reviews";
+import ReviewCard from "@/components/ReviewCard.astro";
+import StarRating from "@/components/StarRating.astro";
+import "@/styles/reviews-page.css";
 import { erpEquivalencia } from "@/data/erpCatalog";
 import { site } from "@/data/site";
 import {
@@ -125,6 +128,21 @@ const relatedPosts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 3);
 
+/**
+ * LAS RESEÑAS DE ESTE PRODUCTO.
+ *
+ * Existían los datos, existía el componente y existía la coincidencia por nombre, pero la
+ * ficha no las mostraba: la plantilla no tenía una sola referencia a reseñas. Una reseña de
+ * un cliente real, en la página donde alguien está decidiendo, es lo que más pesa de todo
+ * lo que hay acá — y estaba publicándose solo en la portada y en /resenas, donde llega
+ * quien ya está convencido.
+ */
+const productReviews = getReviewsForProduct(product.name);
+const reviewsAverage =
+  productReviews.length
+    ? Math.round((productReviews.reduce((t, r) => t + r.rating, 0) / productReviews.length) * 10) / 10
+    : 0;
+
 // El JSON-LD solo lleva reseñas aptas (ver `schemaOk` en reviews.ts); la página
 // sigue mostrando todas.
 const productJsonLd = buildProductJsonLd(product, product.image, getSchemaReviewsForProduct(product.name));
@@ -189,6 +207,7 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
               <a href="#rendimiento" class="quick-pill">Rendimiento</a>
             )}
             <a href="#usos" class="quick-pill">Usos</a>
+            {productReviews.length > 0 && <a href="#resenas" class="quick-pill">Reseñas</a>}
             {hasDownloads && <a href="#descargables" class="quick-pill">Fichas</a>}
             {
               inspirationCards.length > 0 && (
@@ -570,6 +589,34 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
         </div>
       </div>
     </section>
+
+    {
+      productReviews.length > 0 && (
+        <section class="product-page__block product-page__block--alt" id="resenas">
+          <div class="container product-page__panel">
+            <h2 class="product-page__h2">Lo que dicen quienes lo usaron</h2>
+            <p class="product-page__reviews-score">
+              <StarRating rating={reviewsAverage} size="sm" />
+              <span>
+                {reviewsAverage} de 5 · {productReviews.length}{" "}
+                {productReviews.length === 1 ? "reseña" : "reseñas"} de {product.name}
+              </span>
+            </p>
+            <div class="reviews-teaser">
+              {productReviews.slice(0, 3).map((review) => (
+                <ReviewCard review={review} />
+              ))}
+            </div>
+            {/* Quien llega hasta acá y ya compró es justo a quien hay que pedirle la
+                siguiente. Pedirla donde está el producto cuesta menos que mandar un
+                correo. */}
+            <p class="reviews-teaser__cta">
+              <a href="/resenas#dejar-resena">¿Usó este producto? Cuéntenos cómo le fue →</a>
+            </p>
+          </div>
+        </section>
+      )
+    }
 
     {
       hasDownloads && (
@@ -1203,6 +1250,15 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
     border-radius: var(--radius-xl);
     padding: clamp(1.5rem, 3vw, 2rem);
     border: 1px solid rgba(71, 36, 16, 0.06);
+  }
+
+  .product-page__reviews-score {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1.25rem;
+    font-size: 0.9375rem;
+    color: var(--color-chocolate);
   }
 
   .product-page__block {

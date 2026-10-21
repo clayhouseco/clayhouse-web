@@ -25,6 +25,12 @@ const dato = (f) => fs.readFileSync(path.join(raiz, "src/data", f), "utf8");
 
 /* ─────────────────────────── las dos fuentes ─────────────────────────── */
 
+/** Un JSON del repositorio, o null si no está. */
+export function leerJson(rel) {
+  const abs = path.join(raiz, rel);
+  return fs.existsSync(abs) ? JSON.parse(fs.readFileSync(abs, "utf8")) : null;
+}
+
 export function leerFeed() {
   try {
     return JSON.parse(fs.readFileSync(path.join(raiz, "src/data/erpFeed.json"), "utf8"));
@@ -338,6 +344,33 @@ export function conflictos(feed) {
          fuera el CAMPO, lo atrapa la comprobación de coherencia precio/unidad, que sí
          bloquea. */
         "corregir la frase en el ERP: el campo manda y el texto se quedó viejo"
+      )
+    );
+  }
+
+  /* Una reseña se asocia a su producto por NOMBRE EXACTO. Es frágil a propósito —no hay
+     id de producto en la hoja— y el modo de fallo es silencioso: si alguien renombra un
+     producto, sus reseñas dejan de salir en la ficha y nadie se entera, porque la página
+     simplemente no pinta la sección. Acá se nombra. */
+  const feedResenas = leerJson("src/data/resenasFeed.json");
+  /* Los dos orígenes de nombre: la ficha escrita a mano (`nombre`, no `name` —el parser de
+     products.ts los traduce al castellano) y el producto que nace en el ERP, que no está
+     en products.ts y cuyo nombre lo pone el feed. */
+  const nombresPublicados = new Set(
+    [...web.map((p) => p.nombre), ...(feed.productos ?? []).map((p) => p.nombre)]
+      .filter(Boolean)
+      .map((n) => n.toLowerCase())
+  );
+  for (const r of feedResenas?.resenas ?? []) {
+    if (!r.product || nombresPublicados.has(String(r.product).toLowerCase())) continue;
+    filas.push(
+      fila(
+        r.product,
+        "reseña · producto",
+        "ningún producto con ese nombre",
+        `reseña de ${r.author} (${r.date})`,
+        MANDA.web,
+        "corregir el nombre del producto en la hoja de reseñas, o la reseña no sale en la ficha"
       )
     );
   }
