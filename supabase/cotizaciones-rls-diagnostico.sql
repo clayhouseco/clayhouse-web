@@ -17,6 +17,11 @@
 --
 -- Las columnas `falla_*` dicen qué condición concreta incumple cada fila, para
 -- saber qué tope subir en vez de aflojar todo.
+--
+-- (La primera versión de esta consulta no corría: la subconsulta no exponía
+--  `telefono` y la de afuera lo usaba. Corregido, y verificado con un chequeo
+--  que confronta cada columna referenciada contra lo que la subconsulta expone,
+--  en vez de leerlo a ojo.)
 -- ============================================================================
 
 select
@@ -48,6 +53,7 @@ from (
   select
     numero,
     atencion,
+    telefono,
     items,
     numero like 'WEB-%'                                              as es_web,
     coalesce(length(trim(atencion)), 0) between 2 and 120            as c_atencion,
