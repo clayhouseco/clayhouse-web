@@ -16,38 +16,50 @@ const currentPath = Astro.url.pathname;
         height="70"
         onerror={`this.onerror=null;this.src='${logos.headerAlt}'`}
       />
-      <span class="header__logo-text" hidden>{site.name}</span>
+      <span class="header__logo-text" hidden>
+        {site.name}
+      </span>
     </a>
     <nav class="header__nav" aria-label="Principal" id="header-nav">
       <ul>
-        {
-          primaryNav.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={[
-                  "header__link",
-                  {
-                    "header__link--active":
-                      item.href === "/"
-                        ? currentPath === "/"
-                        : currentPath.startsWith(item.href),
-                  },
-                ]}
-                data-nav-link
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
+        {primaryNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                "header__link",
+                {
+                  "header__link--active":
+                    item.href === "/" ? currentPath === "/" : currentPath.startsWith(item.href),
+                },
+              ]}
+              data-nav-link
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
       </ul>
       <div class="header__nav-extras">
-        <a href="/cotizacion" class="header__cta btn btn--primary" data-track="cotizar_click" data-track-location="header">Cotizar</a>
+        <a
+          href="/cotizacion"
+          class="header__cta btn btn--primary"
+          data-track="cotizar_click"
+          data-track-location="header"
+        >
+          Cotizar
+        </a>
       </div>
     </nav>
     <div class="header__actions">
-      <a href="/cotizacion" class="header__cta btn btn--primary" data-track="cotizar_click" data-track-location="header">Cotizar</a>
+      <a
+        href="/cotizacion"
+        class="header__cta btn btn--primary"
+        data-track="cotizar_click"
+        data-track-location="header"
+      >
+        Cotizar
+      </a>
     </div>
     <button
       class="header__toggle"
@@ -137,13 +149,18 @@ const currentPath = Astro.url.pathname;
     background: rgba(255, 251, 249, 0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(71, 36, 16, 0.06);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition:
+      background 0.3s ease,
+      border-color 0.3s ease;
   }
 
   .header--transparent {
-    background: transparent;
-    backdrop-filter: none;
-    border-bottom-color: transparent;
+    /* Los enlaces son blancos y las fotos del hero mezclan zonas claras y oscuras. Un
+       vidrio chocolate conserva la imagen detrás y garantiza contraste estable; depender
+       del píxel de la foto hacía que axe pasara en macOS y fallara en el runner Linux. */
+    background: rgba(48, 25, 14, 0.86);
+    backdrop-filter: blur(8px);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
   }
 
   .header--transparent .header__link {
@@ -297,7 +314,9 @@ const currentPath = Astro.url.pathname;
     background: var(--color-white);
     color: var(--color-chocolate);
     cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
   }
 
   .header__cart-btn:hover {
@@ -389,7 +408,9 @@ const currentPath = Astro.url.pathname;
       transform: translateY(-120%);
       opacity: 0;
       pointer-events: none;
-      transition: transform 0.3s var(--ease), opacity 0.3s;
+      transition:
+        transform 0.3s var(--ease),
+        opacity 0.3s;
     }
 
     .header__nav--open {
