@@ -4,7 +4,7 @@
  * Dos comprobaciones sobre el sitio ya construido, en un Chrome de verdad:
  *
  *   1. axe-core, el mismo motor que usan Lighthouse y las herramientas de Deque, sobre
- *      nueve páginas. Detecta contraste insuficiente, nombres accesibles que no coinciden
+ *      doce páginas. Detecta contraste insuficiente, nombres accesibles que no coinciden
  *      con el texto visible, encabezados que saltan niveles y contenido fuera de todo
  *      punto de referencia.
  *   2. El teclado: que el primer tabulador llegue al enlace de saltar al contenido, que el
@@ -25,8 +25,20 @@ import { abrirChrome, esperar, servirDist } from "./lib/navegador.mjs";
 
 const PUERTO = 4402;
 const CDP = 9338;
-const PAGINAS = ["/", "/productos", "/productos/romano", "/cotizacion", "/resenas",
-  "/contacto", "/blog", "/proyectos", "/descargas"];
+const PAGINAS = [
+  "/",
+  "/productos",
+  "/productos/romano",
+  "/productos/teja-colonial",
+  "/productos/categoria/fachadas",
+  "/comprar-ladrillo-medellin",
+  "/cotizacion",
+  "/resenas",
+  "/contacto",
+  "/blog/cuantos-ladrillos-por-m2",
+  "/proyectos",
+  "/descargas",
+];
 const AXE_URL = "https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.10.2/axe.min.js";
 const CACHE = "node_modules/.cache/axe-core.js";
 
@@ -34,7 +46,10 @@ const CACHE = "node_modules/.cache/axe-core.js";
    sin ella no se emite, y su botón «Rechazar» llevaba meses con texto crema sobre el gris
    por defecto del navegador —1,11:1— sin que ninguna revisión local lo viera. */
 console.log("Construyendo el sitio para la revisión…\n");
-execSync("npx astro build", { stdio: "ignore", env: { ...process.env, PUBLIC_GA4_MEASUREMENT_ID: "G-PRUEBAA11Y" } });
+execSync("npx astro build", {
+  stdio: "ignore",
+  env: { ...process.env, PUBLIC_GA4_MEASUREMENT_ID: "G-PRUEBAA11Y" },
+});
 
 async function axe() {
   if (fs.existsSync(CACHE)) return fs.readFileSync(CACHE, "utf8");
@@ -66,7 +81,8 @@ let total = 0;
 for (const ruta of PAGINAS) {
   await ir(ruta);
   await evaluar(AXE);
-  const crudo = await evaluar(`axe.run(document, { resultTypes: ["violations"] }).then(r => JSON.stringify(
+  const crudo =
+    await evaluar(`axe.run(document, { resultTypes: ["violations"] }).then(r => JSON.stringify(
     r.violations.map(v => ({ id: v.id, impact: v.impact, n: v.nodes.length,
       ejemplo: String((v.nodes[0] || {}).target || ""), msg: ((v.nodes[0]||{}).any||[{}])[0]?.message || "" }))
   ))`);
@@ -123,42 +139,82 @@ console.log("\nNavegación con teclado:\n");
 await ir("/");
 await evaluar("document.body.focus()");
 await tecla("Tab", 9);
-const primero = await evaluar(`document.activeElement.className + "|" + (document.activeElement.textContent||"").trim().slice(0,30)`);
-ok(/skip|saltar/i.test(primero || ""), "el primer tabulador llega al enlace de saltar al contenido", primero);
+const primero = await evaluar(
+  `document.activeElement.className + "|" + (document.activeElement.textContent||"").trim().slice(0,30)`
+);
+ok(
+  /skip|saltar/i.test(primero || ""),
+  "el primer tabulador llega al enlace de saltar al contenido",
+  primero
+);
 
 await ir("/proyectos", 2800);
-await evaluar(`(() => { const b = document.querySelector("[data-project-id]"); b.focus(); b.click(); })()`);
+await evaluar(
+  `(() => { const b = document.querySelector("[data-project-id]"); b.focus(); b.click(); })()`
+);
 await esperar(700);
-ok((await evaluar(`!document.querySelector("[data-viewer]").hidden`)) === true, "el visor de proyectos se abre con el teclado");
+ok(
+  (await evaluar(`!document.querySelector("[data-viewer]").hidden`)) === true,
+  "el visor de proyectos se abre con el teclado"
+);
 
 let fuera = 0;
 for (let i = 0; i < 14; i++) {
   await tecla("Tab", 9);
-  const dentro = await evaluar(`document.querySelector("[data-viewer]").contains(document.activeElement)`);
+  const dentro = await evaluar(
+    `document.querySelector("[data-viewer]").contains(document.activeElement)`
+  );
   if (!dentro) fuera++;
 }
-ok(fuera === 0, "el tabulador no se escapa del visor", fuera ? `se salió ${fuera} vez/veces` : "14 pulsaciones adentro");
+ok(
+  fuera === 0,
+  "el tabulador no se escapa del visor",
+  fuera ? `se salió ${fuera} vez/veces` : "14 pulsaciones adentro"
+);
 
 await tecla("Escape", 27);
 await esperar(500);
-ok((await evaluar(`document.querySelector("[data-viewer]").hidden`)) === true, "Escape cierra el visor");
-ok((await evaluar(`document.activeElement.hasAttribute("data-project-id")`)) === true,
-   "y el foco vuelve a la tarjeta desde la que se abrió");
+ok(
+  (await evaluar(`document.querySelector("[data-viewer]").hidden`)) === true,
+  "Escape cierra el visor"
+);
+ok(
+  (await evaluar(`document.activeElement.hasAttribute("data-project-id")`)) === true,
+  "y el foco vuelve a la tarjeta desde la que se abrió"
+);
 
-await enviar("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+await enviar("Emulation.setDeviceMetricsOverride", {
+  width: 390,
+  height: 844,
+  deviceScaleFactor: 2,
+  mobile: true,
+});
 await ir("/");
-ok((await evaluar(`document.querySelector(".header__toggle").getAttribute("aria-controls")`)) === "header-nav",
-   "el botón del menú declara qué controla");
-await evaluar(`(() => { const b = document.querySelector(".header__toggle"); b.focus(); b.click(); })()`);
+ok(
+  (await evaluar(`document.querySelector(".header__toggle").getAttribute("aria-controls")`)) ===
+    "header-nav",
+  "el botón del menú declara qué controla"
+);
+await evaluar(
+  `(() => { const b = document.querySelector(".header__toggle"); b.focus(); b.click(); })()`
+);
 await esperar(400);
-ok((await evaluar(`document.querySelector(".header__toggle").getAttribute("aria-expanded")`)) === "true",
-   "el menú se anuncia abierto");
+ok(
+  (await evaluar(`document.querySelector(".header__toggle").getAttribute("aria-expanded")`)) ===
+    "true",
+  "el menú se anuncia abierto"
+);
 await tecla("Escape", 27);
 await esperar(400);
-ok((await evaluar(`document.querySelector(".header__toggle").getAttribute("aria-expanded")`)) === "false",
-   "Escape cierra el menú");
-ok(/header__toggle/.test((await evaluar(`document.activeElement.className`)) || ""),
-   "y el foco vuelve al botón del menú");
+ok(
+  (await evaluar(`document.querySelector(".header__toggle").getAttribute("aria-expanded")`)) ===
+    "false",
+  "Escape cierra el menú"
+);
+ok(
+  /header__toggle/.test((await evaluar(`document.activeElement.className`)) || ""),
+  "y el foco vuelve al botón del menú"
+);
 
 const contorno = await evaluar(`(() => {
   const a = document.querySelector("a[href='/productos']");
@@ -170,5 +226,9 @@ ok(!/^none/.test(contorno || "none"), "se ve dónde está el foco", contorno);
 
 cerrar();
 servidor.close();
-console.log(fallos.length ? `\n✗ ${fallos.length} comprobación(es) fallaron.` : "\n✓ Sin violaciones y el teclado llega a todo.");
+console.log(
+  fallos.length
+    ? `\n✗ ${fallos.length} comprobación(es) fallaron.`
+    : "\n✓ Sin violaciones y el teclado llega a todo."
+);
 process.exit(fallos.length ? 1 : 0);

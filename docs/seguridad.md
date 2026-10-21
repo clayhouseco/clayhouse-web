@@ -106,6 +106,29 @@ añadirlo antes a `script-src` y `connect-src`. `verificar:csp` lo recuerda en c
 
 ---
 
+### Lo que la CSP bloqueaba sin avisar (corregido el 21 oct 2026)
+
+`pagead2.googlesyndication.com` no estaba en la política, y es a donde el gtag de Google Ads
+manda las conversiones: `/ccm/collect?tid=AW-11432934112&en=page_view`. El navegador lo
+bloqueaba —en `fetch` y como baliza de imagen— sin decir nada a quien publica. Medido con
+Lighthouse contra el sitio publicado: 20 bloqueos en las 8 mediciones de las cuatro páginas
+clave, es decir en todas.
+
+Consecuencia: la medición de Google Ads llegaba incompleta. Importa porque el pendiente de
+marcar los eventos clave e importarlos a Ads se habría hecho sobre datos recortados.
+
+Se añadió a `img-src` y a `connect-src`, y solo ese: `www.googleadservices.com` y
+`td.doubleclick.net` aparecen en otras configuraciones de gtag pero esta no los usa, y abrir
+la política por si acaso es lo contrario de tener una política.
+
+**Por qué `verificar:csp` no lo encontró.** Ese comando compara la política con los dominios
+que aparecen en el sitio **construido**, y este no aparece en ningún archivo: lo decide la
+librería de Google en tiempo de ejecución. Para dominios así la única comprobación que sirve
+es cargar la página publicada en un navegador y leer el panel de problemas —que es lo que
+hace Lighthouse—. Conviene repetirlo cada vez que se toque la medición.
+
+---
+
 ## 4. Lo que sigue abierto
 
 1. **La clave de Supabase viaja en el HTML, y eso está bien; la política que la respalda, no.**

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site } from "@/data/site";
 import { getCatalogCategoryHref } from "@/data/catalogCategories";
+import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
 
 const lineas = [
   {
@@ -56,27 +56,107 @@ const pasos = [
     texto: "Coordinamos la entrega a Medellín, el Valle de Aburrá y toda Antioquia.",
   },
 ];
+
+const referencias = [
+  {
+    nombre: "Ladrillo Romano",
+    texto: "Formato clásico para fachadas a la vista, vivienda y proyectos institucionales.",
+    href: "/productos/romano",
+  },
+  {
+    nombre: "Ladrillo Toscano",
+    texto: "Tonos tierra claros y textura artesanal para fachadas contemporáneas.",
+    href: "/productos/toscano",
+  },
+  {
+    nombre: "Ladrillo Cartagena",
+    texto: "Formato colonial para fachadas con lenguaje patrimonial y matizado natural.",
+    href: "/productos/cartagena",
+  },
+  {
+    nombre: "Macizo Campesino",
+    texto: "Pieza maciza de cara rústica para muros estructurales y fachadas.",
+    href: "/productos/macizo-campesino",
+  },
+];
+
+const preguntas = [
+  {
+    pregunta: "¿Clay House entrega ladrillos en Medellín?",
+    respuesta:
+      "Sí. Despachamos desde Amagá a Medellín, el Valle de Aburrá y otros municipios de Antioquia. El flete se calcula según el volumen, el tipo de vehículo y la ubicación exacta de la obra.",
+  },
+  {
+    pregunta: "¿Cómo se calcula el precio del pedido?",
+    respuesta:
+      "La cotización separa el material y el flete. El valor depende de la referencia, el acabado, la cantidad y el destino; por eso se confirma con los datos reales del proyecto y no con una tarifa genérica.",
+  },
+  {
+    pregunta: "¿Puedo comparar medidas y rendimiento antes de cotizar?",
+    respuesta:
+      "Sí. Cada ficha de producto publica dimensiones, rendimiento por metro cuadrado, peso, norma y precio de referencia cuando el dato está disponible.",
+  },
+  {
+    pregunta: "¿Atienden arquitectos y constructoras?",
+    respuesta:
+      "Sí. Entregamos fichas técnicas y apoyamos la selección de referencia, acabado y cantidad para proyectos residenciales, comerciales e institucionales.",
+  },
+];
+
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Inicio", href: "/" },
+  { name: "Ladrillos en Medellín y Antioquia" },
+]);
 ---
 
 <BaseLayout
-  title="Comprar ladrillo en Medellín y Antioquia"
-  description="Ladrillo, enchapes y teja de arcilla directo de fábrica. Ladrillera en Amagá con entrega en Medellín y el Valle de Aburrá. Cotiza en 24 horas hábiles."
+  title="Ladrillos en Medellín y Antioquia"
+  description="Compra ladrillos para fachada, divisorios, enchapes y tejas de barro con despacho a Medellín y Antioquia. Compara referencias y solicita cotización a Clay House."
   ogImage="/images/og/pagina-productos.jpg"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
   <section class="cl-hero">
     <div class="container">
       <p class="eyebrow">Fábrica propia en Amagá, Antioquia</p>
-      <h1>Comprar ladrillo en Medellín y Antioquia</h1>
+      <h1>Ladrillos en Medellín y Antioquia, directo de fábrica</h1>
       <p class="cl-hero__lead">
         Clay House es una <strong>ladrillera neoartesanal en Amagá</strong> que fabrica y
-        vende <strong>ladrillo, enchapes y teja de arcilla</strong> directo de fábrica, con
-        entrega a Medellín, el Valle de Aburrá y todo Antioquia. Cumplimiento
+        comercializa <strong>ladrillo, enchapes y teja de arcilla</strong>, con entrega a Medellín,
+        el Valle de Aburrá y todo Antioquia. Cumplimiento
         <strong>NTC 4205</strong> y asesoría para arquitectos y constructores.
       </p>
       <div class="cl-hero__cta">
-        <a href="/cotizacion" class="btn btn--primary">Cotizar mi pedido</a>
-        <a href="/productos" class="btn btn--outline">Ver catálogo</a>
+        <a href="/cotizacion" class="btn btn--primary">
+          Cotizar mi pedido
+        </a>
+        <a href="/productos" class="btn btn--outline">
+          Ver catálogo
+        </a>
       </div>
+    </div>
+  </section>
+
+  <section class="section cl-referencias">
+    <div class="container">
+      <p class="eyebrow">Ladrillo para fachada en Medellín</p>
+      <h2 class="cl-h2">Referencias para comparar antes de cotizar</h2>
+      <p class="cl-section-lead">
+        El formato, el acabado y las piezas por metro cuadrado cambian el resultado y el costo de la
+        obra. Estas son cuatro referencias para empezar la selección.
+      </p>
+      <div class="cl-grid">
+        {referencias.map((referencia) => (
+          <a href={referencia.href} class="cl-card">
+            <h3>{referencia.nombre}</h3>
+            <p>{referencia.texto}</p>
+            <span class="cl-card__link">Ver medidas, acabados y precio →</span>
+          </a>
+        ))}
+      </div>
+      <p class="cl-inline-link">
+        ¿Ya conoce el área del muro? Consulte la guía de{" "}
+        <a href="/blog/cuantos-ladrillos-por-m2">cuántos ladrillos se necesitan por m²</a>.
+      </p>
     </div>
   </section>
 
@@ -84,16 +164,50 @@ const pasos = [
     <div class="container">
       <h2 class="cl-h2">Qué puedes comprar</h2>
       <div class="cl-grid">
-        {
-          lineas.map((l) => (
-            <a href={l.href} class="cl-card">
-              <h3>{l.titulo}</h3>
-              <p>{l.texto}</p>
-              <span class="cl-card__link">Ver productos →</span>
-            </a>
-          ))
-        }
+        {lineas.map((l) => (
+          <a href={l.href} class="cl-card">
+            <h3>{l.titulo}</h3>
+            <p>{l.texto}</p>
+            <span class="cl-card__link">Ver productos →</span>
+          </a>
+        ))}
       </div>
+    </div>
+  </section>
+
+  <section class="section cl-precio">
+    <div class="container cl-precio__grid">
+      <div>
+        <p class="eyebrow">Precio y transporte</p>
+        <h2 class="cl-h2">Una cotización basada en su obra</h2>
+        <p>
+          El precio final combina la referencia, el acabado, la cantidad y el despacho desde Amagá.
+          En la solicitud puede indicar los metros cuadrados o unidades y marcar la ubicación de la
+          obra; con esos datos confirmamos material, disponibilidad y flete.
+        </p>
+      </div>
+      <div class="cl-precio__action">
+        <a href="/cotizacion" class="btn btn--primary">
+          Calcular y solicitar cotización
+        </a>
+        <a href="/descargas" class="btn btn--outline">
+          Ver fichas técnicas
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cl-faq">
+    <div class="container">
+      <h2 class="cl-h2">Preguntas sobre compra y entrega en Medellín</h2>
+      <dl class="cl-faq__list">
+        {preguntas.map((item) => (
+          <div class="cl-faq__item">
+            <dt>{item.pregunta}</dt>
+            <dd>{item.respuesta}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   </section>
 
@@ -101,11 +215,13 @@ const pasos = [
     <div class="container">
       <h2 class="cl-h2">Entregamos en Medellín y toda Antioquia</h2>
       <p class="cl-cobertura__lead">
-        Despachamos desde nuestra planta en Amagá a obras en el Valle de Aburrá y el
-        resto del departamento. Confirmamos el flete según volumen y destino al cotizar.
+        Despachamos desde nuestra planta en Amagá a obras en el Valle de Aburrá y el resto del
+        departamento. Confirmamos el flete según volumen y destino al cotizar.
       </p>
       <ul class="cl-chips">
-        {cobertura.map((c) => <li>{c}</li>)}
+        {cobertura.map((c) => (
+          <li>{c}</li>
+        ))}
       </ul>
     </div>
   </section>
@@ -114,17 +230,15 @@ const pasos = [
     <div class="container">
       <h2 class="cl-h2">Cómo comprar</h2>
       <div class="cl-pasos">
-        {
-          pasos.map((p) => (
-            <div class="cl-paso">
-              <span class="cl-paso__n">{p.n}</span>
-              <div>
-                <h3>{p.titulo}</h3>
-                <p>{p.texto}</p>
-              </div>
+        {pasos.map((p) => (
+          <div class="cl-paso">
+            <span class="cl-paso__n">{p.n}</span>
+            <div>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -133,15 +247,25 @@ const pasos = [
     <div class="container">
       <h2 class="cl-h2">¿Por qué comprarle a Clay House?</h2>
       <ul class="cl-razones">
-        <li><strong>Fábrica propia en Amagá</strong> — compras directo, sin intermediarios.</li>
-        <li><strong>Tradición desde 1965</strong> con procesos neoartesanales.</li>
-        <li><strong>Cumplimiento NTC 4205</strong> y fichas técnicas por producto.</li>
-        <li><strong>Cotización en 24 horas hábiles</strong> y entrega en todo Antioquia.</li>
+        <li>
+          <strong>Fábrica propia en Amagá</strong> — compras directo, sin intermediarios.
+        </li>
+        <li>
+          <strong>Tradición desde 1965</strong> con procesos neoartesanales.
+        </li>
+        <li>
+          <strong>Cumplimiento NTC 4205</strong> y fichas técnicas por producto.
+        </li>
+        <li>
+          <strong>Cotización en 24 horas hábiles</strong> y entrega en todo Antioquia.
+        </li>
       </ul>
       <div class="cl-hero__cta">
-        <a href="/cotizacion" class="btn btn--primary">Solicitar cotización</a>
-        <a href={site.whatsapp} target="_blank" rel="noopener" class="btn btn--outline">
-          Escribir por WhatsApp
+        <a href="/cotizacion" class="btn btn--primary">
+          Solicitar cotización
+        </a>
+        <a href="/productos" class="btn btn--outline">
+          Comparar todo el catálogo
         </a>
       </div>
     </div>
@@ -172,6 +296,12 @@ const pasos = [
   .cl-h2 {
     margin-bottom: 1.5rem;
   }
+  .cl-section-lead {
+    max-width: 62ch;
+    margin: -0.75rem 0 1.5rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
   .cl-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
@@ -184,7 +314,9 @@ const pasos = [
     border: 1px solid rgba(71, 36, 16, 0.12);
     border-radius: 1rem;
     color: var(--color-chocolate);
-    transition: border-color 0.2s, transform 0.2s;
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
   }
   .cl-card:hover {
     border-color: var(--color-terracota);
@@ -202,6 +334,17 @@ const pasos = [
   .cl-card__link {
     font-weight: 600;
     color: var(--color-terracota);
+  }
+  .cl-referencias {
+    background: var(--color-white);
+  }
+  .cl-inline-link {
+    margin: 1.5rem 0 0;
+    color: var(--color-text-muted);
+  }
+  .cl-inline-link a {
+    color: var(--color-terracota);
+    font-weight: 600;
   }
   .cl-cobertura {
     background: var(--color-white);
@@ -261,6 +404,53 @@ const pasos = [
   .cl-cierre {
     background: var(--color-white);
   }
+  .cl-precio {
+    background: var(--color-chocolate);
+    color: var(--color-white);
+  }
+  .cl-precio .eyebrow,
+  .cl-precio p {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .cl-precio__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 0.75fr);
+    gap: 2rem;
+    align-items: center;
+  }
+  .cl-precio__grid p {
+    max-width: 62ch;
+    line-height: 1.65;
+  }
+  .cl-precio__action {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .cl-precio .btn--outline {
+    border-color: rgba(255, 255, 255, 0.62);
+    color: var(--color-white);
+  }
+  .cl-faq__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 2rem;
+    margin: 0;
+  }
+  .cl-faq__item {
+    padding-block: 1rem;
+    border-top: 1px solid rgba(71, 36, 16, 0.16);
+  }
+  .cl-faq__item dt {
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .cl-faq__item dd {
+    margin: 0.45rem 0 0;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
   .cl-razones {
     list-style: none;
     padding: 0;
@@ -280,5 +470,11 @@ const pasos = [
     left: 0;
     color: var(--color-terracota);
     font-weight: 700;
+  }
+  @media (max-width: 700px) {
+    .cl-precio__grid,
+    .cl-faq__list {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

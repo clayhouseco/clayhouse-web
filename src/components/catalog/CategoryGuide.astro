@@ -38,13 +38,12 @@ function medida(p: Product): string {
   const d = p.dimensions;
   const partes = d ? [d.alto, d.ancho, d.largo].filter(Boolean) : [];
   /* Cada medida trae su «cm»; en una sola línea se dice una vez al final. */
-  if (partes.length) return `${partes.map((x) => String(x).replace(/\s*cm\s*$/i, "")).join(" × ")} cm`;
+  if (partes.length)
+    return `${partes.map((x) => String(x).replace(/\s*cm\s*$/i, "")).join(" × ")} cm`;
   const delErp = erpDeSlug(p.slug)[0]?.dimension;
   if (!delErp) return "—";
   const nums = delErp.match(/\d+(?:[.,]\d+)?/g);
-  return nums?.length
-    ? `${nums.map((n) => n.replace(".", ",")).join(" × ")} cm`
-    : delErp;
+  return nums?.length ? `${nums.map((n) => n.replace(".", ",")).join(" × ")} cm` : delErp;
 }
 
 function piezas(p: Product): string {
@@ -89,41 +88,37 @@ const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boo
           </tr>
         </thead>
         <tbody>
-          {
-            filas.map((f) => (
-              <tr>
-                <th scope="row">
-                  <a href={`/productos/${f.slug}`}>{f.nombre}</a>
-                </th>
-                <td>{f.medida}</td>
-                <td class="guia__num">{f.piezas}</td>
-                <td>{f.acabado}</td>
-                <td class="guia__num">{f.precio}</td>
-              </tr>
-            ))
-          }
+          {filas.map((f) => (
+            <tr>
+              <th scope="row">
+                <a href={`/productos/${f.slug}`}>{f.nombre}</a>
+              </th>
+              <td>{f.medida}</td>
+              <td class="guia__num">{f.piezas}</td>
+              <td>{f.acabado}</td>
+              <td class="guia__num">{f.precio}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
     <p class="guia__nota">
-      Las piezas por metro cuadrado son el rendimiento que publica la fábrica, con junta
-      corriente. Los precios son de referencia, sin IVA ni flete: la cotización confirma el
-      valor según volumen y destino.
+      Las piezas por metro cuadrado son el rendimiento que publica la fábrica, con junta corriente.
+      Los precios son de referencia, sin IVA ni flete: la cotización confirma el valor según volumen
+      y destino.
     </p>
 
     <div class="guia__bloques">
-      {
-        usos.length > 0 && (
-          <article class="guia__bloque">
-            <h3>Para qué se usa</h3>
-            <ul>
-              {usos.map((u) => (
-                <li>{u}</li>
-              ))}
-            </ul>
-          </article>
-        )
-      }
+      {usos.length > 0 && (
+        <article class="guia__bloque">
+          <h3>Para qué se usa</h3>
+          <ul>
+            {usos.map((u) => (
+              <li>{u}</li>
+            ))}
+          </ul>
+        </article>
+      )}
 
       <article class="guia__bloque">
         <h3>Instalación</h3>
@@ -132,8 +127,7 @@ const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boo
           <li>Juntas uniformes de 10 mm (±3 mm) para que el aparejo lea parejo.</li>
           <li>Mortero compatible con la absorción de la pieza y curado húmedo.</li>
           <li>
-            El detalle completo está en el{" "}
-            <a href="/descargas">manual de fachadas</a>.
+            El detalle completo está en el <a href="/descargas">manual de fachadas</a>.
           </li>
         </ul>
       </article>
@@ -144,44 +138,47 @@ const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boo
           <li>Tras el fraguado, limpiar con agua y cepillo de cerdas suaves.</li>
           <li>Prevenir eflorescencias: evitar que el muro trabaje con humedad atrapada.</li>
           <li>Almacenar en sitio plano, seco y aislado del terreno; no apilar a más de 1,5 m.</li>
-          <li>El tono varía entre lotes: mezclar piezas de varias estibas para un acabado homogéneo.</li>
+          <li>
+            El tono varía entre lotes: mezclar piezas de varias estibas para un acabado homogéneo.
+          </li>
         </ul>
       </article>
 
-      {
-        normas.length > 0 && (
-          <article class="guia__bloque">
-            <h3>Norma</h3>
-            <ul>
-              {normas.map((n) => (
-                <li>{n}</li>
-              ))}
-            </ul>
-            <p class="guia__pie">
-              Los certificados de ensayo y las fichas técnicas se descargan en{" "}
-              <a href="/descargas">Descargas</a>.
-            </p>
-          </article>
-        )
-      }
+      {normas.length > 0 && (
+        <article class="guia__bloque">
+          <h3>Norma</h3>
+          <ul>
+            {normas.map((n) => (
+              <li>{n}</li>
+            ))}
+          </ul>
+          <p class="guia__pie">
+            Los certificados de ensayo y las fichas técnicas se descargan en{" "}
+            <a href="/descargas">Descargas</a>.
+          </p>
+        </article>
+      )}
     </div>
 
     <div class="guia__preguntas">
       <h3>Preguntas frecuentes</h3>
       <dl>
-        {
-          faqsTecnicas.map((f) => (
-            <>
-              <dt>{f.pregunta}</dt>
-              <dd>{f.respuesta}</dd>
-            </>
-          ))
-        }
+        {faqsTecnicas.map((f) => (
+          <>
+            <dt>{f.pregunta}</dt>
+            <dd>{f.respuesta}</dd>
+          </>
+        ))}
       </dl>
     </div>
 
     <p class="guia__cta">
-      <a href="/proyectos" class="btn btn--outline">Ver obras construidas con estas referencias</a>
+      <a href="/proyectos" class="btn btn--outline">
+        Ver obras construidas con estas referencias
+      </a>
+      <a href="/comprar-ladrillo-medellin" class="btn btn--outline">
+        Comprar en Medellín y Antioquia
+      </a>
     </p>
   </div>
 </section>
@@ -308,5 +305,8 @@ const usos = [...new Set(productos.map((p) => spec(p, "tipo de uso")).filter(Boo
 
   .guia__cta {
     margin: 2.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 </style>

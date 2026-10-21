@@ -49,4 +49,4 @@ No reemplazamos al ladrillo industrial. Lo complementamos para los proyectos que
 
 ---
 
-¿Tiene un proyecto en Medellín o el Valle de Aburrá donde el ladrillo pueda aportar? [Conversemos](/contacto). Y si quiere ver obras reales, en [/proyectos](/proyectos) puede filtrar por categoría o producto.
+¿Tiene un proyecto en Medellín o el Valle de Aburrá donde el ladrillo pueda aportar? Compare las [referencias de ladrillo para fachada](/productos/categoria/fachadas), consulte cómo [comprar ladrillos con entrega en Medellín](/comprar-ladrillo-medellin) o arme una [cotización con la ubicación de la obra](/cotizacion). Si quiere ver el material instalado, en [Proyectos](/proyectos) puede filtrar por categoría o producto.

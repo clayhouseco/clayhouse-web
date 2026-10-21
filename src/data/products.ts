@@ -74,8 +74,7 @@ const productosEscritos: Product[] = [
     category: "Fachadas",
     shortDescription:
       "Acabado limpio y elegante en tonos tierra claros. Ideal para fachadas y espacios con estilo cálido, minimalista y atemporal.",
-    description:
-      "Acabado limpio en diferentes tonos para fachadas cálidas y minimalistas.",
+    description: "Acabado limpio en diferentes tonos para fachadas cálidas y minimalistas.",
     applications: [
       "Fachadas modernas residenciales y comerciales",
       "Interiores decorativos y muros de acento",
@@ -113,8 +112,7 @@ const productosEscritos: Product[] = [
     category: "Fachadas",
     shortDescription:
       "Proporción alargada y ritmo vertical para fachadas con presencia elegante y acabado artesanal.",
-    description:
-      "Formato alargado con ritmo vertical para fachadas refinadas y de gran altura.",
+    description: "Formato alargado con ritmo vertical para fachadas refinadas y de gran altura.",
     applications: [
       "Fachadas de vivienda y comercio",
       "Muros perimetrales a la vista",
@@ -230,8 +228,7 @@ const productosEscritos: Product[] = [
     category: "Fachadas",
     shortDescription:
       "Perfil romano con volumen y juego de sombras. Referencia clásica para fachadas con carácter.",
-    description:
-      "Diseño rústico con texturas versátiles para espacios modernos y clásicos.",
+    description: "Diseño rústico con texturas versátiles para espacios modernos y clásicos.",
     applications: [
       "Fachadas patrimoniales y contemporáneas",
       "Muros a la vista en vivienda campestre",
@@ -268,8 +265,7 @@ const productosEscritos: Product[] = [
     category: "Fachadas",
     shortDescription:
       "Tonos claro, matizado y oscuro para fachadas con identidad, contraste y calidez regional.",
-    description:
-      "Acabado rústico para fachadas con la textura natural del barro.",
+    description: "Acabado rústico para fachadas con la textura natural del barro.",
     applications: [
       "Fachadas residenciales y comerciales",
       "Muros estructurales interiores con revoque",
@@ -429,7 +425,10 @@ const productosEscritos: Product[] = [
     seoTitle: "Gran Formato Prensado | Clay House Amagá",
     seoDescription:
       "Ladrillo gran formato prensado (39 × 11,5 × 5 cm) en adobe, arena, natural y cocoa. Cara larga para fachadas de gran escala. Clay House, Amagá.",
-    image: productFolderImage("gran-formato-prensado", "natural/gran-formato-prensado-natural-n.webp"),
+    image: productFolderImage(
+      "gran-formato-prensado",
+      "natural/gran-formato-prensado-natural-n.webp"
+    ),
     pricePerUnit: "$ 3.600",
     priceFrom: "$ 3.100",
     priceUnitLabel: "unidad",
@@ -494,8 +493,7 @@ const productosEscritos: Product[] = [
     category: "Divisorios",
     shortDescription:
       "Textura vertical para muros divisorios y cerramientos con ritmo y juego de luz.",
-    description:
-      "Surcos verticales que aportan ritmo y juego de luz a divisiones y cerramientos.",
+    description: "Surcos verticales que aportan ritmo y juego de luz a divisiones y cerramientos.",
     applications: [
       "Muros divisorios interiores y exteriores",
       "Cerramientos y muros de acceso",
@@ -612,8 +610,7 @@ const productosEscritos: Product[] = [
     category: "Divisorios",
     shortDescription:
       "Rayado horizontal para divisiones y muros largos con lectura material cálida.",
-    description:
-      "Surcos horizontales que enfatizan la longitud del muro con calidez material.",
+    description: "Surcos horizontales que enfatizan la longitud del muro con calidez material.",
     applications: [
       "Muros divisorios y cerramientos largos",
       "Vivienda urbana y campestre",
@@ -649,8 +646,7 @@ const productosEscritos: Product[] = [
     category: "Enchapes",
     shortDescription:
       "Revestimiento de ladrillo con acabado rústico para transformar muros interiores y exteriores.",
-    description:
-      "Revestimiento delgado con acabado artesanal para muros con carácter y calidez.",
+    description: "Revestimiento delgado con acabado artesanal para muros con carácter y calidez.",
     applications: [
       "Salas, comedores y zonas sociales",
       "Fachadas de acento y muros de entrada",
@@ -686,8 +682,7 @@ const productosEscritos: Product[] = [
     category: "Enchapes",
     shortDescription:
       "Perfil romano en formato delgado para detalles con profundidad y acabado premium.",
-    description:
-      "Perfil alargado en versión enchape para columnas, rodapiés y muros de acento.",
+    description: "Perfil alargado en versión enchape para columnas, rodapiés y muros de acento.",
     applications: [
       "Columnas, chimeneas y detalles",
       "Baños y cocinas (según especificación)",
@@ -814,9 +809,9 @@ const productosEscritos: Product[] = [
     slug: "teja-colonial",
     category: "Techos",
     shortDescription:
-      "Teja colonial de barro para cubiertas tradicionales con perfil clásico y presencia.",
+      "Teja colonial de barro de 40 × 23 cm, con perfil curvo tradicional y rendimiento aproximado de 20 unidades por m².",
     description:
-      "Perfil curvo tradicional para cubiertas con carácter patrimonial y calidez del ladrillo.",
+      "Teja colonial de barro cocido con perfil curvo tradicional para cubiertas visibles de carácter patrimonial, campestre o turístico. Cada pieza mide 40 × 23 cm y el rendimiento publicado es de aproximadamente 20 unidades por m².\n\nClay House la comercializa por metro cuadrado y confirma en la cotización la cantidad, la disponibilidad y el despacho desde Amagá hacia Medellín, Antioquia y el resto de Colombia.",
     applications: [
       "Cubiertas visibles en vivienda campestre",
       "Proyectos patrimoniales y turísticos",
@@ -827,7 +822,7 @@ const productosEscritos: Product[] = [
     featured: false,
     seoTitle: "Teja colonial de barro: medidas y precio | Clay House",
     seoDescription:
-      "Teja colonial de barro cocido, perfil curvo tradicional y norma NTC 4205. Fabricación propia en Amagá con despacho a toda Colombia.",
+      "Teja colonial de barro de 40 × 23 cm, rendimiento aproximado de 20 und/m², perfil curvo y norma NTC 4205. Cotiza entrega en Medellín y Colombia.",
     image: productFolderImage("teja-colonial", "roja/teja colonial natural.webp"),
     pricePerUnit: "$ 1.600",
     priceUnitLabel: "unidad",
@@ -905,4 +900,3 @@ export function getVisibleProducts(): Product[] {
 export function getFeaturedProducts(): Product[] {
   return sortProductsByPriority(products.filter((p) => p.featured && isVisible(p)));
 }
-

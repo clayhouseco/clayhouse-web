@@ -29,6 +29,7 @@ export const localBusinessJsonLd = {
   logo: new URL(logos.header, site.url).href,
   telephone: site.phone,
   email: site.email,
+  foundingDate: "1965",
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
@@ -48,8 +49,10 @@ export const localBusinessJsonLd = {
    *  el sitio, las redes y la ficha de Google Business son el mismo negocio; sin
    *  ella tiene que deducirlo, y a veces no lo hace. */
   sameAs: socialLinks.map((s) => s.href),
-  areaServed: {
-    "@type": "Country",
-    name: "Colombia",
-  },
+  areaServed: [
+    { "@type": "City", name: "Medellín" },
+    { "@type": "AdministrativeArea", name: "Valle de Aburrá" },
+    { "@type": "AdministrativeArea", name: "Antioquia" },
+    { "@type": "Country", name: "Colombia" },
+  ],
 };

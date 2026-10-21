@@ -237,10 +237,26 @@ repetirlo en producción después de publicar):
 | `/blog/especificacion-de-ladrillo-en-obra` | móvil | 92–98 | 100 | 96 | 100 | 2,2–2,7 s | 0,014 |
 | | escritorio | 100 | 100 | 96 | 100 | 0,5 s | 0,001 |
 
-El artículo técnico en móvil oscila entre 92 y 98 entre mediciones locales; en producción
-medía 100. El 96 de «prácticas recomendadas» en tres páginas es el único punto que no cerré:
-ya no hay errores de consola, así que viene de otra comprobación menor y conviene revisarlo
-con la Fase 9 publicada.
+Fase 9, **medido en producción** tras desplegar (21 de octubre, 12eea44):
+
+| Página | | Rend. | Acces. | Prácticas | SEO | LCP | CLS |
+|---|---|---|---|---|---|---|---|
+| `/` | móvil | 97 | 100 | 92→ | 100 | 2,4 s | 0,005 |
+| | escritorio | 100 | 100 | 92→ | 100 | 0,6 s | 0,006 |
+| `/productos/romano` | móvil | 91 | 100 | 92→ | 100 | 3,3 s | 0,008 |
+| | escritorio | 97 | 100 | 92→ | 100 | 1,3 s | 0,000 |
+| `/cotizacion` | móvil | 99 | 100 | 92→ | 100 | 1,7 s | 0,002 |
+| | escritorio | 100 | 100 | 92→ | 100 | 0,5 s | 0,008 |
+| `/blog/especificacion-de-ladrillo-en-obra` | móvil | 95 | 100 | 92→ | 100 | 2,7 s | 0,05 |
+| | escritorio | 100 | 100 | 92→ | 100 | 0,4 s | 0,001 |
+
+Medido minutos después del despliegue, con la caché de borde de Vercel fría para los
+archivos nuevos: los LCP de móvil están por encima de los locales por eso, y conviene
+repetirlo en unos días. El CLS sí es definitivo y está en orden en las ocho.
+
+El **92 de «prácticas recomendadas»** llevó al hallazgo del punto 10: la CSP bloqueaba
+`pagead2.googlesyndication.com`, el endpoint al que el gtag de Google Ads manda las
+conversiones. Ya está corregido; la columna dice «92→» porque se midió antes del arreglo.
 
 ---
 
@@ -359,6 +375,17 @@ válidas con esa clave. Exige una Edge Function o el rate limiting de Supabase.
 ---
 
 ## 10. Riesgos que quedan
+
+**Corregido al verificar en producción, y vale contarlo porque explica cómo apareció:** la
+CSP bloqueaba `pagead2.googlesyndication.com`, el endpoint al que el gtag de Google Ads manda
+las conversiones (`/ccm/collect?tid=AW-11432934112`). El navegador lo bloqueaba sin decir
+nada, en las cuatro páginas medidas. La medición de Ads llegaba incompleta, justo cuando el
+pendiente es importar esas conversiones. `verificar:csp` no podía encontrarlo: ese comando
+compara la política con los dominios que aparecen en el sitio construido, y este no aparece
+en ningún archivo —lo decide la librería de Google en tiempo de ejecución—. La única
+comprobación que sirve para dominios así es cargar la página publicada en un navegador, que
+es lo que hace Lighthouse. **Conviene repetirlo cada vez que se toque la medición.**
+
 
 **El envío de reseñas no puede confirmar.** `ReviewForm` escribe en Apps Script con
 `mode: "no-cors"`: el navegador no puede leer la respuesta, así que la página lleva al
