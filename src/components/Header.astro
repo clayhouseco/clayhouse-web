@@ -164,8 +164,11 @@ const currentPath = Astro.url.pathname;
   }
 
   .header--transparent .header__link {
-    color: #ffffff;
-    opacity: 0.85;
+    /* Fondo explícito en el enlace: además de mantener el contraste, evita que algunos
+       motores confundan la fotografía que está detrás del header con su fondo real. */
+    background: rgb(48, 25, 14);
+    color: #e2d9d5;
+    opacity: 1;
   }
 
   .header--transparent .header__link:hover,
@@ -201,6 +204,7 @@ const currentPath = Astro.url.pathname;
     }
 
     .header--transparent.header--nav-open .header__link {
+      background: transparent;
       color: var(--color-chocolate);
       opacity: 0.7;
     }
