@@ -111,7 +111,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
 
 <BaseLayout
   title="Ladrillos en Medellín y Antioquia"
-  description="Compra ladrillos para fachada, divisorios, enchapes y tejas de barro con despacho a Medellín y Antioquia. Compara referencias y solicita cotización a Clay House."
+  description="Compra ladrillos para fachada, divisorios, enchapes y tejas de barro con despacho a Medellín y Antioquia. Compara referencias y solicita cotización."
   ogImage="/images/og/pagina-productos.jpg"
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
@@ -274,7 +274,9 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
 
 <style>
   .cl-hero {
-    padding: 3.5rem 0 2.5rem;
+    /* El header es fijo y mide 5,25 rem. Sin este espacio el eyebrow quedaba
+       detrás del logo, aunque el h1 sí alcanzara a verse. */
+    padding: calc(5.25rem + 3rem) 0 2.5rem;
     background: var(--color-bg);
   }
   .cl-hero h1 {

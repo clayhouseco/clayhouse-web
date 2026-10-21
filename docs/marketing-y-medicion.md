@@ -249,6 +249,38 @@ de clientes reales e independientes.
   Medellín es probablemente la mayor fuente de exposición local, por encima del
   SEO del sitio. Vale revisarla: fotos, horario, productos, pedir reseñas.
 
+### Sprint SEO local — ejecutado el 21 de octubre
+
+Se trabajó sobre las páginas que ya reciben impresiones en lugar de abrir URLs
+competidoras para las mismas búsquedas:
+
+- `/comprar-ladrillo-medellin` conserva su URL y ahora apunta de forma explícita a
+  **ladrillos en Medellín y Antioquia**. Añade referencias enlazadas, explicación
+  de precio y flete, preguntas de compra, breadcrumb y llamadas al cotizador en
+  lugar de usar WhatsApp como salida principal.
+- `/productos/categoria/fachadas` apunta a **ladrillo para fachada en Medellín** y
+  enlaza la página comercial local. No se creó otra categoría que compita con ella.
+- `/productos/teja-colonial` amplió su texto y snippet con los datos del ERP:
+  40 × 23 cm y rendimiento aproximado de 20 und/m². Se quitó del snippet la
+  afirmación de fabricación propia para esa referencia: el ERP la describe como
+  producto comercializado.
+- Se publicó `/blog/cuantos-ladrillos-por-m2`, una guía de cálculo con enlaces a
+  Romano, Toscano, Cartagena, Macizo Campesino, Fachadas y el cotizador. Entra al
+  sitemap con fecha real y las fichas relacionadas devuelven el enlace.
+- El `LocalBusiness` declara el año 1965 y la cobertura real: Medellín, Valle de
+  Aburrá, Antioquia y Colombia, sin presentar una sede falsa en Medellín.
+- La revisión automática de accesibilidad creció de 9 a 12 páginas para cubrir
+  estas cuatro rutas prioritarias. El resultado final fue 0 violaciones, incluida
+  navegación por teclado.
+
+No se publicó una página de **pisos en barro**: las antiguas referencias de piso
+redirigen al catálogo general y hoy no están publicadas ni cotizables. Esa página
+solo debe volver cuando inventario, fotos, precio y código ERP estén confirmados.
+
+Después del despliegue: inspeccionar las cuatro URLs en Search Console, solicitar
+indexación de la guía nueva y registrar semanalmente consultas, posición, CTR y
+cotizaciones orgánicas. No hace falta reactivar publicidad para ejecutar esta fase.
+
 ---
 
 ## 6. Publicidad — estado verificado el 21 de octubre

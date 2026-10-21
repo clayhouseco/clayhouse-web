@@ -66,7 +66,9 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   <article class="blog-post">
     <header class="blog-post-hero">
       <div class="container">
-        <a href="/blog" class="blog-back">← Volver al blog</a>
+        <a href="/blog" class="blog-back">
+          ← Volver al blog
+        </a>
         <div class="blog-post-hero__inner">
           <div class="blog-post-hero__meta">
             <span class="blog-post-hero__type">{typeLabel}</span>
@@ -74,13 +76,9 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
               {formatBlogDate(pubDate)}
               {duration ? ` · ${duration}` : ""}
             </time>
-            {
-              updatedDate && (
-                <span class="blog-post-hero__date">
-                  (actualizado {formatBlogDate(updatedDate)})
-                </span>
-              )
-            }
+            {updatedDate && (
+              <span class="blog-post-hero__date">(actualizado {formatBlogDate(updatedDate)})</span>
+            )}
           </div>
           <h1>{title}</h1>
           <p class="blog-post-hero__lead">{description}</p>
@@ -90,26 +88,24 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
 
     <section class="section">
       <div class="container">
-        {
-          coverImage && !videoEmbed && (
-            <figure class="blog-post-cover">
-              {/* La portada es el LCP del artículo. Servía el archivo de 1.600 px —280 KB—
+        {coverImage && !videoEmbed && (
+          <figure class="blog-post-cover">
+            {/* La portada es el LCP del artículo. Servía el archivo de 1.600 px —280 KB—
                   a un teléfono que la pinta a 390. Con srcset el navegador se lleva la
                   variante de 800 y la decide él, que es quien sabe el ancho real. */}
-              <img
-                src={srcPara(coverImage, 1200)}
-                srcset={srcSetFor(coverImage)}
-                sizes="(max-width: 900px) 100vw, 760px"
-                alt=""
-                width="1600"
-                height="900"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-              />
-            </figure>
-          )
-        }
+            <img
+              src={srcPara(coverImage, 1200)}
+              srcset={srcSetFor(coverImage)}
+              sizes="(max-width: 900px) 100vw, 760px"
+              alt=""
+              width="1600"
+              height="900"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </figure>
+        )}
 
         <div class="blog-post-layout">
           <div class="blog-prose">
@@ -118,40 +114,32 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
             <Content />
           </div>
 
-          {
-            (linkedProducts.length > 0 || tags.length > 0) && (
-              <aside class="blog-aside">
-                {
-                  linkedProducts.length > 0 && (
-                    <>
-                      <h2>Productos en esta obra</h2>
-                      <ul>
-                        {
-                          linkedProducts.map((p) => (
-                            <li>
-                              <a href={`/productos/${p.slug}`}>{p.name}</a>
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </>
-                  )
-                }
-                {
-                  tags.length > 0 && (
-                    <>
-                      <h2>Etiquetas</h2>
-                      <div class="blog-tags">
-                        {tags.map((tag) => (
-                          <span class="blog-tag">{tag}</span>
-                        ))}
-                      </div>
-                    </>
-                  )
-                }
-              </aside>
-            )
-          }
+          {(linkedProducts.length > 0 || tags.length > 0) && (
+            <div class="blog-aside">
+              {linkedProducts.length > 0 && (
+                <>
+                  <h2>Productos en esta obra</h2>
+                  <ul>
+                    {linkedProducts.map((p) => (
+                      <li>
+                        <a href={`/productos/${p.slug}`}>{p.name}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {tags.length > 0 && (
+                <>
+                  <h2>Etiquetas</h2>
+                  <div class="blog-tags">
+                    {tags.map((tag) => (
+                      <span class="blog-tag">{tag}</span>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>
