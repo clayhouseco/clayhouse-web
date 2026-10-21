@@ -394,12 +394,17 @@ cotizaciones escritas y leyéndolas. La única explicación es que entra con cre
 servicio, que se saltan RLS. Una política ataña a un rol; una restricción, a la tabla. **En
 una tabla compartida, lo que se le pone a un invitado se le pone por su rol.**
 
-**Lo único que queda por confirmar:** de las 34 filas, 9 no pasarían la política nueva. Si
-todas son del ERP, da igual —la política no lo gobierna—. Si alguna es `WEB-…`, el cotizador
-estaría rechazando solicitudes reales y hay que subir ese tope.
-`cotizaciones-rls-diagnostico.sql` lo separa. Lo más probable es que sean cotizaciones
-internas sin teléfono o sin nombre de contacto, que la política exige porque sin ellos nadie
-puede devolver la llamada.
+**Confirmado el 21 de octubre con `cotizaciones-rls-diagnostico.sql`: `web_rechazadas = 0`.**
+Las 6 solicitudes que la web ha mandado pasan la política nueva, así que el cotizador no
+rechaza nada. Las 9 que no pasan son todas del ERP —4 por no traer teléfono, que una
+cotización interna no tiene por qué traer— y la política no lo gobierna a él.
+
+El mismo diagnóstico obliga a matizar lo dicho arriba: `viola_restriccion_nombre` y
+`viola_restriccion_lineas` dieron **0**. Ninguna fila existente incumplía las dos
+restricciones que se retiraron, así que no había nada roto; el riesgo era futuro, la primera
+cotización del ERP con más de 40 renglones. Retirarlas seguía siendo lo correcto —cero
+beneficio para la web, riesgo distinto de cero para el ERP— pero no se estaba apagando un
+incendio, y conviene que quede escrito con esa proporción.
 
 **Lo que sigue sin resolver:** no hay límite de peticiones por IP. Nada impide insertar miles
 de filas válidas con la clave pública. Exige una Edge Function delante o el rate limiting del
