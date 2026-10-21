@@ -112,6 +112,25 @@ Si algún día se puja por valor, hay que fijar en Ads un valor de conversión r
 valor del pedido por la tasa de cierre), no este. Mientras tanto, no se pone valor
 predeterminado en Ads: una cifra inventada corrompe cualquier puja por valor.
 
+### Reseñas: dónde está la hoja
+
+**[Reseñas Clay House](https://docs.google.com/spreadsheets/d/1BCDckXxmxmbR1A5ee641pdAV8OoCtH3Kd0uHabipG9w/edit)**
+— la propietaria es la cuenta `clayhousecontacto@gmail.com`, no `gerencia@`.
+
+Columnas, en este orden: `Fecha · Nombre · Rol · Email · Calificacion · Producto · Resena ·
+Aprobada`. Una reseña se publica marcando la casilla **Aprobada**; el Apps Script de la misma
+hoja (**Extensiones → Apps Script**) la recibe en `doPost` y la sirve en `doGet`.
+
+Estaba documentado todo el flujo de moderación menos dónde vivía la hoja, que es lo primero
+que hace falta para usarlo.
+
+**Estado al 21 de octubre de 2026: 2 reseñas, las dos del 11 de junio, las dos aprobadas.
+Ninguna fila sin aprobar.** Es decir, en cuatro meses no ha llegado ninguna. Hasta hoy el
+formulario mandaba a ciegas —ver `ReviewForm.astro`— así que no había forma de distinguir
+«nadie escribe» de «se pierden al llegar». Eso ya está corregido de aquí en adelante, pero
+para saber qué pasó en esos cuatro meses hace falta mandar una reseña de prueba y ver si
+aterriza: una fila nueva sin aprobar no se publica en la web, y se borra después.
+
 ### Reseñas: falta una columna en la hoja
 
 El formulario de `/resenas` ya pide **empresa, obra o proyecto**, que es lo que hace
