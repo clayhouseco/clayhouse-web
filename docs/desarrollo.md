@@ -39,6 +39,7 @@ npm run verificar:enlaces     # enlaces internos, anclas y sitemap (--strict cor
 npm run verificar:csp         # la política de seguridad contra lo que la página carga
 npm run verificar:imagenes    # toda referencia de imagen del HTML construido
 npm run probar:cotizador      # el camino de la ficha al cotizador, en Chrome
+npm run probar:resenas        # el envío de una reseña, con `fetch` doblado
 npm run probar:medicion       # los eventos y el registro en el ERP, con `fetch` doblado
 npm run probar:accesibilidad  # axe en 9 páginas + navegación con teclado
 npm audit --omit=dev          # vulnerabilidades en lo que viaja al navegador

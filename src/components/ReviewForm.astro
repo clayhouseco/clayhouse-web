@@ -133,6 +133,11 @@ const thankYouPath = "/resenas/gracias/";
     <button type="submit" class="btn btn--primary review-form__submit">
       Enviar reseña
     </button>
+
+    {/* Hasta ahora no había dónde decir que algo salió mal, porque la página nunca se
+        enteraba. Vive fuera del botón para que un lector de pantalla lo anuncie al
+        aparecer, sin que el foco salte. */}
+    <p class="review-form__estado" data-reviews-estado role="status" aria-live="polite" hidden></p>
   </form>
 </div>
 
@@ -143,32 +148,96 @@ const thankYouPath = "/resenas/gracias/";
     formId: id,
   }}
 >
+  /**
+   * ANTES ESTE ENVÍO ERA CIEGO, Y LO PARECÍA MENOS DE LO QUE ERA.
+   *
+   * Se mandaba con `mode: "no-cors"`, que le impide al navegador leer la respuesta, y
+   * después se iba a «gracias» pasara lo que pasara: con la hoja caída, con el guion
+   * borrado, con la red cortada. Quien escribía una reseña veía la página de
+   * agradecimiento igual, y su texto se perdía sin que nadie se enterara —ni él, ni
+   * nosotros—. Es el mismo fallo que tenía el cotizador antes de la Fase 1.
+   *
+   * El `no-cors` no hacía falta: el guion de Apps Script responde con
+   * `access-control-allow-origin: *`, así que el navegador SÍ puede leer el resultado.
+   * Era un residuo de cuando las reseñas se leían con JSONP.
+   *
+   * El cuerpo va como `URLSearchParams`, que el navegador manda con
+   * `application/x-www-form-urlencoded`: eso lo hace una petición simple y evita el
+   * preflight, que Apps Script no atiende bien.
+   */
   const form = document.getElementById(formId);
+  const estado = form && form.querySelector("[data-reviews-estado]");
+
+  function avisar(texto) {
+    if (!estado) return;
+    estado.textContent = texto;
+    estado.hidden = false;
+  }
+
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
+      const textoBoton = btn ? btn.textContent : "";
       if (btn) {
         btn.disabled = true;
         btn.textContent = "Enviando…";
       }
+      if (estado) estado.hidden = true;
+
       try {
-        // no-cors: el navegador no puede leer la respuesta de Apps Script,
-        // pero la fila igual se escribe en la hoja.
-        await fetch(endpoint, {
+        const res = await fetch(endpoint, {
           method: "POST",
-          mode: "no-cors",
           body: new URLSearchParams(new FormData(form)),
         });
+        /* Apps Script puede responder 200 con un error dentro. Se mira el cuerpo cuando
+           se deja leer; si no es JSON, basta con que la petición haya ido bien. */
+        let ok = res.ok;
+        if (ok) {
+          try {
+            const cuerpo = await res.clone().json();
+            if (cuerpo && (cuerpo.ok === false || cuerpo.error)) ok = false;
+          } catch {
+            /* no era JSON: nos quedamos con el código de respuesta */
+          }
+        }
+        if (ok) {
+          window.location.href = thankYouPath;
+          return;
+        }
+        avisar(
+          "No pudimos guardar tu reseña (error " +
+            res.status +
+            "). Tu texto sigue acá: vuelve a intentarlo en un momento."
+        );
       } catch {
-        /* Aun con error de red intentamos continuar al "gracias". */
+        avisar(
+          "No pudimos guardar tu reseña: revisa tu conexión. Tu texto sigue acá, no se perdió."
+        );
       }
-      window.location.href = thankYouPath;
+
+      /* Se vuelve a dejar el botón como estaba: el texto escrito no se toca, para que
+         reintentar sea pulsar otra vez y no volver a escribirlo todo. */
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = textoBoton;
+      }
     });
   }
 </script>
 
 <style>
+  .review-form__estado {
+    margin: 0.75rem 0 0;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(166, 58, 44, 0.3);
+    border-radius: var(--radius-md);
+    background: rgba(166, 58, 44, 0.06);
+    color: var(--color-chocolate);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
   .review-form-wrap {
     background: var(--color-white);
     border: 1px solid rgba(71, 36, 16, 0.08);

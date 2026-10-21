@@ -79,6 +79,10 @@ jobs:
         # la validación. Nada toca el ERP ni la base.
         run: npm run probar:cotizador
 
+      - name: El envío de una reseña
+        # Sustituye `fetch` por un doble: no se escribe ninguna fila en la hoja.
+        run: npm run probar:resenas
+
       - name: Accesibilidad y teclado
         run: npm run probar:accesibilidad
 

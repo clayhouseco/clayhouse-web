@@ -20,6 +20,7 @@
     "verificar:csp": "node scripts/verificar-csp.mjs",
     "probar:medicion": "node scripts/probar-medicion.mjs",
     "probar:cotizador": "node scripts/probar-cotizador.mjs",
+    "probar:resenas": "node scripts/probar-resenas.mjs",
     "probar:accesibilidad": "node scripts/probar-accesibilidad.mjs",
     "verificar:erp": "node scripts/verificar-erp.mjs",
     "fichas:verificar": "node scripts/fichas/verificar.mjs",
