@@ -155,10 +155,10 @@ const currentPath = Astro.url.pathname;
   }
 
   .header--transparent {
-    /* Los enlaces son blancos y las fotos del hero mezclan zonas claras y oscuras. Un
-       vidrio chocolate conserva la imagen detrás y garantiza contraste estable; depender
-       del píxel de la foto hacía que axe pasara en macOS y fallara en el runner Linux. */
-    background: rgba(48, 25, 14, 0.86);
+    /* Los enlaces son blancos y las fotos del hero mezclan zonas claras y oscuras.
+       El fondo sólido garantiza contraste estable también en motores de accesibilidad
+       que no componen correctamente un color semitransparente sobre fotografías. */
+    background: rgb(48, 25, 14);
     backdrop-filter: blur(8px);
     border-bottom-color: rgba(255, 255, 255, 0.12);
   }
