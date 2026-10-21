@@ -353,6 +353,16 @@ tiene códigos que el ERP no tiene— y no corta nada: `verificar-datos --strict
 código 0. La regla que sí bloquea existe, para un producto que el ERP publique sin código,
 pero hoy no la incumple ninguno.)_
 
+**Teja Colonial: el campo manda, y está bien.** Su registro en el ERP se contradice —el
+campo «unidad de venta» dice `unidad`, la descripción dice «Unidad de venta m²»— y es el
+mismo producto del error de veinte veces de la Fase 2. **Gerencia confirmó el 21 de octubre
+de 2026 que el campo es el correcto**: se vende por unidad, a $ 1.600 la teja. La frase de la
+descripción es texto que quedó viejo cuando se corrigió el campo.
+
+No hay nada que arreglar en la web: sigue el campo. `verificar:datos` seguirá mostrando esa
+fila mientras la frase siga escrita así en el ERP, y conviene que lo haga —es la única señal
+de que ese texto miente— pero ya está adjudicada: no hay que volver a investigarla.
+
 **La hoja de inventario nunca se publicó.** La disponibilidad sigue siendo la semilla inicial
 del 9 de julio de 2026: hoy el único filtro real es lo que el ERP marque para la web.
 
