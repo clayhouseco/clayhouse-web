@@ -113,35 +113,26 @@ where schemaname = 'public' and tablename = 'cotizaciones';
 
 
 -- ===========================================================================
--- PASO 2 — LÍMITES EN EL ESQUEMA.  OJO: esto sí afecta al ERP.
+-- PASO 2 — RETIRADO. No lo corra.
 --
--- La política del paso 1 protege de lo que entra por PostgREST con la clave
--- pública. Estas restricciones protegen la tabla venga de donde venga —y por
--- eso también se aplican a lo que inserte el ERP con sus credenciales de
--- servicio—. Si el ERP guarda acá sus cotizaciones internas y alguna trae un
--- nombre de más de 120 caracteres o más de 40 líneas, a partir de este momento
--- se le rechazaría.
+-- Acá había dos restricciones de tabla: nombre ≤ 120 y líneas ≤ 40. Se
+-- aplicaron el 21 de octubre de 2026 y se quitaron el mismo día, con
+-- `cotizaciones-rls-quitar-paso2.sql`.
 --
--- CORRA EL PASO 0.b PRIMERO. Si devolvió ceros en `nombres_largos` y
--- `muchas_lineas`, estos topes no rechazan nada de lo que ya pasa. Si no,
--- súbalos a lo que la operación real necesite antes de aplicarlos.
+-- El error fue de concepto. `public.cotizaciones` no es una tabla de la web:
+-- es del ERP, y la web le escribe dentro —28 de sus 34 filas las puso el ERP—.
+-- Una POLÍTICA ataña a un rol, así que la del Paso 1 solo gobierna al navegador
+-- y el ERP, que entra con credenciales de servicio, ni se entera. Una
+-- RESTRICCIÓN DE TABLA aplica a todos.
+--
+-- Y el tope de 40 líneas salió de que el catálogo cotizable de la web tiene 23
+-- opciones: un argumento que no dice nada sobre el ERP. Una cotización interna
+-- de un proyecto grande puede pasar de 40 renglones sin que eso sea un abuso, y
+-- el ERP habría empezado a fallar al guardarla.
+--
+-- La regla que queda: en una tabla compartida, lo que se le pone a un invitado
+-- se le pone por su rol, no a la tabla.
 -- ===========================================================================
-
-alter table public.cotizaciones
-  drop constraint if exists cotz_web_atencion_largo,
-  add constraint cotz_web_atencion_largo
-    check (atencion is null or length(atencion) <= 120) not valid;
-
-alter table public.cotizaciones
-  drop constraint if exists cotz_web_items_tope,
-  add constraint cotz_web_items_tope
-    check (items is null or jsonb_array_length(items) <= 40) not valid;
-
--- `not valid` no revisa las filas que ya existen, solo las nuevas. Cuando el
--- paso 0.b confirme que ninguna las incumple, se pueden validar:
---
---   alter table public.cotizaciones validate constraint cotz_web_atencion_largo;
---   alter table public.cotizaciones validate constraint cotz_web_items_tope;
 
 
 -- ===========================================================================
