@@ -458,10 +458,32 @@ imágenes, accesibilidad, medición y el recorrido comercial. Lo que ninguna cub
 aspecto: un cambio de CSS que descoloque algo pasaría todas las puertas. Es lo que haría
 falta para poder partir el CSS con tranquilidad.
 
-**38,5 MB de fotos sin referenciar y 15 originales de cámara de 1,5–6,5 MB** siguen en el
-repositorio, más un `audit.json` suelto en la raíz que quedó de una revisión del catálogo del
-14 de octubre. El historial de git pesa 2,45 GB. Reescribirlo no se toca sin autorización
-expresa; borrar las fotos sí se puede, pero es una decisión suya.
+**El peso del repositorio, medido bien el 21 de octubre.** Lo que decía antes este punto
+—«38,5 MB de fotos sin referenciar»— estaba mal medido y llevaba a la acción equivocada.
+
+Hay 68,2 MB de imágenes que no aparecen referenciadas en ninguna parte, pero los dos bloques
+grandes son **fotografía de obra de los productos que el ERP dejó de publicar**: 26,3 MB del
+proyecto Boro (Enchape Bocadillo) y 4,3 MB del edificio Gres (Enchape Rústico). No es basura;
+son activos que quedaron sin usar porque el producto está fuera del catálogo, y borrarlos
+sería destruir trabajo por un estado temporal. Quedan atados a la decisión del punto 7.
+
+De las variantes generadas en `_responsive` —86,3 MB en 1.438 archivos— **ninguna está
+huérfana**: `generate-responsive.mjs` ya limpia las obsoletas. Lo único discutible ahí es que
+sean salida de build versionada; sacarlas de git las haría regenerarse en cada despliegue, lo
+cual es una decisión con su contrapartida, no higiene.
+
+**Lo que sí es desperdicio claro: 26 originales de cámara por encima de 900 KB, 101,6 MB en
+total**, a resoluciones de 3944 × 7008. El sitio nunca sirve esos archivos —la cadena de
+imágenes genera variantes de hasta 1.200 px en las fichas y 1.920 px en la portada—, así que
+su tamaño no afecta en nada a lo que descarga un visitante: solo al peso del repositorio y al
+tiempo de build. Reducirlos a 2.400 px con calidad 82 ahorra entre el 58 % y el 86 % por
+archivo —medido sobre copias— sin tocar ninguna resolución que el sitio use. Unos 70 MB.
+
+El historial de git pesa 2,45 GB, y eso no lo arregla borrar ni optimizar nada de lo anterior:
+exige reescribir el historial, que no se toca sin autorización expresa.
+
+Queda además un `audit.json` suelto en la raíz, de una revisión del catálogo del 14 de
+octubre. Sin seguimiento en git, 4,7 KB.
 
 **La Fase 9 no está desplegada.** Todo lo de arriba está verificado en local y, donde se
 podía, contra producción. Los números de rendimiento de la Fase 9 y el 96 de «prácticas
