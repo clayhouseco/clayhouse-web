@@ -352,43 +352,58 @@ medidas, rendimiento, peso, norma—, que son ciertos. No se le inventó prosa c
 
 ---
 
-## 8. SQL preparado y sin ejecutar
+## 8. La escritura en la tabla de cotizaciones: cerrada el 21 de octubre
 
-`supabase/cotizaciones-rls.sql`. Cierra el riesgo de producción más real que tiene el sitio:
-hoy cualquiera con la clave pública puede escribir en la tabla de cotizaciones.
+`supabase/cotizaciones-rls.sql`, aplicado por gerencia sobre `clayhouse-erp-dmo`
+(`xmgsljwxiyyporczsrum`). **Estado final: una sola política, de inserción, para el rol
+`anon`; RLS activo; ninguna restricción de tabla.** Ya no es cierto que cualquiera con la
+clave publicable pueda escribir lo que quiera.
 
-**No la ejecuté: desde el repositorio no hay conexión a la base de datos, y el cambio es DDL
-(`alter policy`, `alter table`), que la clave publicable no puede hacer.** Está lista para
-pegar en el editor SQL de Supabase y pulsar Run.
+Conviene dejar escrito cómo se llegó ahí, porque hubo dos errores míos y los dos son de
+entrega, no de SQL.
 
-Al prepararla corregí dos cosas de lo que yo mismo había dicho antes:
+**No hay proyecto de Supabase para la web, y no debe haberlo.** La web escribe dentro de la
+base del ERP, para que la solicitud aparezca en su bandeja como borrador `WEB-…` en vez de en
+una base aparte que nadie mira. El mismo proyecto sirve las fotos de producto del ERP y la
+tabla `cotizaciones`: es el del ERP.
 
-1. **La decisión de qué tabla es la oficial NO bloquea el paso que cierra el agujero.** La
-   política de inserción ataña solo al rol `anon` —la clave publicable, es decir el
-   navegador—, y el ERP entra con credenciales de servicio, que se saltan RLS. Se puede
-   aplicar hoy sobre `public.cotizaciones`, que es donde escribe la web, sin tocar nada de lo
-   que hace el ERP.
-2. **El archivo no se podía pegar.** Usaba `\set TABLA` y `:TABLA`, que son comandos de
-   `psql`; el editor SQL de Supabase no los entiende y habría fallado en la primera línea.
+**Primer error: el archivo asumía que se podía correr paso a paso.** Venía en tres pasos con
+la instrucción de leer el Paso 0 antes de seguir, pero el editor SQL de Supabase ejecuta todo
+lo que se le pega y muestra solo el último resultado con filas. Pegarlo entero corrió los
+tres pasos, y en pantalla salió la comprobación del Paso 1 —parecía que solo había corrido
+eso—. La instrucción estaba en un comentario, y la herramienta no lee comentarios. (Volvió a
+pasar con el archivo de comprobación, que tenía cinco consultas: se veía la quinta. Ahora
+todo va en una sola consulta que devuelve una fila.)
 
-Queda en tres pasos, y el orden importa. El **paso 0** no cambia nada: lista las políticas
-que hay hoy con sus nombres reales —los `drop policy` borran por nombre, así que si en
-producción se llaman distinto las suyas seguirían abiertas— y comprueba si alguna fila
-existente incumpliría los topes. El **paso 1** es la política de inserción, la que cierra el
-agujero, y solo afecta a `anon`. El **paso 2** son restricciones de tabla, que **sí afectan
-al ERP**: si guarda ahí sus cotizaciones internas y alguna trae un nombre de más de 120
-caracteres o más de 40 líneas, a partir de ese momento se le rechazaría. Por eso el paso 0.b
-existe y hay que leerlo antes.
+**Segundo error, el de fondo: metí restricciones de tabla en una tabla compartida.** El Paso 2
+añadía dos —nombre ≤ 120 y líneas ≤ 40—, y una restricción de tabla aplica a todos, incluidas
+las credenciales de servicio con las que entra el ERP. Peor: el tope de 40 líneas lo
+justifiqué con que el catálogo cotizable de la web tiene 23 opciones, un argumento que no
+dice nada sobre el ERP. **28 de las 34 filas de esa tabla las puso el ERP**, y una cotización
+interna de un proyecto grande puede pasar de 40 renglones sin que eso sea un abuso: habría
+empezado a fallar al guardar, días o semanas después, sin que nadie lo conectara con esto.
 
-Comprobado el 21 de octubre con la clave publicable, sin escribir nada: leer
-`public.cotizaciones` devuelve 200 y cero filas, así que o la tabla está vacía o RLS ya
-filtra la lectura —el paso 0 lo resuelve desde dentro—. Lo que sigue sin acotar es la
-escritura.
+Lo detectó gerencia preguntando «¿no será que vamos a descontrolar el ERP?». Se retiraron con
+`cotizaciones-rls-quitar-paso2.sql` y se verificó: `restricciones_que_quedan = 0`, política
+intacta, RLS activo.
 
-Falta además un límite de peticiones por IP: nada impide insertar miles de cotizaciones
-válidas con esa clave. Exige una Edge Function o el rate limiting de Supabase.
+**La política sí se queda, y no toca al ERP.** Es demostrable: antes de tocar nada, leer esa
+tabla con la clave publicable devolvía cero filas cuando ya tenía 34. RLS estaba activo y
+ninguna política daba acceso a nadie salvo a la web, y sin embargo el ERP llevaba 28
+cotizaciones escritas y leyéndolas. La única explicación es que entra con credenciales de
+servicio, que se saltan RLS. Una política ataña a un rol; una restricción, a la tabla. **En
+una tabla compartida, lo que se le pone a un invitado se le pone por su rol.**
 
----
+**Lo único que queda por confirmar:** de las 34 filas, 9 no pasarían la política nueva. Si
+todas son del ERP, da igual —la política no lo gobierna—. Si alguna es `WEB-…`, el cotizador
+estaría rechazando solicitudes reales y hay que subir ese tope.
+`cotizaciones-rls-diagnostico.sql` lo separa. Lo más probable es que sean cotizaciones
+internas sin teléfono o sin nombre de contacto, que la política exige porque sin ellos nadie
+puede devolver la llamada.
+
+**Lo que sigue sin resolver:** no hay límite de peticiones por IP. Nada impide insertar miles
+de filas válidas con la clave pública. Exige una Edge Function delante o el rate limiting del
+propio Supabase. Lo aplicado acota QUÉ se puede escribir; no CUÁNTAS veces.
 
 ## 9. Configuración externa pendiente (no se puede hacer desde el código)
 
@@ -419,7 +434,8 @@ es lo que hace Lighthouse. **Conviene repetirlo cada vez que se toque la medici�
 visitante a «gracias» aunque la fila no se haya escrito. Es el mismo patrón que se corrigió
 en el cotizador en la Fase 1, y es el único camino del sitio que sigue a ciegas.
 
-**La escritura en la tabla de cotizaciones sigue abierta** (punto 8). Es el riesgo más real.
+**La escritura en la tabla de cotizaciones quedó cerrada** el 21 de octubre (punto 8). Lo que sigue
+abierto de ese frente es el límite de peticiones por IP.
 
 **El CSS de las dos páginas grandes sigue sin partir** (punto 4). No es un riesgo de
 funcionamiento; es deuda que encarece cada cambio futuro en esas páginas.

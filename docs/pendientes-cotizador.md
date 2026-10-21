@@ -34,11 +34,17 @@ Las dos salidas razonables:
 
 ---
 
-## 2. RLS — MIGRACIÓN PREPARADA, NO EJECUTADA
+## 2. RLS — APLICADO EL 21 DE OCTUBRE DE 2026
 
-La política del repositorio es `with check (true)`: cualquiera con la clave
-pública —que viaja en el HTML, como debe ser— puede insertar lo que quiera, con
-el tamaño que quiera y tantas veces como quiera.
+**Estado final: una sola política, de inserción, para el rol `anon`; RLS activo;
+ninguna restricción de tabla.** Antes la política era `with check (true)`:
+cualquiera con la clave pública —que viaja en el HTML, como debe ser— podía
+insertar lo que quisiera. Eso quedó cerrado.
+
+El Paso 2 del archivo, que añadía dos restricciones de tabla, se aplicó y se
+retiró el mismo día: `public.cotizaciones` es del ERP —28 de sus 34 filas las
+puso él— y una restricción de tabla aplica a todos, mientras que una política
+ataña solo a un rol. Ver el punto 8 del informe de la auditoría.
 
 `supabase/cotizaciones-rls.sql` deja preparadas las restricciones, ya listas
 para pegar en el editor SQL de Supabase. **Requiere autorización antes de
