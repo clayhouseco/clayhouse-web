@@ -3,8 +3,9 @@
 # Hasta ahora no había nada: cada comprobación existía como un script que alguien tenía que
 # acordarse de correr, y la única señal real era el sitio ya publicado. Esto corre lo mismo
 # en cada empujón, en el orden en que vale la pena fallar: primero lo que cuesta segundos
-# (tipos, lint, pruebas), después el build, y al final lo que necesita el sitio construido
-# (enlaces, política de seguridad, medición, accesibilidad).
+# (tipos y lint), después el build y las pruebas —el sitemap del blog se comprueba contra
+# `dist/`—, y al final lo demás que necesita el sitio construido (enlaces, política de
+# seguridad, medición, accesibilidad).
 #
 # El trabajo NO publica nada y no escribe en ninguna parte: ni en el ERP, ni en Supabase, ni
 # en la cuenta de medición. La prueba de medición sustituye `fetch` por un doble antes de
@@ -41,6 +42,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Construir
+        # Las pruebas del sitemap leen `dist/sitemap.xml`: el blog se monta durante el
+        # build de Astro y no existe al invocar el endpoint directamente desde Vitest.
+        run: npm run build
+
       - name: Pruebas
         run: npm test
 
@@ -49,9 +55,6 @@ jobs:
         # Lo que sí corta el despliegue (un precio incoherente con su unidad, un producto
         # publicado sin código) ya lo marca `bloquea` y lo aplica `build:prod`.
         run: npm run verificar:datos
-
-      - name: Construir
-        run: npm run build
 
       - name: Enlaces y sitemap
         run: npm run verificar:enlaces -- --strict
