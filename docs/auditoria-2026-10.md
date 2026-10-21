@@ -256,7 +256,34 @@ repetirlo en unos días. El CLS sí es definitivo y está en orden en las ocho.
 
 El **92 de «prácticas recomendadas»** llevó al hallazgo del punto 10: la CSP bloqueaba
 `pagead2.googlesyndication.com`, el endpoint al que el gtag de Google Ads manda las
-conversiones. Ya está corregido; la columna dice «92→» porque se midió antes del arreglo.
+conversiones. Ya está corregido —`4afb0d7`— y vuelto a medir: **100 en las cuatro páginas, sin
+un solo bloqueo y sin errores de consola**. La columna dice «92→» porque se midió antes.
+
+### Una medición que no cierra, y conviene decirlo
+
+`/productos/romano` en móvil da **89–90 con LCP 3,5 s** desde esta máquina contra producción,
+repetido tres veces (el 91 y el 73 de la tabla son el mismo número con ruido de red: 73 fue
+un valor atípico). En la Fase 4, la misma página se registró en 99 con LCP 1,9 s, y hoy en
+local da 99 con 1,6 s.
+
+Lo que sí está comprobado: el HTML de esa página es **idéntico byte a byte** al de antes de
+los cambios de la Fase 9, su foto principal lleva el `srcset` completo de cuatro anchos en
+WebP con `width`/`height` y `loading="eager"`, el servidor responde en 82–139 ms, el TBT es
+de 70–90 ms y **ninguna auditoría de oportunidad de Lighthouse falla**. Ese perfil —primer
+pintado lento sin nada que lo explique— es latencia de red, no código.
+
+Lo que no puedo zanjar desde acá: si el 1,9 s de la Fase 4 y el 3,5 s de hoy son la misma
+página en dos redes distintas, o si algo cambió en el medio. Una sola máquina no lo
+distingue. El instrumento que lo resuelve es PageSpeed Insights en el navegador
+(pagespeed.web.dev, que corre desde la infraestructura de Google; su API por cuota anónima
+está agotada) o los datos de campo de CrUX en Search Console, que es lo que de verdad miden
+los visitantes reales.
+
+Y una mejora concreta que apareció al mirarlo: **la ficha de producto no precarga su foto
+principal**, mientras la portada sí lo hace (`heroPreloadSrcset` en `index.astro`). Sobre una
+conexión lenta el navegador no descubre esa imagen hasta haber leído el HTML y el CSS. Es
+barato y probablemente explica parte de la diferencia, pero es un cambio de rendimiento —hay
+que medirlo antes y después— y no entra en esta fase.
 
 ---
 
