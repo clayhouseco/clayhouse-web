@@ -34,6 +34,31 @@ const productGroups = catalogCategories
 /** Las reseñas se guardan en Google Sheets vía Apps Script (site.reviewsEndpoint).
  *  El moderador las aprueba marcando la casilla "Aprobada" en la hoja. */
 const reviewsEndpoint = site.reviewsEndpoint;
+/**
+ * EL ENVÍO DE LA RESEÑA YA NO ES CIEGO.
+ *
+ * Se mandaba con `mode: "no-cors"`, que le impide al navegador leer la respuesta, y después
+ * se iba a «gracias» pasara lo que pasara: con la hoja caída, con el guion borrado, con la
+ * red cortada. Quien escribía una reseña veía la página de agradecimiento igual, y su texto
+ * se perdía sin que nadie se enterara —ni él, ni nosotros—. Es el mismo fallo que tenía el
+ * cotizador antes de la Fase 1.
+ *
+ * El `no-cors` no hacía falta: el guion de Apps Script responde con
+ * `access-control-allow-origin: *`, así que el navegador SÍ puede leer el resultado. Era un
+ * residuo de cuando las reseñas se leían con JSONP, que se quitó en la Fase 3; al cambiar la
+ * lectura nadie volvió a mirar el envío.
+ *
+ * El cuerpo va como `URLSearchParams`, que el navegador manda con
+ * `application/x-www-form-urlencoded`: eso lo hace una petición simple y evita el preflight,
+ * que Apps Script no atiende bien.
+ *
+ * Lo comprueba `npm run probar:resenas` en los tres caminos, con `fetch` sustituido por un
+ * doble para no escribir en la hoja.
+ *
+ * NOTA DE TAMAÑO: este comentario vive acá y no dentro del `<script>` porque los scripts con
+ * `define:vars` van en línea y sin minificar — todo lo que se escriba ahí lo descarga cada
+ * visitante. El frontmatter no se publica.
+ */
 const thankYouPath = "/resenas/gracias/";
 ---
 
@@ -148,23 +173,8 @@ const thankYouPath = "/resenas/gracias/";
     formId: id,
   }}
 >
-  /**
-   * ANTES ESTE ENVÍO ERA CIEGO, Y LO PARECÍA MENOS DE LO QUE ERA.
-   *
-   * Se mandaba con `mode: "no-cors"`, que le impide al navegador leer la respuesta, y
-   * después se iba a «gracias» pasara lo que pasara: con la hoja caída, con el guion
-   * borrado, con la red cortada. Quien escribía una reseña veía la página de
-   * agradecimiento igual, y su texto se perdía sin que nadie se enterara —ni él, ni
-   * nosotros—. Es el mismo fallo que tenía el cotizador antes de la Fase 1.
-   *
-   * El `no-cors` no hacía falta: el guion de Apps Script responde con
-   * `access-control-allow-origin: *`, así que el navegador SÍ puede leer el resultado.
-   * Era un residuo de cuando las reseñas se leían con JSONP.
-   *
-   * El cuerpo va como `URLSearchParams`, que el navegador manda con
-   * `application/x-www-form-urlencoded`: eso lo hace una petición simple y evita el
-   * preflight, que Apps Script no atiende bien.
-   */
+  /* Por qué el envío dejó de ser ciego: ver el comentario del frontmatter. Acá no, que
+     este script viaja tal cual al navegador. */
   const form = document.getElementById(formId);
   const estado = form && form.querySelector("[data-reviews-estado]");
 
