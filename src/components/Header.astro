@@ -155,85 +155,9 @@ const currentPath = Astro.url.pathname;
   }
 
   .header--transparent {
-    /* Los enlaces son blancos y las fotos del hero mezclan zonas claras y oscuras.
-       El fondo sólido garantiza contraste estable también en motores de accesibilidad
-       que no componen correctamente un color semitransparente sobre fotografías. */
-    background: rgb(48, 25, 14);
-    backdrop-filter: blur(8px);
-    border-bottom-color: rgba(255, 255, 255, 0.12);
-  }
-
-  .header--transparent .header__link {
-    /* Fondo explícito en el enlace: además de mantener el contraste, evita que algunos
-       motores confundan la fotografía que está detrás del header con su fondo real. */
-    background: rgb(48, 25, 14);
-    color: #e2d9d5;
-    opacity: 1;
-  }
-
-  .header--transparent .header__link:hover,
-  .header--transparent .header__link--active {
-    color: #ffffff;
-    opacity: 1;
-  }
-
-  .header--transparent .header__toggle span {
-    background: #ffffff;
-  }
-
-  .header--transparent .header__cta {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
-    color: #ffffff;
-  }
-
-  .header--transparent .header__cart-btn {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-  }
-
-  .header--transparent .header__logo-img {
-    filter: brightness(0) invert(1);
-  }
-
-  @media (max-width: 768px) {
-    .header--transparent.header--nav-open {
-      background: var(--color-bg);
-      backdrop-filter: blur(12px);
-    }
-
-    .header--transparent.header--nav-open .header__link {
-      background: transparent;
-      color: var(--color-chocolate);
-      opacity: 0.7;
-    }
-
-    .header--transparent.header--nav-open .header__link:hover,
-    .header--transparent.header--nav-open .header__link--active {
-      color: var(--color-terracota);
-      opacity: 1;
-    }
-
-    .header--transparent.header--nav-open .header__toggle span {
-      background: var(--color-chocolate);
-    }
-
-    .header--transparent.header--nav-open .header__logo-img {
-      filter: none;
-    }
-
-    .header--transparent.header--nav-open .header__cta {
-      background: var(--color-terracota);
-      border-color: var(--color-terracota);
-      color: var(--color-white);
-    }
-
-    .header--transparent.header--nav-open .header__cart-btn {
-      border-color: rgba(71, 36, 16, 0.2);
-      background: var(--color-white);
-      color: var(--color-chocolate);
-    }
+    /* La navegación conserva una superficie clara y opaca sobre los hero fotográficos.
+       Así el contraste no depende de la imagen ni de cómo cada navegador la componga. */
+    background: rgb(255, 251, 249);
   }
 
   .header__inner {
