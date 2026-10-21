@@ -6,10 +6,22 @@
 -- puede escribir lo que quiera en esta tabla, del tamaño que quiera y tantas
 -- veces como quiera. Es el riesgo de producción más real que tiene el sitio.
 --
--- CÓMO CORRERLO:  Supabase → SQL Editor → New query → pegar → Run.
+-- CÓMO CORRERLO — Y ESTO IMPORTA:
 --
--- Va en tres pasos y en este orden. El paso 0 no cambia nada: solo mira. No
--- corra el paso 2 sin haber leído lo que devuelve el paso 0.
+--   El editor SQL de Supabase ejecuta TODO lo que esté pegado y muestra solo el
+--   último resultado con filas. Pegar el archivo entero corre los tres pasos de
+--   una vez, incluido el que también gobierna al ERP, y el resultado que se ve
+--   en pantalla es el de la comprobación del paso 1 —parece que solo corrió eso,
+--   pero corrió todo—. Pasó el 21 de octubre de 2026.
+--
+--   Por eso: pegue UN PASO A LA VEZ. Supabase → SQL Editor → New query →
+--   seleccionar las líneas de ese paso → Run (⌘↵ corre solo lo seleccionado).
+--
+--   Paso 0 primero, leer lo que devuelve, y recién entonces el 1. El 2 solo
+--   después de entender el 0.b, porque afecta también a lo que escribe el ERP.
+--
+--   Si ya corrió todo de una vez: `cotizaciones-rls-comprobar.sql` dice qué
+--   quedó aplicado y si los topes rechazan trabajo real. Es de solo lectura.
 --
 -- LA TABLA ES `public.cotizaciones`, que es donde escribe la web
 -- (`src/scripts/cotizacion/envio.ts` → `/rest/v1/cotizaciones`) y de donde lee
