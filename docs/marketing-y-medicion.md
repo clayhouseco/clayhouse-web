@@ -124,12 +124,31 @@ hoja (**Extensiones → Apps Script**) la recibe en `doPost` y la sirve en `doGe
 Estaba documentado todo el flujo de moderación menos dónde vivía la hoja, que es lo primero
 que hace falta para usarlo.
 
-**Estado al 21 de octubre de 2026: 2 reseñas, las dos del 11 de junio, las dos aprobadas.
-Ninguna fila sin aprobar.** Es decir, en cuatro meses no ha llegado ninguna. Hasta hoy el
-formulario mandaba a ciegas —ver `ReviewForm.astro`— así que no había forma de distinguir
-«nadie escribe» de «se pierden al llegar». Eso ya está corregido de aquí en adelante, pero
-para saber qué pasó en esos cuatro meses hace falta mandar una reseña de prueba y ver si
-aterriza: una fila nueva sin aprobar no se publica en la web, y se borra después.
+**Estado al 21 de octubre de 2026: 2 reseñas, las dos del 11 de junio, las dos aprobadas,
+ninguna fila sin aprobar.** Cuatro meses sin que llegara ninguna.
+
+**Y el camino funciona.** Se comprobó mandando dos reseñas de prueba y viéndolas aterrizar en
+la hoja con `Aprobada = FALSE` —es decir, sin publicarse: el guion siguió sirviendo solo las
+dos aprobadas—. Así que el silencio no es técnico: **nadie ha escrito una reseña porque nadie
+las ha pedido.** Las dos que hay son del mismo día con dos horas de diferencia; parecen una
+solicitud única al lanzar, no tráfico orgánico.
+
+El arreglo no es de código: es mandar el enlace del formulario después de una entrega, cuando
+el material ya está puesto y el cliente contento.
+
+**`https://clayhouse.com.co/resenas#dejar-resena`**
+
+### Un detalle que confunde al depurar con curl
+
+Apps Script responde al POST con un 302 hacia `script.googleusercontent.com`. Un navegador
+convierte ese POST en GET al seguir la redirección —como manda la especificación para el
+302— y termina leyendo un **200** con el JSON del `doGet`. `curl -L`, en cambio, puede
+mantener el POST y recibir un **405**.
+
+Ver un 405 con curl NO significa que el envío falle: la fila ya se escribió, porque el
+`doPost` corre antes de la redirección. Comprobado el 21 de octubre con Chrome contra
+producción: `status 200, ok: true, redirected: true`. Es lo que permite que `ReviewForm` se
+fíe de `res.ok` para decidir si lleva a «gracias».
 
 ### Reseñas: falta una columna en la hoja
 
