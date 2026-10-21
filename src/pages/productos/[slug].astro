@@ -79,6 +79,23 @@ const defaultCalidad = erpEquiv.calidadesPermitidas[0] ?? "PRI";
 const galleryImages: GalleryImage[] = galeriaDeProducto(product, assets, activeVariantId);
 const inspirationCards = assets ? getProductInspiration(assets) : [];
 
+/**
+ * LA FOTO DE LA GALERÍA ES EL LCP DE ESTA PÁGINA, Y SE DESCUBRÍA TARDE.
+ *
+ * Medido en un Chrome con red de móvil (1,6 Mbps, 150 ms de latencia, CPU a un cuarto): el
+ * primer pintado ocurre a los 616 ms y el LCP —esta foto— a los 1.356 ms. El archivo pesa
+ * 55 KB, que a esa velocidad son unos 275 ms: el resto no es descarga, es que el navegador
+ * no sabe que la necesita hasta haber leído el HTML hasta la galería, y para entonces ya
+ * está pidiendo otras cosas.
+ *
+ * La portada ya precargaba la suya. Esta no, y es la página donde la gente decide.
+ *
+ * Sin variantes responsive —un producto que nace en el ERP y sirve su foto desde allá— se
+ * precarga la URL tal cual: `srcSetFor` devuelve vacío y el `href` toma el relevo.
+ */
+const fichaHero = galleryImages[0];
+const fichaHeroSrcset = fichaHero ? srcSetFor(fichaHero.src) : "";
+
 const displayColor = activeVariant?.colorLabel ?? product.color;
 /* El precio del botón activo, en la unidad en que se vende. Ver `precioDeVariante`: el de la
    teja colonial está escrito por pieza y el ERP la despacha por m². */
@@ -163,7 +180,15 @@ const whatsappProductUrl = `${site.whatsapp}?text=${whatsappMsg}`;
 
 ---
 
-<BaseLayout title={product.seoTitle} description={product.seoDescription} ogImage={ogProducto}>
+<BaseLayout
+  title={product.seoTitle}
+  description={product.seoDescription}
+  ogImage={ogProducto}
+  preloadImage={fichaHeroSrcset ? undefined : fichaHero?.src}
+  preloadImageSrcset={fichaHeroSrcset || undefined}
+  preloadImageSizes={SIZES.gallery}
+  preloadImageType={fichaHeroSrcset ? "image/webp" : undefined}
+>
   <article
     class="product-page"
     data-view-item={JSON.stringify({
