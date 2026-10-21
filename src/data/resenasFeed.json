@@ -1,0 +1,23 @@
+{
+  "actualizado": "2026-10-21T16:25:45.772Z",
+  "resenas": [
+    {
+      "id": "2026-06-11-daniela-r",
+      "author": "Daniela R",
+      "role": "Ingeniero civil",
+      "rating": 5,
+      "text": "Muy bien todo, muchas gracias por el apoyo.",
+      "date": "2026-06-11",
+      "product": "Ladrillo Romano"
+    },
+    {
+      "id": "2026-06-11-paula-a",
+      "author": "Paula A",
+      "role": "Cliente final / Propietario",
+      "rating": 5,
+      "text": "Utilicé el ladrillo vertical para mi casa y quedaron todos los muros reforzados, quedé muy contenta",
+      "date": "2026-06-11",
+      "product": "Ladrillo Rayado Vertical"
+    }
+  ]
+}

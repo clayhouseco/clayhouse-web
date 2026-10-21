@@ -138,6 +138,26 @@ el material ya está puesto y el cliente contento.
 
 **`https://clayhouse.com.co/resenas#dejar-resena`**
 
+### Cómo llegan ahora a la página (21 oct 2026)
+
+Se bajan con `npm run sync:resenas` —incluido en `npm run sync`— a
+`src/data/resenasFeed.json`, versionado, y la página las renderiza en el servidor.
+
+Antes llegaban por un `fetch` desde el navegador después de cargar, y eso tenía un efecto
+que no se veía: **el HTML publicado de `/resenas` y de la portada contenía una sola reseña,
+la escrita a mano en el repositorio —que era la del propio dueño—, y las de los clientes
+existían solo para quien tuviera JavaScript.** Google indexaba lo primero.
+
+Publicar una reseña nueva son ahora tres pasos: marcar **Aprobada** en la hoja,
+`npm run sync`, desplegar. Es el mismo trato que el catálogo del ERP y por la misma razón:
+lo que se publica se revisa antes en un diff.
+
+**Las estrellas en Google siguen apagadas, y es a propósito.** `src/data/reviews.ts` tiene
+una lista `APTAS_PARA_GOOGLE`, vacía. Marcar como Schema.org una reseña escrita por el
+propio negocio expone el dominio entero a una acción manual que retira los fragmentos
+enriquecidos de TODO el sitio. Para encender las estrellas hay que añadir ahí el `id` de
+cada reseña, una a una, y solo si consta que es de un cliente real e independiente.
+
 ### Un detalle que confunde al depurar con curl
 
 Apps Script responde al POST con un 302 hacia `script.googleusercontent.com`. Un navegador
