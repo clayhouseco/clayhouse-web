@@ -14,14 +14,14 @@ Abre **http://localhost:4321**
 
 ## Páginas incluidas
 
-| Ruta | Contenido |
-|------|-----------|
-| `/` | Home estilo Todobarro |
-| `/productos` | Catálogo con filtros |
-| `/productos/[slug]` | Ficha de producto |
-| `/nosotros` | Historia + horno túnel |
-| `/contacto` | Formulario + WhatsApp |
-| `/descargas` | Listado PDFs (enlazar archivos cuando los tengas) |
+| Ruta                | Contenido                                         |
+| ------------------- | ------------------------------------------------- |
+| `/`                 | Home estilo Todobarro                             |
+| `/productos`        | Catálogo con filtros                              |
+| `/productos/[slug]` | Ficha de producto                                 |
+| `/nosotros`         | Historia + horno túnel                            |
+| `/contacto`         | Formulario + WhatsApp                             |
+| `/descargas`        | Listado PDFs (enlazar archivos cuando los tengas) |
 
 ## Datos del ERP: sincronizar y publicar
 
@@ -56,13 +56,13 @@ que bloquea `npm run build:prod`, que es el comando que corre Vercel.
 
 ## Editar contenido (sin Framer)
 
-| Qué cambiar | Archivo |
-|-------------|---------|
-| Productos | [`src/data/products.ts`](src/data/products.ts) |
-| Colores | [`src/data/colors.ts`](src/data/colors.ts) |
-| Descargas | [`src/data/downloads.ts`](src/data/downloads.ts) |
-| Teléfono, email, menú | [`src/data/site.ts`](src/data/site.ts) |
-| Textos largos | carpeta [`content/`](content/) (referencia) + páginas en `src/pages/` |
+| Qué cambiar           | Archivo                                                               |
+| --------------------- | --------------------------------------------------------------------- |
+| Productos             | [`src/data/products.ts`](src/data/products.ts)                        |
+| Colores               | [`src/data/colors.ts`](src/data/colors.ts)                            |
+| Descargas             | [`src/data/downloads.ts`](src/data/downloads.ts)                      |
+| Teléfono, email, menú | [`src/data/site.ts`](src/data/site.ts)                                |
+| Textos largos         | carpeta [`content/`](content/) (referencia) + páginas en `src/pages/` |
 
 ## Colores y tipos (manual de marca)
 

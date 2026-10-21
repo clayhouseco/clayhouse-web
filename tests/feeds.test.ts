@@ -83,7 +83,9 @@ describe("sitemap.xml", () => {
   it("lista todos los productos visibles, y solo esos", async () => {
     const { xml } = await llamar(sitemapGET);
     const locs = new Set(etiquetas(xml, "loc"));
-    const fichas = [...locs].filter((l) => /\/productos\/[^/]+$/.test(l) && !l.includes("/categoria/"));
+    const fichas = [...locs].filter(
+      (l) => /\/productos\/[^/]+$/.test(l) && !l.includes("/categoria/")
+    );
     const visibles = getVisibleProducts().map((p) => `${site.url}/productos/${p.slug}`);
     expect(fichas.sort()).toEqual(visibles.sort());
   });
@@ -97,7 +99,10 @@ describe("sitemap.xml", () => {
 
   it("el lastmod, donde está, es una fecha de verdad", () => {
     const xml = construido();
-    expect(xml, "corre `npm run build` antes: el lastmod sale de la colección del blog").not.toBeNull();
+    expect(
+      xml,
+      "corre `npm run build` antes: el lastmod sale de la colección del blog"
+    ).not.toBeNull();
     const fechas = etiquetas(xml!, "lastmod");
     expect(fechas.length).toBeGreaterThan(0);
     for (const f of fechas) {
@@ -134,7 +139,7 @@ describe("feed.xml (Google Merchant)", () => {
     const { res, xml } = await llamar(feedGET);
     expect(res.headers.get("Content-Type")).toContain("xml");
     expect(xml).toContain('xmlns:g="http://base.google.com/ns/1.0"');
-    expect(xml).toContain("<rss version=\"2.0\"");
+    expect(xml).toContain('<rss version="2.0"');
   });
 
   it("trae un artículo por referencia cotizable con precio", async () => {
@@ -162,8 +167,17 @@ describe("feed.xml (Google Merchant)", () => {
     expect(items.length).toBeGreaterThan(10);
     for (const item of items) {
       for (const campo of [
-        "g:id", "g:title", "g:description", "g:link", "g:image_link",
-        "g:availability", "g:condition", "g:price", "g:brand", "g:mpn", "g:product_type",
+        "g:id",
+        "g:title",
+        "g:description",
+        "g:link",
+        "g:image_link",
+        "g:availability",
+        "g:condition",
+        "g:price",
+        "g:brand",
+        "g:mpn",
+        "g:product_type",
       ]) {
         expect(item, campo).toContain(`<${campo}>`);
       }

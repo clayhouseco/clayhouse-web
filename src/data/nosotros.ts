@@ -1,10 +1,4 @@
-export type AboutIconId =
-  | "history"
-  | "manifesto"
-  | "mission"
-  | "vision"
-  | "territory"
-  | "catalog";
+export type AboutIconId = "history" | "manifesto" | "mission" | "vision" | "territory" | "catalog";
 
 export type AboutSection = {
   id: string;
@@ -19,8 +13,7 @@ export const aboutHeroImage = "/images/nosotros/hero-ladrillo.webp";
 export const aboutHero = {
   eyebrow: "Conócenos",
   title: "Sobre nosotros",
-  lead:
-    "Más de cinco décadas transformando arcilla en soluciones que honran nuestras raíces y se adaptan a las necesidades contemporáneas.",
+  lead: "Más de cinco décadas transformando arcilla en soluciones que honran nuestras raíces y se adaptan a las necesidades contemporáneas.",
 };
 
 /** Trayectoria oficial (1965 → Clay House) */

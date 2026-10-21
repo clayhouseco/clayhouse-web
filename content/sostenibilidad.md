@@ -30,7 +30,7 @@ Extraemos arcilla a pocos kilómetros del taller. Menos transporte, más víncul
 
 El horno de 62 metros permite cocción uniforme con menor consumo de combustible por lote que el horno colmena tradicional. Control de temperatura entre 900 y 1.050 °C reduce merma y retrabajo.
 
-*[Completar: tipo de combustible — gas, biomasa o mezcla — cuando esté definido para comunicación pública]*
+_[Completar: tipo de combustible — gas, biomasa o mezcla — cuando esté definido para comunicación pública]_
 
 ---
 
@@ -46,7 +46,7 @@ Identificamos lotes desde la materia prima hasta el despacho. El especificador p
 
 **H2:** del taller a la obra
 
-*[Completar políticas de embalaje, palets reutilizables, reducción de plástico — alinear con prácticas reales]*
+_[Completar políticas de embalaje, palets reutilizables, reducción de plástico — alinear con prácticas reales]_
 
 ---
 
@@ -54,7 +54,7 @@ Identificamos lotes desde la materia prima hasta el despacho. El especificador p
 
 **H2:** el territorio después de la extracción
 
-*[Si aplica o está planificado: describir programa de restauración / revegetación]*
+_[Si aplica o está planificado: describir programa de restauración / revegetación]_
 
 ---
 

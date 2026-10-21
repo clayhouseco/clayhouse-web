@@ -39,17 +39,18 @@ else if (!args.includes("--all") && onlyIdx === -1) {
   process.exit(1);
 }
 
-
 // ---- Íconos SVG (línea) ----
 const IC = {
   shield: '<path d="M32 6l20 8v14c0 14-9 24-20 28C21 52 12 42 12 28V14z"/>',
-  thermo: '<path d="M32 12a5 5 0 0 1 5 5v22a9 9 0 1 1-10 0V17a5 5 0 0 1 5-5z"/><path d="M32 30v12"/>',
+  thermo:
+    '<path d="M32 12a5 5 0 0 1 5 5v22a9 9 0 1 1-10 0V17a5 5 0 0 1 5-5z"/><path d="M32 30v12"/>',
   leaf: '<path d="M14 50c0-20 16-36 36-36 0 20-16 36-36 36z"/><path d="M22 42C30 34 40 30 48 22"/>',
   ruler: '<path d="M10 22h44v20H10z"/><path d="M18 22v7M26 22v10M34 22v7M42 22v10"/>',
   weight: '<path d="M22 22h20l5 28H17z"/><path d="M27 22a5 5 0 1 1 10 0"/>',
   cube: '<path d="M32 8l22 12v24L32 56 10 44V20z"/><path d="M10 20l22 12 22-12M32 32v24"/>',
   grid: '<path d="M12 16h40v32H12z"/><path d="M12 27h40M12 37h40M25 16v32M39 16v32"/>',
-  compress: '<path d="M16 40h32v8H16z"/><path d="M24 12v18M24 30l-5-6M24 30l5-6M40 12v18M40 30l-5-6M40 30l5-6"/>',
+  compress:
+    '<path d="M16 40h32v8H16z"/><path d="M24 12v18M24 30l-5-6M24 30l5-6M40 12v18M40 30l-5-6M40 30l5-6"/>',
   drop: '<path d="M32 10c8 12 14 19 14 27a14 14 0 1 1-28 0c0-8 6-15 14-27z"/>',
   flame: '<path d="M34 8c2 10-8 12-8 22a10 10 0 0 0 20 0c0-5-2-8-4-11 1 6-3 8-5 5-3-4 3-9-3-16z"/>',
   arrows: '<path d="M8 32h48"/><path d="M8 32l8-6M8 32l8 6M56 32l-8-6M56 32l-8 6"/>',
@@ -65,10 +66,26 @@ const icon = (n, size = 34, sw = 2.4, color = RED) =>
   `<svg viewBox="0 0 64 64" width="${size}" height="${size}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${IC[n] || ""}</svg>`;
 
 const RECS = [
-  ["home", "ALMACENAMIENTO", "Sitio plano, seco y aislado del terreno; proteger de escorrentía y escombros. No apilar a más de 1,5 m."],
-  ["tool", "INSTALACIÓN", "Humedecer las piezas antes de pegar. Juntas uniformes de 10 mm (±3). Seguir el Manual de Fachadas Clay House."],
-  ["wash", "LAVADO Y LIMPIEZA", "Tras el fraguado, limpiar con agua y cepillo de cerdas suaves. Prevenir eflorescencias."],
-  ["warn", "NOTAS IMPORTANTES", "El tono varía ligeramente entre lotes; mezclar piezas de varias estibas para un acabado homogéneo."],
+  [
+    "home",
+    "ALMACENAMIENTO",
+    "Sitio plano, seco y aislado del terreno; proteger de escorrentía y escombros. No apilar a más de 1,5 m.",
+  ],
+  [
+    "tool",
+    "INSTALACIÓN",
+    "Humedecer las piezas antes de pegar. Juntas uniformes de 10 mm (±3). Seguir el Manual de Fachadas Clay House.",
+  ],
+  [
+    "wash",
+    "LAVADO Y LIMPIEZA",
+    "Tras el fraguado, limpiar con agua y cepillo de cerdas suaves. Prevenir eflorescencias.",
+  ],
+  [
+    "warn",
+    "NOTAS IMPORTANTES",
+    "El tono varía ligeramente entre lotes; mezclar piezas de varias estibas para un acabado homogéneo.",
+  ],
 ];
 
 /**
@@ -86,7 +103,9 @@ function rutaLocal(foto) {
     limpio.replace(/^\/public\//, ""),
     "public" + (limpio.startsWith("/") ? limpio : "/" + limpio),
     limpio.replace(/^\/?productos\/products\//, "public/images/products/"),
-    archivo ? `public/images/products/${limpio.split("/").filter(Boolean).at(-2) ?? ""}/${archivo}` : "",
+    archivo
+      ? `public/images/products/${limpio.split("/").filter(Boolean).at(-2) ?? ""}/${archivo}`
+      : "",
   ].filter(Boolean);
   for (const c of candidatos) {
     const abs = path.join(ROOT, c);
@@ -96,17 +115,32 @@ function rutaLocal(foto) {
 }
 
 const fotoURL = (foto) => {
-  if (!foto) return "";                                    // producto sin foto: el hueco, no un error
-  if (/^https?:\/\//.test(foto)) return foto;              // la del ERP se sirve tal cual
+  if (!foto) return ""; // producto sin foto: el hueco, no un error
+  if (/^https?:\/\//.test(foto)) return foto; // la del ERP se sirve tal cual
   return BASE + foto.split("/").map(encodeURIComponent).join("/");
 };
 const br = (v) => String(v).replace(/ · /g, "<br>");
 
 function buildHtml(p, photoUrl) {
-  const feat = p.features.map(([n, t, d]) => `<div class="feat"><div class="feat-ic">${icon(n, 30)}</div><div><h4>${t}</h4><p>${d}</p></div></div>`).join("");
-  const colors = p.colores.map(([n, c]) => `<div class="sw"><span style="background:${c}"></span>${n}</div>`).join("");
-  const specs = p.specsRow.map(([n, t, v, s]) => `<div class="spec"><div class="spec-ic">${icon(n, 28)}</div><div class="spec-l">${t}</div><div class="spec-v">${br(v)}</div>${s ? `<div class="spec-s">${s}</div>` : ""}</div>`).join("");
-  const recs = RECS.map(([n, t, d]) => `<div class="rec"><div class="rec-ic">${icon(n, 20, 2.6)}</div><div><h5>${t}</h5><p>${d}</p></div></div>`).join("");
+  const feat = p.features
+    .map(
+      ([n, t, d]) =>
+        `<div class="feat"><div class="feat-ic">${icon(n, 30)}</div><div><h4>${t}</h4><p>${d}</p></div></div>`
+    )
+    .join("");
+  const colors = p.colores
+    .map(([n, c]) => `<div class="sw"><span style="background:${c}"></span>${n}</div>`)
+    .join("");
+  const specs = p.specsRow
+    .map(
+      ([n, t, v, s]) =>
+        `<div class="spec"><div class="spec-ic">${icon(n, 28)}</div><div class="spec-l">${t}</div><div class="spec-v">${br(v)}</div>${s ? `<div class="spec-s">${s}</div>` : ""}</div>`
+    )
+    .join("");
+  const recs = RECS.map(
+    ([n, t, d]) =>
+      `<div class="rec"><div class="rec-ic">${icon(n, 20, 2.6)}</div><div><h5>${t}</h5><p>${d}</p></div></div>`
+  ).join("");
   const nCol = p.colores.length;
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:'M';src:url('${FONTS}/Montserrat-Regular.ttf');font-weight:400}
@@ -223,7 +257,11 @@ for (const slug of selected) {
       const origen = remota
         ? Buffer.from(await (await fetch(spec.foto)).arrayBuffer())
         : rutaLocal(spec.foto);
-      await sharp(origen).resize({ width: 1100, withoutEnlargement: true }).flatten({ background: "#FCFBF7" }).jpeg({ quality: 84, mozjpeg: true }).toFile(photoOut);
+      await sharp(origen)
+        .resize({ width: 1100, withoutEnlargement: true })
+        .flatten({ background: "#FCFBF7" })
+        .jpeg({ quality: 84, mozjpeg: true })
+        .toFile(photoOut);
     } catch {
       console.warn(`  ⚠️  ${tag}: foto no encontrada (${spec.foto || "sin foto"})`);
     }
@@ -240,11 +278,23 @@ for (const slug of selected) {
     /* Un producto recién creado en el ERP no tiene carpeta en el repositorio. Chrome no la
        crea: escribe en la nada y el error aparece después, al medir el archivo. */
     fs.mkdirSync(path.dirname(out), { recursive: true });
-    execFileSync(CHROME, ["--headless", "--disable-gpu", "--no-pdf-header-footer", `--print-to-pdf=${out}`, "file://" + htmlPath.split(path.sep).map(encodeURIComponent).join("/")], { stdio: "ignore" });
+    execFileSync(
+      CHROME,
+      [
+        "--headless",
+        "--disable-gpu",
+        "--no-pdf-header-footer",
+        `--print-to-pdf=${out}`,
+        "file://" + htmlPath.split(path.sep).map(encodeURIComponent).join("/"),
+      ],
+      { stdio: "ignore" }
+    );
     const kb = (fs.statSync(out).size / 1024).toFixed(0);
     console.log(`  ✓ ${tag.padEnd(26)} ${kb} KB${preview ? "  (preview)" : ""}`);
     done++;
   }
 }
 fs.rmSync(tmpDir, { recursive: true, force: true });
-console.log(`\n${done} ficha(s) generada(s)${preview ? ` en ${previewDir}` : " en las carpetas de producto"}.`);
+console.log(
+  `\n${done} ficha(s) generada(s)${preview ? ` en ${previewDir}` : " en las carpetas de producto"}.`
+);

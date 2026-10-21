@@ -32,14 +32,14 @@ npx vercel --prod
 
 Responde al asistente:
 
-| Pregunta | Respuesta |
-|----------|-----------|
-| Set up and deploy? | **Y** |
-| Which scope? | Tu equipo o cuenta personal |
+| Pregunta                  | Respuesta                                   |
+| ------------------------- | ------------------------------------------- |
+| Set up and deploy?        | **Y**                                       |
+| Which scope?              | Tu equipo o cuenta personal                 |
 | Link to existing project? | **N** la primera vez (o **Y** si ya existe) |
-| Project name | `clayhouse-web` |
-| Directory | `./` |
-| Override settings? | **N** (usa `vercel.json`) |
+| Project name              | `clayhouse-web`                             |
+| Directory                 | `./`                                        |
+| Override settings?        | **N** (usa `vercel.json`)                   |
 
 Al terminar verás una URL tipo `https://clayhouse-web-xxx.vercel.app`.
 
@@ -47,8 +47,8 @@ Al terminar verás una URL tipo `https://clayhouse-web-xxx.vercel.app`.
 
 En [vercel.com](https://vercel.com) → proyecto → **Settings → Environment Variables**:
 
-| Nombre | Valor | Entornos |
-|--------|-------|----------|
+| Nombre                | Valor              | Entornos            |
+| --------------------- | ------------------ | ------------------- |
 | `PUBLIC_FORMSPREE_ID` | Tu ID de Formspree | Production, Preview |
 
 Luego **Redeploy** el último deployment para que el build incluya la variable.

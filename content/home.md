@@ -34,12 +34,12 @@ Copiar cada bloque en Framer en el orden indicado. Titulares en **minúsculas** 
 
 ## Bloque 3 — Categorías (4 tarjetas)
 
-| Tarjeta | Título | Link |
-|---------|--------|------|
-| 1 | ladrillo de fachada f-pv | `/productos/ladrillo-f-pv` |
-| 2 | ladrillo macizo | `/productos/ladrillo-macizo` |
-| 3 | piezas especiales | `/productos/piezas-especiales` |
-| 4 | pisos y enchapes | `/productos?category=Pisos` |
+| Tarjeta | Título                   | Link                           |
+| ------- | ------------------------ | ------------------------------ |
+| 1       | ladrillo de fachada f-pv | `/productos/ladrillo-f-pv`     |
+| 2       | ladrillo macizo          | `/productos/ladrillo-macizo`   |
+| 3       | piezas especiales        | `/productos/piezas-especiales` |
+| 4       | pisos y enchapes         | `/productos?category=Pisos`    |
 
 ---
 
@@ -49,14 +49,14 @@ Copiar cada bloque en Framer en el orden indicado. Titulares en **minúsculas** 
 
 **Subtítulo:** Tonos nacidos del territorio antioqueño y del fuego del horno.
 
-| Muestra | Nombre | Link |
-|---------|--------|------|
-| | rojizo amagá | `/colores/rojizo-amaga` |
-| | salmón suroeste | `/colores/salmon-suroeste` |
-| | tierra sinifaná | `/colores/tierra-sinifana` |
-| | flameado pueblo viejo | `/colores/flameado-pueblo-viejo` |
-| | carbón | `/colores/carbon` |
-| | blanco antiguo | `/colores/blanco-antiguo` |
+| Muestra | Nombre                | Link                             |
+| ------- | --------------------- | -------------------------------- |
+|         | rojizo amagá          | `/colores/rojizo-amaga`          |
+|         | salmón suroeste       | `/colores/salmon-suroeste`       |
+|         | tierra sinifaná       | `/colores/tierra-sinifana`       |
+|         | flameado pueblo viejo | `/colores/flameado-pueblo-viejo` |
+|         | carbón                | `/colores/carbon`                |
+|         | blanco antiguo        | `/colores/blanco-antiguo`        |
 
 **CTA:** ver todos los colores → `/colores` (Fase 2; en MVP enlazar a `/productos`)
 
@@ -76,11 +76,11 @@ Copiar cada bloque en Framer en el orden indicado. Titulares en **minúsculas** 
 
 ### Tres pilares (iconos)
 
-| Pilar | Título | Texto |
-|-------|--------|-------|
-| 1 | hecho en amagá | Arcilla local, manos expertas, origen verificable. |
-| 2 | cada lote único | Destonificaciones naturales que ningún producto industrial replica. |
-| 3 | piezas a medida | Desarrollo especial para proyectos de arquitectura. |
+| Pilar | Título          | Texto                                                               |
+| ----- | --------------- | ------------------------------------------------------------------- |
+| 1     | hecho en amagá  | Arcilla local, manos expertas, origen verificable.                  |
+| 2     | cada lote único | Destonificaciones naturales que ningún producto industrial replica. |
+| 3     | piezas a medida | Desarrollo especial para proyectos de arquitectura.                 |
 
 ---
 
@@ -102,13 +102,13 @@ Mostrar 4 tarjetas desde CMS Proyectos (featured = true). En MVP: 2 placeholders
 
 **Texto:** Enviamos cajas físicas a su estudio para que el material dialogue con su proyecto antes de especificar.
 
-| Servicio | Título | Texto |
-|----------|--------|-------|
-| 1 | cotización personalizada | Presupuesto según volumen, acabado y destino de obra. |
-| 2 | asesoría técnica | Dudas sobre NTC 4205, instalación y mantenimiento. |
-| 3 | tiempos de entrega | Entre 4 y 8 semanas según referencia. El barro necesita su tiempo. |
-| 4 | stock disponible | Consulte referencias en inventario para proyectos urgentes. |
-| 5 | visita al taller | Conozca Amagá, el horno y el equipo con cita previa. |
+| Servicio | Título                   | Texto                                                              |
+| -------- | ------------------------ | ------------------------------------------------------------------ |
+| 1        | cotización personalizada | Presupuesto según volumen, acabado y destino de obra.              |
+| 2        | asesoría técnica         | Dudas sobre NTC 4205, instalación y mantenimiento.                 |
+| 3        | tiempos de entrega       | Entre 4 y 8 semanas según referencia. El barro necesita su tiempo. |
+| 4        | stock disponible         | Consulte referencias en inventario para proyectos urgentes.        |
+| 5        | visita al taller         | Conozca Amagá, el horno y el equipo con cita previa.               |
 
 **CTA:** solicitar muestras → `/contacto`
 
@@ -119,5 +119,6 @@ Mostrar 4 tarjetas desde CMS Proyectos (featured = true). En MVP: 2 placeholders
 Ver `content/contacto.md` sección Footer.
 
 **SEO Home:**
+
 - **Title:** Clay House | Ladrillo de fachada neoartesanal — Amagá, Colombia
 - **Description:** Showroom digital de ladrillo de fachada con cumplimiento NTC 4205. Cotización, muestras y asesoría técnica para arquitectos y constructores.

@@ -11,10 +11,22 @@ import http from "node:http";
 import path from "node:path";
 
 const TIPOS = {
-  ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json",
-  ".xml": "application/xml", ".webp": "image/webp", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
-  ".png": "image/png", ".avif": "image/avif", ".svg": "image/svg+xml", ".gif": "image/gif",
-  ".woff2": "font/woff2", ".woff": "font/woff", ".pdf": "application/pdf", ".ico": "image/x-icon",
+  ".html": "text/html",
+  ".js": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".xml": "application/xml",
+  ".webp": "image/webp",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".avif": "image/avif",
+  ".svg": "image/svg+xml",
+  ".gif": "image/gif",
+  ".woff2": "font/woff2",
+  ".woff": "font/woff",
+  ".pdf": "application/pdf",
+  ".ico": "image/x-icon",
 };
 
 /**
@@ -61,19 +73,32 @@ export function servirDist(puerto) {
 
 /** Abre Chrome sin ventana y devuelve `{ evaluar, enviar, tecla, cerrar }`. */
 export async function abrirChrome(puertoCdp) {
-  if (!fs.existsSync(CHROME)) throw new Error(`No encuentro Chrome (busqué en ${CANDIDATOS.join(", ")}). Defina CHROME_PATH.`);
+  if (!fs.existsSync(CHROME))
+    throw new Error(
+      `No encuentro Chrome (busqué en ${CANDIDATOS.join(", ")}). Defina CHROME_PATH.`
+    );
   const perfil = fs.mkdtempSync("/tmp/clayhouse-chrome-");
-  const chrome = spawn(CHROME, [
-    `--remote-debugging-port=${puertoCdp}`, "--headless=new", "--no-first-run",
-    `--user-data-dir=${perfil}`, "--disable-gpu", "about:blank",
-  ], { stdio: "ignore" });
+  const chrome = spawn(
+    CHROME,
+    [
+      `--remote-debugging-port=${puertoCdp}`,
+      "--headless=new",
+      "--no-first-run",
+      `--user-data-dir=${perfil}`,
+      "--disable-gpu",
+      "about:blank",
+    ],
+    { stdio: "ignore" }
+  );
 
   let destino = null;
   for (let i = 0; i < 40 && !destino; i++) {
     try {
       const lista = await (await fetch(`http://127.0.0.1:${puertoCdp}/json/list`)).json();
       destino = lista.find((x) => x.type === "page");
-    } catch { /* todavía no levanta */ }
+    } catch {
+      /* todavía no levanta */
+    }
     if (!destino) await esperar(250);
   }
   if (!destino) throw new Error("Chrome no respondió al protocolo de depuración");
@@ -84,10 +109,17 @@ export async function abrirChrome(puertoCdp) {
   const pendientes = new Map();
   ws.onmessage = (e) => {
     const m = JSON.parse(e.data);
-    if (m.id && pendientes.has(m.id)) { pendientes.get(m.id)(m); pendientes.delete(m.id); }
+    if (m.id && pendientes.has(m.id)) {
+      pendientes.get(m.id)(m);
+      pendientes.delete(m.id);
+    }
   };
   const enviar = (method, params = {}) =>
-    new Promise((res) => { const i = ++id; pendientes.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
+    new Promise((res) => {
+      const i = ++id;
+      pendientes.set(i, res);
+      ws.send(JSON.stringify({ id: i, method, params }));
+    });
   const evaluar = async (expression) =>
     (await enviar("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true }))
       .result?.result?.value;
@@ -96,7 +128,11 @@ export async function abrirChrome(puertoCdp) {
   const tecla = async (key, codigo) => {
     for (const type of ["rawKeyDown", "keyUp"]) {
       await enviar("Input.dispatchKeyEvent", {
-        type, key, code: key, windowsVirtualKeyCode: codigo, nativeVirtualKeyCode: codigo,
+        type,
+        key,
+        code: key,
+        windowsVirtualKeyCode: codigo,
+        nativeVirtualKeyCode: codigo,
         text: key === "Tab" ? "\t" : undefined,
       });
     }
@@ -107,11 +143,17 @@ export async function abrirChrome(puertoCdp) {
   await enviar("Runtime.enable");
 
   return {
-    enviar, evaluar, tecla,
+    enviar,
+    evaluar,
+    tecla,
     cerrar: () => {
       ws.close();
       chrome.kill();
-      try { fs.rmSync(perfil, { recursive: true, force: true }); } catch { /* lo borra el sistema */ }
+      try {
+        fs.rmSync(perfil, { recursive: true, force: true });
+      } catch {
+        /* lo borra el sistema */
+      }
     },
   };
 }

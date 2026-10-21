@@ -69,7 +69,7 @@ El horno fue desarrollado con asesoría técnica especializada e incorpora refra
 
 Detrás de cada ladrillo hay maestros alfareros, ingenieros y un equipo comercial que entiende el lenguaje de la obra. Creemos en el diálogo cercano con quien especifica: como un colega que conoce el material, no como un catálogo frío.
 
-*[Añadir retratos cuando estén disponibles — placeholders en MVP]*
+_[Añadir retratos cuando estén disponibles — placeholders en MVP]_
 
 ---
 

@@ -70,7 +70,7 @@ function precioDelCodigo(codigo: string | null): string | null {
   const colores = (p.colores ?? [])
     .map((c) => c.precio)
     .filter((v): v is number => typeof v === "number" && v > 0);
-  const valor = colores.length ? Math.min(...colores) : p.precio ?? null;
+  const valor = colores.length ? Math.min(...colores) : (p.precio ?? null);
   return typeof valor === "number" && valor > 0 ? numeroACop(valor) : null;
 }
 
@@ -89,14 +89,21 @@ function precioDelCodigo(codigo: string | null): string | null {
  * Si no hay forma de expresarlo en la unidad que se cotiza, no se inventa un número: la
  * línea queda "Consultar" y el equipo la confirma.
  */
-function refPrecio(slug: string, codigo: string | null, variantId: string | null, unidad: UnidadVenta): string | null {
+function refPrecio(
+  slug: string,
+  codigo: string | null,
+  variantId: string | null,
+  unidad: UnidadVenta
+): string | null {
   const delErp = precioDelCodigo(codigo);
   if (delErp) return delErp;
 
   const producto = getProduct(slug);
   const literal = variantId ? PRECIO_POR_VARIANTE[slug]?.[variantId] : undefined;
   if (literal) {
-    const unidadDelLiteral = normalizarUnidad(producto?.priceLiteralUnit ?? producto?.priceUnitLabel);
+    const unidadDelLiteral = normalizarUnidad(
+      producto?.priceLiteralUnit ?? producto?.priceUnitLabel
+    );
     return precioEnUnidadDeVenta(slug, literal, unidadDelLiteral, unidad)?.texto ?? null;
   }
   return producto?.pricePerUnit ?? null;
@@ -156,40 +163,45 @@ function preciosPorColorDe(slug: string): Record<string, string> | undefined {
 }
 
 /** Catálogo cotizable completo (todas las opciones a nivel ERP). */
-export const cotizableCatalog: CotizableItem[] = getVisibleProducts().flatMap((p) => {
-  const variantes = erpVariantIds(p.slug);
-  const ids: (string | null)[] = variantes.length ? variantes : [null];
-  // El precio por color solo aplica a productos sin variantes de dimensión.
-  const preciosPorColor = variantes.length ? undefined : preciosPorColorDe(p.slug);
-  return ids.map((variantId) => {
-    const eq = erpEquivalencia(p.slug, variantId);
-    // Sin código del ERP —o con uno que el ERP no publica— la cotización no se
-    // puede cargar allá, así que el producto no se ofrece aquí: la ficha sigue
-    // publicada y visible, pero no entra al cotizador hasta que el ERP le
-    // asigne código. Es el mismo criterio con el que se retiraron los enchapes
-    // que el ERP dejó de publicar — ofrecer algo que el ERP no sabe atender
-    // genera solicitudes que nadie puede procesar.
-    //
-    // `reconocido` es la segunda mitad: ERP_MAP guarda tres códigos que se
-    // asignaron desde la web —NAP, ENC-RUS, ENC-BOC— y que el ERP no tiene.
-    // Hoy esos productos ya no son visibles por otras razones; esto hace que
-    // volver a publicarlos en la web no alcance para colarlos al cotizador.
-    if (!eq.codigo || !eq.reconocido) return null;
-    return {
-      id: variantId ? `${p.slug}::${variantId}` : p.slug,
-      label: variantId ? variantLabel(p.name, p.slug, variantId) : p.name,
-      slug: p.slug,
-      categoria: p.category,
-      variantId,
-      erpCodigo: eq.codigo,
-      coloresPermitidos: eq.coloresPermitidos.map((c) => ({ codigo: c, ...ERP_COLORES[c] })),
-      calidadesPermitidas: eq.calidadesPermitidas.map((c) => ({ codigo: c, nombre: ERP_CALIDADES[c] })),
-      unidad: eq.unidad,
-      unidadLabel: ERP_UNIDAD_LABEL[eq.unidad],
-      image: assetUrl(p.image),
-      thumb: thumbSrcFor(p.image),
-      refPrice: refPrecio(p.slug, eq.codigo, variantId, eq.unidad) ?? "Consultar",
-      preciosPorColor,
-    };
-  });
-}).filter((x) => x !== null);
+export const cotizableCatalog: CotizableItem[] = getVisibleProducts()
+  .flatMap((p) => {
+    const variantes = erpVariantIds(p.slug);
+    const ids: (string | null)[] = variantes.length ? variantes : [null];
+    // El precio por color solo aplica a productos sin variantes de dimensión.
+    const preciosPorColor = variantes.length ? undefined : preciosPorColorDe(p.slug);
+    return ids.map((variantId) => {
+      const eq = erpEquivalencia(p.slug, variantId);
+      // Sin código del ERP —o con uno que el ERP no publica— la cotización no se
+      // puede cargar allá, así que el producto no se ofrece aquí: la ficha sigue
+      // publicada y visible, pero no entra al cotizador hasta que el ERP le
+      // asigne código. Es el mismo criterio con el que se retiraron los enchapes
+      // que el ERP dejó de publicar — ofrecer algo que el ERP no sabe atender
+      // genera solicitudes que nadie puede procesar.
+      //
+      // `reconocido` es la segunda mitad: ERP_MAP guarda tres códigos que se
+      // asignaron desde la web —NAP, ENC-RUS, ENC-BOC— y que el ERP no tiene.
+      // Hoy esos productos ya no son visibles por otras razones; esto hace que
+      // volver a publicarlos en la web no alcance para colarlos al cotizador.
+      if (!eq.codigo || !eq.reconocido) return null;
+      return {
+        id: variantId ? `${p.slug}::${variantId}` : p.slug,
+        label: variantId ? variantLabel(p.name, p.slug, variantId) : p.name,
+        slug: p.slug,
+        categoria: p.category,
+        variantId,
+        erpCodigo: eq.codigo,
+        coloresPermitidos: eq.coloresPermitidos.map((c) => ({ codigo: c, ...ERP_COLORES[c] })),
+        calidadesPermitidas: eq.calidadesPermitidas.map((c) => ({
+          codigo: c,
+          nombre: ERP_CALIDADES[c],
+        })),
+        unidad: eq.unidad,
+        unidadLabel: ERP_UNIDAD_LABEL[eq.unidad],
+        image: assetUrl(p.image),
+        thumb: thumbSrcFor(p.image),
+        refPrice: refPrecio(p.slug, eq.codigo, variantId, eq.unidad) ?? "Consultar",
+        preciosPorColor,
+      };
+    });
+  })
+  .filter((x) => x !== null);

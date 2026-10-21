@@ -27,20 +27,33 @@ const log = (msg) => console.log(`[inventario] ${msg}`);
 /** Parser CSV mínimo con soporte de comillas y comas dentro de campos. */
 function parseCsv(text) {
   const rows = [];
-  let row = [], field = "", inQuotes = false;
+  let row = [],
+    field = "",
+    inQuotes = false;
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (inQuotes) {
       if (c === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++; }
-        else inQuotes = false;
+        if (text[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else inQuotes = false;
       } else field += c;
     } else if (c === '"') inQuotes = true;
-    else if (c === ",") { row.push(field); field = ""; }
-    else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
-    else if (c !== "\r") field += c;
+    else if (c === ",") {
+      row.push(field);
+      field = "";
+    } else if (c === "\n") {
+      row.push(field);
+      rows.push(row);
+      row = [];
+      field = "";
+    } else if (c !== "\r") field += c;
   }
-  if (field.length || row.length) { row.push(field); rows.push(row); }
+  if (field.length || row.length) {
+    row.push(field);
+    rows.push(row);
+  }
   return rows.filter((r) => r.some((c) => c.trim() !== ""));
 }
 
@@ -82,7 +95,10 @@ const unknown = [];
 for (const row of rows.slice(1)) {
   const slug = (row[iSlug] ?? "").trim();
   if (!slug) continue;
-  if (!known.has(slug)) { unknown.push(slug); continue; }
+  if (!known.has(slug)) {
+    unknown.push(slug);
+    continue;
+  }
   const activo = (row[iActivo] ?? "").trim().toLowerCase();
   if (!TRUTHY.has(activo)) inactive.push(slug);
 }

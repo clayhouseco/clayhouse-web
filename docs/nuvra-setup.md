@@ -21,29 +21,30 @@ Nuvra encaja bien con Clay House: estudio + catálogo, casos de obra, estética 
 
 Reemplazar la paleta de Nuvra por la del manual:
 
-| Variable | HEX |
-|----------|-----|
+| Variable          | HEX       |
+| ----------------- | --------- |
 | chocolateProfundo | `#472410` |
-| terracotaClay | `#7C482C` |
-| salmonSuave | `#F99A91` |
-| coralVivo | `#EF5843` |
-| ambarArcilla | `#F2A141` |
-| fondoNeutro | `#FFFBF9` |
-| blanco | `#FFFFFF` |
+| terracotaClay     | `#7C482C` |
+| salmonSuave       | `#F99A91` |
+| coralVivo         | `#EF5843` |
+| ambarArcilla      | `#F2A141` |
+| fondoNeutro       | `#FFFBF9` |
+| blanco            | `#FFFFFF` |
 
 Seleccionar cada capa de la plantilla que use el color de acento de Nuvra y asignar `terracotaClay` o `chocolateProfundo`.
 
 **Glassmorphism:** Nuvra usa paneles de vidrio. Para Clay House (más tierra, menos “tech”):
+
 - Bajar opacidad del blur o sustituir por fondo `fondoNeutro` sólido en Nav y cards.
 - Mantener vidrio solo en modales ligeros si te gusta el efecto.
 
 ### Tipografía (Site Settings → Fonts / Text Styles)
 
-| Estilo Nuvra | Reemplazar por |
-|--------------|----------------|
+| Estilo Nuvra      | Reemplazar por                                     |
+| ----------------- | -------------------------------------------------- |
 | Titulares display | **Helvetica Neue** Bold (o Neue Haas Grotesk Bold) |
-| Cuerpo | **Montserrat** Light (300) |
-| Botones / labels | Montserrat Medium (500) |
+| Cuerpo            | **Montserrat** Light (300)                         |
+| Botones / labels  | Montserrat Medium (500)                            |
 
 Convención Todobarro + manual: **titulares en minúsculas** donde aplique.
 
@@ -57,18 +58,19 @@ Sustituir el logo de Nuvra por Clay House (versiones del manual: positiva sobre 
 
 Usa `content/home.md` para el copy. Tabla de equivalencias:
 
-| Sección en Nuvra (aprox.) | Bloque Clay House / Todobarro | Acción |
-|---------------------------|-------------------------------|--------|
-| Hero cinematográfico | Hero: video proceso / ladrillo | Copy: *tradición antioqueña, fuego moderno* |
-| Intro / statement | “Redescubre el ladrillo a la vista” | Imagen fachada en obra |
-| **Collections** (Lounge, Studio, Dining…) | **4 categorías de producto** | Renombrar a: F-PV, Macizo, Especiales, Pisos |
-| Grid producto destacado | Paleta de colores | 6 swatches: Rojizo Amagá, Salmón Suroeste, etc. |
-| About / philosophy | Innovación + horno túnel | *horno túnel, fuego limpio* + 3 pilares |
-| **Projects** | Inspiración / proyectos | 4 tarjetas CMS Proyectos |
-| Services / Trade | Muestras + 5 servicios | Cotización, asesoría, tiempos, stock, visita taller |
-| Newsletter / CTA final | Footer + contacto | *Convirtiendo piezas en sueños* |
+| Sección en Nuvra (aprox.)                 | Bloque Clay House / Todobarro       | Acción                                              |
+| ----------------------------------------- | ----------------------------------- | --------------------------------------------------- |
+| Hero cinematográfico                      | Hero: video proceso / ladrillo      | Copy: _tradición antioqueña, fuego moderno_         |
+| Intro / statement                         | “Redescubre el ladrillo a la vista” | Imagen fachada en obra                              |
+| **Collections** (Lounge, Studio, Dining…) | **4 categorías de producto**        | Renombrar a: F-PV, Macizo, Especiales, Pisos        |
+| Grid producto destacado                   | Paleta de colores                   | 6 swatches: Rojizo Amagá, Salmón Suroeste, etc.     |
+| About / philosophy                        | Innovación + horno túnel            | _horno túnel, fuego limpio_ + 3 pilares             |
+| **Projects**                              | Inspiración / proyectos             | 4 tarjetas CMS Proyectos                            |
+| Services / Trade                          | Muestras + 5 servicios              | Cotización, asesoría, tiempos, stock, visita taller |
+| Newsletter / CTA final                    | Footer + contacto                   | _Convirtiendo piezas en sueños_                     |
 
 **Eliminar o ocultar en MVP:**
+
 - Before/After slider (salvo que tengas foto obra antes/después)
 - Bloques muy “furniture shop” que empujen al carrito
 
@@ -78,15 +80,15 @@ Usa `content/home.md` para el copy. Tabla de equivalencias:
 
 Editar el componente **Nav** de Nuvra:
 
-| Link Nuvra (original) | Link Clay House MVP |
-|-----------------------|---------------------|
-| Shop | **Productos** → `/productos` |
-| Projects | Ocultar en MVP o → `/proyectos` (Fase 2) |
-| Collections | → `/productos` (filtro categoría) |
-| About | **Nosotros** → `/nosotros` |
-| Blog | Ocultar en MVP |
-| Contact / Trade | **Contacto** → `/contacto` |
-| — | **Descargas** → `/descargas` (añadir) |
+| Link Nuvra (original) | Link Clay House MVP                      |
+| --------------------- | ---------------------------------------- |
+| Shop                  | **Productos** → `/productos`             |
+| Projects              | Ocultar en MVP o → `/proyectos` (Fase 2) |
+| Collections           | → `/productos` (filtro categoría)        |
+| About                 | **Nosotros** → `/nosotros`               |
+| Blog                  | Ocultar en MVP                           |
+| Contact / Trade       | **Contacto** → `/contacto`               |
+| —                     | **Descargas** → `/descargas` (añadir)    |
 
 ---
 
@@ -96,26 +98,26 @@ Nuvra trae Shop + Projects. Adaptación:
 
 ### Shop → **Productos**
 
-| Campo Nuvra | Campo Clay House |
-|-------------|------------------|
-| Product name | `name` |
-| Price | **Eliminar** o ocultar (no es tienda) |
-| Add to cart | **Solicitar cotización** → `/contacto` |
-| Description | `description` + ficha NTC |
-| Images | `heroImage` + `gallery` |
-| Category | F-PV / Macizo / Especiales / Pisos |
+| Campo Nuvra  | Campo Clay House                       |
+| ------------ | -------------------------------------- |
+| Product name | `name`                                 |
+| Price        | **Eliminar** o ocultar (no es tienda)  |
+| Add to cart  | **Solicitar cotización** → `/contacto` |
+| Description  | `description` + ficha NTC              |
+| Images       | `heroImage` + `gallery`                |
+| Category     | F-PV / Macizo / Especiales / Pisos     |
 
 Importar filas desde `cms/products.csv`.
 
 ### Projects → **Proyectos** (Fase 2)
 
-| Campo | Uso |
-|-------|-----|
-| Title | Nombre obra |
-| Location | Ciudad |
-| Client / Architect | Arquitecto |
-| Gallery | Fotos fachada |
-| Body | Descripción 150–200 palabras |
+| Campo              | Uso                          |
+| ------------------ | ---------------------------- |
+| Title              | Nombre obra                  |
+| Location           | Ciudad                       |
+| Client / Architect | Arquitecto                   |
+| Gallery            | Fotos fachada                |
+| Body               | Descripción 150–200 palabras |
 
 Datos iniciales: `cms/projects.csv`.
 
@@ -131,14 +133,14 @@ No suele venir en Nuvra; créala según `docs/cms-collections.md` y página `/de
 
 ## Paso 5 — Páginas MVP
 
-| Página | Base en Nuvra | Copy |
-|--------|---------------|------|
-| `/` | Home | `content/home.md` |
-| `/productos` | Shop index | `content/productos-index.md` |
-| `/productos/[slug]` | Product detail | `content/producto-detalle-template.md` |
-| `/nosotros` | About / Studio | `content/nosotros.md` |
-| `/contacto` | Contact / Trade consultation | `content/contacto.md` |
-| `/descargas` | Nueva (duplicar layout lista simple) | `content/descargas-index.md` |
+| Página              | Base en Nuvra                        | Copy                                   |
+| ------------------- | ------------------------------------ | -------------------------------------- |
+| `/`                 | Home                                 | `content/home.md`                      |
+| `/productos`        | Shop index                           | `content/productos-index.md`           |
+| `/productos/[slug]` | Product detail                       | `content/producto-detalle-template.md` |
+| `/nosotros`         | About / Studio                       | `content/nosotros.md`                  |
+| `/contacto`         | Contact / Trade consultation         | `content/contacto.md`                  |
+| `/descargas`        | Nueva (duplicar layout lista simple) | `content/descargas-index.md`           |
 
 **Trade Consultations** de Nuvra → reutilizar como página **Contacto** (formulario B2B + muestras).
 

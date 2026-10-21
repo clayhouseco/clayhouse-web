@@ -92,7 +92,7 @@ function buildManifest(
     galleriesByVariant: conFotosDelErp(
       getSplitVariantGalleryMap(slug, fusionadas, productName),
       fusionadas,
-      productName,
+      productName
     ),
     inspirationGallery: buildProjectsInspirationGallery(slug, fusionadas, productName),
     extraDownloads: [manualFachadas],
@@ -104,7 +104,7 @@ function buildManifest(
  *  mayúsculas contra las tres formas en que puede estar escrito acá. */
 const mismaVariante = (
   v: ProductColorVariant,
-  e: { id: string; erpColor?: string; erpTextura?: string },
+  e: { id: string; erpColor?: string; erpTextura?: string }
 ) => {
   /* El código manda cuando está: es la llave que no cambia aunque cambie el nombre comercial. */
   const cod = codigoDeVariante(v);
@@ -119,16 +119,18 @@ const mismaVariante = (
     const te = e.erpTextura?.toUpperCase();
     return tv && te ? tv === te : true;
   }
-  return idDeColor(v.id) === e.id || idDeColor(v.colorLabel) === e.id || idDeColor(v.label) === e.id;
+  return (
+    idDeColor(v.id) === e.id || idDeColor(v.colorLabel) === e.id || idDeColor(v.label) === e.id
+  );
 };
 
 function fusionarConErp(
   slug: string,
   manuales: ProductColorVariant[],
-  selector?: string,
+  selector?: string
 ): ProductColorVariant[] {
   const delErp = variantesDeErp(slug);
-  if (!delErp || !delErp.length) return manuales;   // el ERP no opina de esta página
+  if (!delErp || !delErp.length) return manuales; // el ERP no opina de esta página
 
   /**
    * UN SELECTOR DE FORMATO NO ADMITE COLORES.
@@ -167,12 +169,12 @@ function fusionarConErp(
 function conFotosDelErp(
   galerias: Record<string, SplitVariantGallery>,
   variantes: ProductColorVariant[],
-  productName: string,
+  productName: string
 ): Record<string, SplitVariantGallery> {
   for (const v of variantes) {
     const fotos = (v as { fotosErp?: string[] }).fotosErp ?? [];
     if (!fotos.length) continue;
-    if (galerias[v.id]?.hero.length) continue;   // la web ya tiene las suyas
+    if (galerias[v.id]?.hero.length) continue; // la web ya tiene las suyas
     galerias[v.id] = {
       hero: fotos.map((src, i) => ({
         src,
@@ -337,7 +339,6 @@ export const cartagenaAssets: ProductAssetManifest = {
   ],
 };
 
-
 const macizoCampesinoVariants: ProductColorVariant[] = [
   {
     id: "matizado-claro",
@@ -466,14 +467,26 @@ const tejaPlanaVariants: ProductColorVariant[] = [
 const bocadilloPrensadoVariants: ProductColorVariant[] = [
   { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe", pricePerUnit: "$ 2.400" },
   { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena", pricePerUnit: "$ 2.300" },
-  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural", pricePerUnit: "$ 2.350" },
+  {
+    id: "natural",
+    label: "Natural",
+    colorLabel: "Natural",
+    folder: "natural",
+    pricePerUnit: "$ 2.350",
+  },
   { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa", pricePerUnit: "$ 2.700" },
 ];
 
 const granFormatoPrensadoVariants: ProductColorVariant[] = [
   { id: "adobe", label: "Adobe", colorLabel: "Adobe", folder: "adobe", pricePerUnit: "$ 3.600" },
   { id: "arena", label: "Arena", colorLabel: "Arena", folder: "arena", pricePerUnit: "$ 3.850" },
-  { id: "natural", label: "Natural", colorLabel: "Natural", folder: "natural", pricePerUnit: "$ 3.100" },
+  {
+    id: "natural",
+    label: "Natural",
+    colorLabel: "Natural",
+    folder: "natural",
+    pricePerUnit: "$ 3.100",
+  },
   { id: "cocoa", label: "Cocoa", colorLabel: "Cocoa", folder: "cocoa", pricePerUnit: "$ 4.250" },
 ];
 
@@ -561,11 +574,7 @@ export const granFormatoPrensadoAssets = buildManifest(
   granFormatoPrensadoVariants
 );
 
-export const granFormatoAssets = buildManifest(
-  "gran-formato",
-  "Gran Formato",
-  granFormatoVariants
-);
+export const granFormatoAssets = buildManifest("gran-formato", "Gran Formato", granFormatoVariants);
 
 const manifests: Record<string, ProductAssetManifest> = {
   romano: romanoAssets,
@@ -581,7 +590,7 @@ const manifests: Record<string, ProductAssetManifest> = {
   "enchape-romano": enchapeRomanoAssets,
   "enchape-thinbrick": enchapeThinBrickAssets,
   "enchape-bocadillo": enchapeBocadilloAssets,
-  "calado": caladoAssets,
+  calado: caladoAssets,
   "teja-plana": tejaPlanaAssets,
   "teja-colonial": tejaColonialAssets,
   "bocadillo-prensado": bocadilloPrensadoAssets,
@@ -608,8 +617,7 @@ export function getProductInspiration(manifest: ProductAssetManifest): Inspirati
 export function getCatalogImage(slug: string, fallbackPath: string): string {
   const manifest = getProductAssets(slug);
   const firstId = manifest?.variants[0]?.id;
-  const raw =
-    (firstId && manifest.galleriesByVariant[firstId]?.hero[0]?.src) || fallbackPath;
+  const raw = (firstId && manifest.galleriesByVariant[firstId]?.hero[0]?.src) || fallbackPath;
   return assetUrl(raw);
 }
 
@@ -628,7 +636,7 @@ export function getCatalogImageScale(slug: string): number {
     "enchape-romano": 1.05,
     "enchape-thinbrick": 1,
     "enchape-bocadillo": 1,
-    "calado": 1,
+    calado: 1,
     "teja-plana": 1.05,
     "teja-colonial": 1.05,
   };

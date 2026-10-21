@@ -20,9 +20,7 @@ export function buildBreadcrumbJsonLd(steps: BreadcrumbStep[]) {
         name: step.name,
       };
       if (step.href) {
-        const url = step.href.startsWith("http")
-          ? step.href
-          : new URL(step.href, site.url).href;
+        const url = step.href.startsWith("http") ? step.href : new URL(step.href, site.url).href;
         node.item = url;
       }
       return node;

@@ -42,7 +42,10 @@ for (const trozo of csp.split(";")) {
   if (nombre) directivas.set(nombre, valores);
 }
 const permitidos = new Set(
-  [...directivas.values()].flat().filter((v) => v.startsWith("https://")).map((v) => v.slice(8))
+  [...directivas.values()]
+    .flat()
+    .filter((v) => v.startsWith("https://"))
+    .map((v) => v.slice(8))
 );
 
 /** ¿La política admite este dominio, en alguna directiva? Entiende `*.dominio`. */
@@ -55,12 +58,28 @@ const permitido = (host) =>
    Se ignoran los dominios que solo aparecen como identificadores o como destino de un
    enlace: un `<a href>` lo abre el navegador como una navegación y la CSP no lo gobierna. */
 const NO_SON_RECURSOS = new Set([
-  "schema.org", "www.w3.org", "ogp.me", "purl.org", "gmpg.org", "www.sitemaps.org",
-  "base.google.com",                       // espacio de nombres del feed de Merchant
-  "wa.me", "api.whatsapp.com", "waze.com", // enlaces que abre el visitante
-  "www.facebook.com", "www.instagram.com", "www.tiktok.com", "www.linkedin.com",
-  "co.pinterest.com", "www.youtube.com", "www.openstreetmap.org", "www.google.com",
-  "maps.app.goo.gl", "g.page", "search.google.com", "unpkg.com",
+  "schema.org",
+  "www.w3.org",
+  "ogp.me",
+  "purl.org",
+  "gmpg.org",
+  "www.sitemaps.org",
+  "base.google.com", // espacio de nombres del feed de Merchant
+  "wa.me",
+  "api.whatsapp.com",
+  "waze.com", // enlaces que abre el visitante
+  "www.facebook.com",
+  "www.instagram.com",
+  "www.tiktok.com",
+  "www.linkedin.com",
+  "co.pinterest.com",
+  "www.youtube.com",
+  "www.openstreetmap.org",
+  "www.google.com",
+  "maps.app.goo.gl",
+  "g.page",
+  "search.google.com",
+  "unpkg.com",
   /* Leaflet escribe su propia atribución en el mapa —«Leaflet | © OpenStreetMap»— y ese
      enlace va dentro de su código, así que aparece en el paquete. Es un `<a href>` que abre
      el visitante, no un recurso que cargue la página. */
@@ -71,7 +90,7 @@ const RECURSO = /(?:src|href)\s*=\s*["']https:\/\/([a-z0-9.-]+)/gi;
 const URL_SUELTA = /https:\/\/([a-z0-9.-]+)/gi;
 const enlaces = /<a\b[^>]*href\s*=\s*["']https:\/\/([a-z0-9.-]+)[^>]*>/gi;
 
-const usados = new Map();   // host → ejemplos de dónde
+const usados = new Map(); // host → ejemplos de dónde
 function anotar(host, donde) {
   if (host.endsWith("clayhouse.com.co") || NO_SON_RECURSOS.has(host)) return;
   if (!usados.has(host)) usados.set(host, new Set());
@@ -113,10 +132,12 @@ const APAGADOS = new Map([["plausible.io", "analítica alternativa (PUBLIC_PLAUS
 /* ── El informe ── */
 const bloqueados = [...usados.keys()].filter((h) => !permitido(h) && !APAGADOS.has(h)).sort();
 const apagados = [...usados.keys()].filter((h) => !permitido(h) && APAGADOS.has(h)).sort();
-const sinUsar = [...permitidos].filter((p) => {
-  const sufijo = p.startsWith("*.") ? p.slice(1) : null;
-  return ![...usados.keys()].some((h) => (sufijo ? h.endsWith(sufijo) : h === p));
-}).sort();
+const sinUsar = [...permitidos]
+  .filter((p) => {
+    const sufijo = p.startsWith("*.") ? p.slice(1) : null;
+    return ![...usados.keys()].some((h) => (sufijo ? h.endsWith(sufijo) : h === p));
+  })
+  .sort();
 
 console.log(`Política: ${directivas.size} directivas · ${permitidos.size} dominios permitidos`);
 console.log(`Sitio construido: ${usados.size} dominios externos cargados como recurso\n`);

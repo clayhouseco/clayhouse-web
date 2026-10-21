@@ -3,6 +3,7 @@
 ## Pre-lanzamiento (semana 5)
 
 ### Contenido
+
 - [ ] Home con los 8 bloques (`content/home.md`)
 - [ ] 5+ productos cargados en CMS con imágenes
 - [ ] Nosotros y Contacto publicados
@@ -11,17 +12,20 @@
 - [ ] Páginas legales: `/legal/privacidad`, `/legal/devoluciones`
 
 ### Diseño
+
 - [ ] Colores del manual aplicados (`design-tokens.json`)
 - [ ] Tipografía Montserrat Light + Helvetica Neue Bold
 - [ ] Responsive probado: iPhone, iPad, desktop 1440px
 - [ ] Video hero &lt; 5 MB o imagen poster optimizada
 
 ### Formularios
+
 - [ ] Formulario envía a ventas@clayhouse.com.co
 - [ ] Email de prueba recibido
 - [ ] WhatsApp flotante funcional
 
 ### SEO
+
 - [ ] Title y meta description en cada página
 - [ ] Alt text en todas las imágenes
 - [ ] Favicon y og:image (1200×630)
@@ -29,6 +33,7 @@
 - [ ] sitemap.xml accesible (automático Framer)
 
 ### Analytics
+
 - [ ] Google Analytics 4 instalado (Framer → Custom Code head)
 - [ ] O Plausible si prefieren privacidad
 
@@ -37,9 +42,11 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-XXXXXXXXXX");
 </script>
 ```
 
@@ -65,6 +72,7 @@ En Framer: **Site Settings → Redirects**
 Importar manualmente desde `redirects.csv` (formato: path antiguo → path nuevo).
 
 Prioridad alta:
+
 - `/solicita-informacion-productos-servicios/` → `/contacto`
 - `/tienda/` → `/productos`
 - `/carrito-de-compras/` → `/contacto`

@@ -3,41 +3,25 @@
   "diagram_type": "dataflow",
   "meta": {
     "title": "Flujo de datos entre el ERP y la web de Clay House",
-    "viewBox": [
-      1080,
-      602
-    ],
+    "viewBox": [1080, 602],
     "quality_profile": "showcase",
     "views": [
       {
         "id": "catalogo",
         "label": "El catálogo baja",
-        "focus": [
-          "supabase",
-          "apiCatalogo",
-          "syncErp",
-          "erpFeed"
-        ],
+        "focus": ["supabase", "apiCatalogo", "syncErp", "erpFeed"],
         "note": "El ERP publica su catálogo y la web lo congela en git antes de compilar."
       },
       {
         "id": "divergencias",
         "label": "Lo que no coincide",
-        "focus": [
-          "syncErp",
-          "divergencias"
-        ],
+        "focus": ["syncErp", "divergencias"],
         "note": "Donde los dos lados tienen dato y difieren, no se pisa nada: se reporta."
       },
       {
         "id": "vuelta",
         "label": "La cotización vuelve",
-        "focus": [
-          "sitio",
-          "cotizador",
-          "supabase",
-          "crm"
-        ],
+        "focus": ["sitio", "cotizador", "supabase", "crm"],
         "note": "Único camino de escritura de la web hacia el ERP."
       }
     ],
@@ -198,10 +182,7 @@
       "classification": "activo_ventas · solo la empresa Clay House",
       "variant": "emphasis",
       "route": "straight",
-      "labelAt": [
-        213,
-        428
-      ]
+      "labelAt": [213, 428]
     },
     {
       "id": "catalogo-bajado",
@@ -210,10 +191,7 @@
       "label": "GET catálogo",
       "classification": "JSON, una vez por build",
       "variant": "emphasis",
-      "labelAt": [
-        427,
-        428
-      ]
+      "labelAt": [427, 428]
     },
     {
       "id": "disp-bajada",
@@ -230,10 +208,7 @@
       "classification": "erpFeed.json, versionado en git",
       "variant": "emphasis",
       "route": "straight",
-      "labelAt": [
-        638,
-        428
-      ]
+      "labelAt": [638, 428]
     },
     {
       "id": "conflictos",
@@ -249,10 +224,7 @@
       "to": "disponibilidad",
       "label": "guarda en git",
       "classification": "availability.json",
-      "labelAt": [
-        790,
-        442
-      ]
+      "labelAt": [790, 442]
     },
     {
       "id": "build-feed",
@@ -262,10 +234,7 @@
       "classification": "desde el repo",
       "variant": "emphasis",
       "route": "straight",
-      "labelAt": [
-        858,
-        352
-      ]
+      "labelAt": [858, 352]
     },
     {
       "id": "build-disp",
@@ -273,10 +242,7 @@
       "to": "sitio",
       "label": "astro build",
       "classification": "desde el repo",
-      "labelAt": [
-        910,
-        478
-      ]
+      "labelAt": [910, 478]
     },
     {
       "id": "visita",
@@ -284,10 +250,7 @@
       "to": "cotizador",
       "label": "cotiza",
       "classification": "el visitante, en su navegador",
-      "labelAt": [
-        960,
-        300
-      ]
+      "labelAt": [960, 300]
     },
     {
       "id": "cotizacion-guardada",
@@ -297,10 +260,7 @@
       "classification": "clave anónima pública",
       "variant": "security",
       "route": "top-channel",
-      "labelAt": [
-        600,
-        86
-      ]
+      "labelAt": [600, 86]
     },
     {
       "id": "crm-lee",
@@ -308,28 +268,19 @@
       "to": "crm",
       "label": "lee",
       "classification": "la fuerza comercial la atiende",
-      "labelAt": [
-        270,
-        318
-      ]
+      "labelAt": [270, 318]
     }
   ],
   "cards": [
     {
       "dot": "emerald",
       "title": "Quién manda qué",
-      "items": [
-        "ERP: productos, colores y códigos",
-        "Web: textos, fotos, SEO y precios"
-      ]
+      "items": ["ERP: productos, colores y códigos", "Web: textos, fotos, SEO y precios"]
     },
     {
       "dot": "cyan",
       "title": "Build reproducible",
-      "items": [
-        "Los dos JSON quedan versionados en git",
-        "Si el ERP falla, sigue el último feed"
-      ]
+      "items": ["Los dos JSON quedan versionados en git", "Si el ERP falla, sigue el último feed"]
     },
     {
       "dot": "rose",

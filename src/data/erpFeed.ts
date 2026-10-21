@@ -57,7 +57,8 @@ const porCodigo = new Map<string, ErpProducto>();
 for (const p of productos) {
   if (p.pagina) {
     const ps = porPagina.get(p.pagina);
-    if (ps) ps.push(p); else porPagina.set(p.pagina, [p]);
+    if (ps) ps.push(p);
+    else porPagina.set(p.pagina, [p]);
   }
   if (p.codigo) porCodigo.set(p.codigo, p);
 }
@@ -69,7 +70,7 @@ export function erpDeSlug(slug: string): ErpProducto[] {
 }
 
 export function erpDeCodigo(codigo: string | null | undefined): ErpProducto | null {
-  return codigo ? porCodigo.get(codigo) ?? null : null;
+  return codigo ? (porCodigo.get(codigo) ?? null) : null;
 }
 
 /** ¿El ERP ofrece este producto? Lo que no publica, no está a la venta. */

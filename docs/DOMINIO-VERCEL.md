@@ -16,17 +16,17 @@ Siga **exactamente** lo que indique Vercel. Suele ser uno de estos esquemas:
 
 ### Opción A — Apex con registro A (común)
 
-| Tipo | Nombre / Host | Valor |
-|------|----------------|-------|
-| A | `@` | `76.76.21.21` (IP de Vercel; confirmar en el panel) |
-| CNAME | `www` | `cname.vercel-dns.com` |
+| Tipo  | Nombre / Host | Valor                                               |
+| ----- | ------------- | --------------------------------------------------- |
+| A     | `@`           | `76.76.21.21` (IP de Vercel; confirmar en el panel) |
+| CNAME | `www`         | `cname.vercel-dns.com`                              |
 
 ### Opción B — Cloudflare u otro con CNAME en apex
 
-| Tipo | Nombre | Valor |
-|------|--------|-------|
-| CNAME | `@` | `cname.vercel-dns.com` |
-| CNAME | `www` | `cname.vercel-dns.com` |
+| Tipo  | Nombre | Valor                  |
+| ----- | ------ | ---------------------- |
+| CNAME | `@`    | `cname.vercel-dns.com` |
+| CNAME | `www`  | `cname.vercel-dns.com` |
 
 Espere propagación (minutos a 48 h). Vercel marcará el dominio como **Valid**.
 

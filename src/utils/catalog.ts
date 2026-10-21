@@ -16,7 +16,9 @@ export function groupProductsByCategory(): { def: CatalogCategoryDef; products: 
   return catalogCategories
     .map((def) => ({
       def,
-      products: sortProductsByPriority(products.filter((p) => p.category === def.id && isVisible(p))),
+      products: sortProductsByPriority(
+        products.filter((p) => p.category === def.id && isVisible(p))
+      ),
     }))
     .filter((g) => g.products.length > 0);
 }

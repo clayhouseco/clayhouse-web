@@ -15,11 +15,11 @@ El payload que envía la web coincide con la forma de la tabla del ERP
 (`numero`, `atencion`, `producto_codigo`, `items`, `notas_comerciales`…), no con
 la del SQL de este repositorio (`cliente_nombre`, `lineas`, `total_referencia`…).
 
-| | `cotizaciones` | `cotizaciones_web` |
-|---|---|---|
-| Quién escribe | la web, hoy | nadie |
-| Quién lee | el ERP | — |
-| Coincide con el payload | sí | no |
+|                         | `cotizaciones` | `cotizaciones_web` |
+| ----------------------- | -------------- | ------------------ |
+| Quién escribe           | la web, hoy    | nadie              |
+| Quién lee               | el ERP         | —                  |
+| Coincide con el payload | sí             | no                 |
 
 **No se cambió nada.** Decidirlo exige saber si el ERP trabaja sus solicitudes
 desde `cotizaciones` o si esa tabla también recibe las cotizaciones internas,

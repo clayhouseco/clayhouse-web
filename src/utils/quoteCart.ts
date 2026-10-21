@@ -145,4 +145,3 @@ export function formatCartLine(item: QuoteCartItem): string {
   const subtotal = formatLineSubtotal(item);
   return `• ${item.name}${colorPart} — ${item.quantity} ${item.unitLabel} — ${subtotal}`;
 }
-

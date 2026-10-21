@@ -118,8 +118,14 @@ export function trackEvent(name: string, props?: Record<string, unknown>) {
  */
 const ORIGEN_KEY = "clayhouse-origen";
 const PARAMS = [
-  "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
-  "gclid", "gbraid", "wbraid",
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+  "gclid",
+  "gbraid",
+  "wbraid",
 ];
 
 export function capturarOrigen(): Record<string, string> {
@@ -179,7 +185,8 @@ export function bindAnalyticsEvents() {
     "focusin",
     (e) => {
       if (formStartTracked) return;
-      const form = e.target instanceof Element ? e.target.closest("#contact-form, .review-form") : null;
+      const form =
+        e.target instanceof Element ? e.target.closest("#contact-form, .review-form") : null;
       if (!form) return;
       formStartTracked = true;
       trackEvent("form_start", { form: form.id || "contact" });

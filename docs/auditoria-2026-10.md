@@ -23,7 +23,7 @@ Los tres hallazgos que más costaban dinero:
 3. **El mapa de la ubicación de obra nunca cargó en producción.** El código del cotizador
    iba en un `<script>` en línea, y ahí un `import("leaflet")` no lo puede resolver ningún
    navegador. Comprobado contra el sitio publicado: `TypeError: Failed to resolve module
-   specifier 'leaflet'`. El cliente podía escribir la dirección, pero el pin —lo que el
+specifier 'leaflet'`. El cliente podía escribir la dirección, pero el pin —lo que el
    equipo necesita para cotizar el flete— no aparecía. (Fase 9)
 
 Y el riesgo que **sigue abierto**: la política de escritura de la tabla de cotizaciones es
@@ -89,10 +89,10 @@ vez de un `alert()`.
 
 ### Lo que se partió
 
-| Archivo | Antes | Ahora |
-|---|---|---|
-| `src/components/QuoteCart.astro` | 880 | **114** |
-| `src/pages/cotizacion.astro` | 1.101 | **434** |
+| Archivo                            | Antes | Ahora     |
+| ---------------------------------- | ----- | --------- |
+| `src/components/QuoteCart.astro`   | 880   | **114**   |
+| `src/pages/cotizacion.astro`       | 1.101 | **434**   |
 | `src/pages/productos/[slug].astro` | 2.195 | **2.108** |
 
 El cajón lateral de cotización (880 líneas) duplicaba exactamente lo que hace `/cotizacion`,
@@ -134,7 +134,7 @@ WhatsApp y la fila del ERP tenían que estar ahí, sin tipos y sin forma de prob
    que el clic no llevaba a ningún lado.
 5. **`.chip`, `aria-hidden` duplicado, un array disperso, un `return` inalcanzable** y 17
    funciones exportadas que ya no usaba nadie — restos del cajón borrado y de versiones
-   viejas de la galería. También dos comentarios de Astro escritos *entre atributos*, que
+   viejas de la galería. También dos comentarios de Astro escritos _entre atributos_, que
    compilan pero impedían a ESLint leer dos archivos, uno de ellos la página más larga.
 
 ### Las herramientas que no existían
@@ -216,39 +216,39 @@ en la solicitud. Hay una prueba que lo comprueba en un navegador real.
 Fases 1–8, **medido en producción** tras desplegar (detalle en
 [`rendimiento.md`](rendimiento.md)):
 
-| Página | Rendimiento | LCP | Peso |
-|---|---|---|---|
-| Inicio | 94 → **100** | 3,0 s → **1,3 s** | 1.902 → **664 KB** |
-| Ficha del Romano | 91 → **99** | 3,5 s → **1,9 s** | 835 → **516 KB** |
-| Cotizador | 98 → **100** | 1,8 s → **1,2 s** | 3.199 → **475 KB** |
+| Página           | Rendimiento  | LCP               | Peso               |
+| ---------------- | ------------ | ----------------- | ------------------ |
+| Inicio           | 94 → **100** | 3,0 s → **1,3 s** | 1.902 → **664 KB** |
+| Ficha del Romano | 91 → **99**  | 3,5 s → **1,9 s** | 835 → **516 KB**   |
+| Cotizador        | 98 → **100** | 1,8 s → **1,2 s** | 3.199 → **475 KB** |
 | Artículo técnico | 83 → **100** | 4,7 s → **1,4 s** | 1.491 → **635 KB** |
 
 Fase 9, **medido en local** sobre el sitio construido (la Fase 9 no está desplegada; conviene
 repetirlo en producción después de publicar):
 
-| Página | | Rend. | Acces. | Prácticas | SEO | LCP | CLS |
-|---|---|---|---|---|---|---|---|
-| `/` | móvil | 99 | 100 | 96 | 100 | 1,6 s | 0,002 |
-| | escritorio | 99 | 100 | 96 | 100 | 0,9 s | 0,006 |
-| `/productos/romano` | móvil | 99 | 100 | 96 | 100 | 1,6 s | 0,000 |
-| | escritorio | 100 | 100 | 96 | 100 | 0,7 s | 0,000 |
-| `/cotizacion` | móvil | **100** | 100 | 100 | 100 | 1,4 s | **0,000** |
-| | escritorio | **100** | 100 | 100 | 100 | 0,4 s | 0,007 |
-| `/blog/especificacion-de-ladrillo-en-obra` | móvil | 92–98 | 100 | 96 | 100 | 2,2–2,7 s | 0,014 |
-| | escritorio | 100 | 100 | 96 | 100 | 0,5 s | 0,001 |
+| Página                                     |            | Rend.   | Acces. | Prácticas | SEO | LCP       | CLS       |
+| ------------------------------------------ | ---------- | ------- | ------ | --------- | --- | --------- | --------- |
+| `/`                                        | móvil      | 99      | 100    | 96        | 100 | 1,6 s     | 0,002     |
+|                                            | escritorio | 99      | 100    | 96        | 100 | 0,9 s     | 0,006     |
+| `/productos/romano`                        | móvil      | 99      | 100    | 96        | 100 | 1,6 s     | 0,000     |
+|                                            | escritorio | 100     | 100    | 96        | 100 | 0,7 s     | 0,000     |
+| `/cotizacion`                              | móvil      | **100** | 100    | 100       | 100 | 1,4 s     | **0,000** |
+|                                            | escritorio | **100** | 100    | 100       | 100 | 0,4 s     | 0,007     |
+| `/blog/especificacion-de-ladrillo-en-obra` | móvil      | 92–98   | 100    | 96        | 100 | 2,2–2,7 s | 0,014     |
+|                                            | escritorio | 100     | 100    | 96        | 100 | 0,5 s     | 0,001     |
 
 Fase 9, **medido en producción** tras desplegar (21 de octubre, 12eea44):
 
-| Página | | Rend. | Acces. | Prácticas | SEO | LCP | CLS |
-|---|---|---|---|---|---|---|---|
-| `/` | móvil | 97 | 100 | 92→ | 100 | 2,4 s | 0,005 |
-| | escritorio | 100 | 100 | 92→ | 100 | 0,6 s | 0,006 |
-| `/productos/romano` | móvil | 91 | 100 | 92→ | 100 | 3,3 s | 0,008 |
-| | escritorio | 97 | 100 | 92→ | 100 | 1,3 s | 0,000 |
-| `/cotizacion` | móvil | 99 | 100 | 92→ | 100 | 1,7 s | 0,002 |
-| | escritorio | 100 | 100 | 92→ | 100 | 0,5 s | 0,008 |
-| `/blog/especificacion-de-ladrillo-en-obra` | móvil | 95 | 100 | 92→ | 100 | 2,7 s | 0,05 |
-| | escritorio | 100 | 100 | 92→ | 100 | 0,4 s | 0,001 |
+| Página                                     |            | Rend. | Acces. | Prácticas | SEO | LCP   | CLS   |
+| ------------------------------------------ | ---------- | ----- | ------ | --------- | --- | ----- | ----- |
+| `/`                                        | móvil      | 97    | 100    | 92→       | 100 | 2,4 s | 0,005 |
+|                                            | escritorio | 100   | 100    | 92→       | 100 | 0,6 s | 0,006 |
+| `/productos/romano`                        | móvil      | 91    | 100    | 92→       | 100 | 3,3 s | 0,008 |
+|                                            | escritorio | 97    | 100    | 92→       | 100 | 1,3 s | 0,000 |
+| `/cotizacion`                              | móvil      | 99    | 100    | 92→       | 100 | 1,7 s | 0,002 |
+|                                            | escritorio | 100   | 100    | 92→       | 100 | 0,5 s | 0,008 |
+| `/blog/especificacion-de-ladrillo-en-obra` | móvil      | 95    | 100    | 92→       | 100 | 2,7 s | 0,05  |
+|                                            | escritorio | 100   | 100    | 92→       | 100 | 0,4 s | 0,001 |
 
 Medido minutos después del despliegue, con la caché de borde de Vercel fría para los
 archivos nuevos: los LCP de móvil están por encima de los locales por eso, y conviene
@@ -347,11 +347,11 @@ web —`NAP`, `ENC-RUS`, `ENC-BOC`— que el ERP no reconoce. No entran al cotiz
 criterio de no ofrecer lo que el ERP no sabe atender, pero sus páginas siguen en pie. Hay que
 decidir: o el ERP los vuelve a publicar con su código, o se bajan de la web.
 
-*(Corrección: una versión anterior de este informe decía que eran «productos publicados sin
+_(Corrección: una versión anterior de este informe decía que eran «productos publicados sin
 código» y que eso cortaba el despliegue. Las dos cosas estaban mal. Es al revés —la web
 tiene códigos que el ERP no tiene— y no corta nada: `verificar-datos --strict` sale con
 código 0. La regla que sí bloquea existe, para un producto que el ERP publique sin código,
-pero hoy no la incumple ninguno.)*
+pero hoy no la incumple ninguno.)_
 
 **La hoja de inventario nunca se publicó.** La disponibilidad sigue siendo la semilla inicial
 del 9 de julio de 2026: hoy el único filtro real es lo que el ERP marque para la web.
@@ -441,7 +441,6 @@ compara la política con los dominios que aparecen en el sitio construido, y est
 en ningún archivo —lo decide la librería de Google en tiempo de ejecución—. La única
 comprobación que sirve para dominios así es cargar la página publicada en un navegador, que
 es lo que hace Lighthouse. **Conviene repetirlo cada vez que se toque la medición.**
-
 
 **El envío de reseñas no puede confirmar.** `ReviewForm` escribe en Apps Script con
 `mode: "no-cors"`: el navegador no puede leer la respuesta, así que la página lleva al

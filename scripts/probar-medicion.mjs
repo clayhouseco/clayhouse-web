@@ -55,9 +55,18 @@ execSync("npx astro build", {
 });
 
 /* Servidor estático mínimo: no hace falta nada más para abrir el sitio construido. */
-const TIPOS = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css",
-  ".json": "application/json", ".webp": "image/webp", ".jpg": "image/jpeg",
-  ".png": "image/png", ".avif": "image/avif", ".svg": "image/svg+xml", ".woff2": "font/woff2" };
+const TIPOS = {
+  ".html": "text/html",
+  ".js": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".webp": "image/webp",
+  ".jpg": "image/jpeg",
+  ".png": "image/png",
+  ".avif": "image/avif",
+  ".svg": "image/svg+xml",
+  ".woff2": "font/woff2",
+};
 const servidor = http.createServer((req, res) => {
   let rel = decodeURIComponent(req.url.split("?")[0]);
   if (rel.endsWith("/")) rel += "index.html";
@@ -72,10 +81,18 @@ const servidor = http.createServer((req, res) => {
 await new Promise((r) => servidor.listen(PUERTO_WEB, r));
 
 const perfil = fs.mkdtempSync("/tmp/clayhouse-medicion-");
-const chrome = spawn(CHROME, [
-  `--remote-debugging-port=${PUERTO_CDP}`, "--headless=new", "--no-first-run",
-  `--user-data-dir=${perfil}`, "--disable-gpu", "about:blank",
-], { stdio: "ignore" });
+const chrome = spawn(
+  CHROME,
+  [
+    `--remote-debugging-port=${PUERTO_CDP}`,
+    "--headless=new",
+    "--no-first-run",
+    `--user-data-dir=${perfil}`,
+    "--disable-gpu",
+    "about:blank",
+  ],
+  { stdio: "ignore" }
+);
 
 async function objetivo() {
   for (let i = 0; i < 40; i++) {
@@ -83,7 +100,9 @@ async function objetivo() {
       const lista = await (await fetch(`http://127.0.0.1:${PUERTO_CDP}/json/list`)).json();
       const t = lista.find((x) => x.type === "page");
       if (t) return t;
-    } catch { /* todavía no levanta */ }
+    } catch {
+      /* todavía no levanta */
+    }
     await esperar(250);
   }
   throw new Error("Chrome no respondió al protocolo de depuración");
@@ -96,13 +115,20 @@ let id = 0;
 const pendientes = new Map();
 ws.onmessage = (e) => {
   const m = JSON.parse(e.data);
-  if (m.id && pendientes.has(m.id)) { pendientes.get(m.id)(m); pendientes.delete(m.id); }
+  if (m.id && pendientes.has(m.id)) {
+    pendientes.get(m.id)(m);
+    pendientes.delete(m.id);
+  }
 };
 const enviar = (method, params = {}) =>
-  new Promise((res) => { const i = ++id; pendientes.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
+  new Promise((res) => {
+    const i = ++id;
+    pendientes.set(i, res);
+    ws.send(JSON.stringify({ id: i, method, params }));
+  });
 const evaluar = async (expression) =>
-  (await enviar("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true }))
-    .result?.result?.value;
+  (await enviar("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true })).result
+    ?.result?.value;
 
 await enviar("Page.enable");
 await enviar("Runtime.enable");
@@ -130,7 +156,8 @@ const llenar = `(() => {
   return true;
 })()`;
 
-const nombres = async () => JSON.parse(await evaluar("JSON.stringify(window.__eventos.map(e => e[0]))"));
+const nombres = async () =>
+  JSON.parse(await evaluar("JSON.stringify(window.__eventos.map(e => e[0]))"));
 
 /* ── 1. Camino feliz ── */
 console.log("\nCon el servidor respondiendo bien:");
@@ -144,30 +171,66 @@ await evaluar(`document.querySelector("[data-action-whatsapp]").click()`);
 await esperar(1200);
 
 const secuencia = await nombres();
-const esperada = ["begin_quote", "quote_product_selected", "quote_submit_attempt", "generate_lead", "quote_whatsapp_open"];
-ok(esperada.every((e) => secuencia.includes(e)), "se disparan los cinco eventos del recorrido", secuencia.join(" → "));
-ok(secuencia.indexOf("generate_lead") > secuencia.indexOf("quote_submit_attempt"),
-   "la conversión va después del intento, no antes");
+const esperada = [
+  "begin_quote",
+  "quote_product_selected",
+  "quote_submit_attempt",
+  "generate_lead",
+  "quote_whatsapp_open",
+];
+ok(
+  esperada.every((e) => secuencia.includes(e)),
+  "se disparan los cinco eventos del recorrido",
+  secuencia.join(" → ")
+);
+ok(
+  secuencia.indexOf("generate_lead") > secuencia.indexOf("quote_submit_attempt"),
+  "la conversión va después del intento, no antes"
+);
 
-const lead = JSON.parse(await evaluar(`JSON.stringify((window.__eventos.find(e => e[0] === "generate_lead") || [])[1] || null)`));
-ok(!!lead && lead.currency === "COP" && lead.value > 0, "la conversión lleva valor y moneda",
-   lead ? `${lead.value} ${lead.currency}` : "sin datos");
-ok(!!lead && Array.isArray(lead.items) && lead.items[0] && lead.items[0].item_id && lead.items[0].quantity > 0,
-   "la conversión lleva código, categoría y cantidad",
-   lead && lead.items && lead.items[0] ? `${lead.items[0].item_id} · ${lead.items[0].item_category} · ${lead.items[0].quantity}` : "");
+const lead = JSON.parse(
+  await evaluar(
+    `JSON.stringify((window.__eventos.find(e => e[0] === "generate_lead") || [])[1] || null)`
+  )
+);
+ok(
+  !!lead && lead.currency === "COP" && lead.value > 0,
+  "la conversión lleva valor y moneda",
+  lead ? `${lead.value} ${lead.currency}` : "sin datos"
+);
+ok(
+  !!lead &&
+    Array.isArray(lead.items) &&
+    lead.items[0] &&
+    lead.items[0].item_id &&
+    lead.items[0].quantity > 0,
+  "la conversión lleva código, categoría y cantidad",
+  lead && lead.items && lead.items[0]
+    ? `${lead.items[0].item_id} · ${lead.items[0].item_category} · ${lead.items[0].quantity}`
+    : ""
+);
 
-const personales = JSON.parse(await evaluar(
-  `JSON.stringify(window.__eventos.filter(e => /PRUEBA MEDICION|3000000000|@/.test(JSON.stringify(e[1] || {}))))`
-));
-ok(personales.length === 0, "ningún evento lleva datos personales",
-   personales.length ? JSON.stringify(personales).slice(0, 160) : "");
+const personales = JSON.parse(
+  await evaluar(
+    `JSON.stringify(window.__eventos.filter(e => /PRUEBA MEDICION|3000000000|@/.test(JSON.stringify(e[1] || {}))))`
+  )
+);
+ok(
+  personales.length === 0,
+  "ningún evento lleva datos personales",
+  personales.length ? JSON.stringify(personales).slice(0, 160) : ""
+);
 
 /* ── 2. Segundo canal ── */
 await evaluar("window.__eventos = []");
 await evaluar(`document.querySelector("[data-action-print]").click()`);
 await esperar(900);
 const segundo = await nombres();
-ok(!segundo.includes("generate_lead"), "un segundo canal no vuelve a contar la conversión", segundo.join(" → "));
+ok(
+  !segundo.includes("generate_lead"),
+  "un segundo canal no vuelve a contar la conversión",
+  segundo.join(" → ")
+);
 ok(segundo.includes("quote_print"), "pero sí registra el canal usado");
 
 /* ── 3. Servidor caído, y origen de campaña ── */
@@ -186,8 +249,15 @@ await evaluar(`document.querySelector("[data-action-whatsapp]").click()`);
 await esperar(1500);
 
 const caido = await nombres();
-ok(!caido.includes("generate_lead"), "sin confirmación del servidor NO hay conversión", caido.join(" → "));
-ok(caido.includes("quote_whatsapp_open"), "pero el canal sí se abre: el cliente no se queda sin su WhatsApp");
+ok(
+  !caido.includes("generate_lead"),
+  "sin confirmación del servidor NO hay conversión",
+  caido.join(" → ")
+);
+ok(
+  caido.includes("quote_whatsapp_open"),
+  "pero el canal sí se abre: el cliente no se queda sin su WhatsApp"
+);
 
 const aviso = await evaluar(`(() => {
   const n = [...document.querySelectorAll("p,div,span")].filter(x => /No pudimos registrar/.test(x.textContent || ""));
@@ -198,9 +268,15 @@ ok(!!aviso, "el fallo se le dice al cliente", aviso.slice(0, 80));
 const peticion = JSON.parse(await evaluar("JSON.stringify(window.__peticion || null)"));
 const fila = peticion && peticion.body ? JSON.parse(peticion.body) : null;
 const notas = (fila && fila.notas_comerciales) || [];
-ok(notas.some((n) => n.includes("google / cpc / prueba")), "el origen de la campaña viaja con la solicitud",
-   notas.find((n) => n.startsWith("Origen:")) || "");
-ok(notas.some((n) => n.includes("PRUEBA-GCLID")), "el identificador de clic de Google también");
+ok(
+  notas.some((n) => n.includes("google / cpc / prueba")),
+  "el origen de la campaña viaja con la solicitud",
+  notas.find((n) => n.startsWith("Origen:")) || ""
+);
+ok(
+  notas.some((n) => n.includes("PRUEBA-GCLID")),
+  "el identificador de clic de Google también"
+);
 
 ws.close();
 chrome.kill();
@@ -211,6 +287,12 @@ try {
   /* Chrome todavía escribe en su perfil al cerrarse; es un temporal, se lo lleva el sistema. */
 }
 
-console.log(fallos.length ? `\n✗ ${fallos.length} comprobación(es) fallaron.` : "\n✓ La medición hace lo que dice hacer.");
-console.log("  Nota: dist/ quedó construido con la cuenta de prueba. Corre `npm run build` antes de publicar.");
+console.log(
+  fallos.length
+    ? `\n✗ ${fallos.length} comprobación(es) fallaron.`
+    : "\n✓ La medición hace lo que dice hacer."
+);
+console.log(
+  "  Nota: dist/ quedó construido con la cuenta de prueba. Corre `npm run build` antes de publicar."
+);
 process.exit(fallos.length ? 1 : 0);

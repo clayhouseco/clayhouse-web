@@ -18,8 +18,8 @@ Copia este archivo a `_inbox/proyectos/{slug}/info.md` y llénalo.
 
 - **Ciudad**: <!-- ej. "Llanogrande, Rionegro" -->
 - **Departamento / País**: <!-- ej. "Antioquia, Colombia" -->
-- **Año de finalización**: 
-- **Arquitecto / Estudio** (opcional): 
+- **Año de finalización**:
+- **Arquitecto / Estudio** (opcional):
 
 ## Descripción (1-2 líneas, opcional)
 
@@ -44,6 +44,7 @@ _inbox/proyectos/{slug}/
 ```
 
 **Cómo nombrar las fotos:**
+
 - Prefijo numérico (`01-`, `02-`, `03-`) si quieres un orden específico.
 - Sin tildes ni espacios en el nombre del archivo.
 - Mínimo 1 foto, ideal 3-8 fotos.

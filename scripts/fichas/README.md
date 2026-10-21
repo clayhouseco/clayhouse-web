@@ -38,7 +38,7 @@ Si Chrome está en otra ruta, exportar `CHROME_PATH=/ruta/a/chrome`.
    - `colores`: lista de `[nombre, "#hex"]`.
    - `usos`: lista de textos.
    - `specsRow`: celdas `[icono, ETIQUETA, valor, subtexto]`. En `valor`, usar
-     ` · ` para partir en dos líneas (ej. `"Promedio 14 MPa · Individual 10 MPa"`).
+     `·` para partir en dos líneas (ej. `"Promedio 14 MPa · Individual 10 MPa"`).
 2. Generar: `node scripts/fichas/generate.mjs --only <slug>`
 3. Revisar y commitear el `public/images/products/<slug>/ficha.pdf`.
 

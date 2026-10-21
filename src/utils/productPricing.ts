@@ -136,18 +136,14 @@ export function getReferencePriceM2(product: Product): string | null {
   //    teja colonial mostraba $ 1.600/unidad en la ficha mientras el cotizador
   //    pedía m², y el cliente no tenía cómo relacionar las dos cifras.
   const units =
-    pega1?.unitsPerM2 ??
-    parseCm(product.dimensions?.rendimiento) ??
-    erpUnidadesPorM2(product.slug);
+    pega1?.unitsPerM2 ?? parseCm(product.dimensions?.rendimiento) ?? erpUnidadesPorM2(product.slug);
   if (!units) return null;
   return `${formatCop(Math.round(units * unitAmount))}/m²`;
 }
 
 /** Igual que getReferencePriceLabel pero devuelve el monto principal y la
  *  nota (IVA + disclaimer) separados, para dar jerarquía visual al precio. */
-export function getReferencePriceParts(
-  product: Product
-): { amount: string; note: string } | null {
+export function getReferencePriceParts(product: Product): { amount: string; note: string } | null {
   const label = getReferencePriceLabel(product);
   if (!label) return null;
   const idx = label.indexOf(" + IVA");
@@ -184,8 +180,7 @@ export function getRendimientoTable(product: Product): RendimientoRow[] | null {
   // una cifra absurda, así que esa columna queda vacía.
   const porUnidad = !product.priceUnitLabel || product.priceUnitLabel === "unidad";
   const unitAmount = porUnidad ? parseCopAmount(product.pricePerUnit ?? "") : null;
-  const fmtPrice = (units: number) =>
-    unitAmount ? `${formatCop(units * unitAmount)}/m²` : null;
+  const fmtPrice = (units: number) => (unitAmount ? `${formatCop(units * unitAmount)}/m²` : null);
 
   const scenarios: { label: string; jointCm: number }[] = [
     { label: "Junta perdida", jointCm: 0 },
@@ -293,8 +288,6 @@ export interface FloorRendimientoRow {
 /** Rendimiento para pisos. La categoría "Pisos" se retiró del catálogo, por lo
  *  que esta tabla ya no aplica a ningún producto y siempre devuelve null. Se
  *  conserva la firma por si se reintroduce una línea de pisos en el futuro. */
-export function getFloorRendimientoTable(
-  _product: Product
-): FloorRendimientoRow[] | null {
+export function getFloorRendimientoTable(_product: Product): FloorRendimientoRow[] | null {
   return null;
 }

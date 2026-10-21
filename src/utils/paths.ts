@@ -30,4 +30,3 @@ export function fichaPdf(slug: string): string {
 export function downloadUrl(filename: string): string {
   return assetUrl(`/downloads/${filename}`);
 }
-

@@ -1,9 +1,6 @@
 import fs from "node:fs";
 import { isVisible, products } from "@/data/products";
-import {
-  catalogCategories,
-  type ProductCategory,
-} from "@/data/catalogCategories";
+import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
 
 export interface Download {
   title: string;
@@ -35,15 +32,15 @@ export const downloads: Download[] = products
      se puede comprar es una visita perdida y una llamada que nadie puede atender. */
   .filter((p) => isVisible(p) && p.technicalPdf && tieneFicha(p.technicalPdf))
   .map((p, index) => ({
-  title: p.name,
-  slug: `ficha-${p.slug}`,
-  type: "Ficha técnica",
-  description: p.shortDescription,
-  order: index + 1,
-  file: p.technicalPdf,
-  category: p.category,
-  productSlug: p.slug,
-}));
+    title: p.name,
+    slug: `ficha-${p.slug}`,
+    type: "Ficha técnica",
+    description: p.shortDescription,
+    order: index + 1,
+    file: p.technicalPdf,
+    category: p.category,
+    productSlug: p.slug,
+  }));
 
 export interface DownloadGroup {
   category: ProductCategory;

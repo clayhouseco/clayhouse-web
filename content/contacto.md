@@ -18,12 +18,12 @@
 
 ## Datos de contacto
 
-| Campo | Valor |
-|-------|-------|
-| Dirección | Km 2, vía Amagá - Angelópolis, Amagá, Antioquia, Colombia |
-| Teléfono | +57 320 672 33 65 |
-| Email | ventas@clayhouse.com.co |
-| Horario | Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m. |
+| Campo     | Valor                                                                |
+| --------- | -------------------------------------------------------------------- |
+| Dirección | Km 2, vía Amagá - Angelópolis, Amagá, Antioquia, Colombia            |
+| Teléfono  | +57 320 672 33 65                                                    |
+| Email     | ventas@clayhouse.com.co                                              |
+| Horario   | Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m. |
 
 **WhatsApp:** [Abrir chat](https://wa.me/573206723365)
 
@@ -67,23 +67,27 @@ Seleccione hasta 5 tonalidades y las enviamos a su oficina. Indíquelas en el ca
 ## Footer (reutilizar en todas las páginas)
 
 **Columna 1 — Marca**
+
 - Logo Clay House
 - Convirtiendo piezas en sueños
 
 **Columna 2 — Navegación**
+
 - Inicio · Productos · Nosotros · Descargas · Contacto
 
 **Columna 3 — Contacto**
+
 - ventas@clayhouse.com.co
 - +57 320 672 33 65
 - Km 2, vía Amagá - Angelópolis
 
 **Columna 4 — Certificaciones**
+
 - Cumplimiento NTC 4205
-- *[ICONTEC si aplica]*
+- _[ICONTEC si aplica]_
 
 **Newsletter (opcional):** Campo email + “Recibir novedades”
 
-**Redes:** Instagram · LinkedIn · *[completar URLs]*
+**Redes:** Instagram · LinkedIn · _[completar URLs]_
 
 **Copyright:** © 2026 Clay House — Alfarera Pueblo Viejo. Todos los derechos reservados.

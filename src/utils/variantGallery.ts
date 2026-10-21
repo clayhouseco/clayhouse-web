@@ -8,8 +8,7 @@ const SKIP = new Set([".ds_store", ".gitkeep"]);
 const PROJECTS_DIR = "proyectos";
 
 /** Archivos generados por IA o legado — no mostrar en galería */
-const SKIP_FILES =
-  /^(fachada|unitario|romano solo)\.(jpg|jpeg|png|webp)$/i;
+const SKIP_FILES = /^(fachada|unitario|romano solo)\.(jpg|jpeg|png|webp)$/i;
 
 interface ProductGalleryConfig {
   heroProductByVariant: Record<string, string>;
@@ -222,16 +221,30 @@ function labelForFilename(filename: string): string {
   if (/\bunitario\b/.test(n)) return "Pieza unitaria";
   if (/fachada/.test(n)) return "En obra";
   if (/render/.test(n)) return "Otras ideas";
-  if (/^romano |^toscano |^napolitano|^cartagena |^campesino|^teja |^chapa |enchapematizado|rayado \d|natural|matizado|arena|oscuro|claro|roj|tabaco|chocolate|brix|apilad|imagen\.(?:png|webp)/i.test(n) && !/casa|living|dsc_|gemini|dos santos|starbucks|milano|referencias|cubiertas/i.test(n))
+  if (
+    /^romano |^toscano |^napolitano|^cartagena |^campesino|^teja |^chapa |enchapematizado|rayado \d|natural|matizado|arena|oscuro|claro|roj|tabaco|chocolate|brix|apilad|imagen\.(?:png|webp)/i.test(
+      n
+    ) &&
+    !/casa|living|dsc_|gemini|dos santos|starbucks|milano|referencias|cubiertas/i.test(n)
+  )
     return "Producto";
-  if (/casa|living|ecommerce|edificio|ch-|dos santos|starbucks|milano|referencias|cubiertas|dsc_/.test(n))
+  if (
+    /casa|living|ecommerce|edificio|ch-|dos santos|starbucks|milano|referencias|cubiertas|dsc_/.test(
+      n
+    )
+  )
     return "Proyecto";
   return "Detalle";
 }
 
 function sortKey(filename: string): number {
   const n = filename.toLowerCase();
-  if (/render|^romano |^toscano |^cartagena |^campesino|rayado \d|arena|oscuro|natural|matizado|claro|tabaco|chocolate|apilad|imagen\.(?:png|webp)|^DSC_93|^DSC_95|^teja /i.test(n) && !/dimensiones|ficha|casa|living|dsc_|gemini|dos santos|starbucks|referencias|cubiertas/i.test(n))
+  if (
+    /render|^romano |^toscano |^cartagena |^campesino|rayado \d|arena|oscuro|natural|matizado|claro|tabaco|chocolate|apilad|imagen\.(?:png|webp)|^DSC_93|^DSC_95|^teja /i.test(
+      n
+    ) &&
+    !/dimensiones|ficha|casa|living|dsc_|gemini|dos santos|starbucks|referencias|cubiertas/i.test(n)
+  )
     return 0;
   if (/dimensiones/.test(n)) return 2;
   if (/ficha/.test(n)) return 3;
@@ -242,12 +255,7 @@ function listImages(dir: string): string[] {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
-    .filter(
-      (f) =>
-        IMAGE_EXT.test(f) &&
-        !SKIP.has(f.toLowerCase()) &&
-        !SKIP_FILES.test(f)
-    )
+    .filter((f) => IMAGE_EXT.test(f) && !SKIP.has(f.toLowerCase()) && !SKIP_FILES.test(f))
     .sort((a, b) => sortKey(a) - sortKey(b) || a.localeCompare(b));
 }
 
@@ -274,7 +282,9 @@ function pushImage(
     : path.join(process.cwd(), "public/images/products", slug, file);
   if (!fs.existsSync(absPath)) return;
 
-  const relPath = relDir ? productFolderImage(slug, `${relDir}/${file}`) : productFolderImage(slug, file);
+  const relPath = relDir
+    ? productFolderImage(slug, `${relDir}/${file}`)
+    : productFolderImage(slug, file);
   images.push({
     src: assetUrl(relPath),
     alt: `${productName} — ${colorLabel} — ${file.replace(/\.[^.]+$/, "")}`,
@@ -358,8 +368,7 @@ export function splitHeroGallery(
      regular. Al primer `.test()` eso revienta. */
   const dimensionesPattern =
     (variantId && config.dimensionesByVariant?.[variantId]) || config.dimensionesPattern;
-  const fichaPattern =
-    (variantId && config.fichaByVariant?.[variantId]) || config.fichaPattern;
+  const fichaPattern = (variantId && config.fichaByVariant?.[variantId]) || config.fichaPattern;
 
   const product =
     (preferred && images.find((img) => file(img) === preferred)) ||
@@ -542,4 +551,3 @@ export function buildProjectsInspirationGallery(
 
   return [...projects, ...otrasIdeas];
 }
-

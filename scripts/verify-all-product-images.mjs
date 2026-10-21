@@ -44,9 +44,10 @@ function paginas(dir) {
    La ruta tiene que EMPEZAR después de una comilla, un espacio o un paréntesis. Sin eso, el
    final de una URL ajena —`https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png`—
    pasa por una ruta local y el comando denuncia tres archivos que nadie sirve desde acá. */
-const RUTA = /(?<=^|["'\s,(=[])\/(?:images|ch-assets|downloads|fonts)\/[^"'\s\\)<>]+?\.(?:webp|jpg|jpeg|png|avif|svg|gif|ico|pdf|woff2?)/gi;
+const RUTA =
+  /(?<=^|["'\s,(=[])\/(?:images|ch-assets|downloads|fonts)\/[^"'\s\\)<>]+?\.(?:webp|jpg|jpeg|png|avif|svg|gif|ico|pdf|woff2?)/gi;
 
-const faltantes = new Map();   // ruta → páginas que la piden
+const faltantes = new Map(); // ruta → páginas que la piden
 let miradas = 0;
 
 for (const pagina of paginas(DIST)) {
@@ -61,7 +62,7 @@ for (const pagina of paginas(DIST)) {
     try {
       rel = decodeURIComponent(cruda);
     } catch {
-      rel = cruda;   // ruta con un % suelto: se prueba tal cual
+      rel = cruda; // ruta con un % suelto: se prueba tal cual
     }
     if (fs.existsSync(path.join(DIST, rel)) || fs.existsSync(path.join(DIST, cruda))) continue;
     const quien = path.relative(DIST, pagina);
@@ -74,9 +75,13 @@ if (faltantes.size) {
   console.error(`\n✗ ${faltantes.size} imagen(es) que la página pide y no están en dist/:\n`);
   for (const [ruta, paginas_] of faltantes) {
     console.error(`  ${ruta}`);
-    console.error(`     la piden: ${paginas_.slice(0, 3).join(", ")}${paginas_.length > 3 ? ` y ${paginas_.length - 3} más` : ""}`);
+    console.error(
+      `     la piden: ${paginas_.slice(0, 3).join(", ")}${paginas_.length > 3 ? ` y ${paginas_.length - 3} más` : ""}`
+    );
   }
   process.exit(1);
 }
 
-console.log(`✓ ${miradas} referencia(s) de imagen verificadas en ${paginas(DIST).length} página(s). Ninguna rota.`);
+console.log(
+  `✓ ${miradas} referencia(s) de imagen verificadas en ${paginas(DIST).length} página(s). Ninguna rota.`
+);

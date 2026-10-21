@@ -2,10 +2,10 @@
 
 Cada producto del catálogo admite **dos imágenes generadas con IA** además de la foto real:
 
-| Tipo | Archivo | Uso en la web |
-|------|---------|----------------|
-| Dimensiones | `public/images/products/{slug}/dimensiones.jpg` | Diagrama técnico con medidas |
-| Fachada / obra | `public/images/products/{slug}/fachada.jpg` | Render del producto en muro |
+| Tipo           | Archivo                                         | Uso en la web                |
+| -------------- | ----------------------------------------------- | ---------------------------- |
+| Dimensiones    | `public/images/products/{slug}/dimensiones.jpg` | Diagrama técnico con medidas |
+| Fachada / obra | `public/images/products/{slug}/fachada.jpg`     | Render del producto en muro  |
 
 **Slugs:** `toscano`, `napolitano`, `romano`, `cartagena`, `macizo-campesino`, `macizo-brix`, `rayados-verticales`, `rayados-horizontales`, `enchape-rustico`, `enchape-romano`, `piso-30x30`, `teja-plana`
 

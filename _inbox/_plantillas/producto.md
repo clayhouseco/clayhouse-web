@@ -3,6 +3,7 @@
 Copia este archivo a `_inbox/productos/{slug}/info.md` y llénalo.
 
 > **¿Es producto nuevo o variante de uno existente?**
+>
 > - **Nuevo**: tiene su propia ficha (ej. Bocadillo Prensado, Teja S).
 > - **Variante**: vive dentro de un producto que ya existe como color/formato (ej. "Teja Plana Chocolate" es variante de "Teja Plana").
 >
@@ -28,18 +29,17 @@ Copia este archivo a `_inbox/productos/{slug}/info.md` y llénalo.
 
 <!-- Escribe aquí -->
 
-
 ## Aplicaciones recomendadas (4-5 viñetas)
 
-- 
-- 
-- 
-- 
+-
+-
+-
+-
 
 ## ¿Para qué NO sirve? (2-3 viñetas, opcional pero útil)
 
-- 
-- 
+-
+-
 
 ## Atributos
 
@@ -52,7 +52,7 @@ Copia este archivo a `_inbox/productos/{slug}/info.md` y llénalo.
 - **Alto**: <!-- ej. "5 cm" -->
 - **Ancho**: <!-- ej. "14 cm" -->
 - **Largo**: <!-- ej. "29 cm" -->
-- **Espesor** (si aplica): 
+- **Espesor** (si aplica):
 - **Peso aproximado**: <!-- ej. "1,8 kg" -->
 - **Rendimiento**: <!-- ej. "68 und/m²" -->
 
@@ -65,23 +65,23 @@ Copia este archivo a `_inbox/productos/{slug}/info.md` y llénalo.
 
 Lista cada variante. Si solo hay una presentación, deja una sola entrada.
 
-| Nombre comercial | Slug carpeta | Precio (opcional) |
-|---|---|---|
-| <!-- Rojo --> | <!-- rojo --> | <!-- $ 2.450 --> |
-| <!-- Matizado --> | <!-- matizado --> | |
-| <!-- Oscuro --> | <!-- oscuro --> | |
+| Nombre comercial  | Slug carpeta      | Precio (opcional) |
+| ----------------- | ----------------- | ----------------- |
+| <!-- Rojo -->     | <!-- rojo -->     | <!-- $ 2.450 -->  |
+| <!-- Matizado --> | <!-- matizado --> |                   |
+| <!-- Oscuro -->   | <!-- oscuro -->   |                   |
 
 ## SEO (opcional, lo redacto yo si lo dejas vacío)
 
-- **Título SEO** (max 60 chars): 
-- **Descripción SEO** (max 160 chars): 
+- **Título SEO** (max 60 chars):
+- **Descripción SEO** (max 160 chars):
 
 ## Especificaciones extra (opcional)
 
 Cualquier dato técnico adicional que no encaje arriba. Lista en formato "campo: valor":
 
-- 
-- 
+-
+-
 
 ---
 

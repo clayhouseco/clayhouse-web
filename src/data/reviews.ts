@@ -46,9 +46,7 @@ export function getAverageRating(list: Review[] = reviews): number {
 
 /** Reseñas de un producto (por nombre exacto), para mostrar en la página. */
 export function getReviewsForProduct(productName: string): Review[] {
-  return reviews.filter(
-    (r) => r.product && r.product.toLowerCase() === productName.toLowerCase()
-  );
+  return reviews.filter((r) => r.product && r.product.toLowerCase() === productName.toLowerCase());
 }
 
 /** Subconjunto que sí puede ir al Schema.org Product → AggregateRating + Review.

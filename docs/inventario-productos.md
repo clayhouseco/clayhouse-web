@@ -22,12 +22,12 @@ registro de quién cambió qué y cuándo.
 
 ### Columnas de la hoja
 
-| Columna    | Obligatoria | Qué va                                                   |
-|------------|-------------|----------------------------------------------------------|
+| Columna    | Obligatoria | Qué va                                                        |
+| ---------- | ----------- | ------------------------------------------------------------- |
 | `slug`     | Sí          | Identificador del producto (ver lista abajo). Debe ser exacto |
-| `producto` | No          | Nombre legible, solo como referencia visual              |
-| `activo`   | Sí          | Casilla marcada = se muestra. También acepta SÍ/NO, 1/0, X |
-| `motivo`   | No          | Nota interna, ej. "sin stock hasta agosto"               |
+| `producto` | No          | Nombre legible, solo como referencia visual                   |
+| `activo`   | Sí          | Casilla marcada = se muestra. También acepta SÍ/NO, 1/0, X    |
+| `motivo`   | No          | Nota interna, ej. "sin stock hasta agosto"                    |
 
 Reglas útiles:
 
@@ -49,7 +49,7 @@ Reglas útiles:
 
 ### 1. Crear la hoja
 
-Crear un Google Sheet llamado *Inventario Clay House* con los encabezados
+Crear un Google Sheet llamado _Inventario Clay House_ con los encabezados
 `slug`, `producto`, `activo`, `motivo` en la primera fila, y una fila por
 producto. Para `activo` conviene usar **Insertar → Casilla de verificación**.
 
@@ -58,7 +58,7 @@ Compartir con el equipo (permiso de edición).
 ### 2. Publicar la hoja como CSV
 
 **Archivo → Compartir → Publicar en la web** → seleccionar la hoja → formato
-**CSV** → *Publicar*. Copiar la URL resultante.
+**CSV** → _Publicar_. Copiar la URL resultante.
 
 > Esta URL es de solo lectura y solo expone qué productos están activos.
 
@@ -83,25 +83,25 @@ la URL.
 En la hoja: **Extensiones → Apps Script**, pegar esto y guardar:
 
 ```javascript
-const DEPLOY_HOOK = 'PEGAR_AQUI_LA_URL_DEL_DEPLOY_HOOK';
+const DEPLOY_HOOK = "PEGAR_AQUI_LA_URL_DEL_DEPLOY_HOOK";
 
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('Clay House')
-    .addItem('Publicar cambios', 'publicarCambios')
+    .createMenu("Clay House")
+    .addItem("Publicar cambios", "publicarCambios")
     .addToUi();
 }
 
 function publicarCambios() {
   const res = UrlFetchApp.fetch(DEPLOY_HOOK, {
-    method: 'post',
+    method: "post",
     muteHttpExceptions: true,
   });
   const ok = res.getResponseCode() < 300;
   SpreadsheetApp.getUi().alert(
     ok
-      ? 'Listo. La web se está actualizando, en 1–2 minutos verás los cambios.'
-      : 'No se pudo publicar (código ' + res.getResponseCode() + '). Avisar a soporte.'
+      ? "Listo. La web se está actualizando, en 1–2 minutos verás los cambios."
+      : "No se pudo publicar (código " + res.getResponseCode() + "). Avisar a soporte."
   );
 }
 ```

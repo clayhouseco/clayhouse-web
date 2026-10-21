@@ -47,27 +47,45 @@ const avisos = [];
 
 const feed = leerFeed();
 if (!feed || !Array.isArray(feed.productos) || !feed.productos.length) {
-  console.error("✗ No hay catálogo del ERP en src/data/erpFeed.json (o viene vacío). Corre `npm run sync`.");
+  console.error(
+    "✗ No hay catálogo del ERP en src/data/erpFeed.json (o viene vacío). Corre `npm run sync`."
+  );
   process.exit(1);
 }
 
 const edad = edadDelFeed(feed);
-if (edad === null) fatales.push("el catálogo no dice cuándo se bajó (`actualizado` ausente o ilegible)");
+if (edad === null)
+  fatales.push("el catálogo no dice cuándo se bajó (`actualizado` ausente o ilegible)");
 else if (edad > DIAS_MAXIMOS)
-  fatales.push(`el catálogo del ERP tiene ${edad.toFixed(0)} días (máximo ${DIAS_MAXIMOS}). Corre \`npm run sync\` y revisa el diff`);
+  fatales.push(
+    `el catálogo del ERP tiene ${edad.toFixed(0)} días (máximo ${DIAS_MAXIMOS}). Corre \`npm run sync\` y revisa el diff`
+  );
 else if (edad > DIAS_AVISO)
-  avisos.push(`el catálogo del ERP tiene ${edad.toFixed(0)} días; conviene sincronizar antes de desplegar`);
+  avisos.push(
+    `el catálogo del ERP tiene ${edad.toFixed(0)} días; conviene sincronizar antes de desplegar`
+  );
 
 /* ── Unidades que la web sabe interpretar ── */
 const UNIDADES = new Set(["unidad", "m2", "ml"]);
 for (const p of feed.productos) {
-  const cruda = String(p.unidad ?? "").trim().toLowerCase();
-  if (!UNIDADES.has(normalizarUnidad(cruda)) || (cruda && !["unidad", "m2", "m²", "mt2", "ml", "mt"].includes(cruda)))
-    fatales.push(`${p.codigo ?? p.id}: unidad de venta "${p.unidad}", que la web no sabe interpretar`);
+  const cruda = String(p.unidad ?? "")
+    .trim()
+    .toLowerCase();
+  if (
+    !UNIDADES.has(normalizarUnidad(cruda)) ||
+    (cruda && !["unidad", "m2", "m²", "mt2", "ml", "mt"].includes(cruda))
+  )
+    fatales.push(
+      `${p.codigo ?? p.id}: unidad de venta "${p.unidad}", que la web no sabe interpretar`
+    );
 }
 
 /* ── Todo producto visible tiene que ser cotizable ── */
-const { slugs: inactivos, fecha: fechaInventario, fuente: fuenteInventario } = inactivosDeInventario();
+const {
+  slugs: inactivos,
+  fecha: fechaInventario,
+  fuente: fuenteInventario,
+} = inactivosDeInventario();
 const codigos = codigosDeLaWeb();
 const codigosErp = new Set(feed.productos.map((p) => p.codigo).filter(Boolean));
 const paginasErp = new Set(feed.productos.map((p) => p.pagina).filter(Boolean));
@@ -105,14 +123,23 @@ for (const f of bloqueos(filas)) fatales.push(`${f.slug} · ${f.campo}: ${f.acci
 fs.writeFileSync(path.join(raiz, "erp-divergencias.md"), reporteMarkdown(feed, filas));
 
 /* ── Lo que se imprime ── */
-const ancho = (s, n) => String(s ?? "").slice(0, n).padEnd(n);
-salida.push(`Catálogo del ERP: ${feed.productos.length} productos · bajado el ${String(feed.actualizado).slice(0, 10)}` +
-  (edad !== null ? ` (hace ${edad.toFixed(0)} día(s))` : ""));
+const ancho = (s, n) =>
+  String(s ?? "")
+    .slice(0, n)
+    .padEnd(n);
+salida.push(
+  `Catálogo del ERP: ${feed.productos.length} productos · bajado el ${String(feed.actualizado).slice(0, 10)}` +
+    (edad !== null ? ` (hace ${edad.toFixed(0)} día(s))` : "")
+);
 salida.push("");
 if (filas.length) {
-  salida.push(`${ancho("PRODUCTO", 22)} ${ancho("CAMPO", 22)} ${ancho("WEB", 26)} ${ancho("ERP", 26)} MANDA`);
+  salida.push(
+    `${ancho("PRODUCTO", 22)} ${ancho("CAMPO", 22)} ${ancho("WEB", 26)} ${ancho("ERP", 26)} MANDA`
+  );
   for (const f of filas)
-    salida.push(`${ancho(f.slug, 22)} ${ancho(f.campo, 22)} ${ancho(f.web, 26)} ${ancho(f.erp, 26)} ${f.manda}`);
+    salida.push(
+      `${ancho(f.slug, 22)} ${ancho(f.campo, 22)} ${ancho(f.web, 26)} ${ancho(f.erp, 26)} ${f.manda}`
+    );
   salida.push("");
   salida.push(`${filas.length} conflicto(s). La acción de cada uno, en erp-divergencias.md`);
 } else {

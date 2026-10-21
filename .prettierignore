@@ -7,3 +7,22 @@ src/data/erpFeed.json
 src/data/inventario.json
 package-lock.json
 audit.json
+
+# Artefactos generados: formatearlos es ruido, y el diagrama de flujo son 20.000
+# líneas que no escribió nadie a mano.
+docs/flujo-datos-erp-web.html
+docs/*.dataflow.json
+
+# LAS PLANTILLAS .astro NO SE FORMATEAN, Y ES A PROPÓSITO.
+#
+# prettier-plugin-astro mete espacios dentro de los elementos en línea:
+# `<a class="btn">ver catálogo</a>` pasa a `<a class="btn"> ver catálogo </a>`.
+# Eso no es cosmético —el espacio se renderiza—, así que un botón en inline-block
+# queda unos píxeles más ancho y el subrayado de un enlace se estira. Comprobado
+# comparando el HTML construido antes y después: cambiaban las 46 páginas.
+# `htmlWhitespaceSensitivity: "strict"` no lo evita; el plugin aplica sus reglas.
+#
+# No hay prueba de regresión visual en este proyecto, así que no hay con qué
+# acotar ese cambio. El resto —TypeScript, scripts, markdown, CSS, JSON— sí se
+# formatea: ahí el formato no puede alterar lo que se publica.
+*.astro

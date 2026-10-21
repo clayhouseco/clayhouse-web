@@ -24,6 +24,7 @@ El ladrillo de fachada F-PV con perforación vertical está diseñado para muros
 **Ideal para:** fachadas residenciales premium, hoteles boutique, restauración patrimonial y proyectos comerciales donde el material es protagonista.
 
 **Ventajas para el especificador:**
+
 - Cumplimiento NTC 4205-2 y NTC 4205-3
 - Trazabilidad de lote
 - Asesoría técnica y detalles constructivos
@@ -33,14 +34,14 @@ El ladrillo de fachada F-PV con perforación vertical está diseñado para muros
 
 ## Tabla especificaciones (completar con datos reales)
 
-| Parámetro | Valor |
-|-----------|-------|
-| Formato nominal | [completar] mm |
-| Tolerancia dimensional | Según NTC 4205-2 |
-| Resistencia a compresión | [completar] MPa |
-| Absorción de agua | [completar] % |
-| Uso recomendado | Fachada no estructural |
-| Junta sugerida | 10–12 mm |
+| Parámetro                | Valor                  |
+| ------------------------ | ---------------------- |
+| Formato nominal          | [completar] mm         |
+| Tolerancia dimensional   | Según NTC 4205-2       |
+| Resistencia a compresión | [completar] MPa        |
+| Absorción de agua        | [completar] %          |
+| Uso recomendado          | Fachada no estructural |
+| Junta sugerida           | 10–12 mm               |
 
 ---
 

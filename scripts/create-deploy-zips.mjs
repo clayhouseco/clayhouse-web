@@ -22,15 +22,7 @@ const imageParts = [
 
 function zipDist(outputName, extraArgs = []) {
   const out = join(outDir, outputName);
-  const args = [
-    "zip",
-    "-r",
-    out,
-    ".",
-    "-x",
-    "*.DS_Store",
-    ...extraArgs,
-  ];
+  const args = ["zip", "-r", out, ".", "-x", "*.DS_Store", ...extraArgs];
   execSync(args.join(" "), { cwd: dist, stdio: "inherit" });
   return out;
 }
@@ -56,10 +48,10 @@ for (const { file, path } of imageParts) {
     continue;
   }
   console.log(`\n→ ${file} (${path})…`);
-  execSync(
-    `zip -r "${join(outDir, file)}" "${path}" -x "*.DS_Store"`,
-    { cwd: dist, stdio: "inherit" },
-  );
+  execSync(`zip -r "${join(outDir, file)}" "${path}" -x "*.DS_Store"`, {
+    cwd: dist,
+    stdio: "inherit",
+  });
 }
 
 console.log("\n── Tamaños ──");

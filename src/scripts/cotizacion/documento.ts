@@ -10,8 +10,18 @@ import type { Cotizacion } from "@/utils/cotizador";
 import { esc, pedir, pesosLargos } from "./config";
 
 const MESES = [
-  "enero", "febrero", "marzo", "abril", "mayo", "junio",
-  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
 ];
 
 function fechaLarga(d: Date): string {

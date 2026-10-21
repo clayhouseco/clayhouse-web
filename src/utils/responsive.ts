@@ -73,10 +73,19 @@ function originalWidth(file: string): number | null {
     if (buf[0] !== 0xff || buf[1] !== 0xd8) return null; // no es JPEG
     let i = 2;
     while (i < buf.length) {
-      if (buf[i] !== 0xff) { i++; continue; }
+      if (buf[i] !== 0xff) {
+        i++;
+        continue;
+      }
       const marker = buf[i + 1];
       // SOF0..SOF15 (excepto DHT/JPG/DAC) llevan las dimensiones
-      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+      if (
+        marker >= 0xc0 &&
+        marker <= 0xcf &&
+        marker !== 0xc4 &&
+        marker !== 0xc8 &&
+        marker !== 0xcc
+      ) {
         return buf.readUInt16BE(i + 7);
       }
       i += 2 + buf.readUInt16BE(i + 2);

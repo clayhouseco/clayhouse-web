@@ -98,7 +98,9 @@ console.log(`Procesadas: ${totals.count}`);
 console.log(`Saltadas:   ${totals.skipped}`);
 console.log(`Antes:      ${fmt(totals.before)}`);
 console.log(`Después:    ${fmt(totals.after)}`);
-console.log(`Ahorrado:   ${fmt(totals.before - totals.after)} (${(((totals.before - totals.after) / totals.before) * 100).toFixed(1)}%)`);
+console.log(
+  `Ahorrado:   ${fmt(totals.before - totals.after)} (${(((totals.before - totals.after) / totals.before) * 100).toFixed(1)}%)`
+);
 if (samples.length) {
   console.log("\nEjemplos de imágenes grandes:");
   for (const s of samples) console.log(`  ${fmt(s.before)} → ${fmt(s.after)}  ${s.file}`);

@@ -34,7 +34,11 @@ const escritas = editorial.map((e) => {
   const ps = porPagina.get(e.slug);
   /* Sin producto en el ERP la ficha se sostiene sola desde el editorial: son productos que la
      web todavía muestra y el ERP dejó de publicar (napolitano, enchape rústico, gran formato). */
-  if (!ps?.length) { const { orden, ...resto } = e; void orden; return resto; }
+  if (!ps?.length) {
+    const { orden, ...resto } = e;
+    void orden;
+    return resto;
+  }
   return fusionar(datosDelErp(ps[0]), e);
 });
 

@@ -32,7 +32,11 @@ import { getErpRendimiento } from "@/utils/productPricing";
 export function fichaConVersion(pdfUrl: string): string | null {
   const archivo = "public" + decodeURIComponent(pdfUrl.split("?")[0]!);
   try {
-    const hash = crypto.createHash("md5").update(fs.readFileSync(archivo)).digest("hex").slice(0, 8);
+    const hash = crypto
+      .createHash("md5")
+      .update(fs.readFileSync(archivo))
+      .digest("hex")
+      .slice(0, 8);
     return `${pdfUrl}?v=${hash}`;
   } catch {
     return null;
@@ -111,7 +115,11 @@ export function galeriaDeProducto(
     { src: assetUrl(product.image), alt: product.name, label: "Producto" },
   ];
   product.gallery?.forEach((ruta, i) => {
-    fotos.push({ src: assetUrl(ruta), alt: `${product.name} — detalle ${i + 1}`, label: "Detalle" });
+    fotos.push({
+      src: assetUrl(ruta),
+      alt: `${product.name} — detalle ${i + 1}`,
+      label: "Detalle",
+    });
   });
   if (product.imageDimensiones) {
     fotos.push({

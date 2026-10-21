@@ -10,12 +10,13 @@ Copia este archivo a `_inbox/blog/{slug}/post.md` y escribe el contenido directa
 ---
 title: "Título del post"
 description: "Resumen de 1-2 líneas para Google y para compartir en redes."
-pubDate: 2026-05-22                  # Fecha en formato YYYY-MM-DD
-type: articulo                       # articulo | proyecto | video | podcast
+pubDate: 2026-05-22 # Fecha en formato YYYY-MM-DD
+type: articulo # articulo | proyecto | video | podcast
 coverImage: "/images/blog/{slug}/portada.jpg"
-featured: false                      # true si quieres destacarlo en /blog
-draft: false                         # true si NO debe publicarse aún
-tags: ["fachadas", "Romano"]         # 2-4 tags relevantes
+featured: false # true si quieres destacarlo en /blog
+draft: false # true si NO debe publicarse aún
+tags: ["fachadas", "Romano"] # 2-4 tags relevantes
+
 
 # --- Campos extra según el tipo ---
 
@@ -50,7 +51,6 @@ Yo me encargo de moverlas a `public/images/blog/{slug}/` al integrar.
 Lo que necesites.
 
 > Citas con `>` al inicio de línea.
-
 ```
 
 ---

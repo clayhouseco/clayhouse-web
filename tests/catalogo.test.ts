@@ -45,7 +45,10 @@ describe("catálogo cotizable", () => {
         filas.map((f) => f.precio).filter((v): v is number => typeof v === "number")
       );
       if (distintosEnErp.size > 1) {
-        expect(precios.size, `${slug} tiene ${distintosEnErp.size} precios en el ERP`).toBeGreaterThan(1);
+        expect(
+          precios.size,
+          `${slug} tiene ${distintosEnErp.size} precios en el ERP`
+        ).toBeGreaterThan(1);
       }
     }
   });

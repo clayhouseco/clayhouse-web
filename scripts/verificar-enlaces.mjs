@@ -75,7 +75,8 @@ for (const pagina of HTML) {
   const html = fs.readFileSync(pagina.archivo, "utf8");
   const destinos = new Set();
 
-  for (const m of html.matchAll(/\s(?:href|src|action|poster)=["']([^"']+)["']/g)) destinos.add(m[1]);
+  for (const m of html.matchAll(/\s(?:href|src|action|poster)=["']([^"']+)["']/g))
+    destinos.add(m[1]);
   /* El srcset lleva varias URLs separadas por coma, cada una con su ancho. */
   for (const m of html.matchAll(/\ssrcset=["']([^"']+)["']/g)) {
     for (const parte of m[1].split(",")) {

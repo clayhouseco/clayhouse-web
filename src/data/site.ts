@@ -15,12 +15,10 @@ export const site = {
   /** Coordenadas exactas de la planta (de la ficha en Google Maps). */
   lat: 6.0444695,
   lng: -75.695905,
-  hours:
-    "Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m.",
+  hours: "Lunes a viernes 7:00 a.m. – 4:00 p.m. · Sábados 7:00 a.m. – 12:00 m.",
   /** Mapa embebido con el CID real de Clay House en Google Maps (1204017223360503098)
    *  → debería mostrar la ficha del negocio sin API key. */
-  mapsEmbedUrl:
-    "https://maps.google.com/maps?cid=1204017223360503098&hl=es&z=17&output=embed",
+  mapsEmbedUrl: "https://maps.google.com/maps?cid=1204017223360503098&hl=es&z=17&output=embed",
   /** Indicaciones en Google Maps al CID real del negocio. */
   mapsDirectionsUrl:
     "https://www.google.com/maps/dir/?api=1&destination=Clay+House&destination_cid=1204017223360503098",
@@ -34,13 +32,7 @@ export const site = {
     "https://script.google.com/macros/s/AKfycbzpaa2dsvGIvPP-sFStBRwmen3JoOv26N8LpOGmhG5WRWztxEG_wz6c59NDcdb28ox9Cw/exec",
 } as const;
 
-export type SocialId =
-  | "facebook"
-  | "instagram"
-  | "youtube"
-  | "pinterest"
-  | "tiktok"
-  | "linkedin";
+export type SocialId = "facebook" | "instagram" | "youtube" | "pinterest" | "tiktok" | "linkedin";
 
 export const socialLinks: {
   id: SocialId;

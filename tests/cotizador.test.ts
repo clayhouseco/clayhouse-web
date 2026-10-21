@@ -17,14 +17,33 @@ import {
 } from "@/utils/cotizador";
 
 const base: Cotizacion = {
-  cliente: { nombre: "Ana Restrepo", telefono: "3001234567", email: "ana@obra.co", proyecto: "Casa Alta" },
+  cliente: {
+    nombre: "Ana Restrepo",
+    telefono: "3001234567",
+    email: "ana@obra.co",
+    proyecto: "Casa Alta",
+  },
   entrega: "obra",
-  ubicacion: { direccion: "Calle 10 #5-20", municipio: "Envigado", departamento: "Antioquia", lat: "6.17", lng: "-75.59" },
+  ubicacion: {
+    direccion: "Calle 10 #5-20",
+    municipio: "Envigado",
+    departamento: "Antioquia",
+    lat: "6.17",
+    lng: "-75.59",
+  },
   lineas: [
     {
-      codigo: "ROM", producto: "Ladrillo Romano", categoria: "Fachadas",
-      colorCodigo: "NAT", colorNombre: "Natural", calidadCodigo: "PRI", calidadNombre: "Primera",
-      cantidad: 500, unidad: "unidad", unidadLabel: "Unidad", precioUnitario: 2450,
+      codigo: "ROM",
+      producto: "Ladrillo Romano",
+      categoria: "Fachadas",
+      colorCodigo: "NAT",
+      colorNombre: "Natural",
+      calidadCodigo: "PRI",
+      calidadNombre: "Primera",
+      cantidad: 500,
+      unidad: "unidad",
+      unidadLabel: "Unidad",
+      precioUnitario: 2450,
     },
   ],
 };
@@ -50,7 +69,9 @@ describe("validación", () => {
   });
 
   it("el correo no es obligatorio: en obra se trabaja por WhatsApp", () => {
-    expect(validarCotizacion({ ...base, cliente: { ...base.cliente, email: undefined } })).toBeNull();
+    expect(
+      validarCotizacion({ ...base, cliente: { ...base.cliente, email: undefined } })
+    ).toBeNull();
   });
 });
 
@@ -118,7 +139,13 @@ describe("fila del ERP", () => {
       ...base,
       lineas: [
         { ...base.lineas[0]!, codigo: null },
-        { ...base.lineas[0]!, codigo: "TOS", producto: "Ladrillo Toscano", cantidad: 100, precioUnitario: 2250 },
+        {
+          ...base.lineas[0]!,
+          codigo: "TOS",
+          producto: "Ladrillo Toscano",
+          cantidad: 100,
+          precioUnitario: 2250,
+        },
       ],
     };
     const f = construirFilaErp(dos) as Record<string, any>;
@@ -137,8 +164,11 @@ describe("notas comerciales", () => {
 
   it("con campaña, el asesor ve de dónde llegó", () => {
     const n = notasComerciales(base, {
-      utm_source: "google", utm_medium: "cpc", utm_campaign: "romano",
-      gclid: "ABC123", landing: "/productos/romano",
+      utm_source: "google",
+      utm_medium: "cpc",
+      utm_campaign: "romano",
+      gclid: "ABC123",
+      landing: "/productos/romano",
     });
     expect(n).toContain("Origen: google / cpc / romano");
     expect(n).toContain("gclid: ABC123");

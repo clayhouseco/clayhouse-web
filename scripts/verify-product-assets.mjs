@@ -17,9 +17,7 @@ if (!fs.existsSync(htmlPath)) {
 }
 
 const html = fs.readFileSync(htmlPath, "utf8");
-const srcs = [
-  ...html.matchAll(/(?:src|href)="(\/images\/[^"?#]+)"/g),
-].map((m) => m[1]);
+const srcs = [...html.matchAll(/(?:src|href)="(\/images\/[^"?#]+)"/g)].map((m) => m[1]);
 
 const unique = [...new Set(srcs)];
 const missing = [];

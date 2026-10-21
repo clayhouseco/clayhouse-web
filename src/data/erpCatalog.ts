@@ -16,7 +16,8 @@
 import { erpDeSlug, erpDeCodigo, type ErpProducto } from "@/data/erpFeed";
 import { UNIDAD_LABEL, normalizarUnidad, unidadDeVenta, type UnidadVenta } from "@/data/unidades";
 
-export type ColorCodigo = "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP" | "TOPO";
+export type ColorCodigo =
+  "NAT" | "MC" | "MO" | "CHO" | "ADO" | "ARE" | "COC" | "BIA" | "CAP" | "TOPO";
 export type CalidadCodigo = "PRI" | "SEG" | "MED";
 /** La unidad de venta se define en un solo lugar —`@/data/unidades`— porque la ficha, el
  *  cotizador y el feed comercial tienen que decir la misma. */
@@ -86,20 +87,85 @@ interface ErpMapEntry {
  * confirmarse contra el ERP: MAC-CAM, BOC-PRE, BLQ, ENC-RUS, ENC-THB, ENC-BOC, NAP.
  */
 const ERP_MAP: Record<string, ErpMapEntry> = {
-  superterras: { codigo: "SUP", coloresPermitidos: ["ARE", "TOPO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  romano: { codigo: "ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
-  toscano: { codigo: "TOS", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI", "MED"], unidad: "unidad" },
-  cartagena: { codigo: "CAR", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  napolitano: { codigo: "NAP", coloresPermitidos: ["NAT", "MC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "enchape-romano": { codigo: "ENC-ROM", coloresPermitidos: ["NAT", "MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "enchape-rustico": { codigo: "ENC-RUS", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "macizo-campesino": { codigo: "MAC-CAM", coloresPermitidos: ["MC", "MO"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "enchape-thinbrick": { codigo: "ENC-THI", coloresPermitidos: ["NAT", "BIA", "CAP", "COC"], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "enchape-bocadillo": { codigo: "ENC-BOC", coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "gran-formato-prensado": { codigo: "GFP", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "bocadillo-prensado": { codigo: "BOC", coloresPermitidos: ["ADO", "ARE", "NAT", "COC"], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "bloquelon": { codigo: "BLO", coloresPermitidos: [], calidadesPermitidas: ["PRI"], unidad: "unidad" },
-  "calado": {
+  superterras: {
+    codigo: "SUP",
+    coloresPermitidos: ["ARE", "TOPO"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  romano: {
+    codigo: "ROM",
+    coloresPermitidos: ["NAT", "MC", "MO"],
+    calidadesPermitidas: ["PRI", "MED"],
+    unidad: "unidad",
+  },
+  toscano: {
+    codigo: "TOS",
+    coloresPermitidos: ["NAT", "MC", "MO"],
+    calidadesPermitidas: ["PRI", "MED"],
+    unidad: "unidad",
+  },
+  cartagena: {
+    codigo: "CAR",
+    coloresPermitidos: ["NAT", "MC", "MO"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  napolitano: {
+    codigo: "NAP",
+    coloresPermitidos: ["NAT", "MC"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  "enchape-romano": {
+    codigo: "ENC-ROM",
+    coloresPermitidos: ["NAT", "MC", "MO"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  "enchape-rustico": {
+    codigo: "ENC-RUS",
+    coloresPermitidos: [],
+    calidadesPermitidas: ["PRI"],
+    unidad: "m2",
+  },
+  "macizo-campesino": {
+    codigo: "MAC-CAM",
+    coloresPermitidos: ["MC", "MO"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  "enchape-thinbrick": {
+    codigo: "ENC-THI",
+    coloresPermitidos: ["NAT", "BIA", "CAP", "COC"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "m2",
+  },
+  "enchape-bocadillo": {
+    codigo: "ENC-BOC",
+    coloresPermitidos: ["NAT"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "m2",
+  },
+  "gran-formato-prensado": {
+    codigo: "GFP",
+    coloresPermitidos: ["ADO", "ARE", "NAT", "COC"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  "bocadillo-prensado": {
+    codigo: "BOC",
+    coloresPermitidos: ["ADO", "ARE", "NAT", "COC"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  bloquelon: {
+    codigo: "BLO",
+    coloresPermitidos: [],
+    calidadesPermitidas: ["PRI"],
+    unidad: "unidad",
+  },
+  calado: {
     porVariante: { "10": "CAL-10", "15": "CAL-15" },
     coloresPermitidos: [],
     calidadesPermitidas: ["PRI"],
@@ -124,8 +190,18 @@ const ERP_MAP: Record<string, ErpMapEntry> = {
     calidadesPermitidas: ["PRI", "SEG"],
     unidad: "unidad",
   },
-  "teja-colonial": { codigo: "TEJ-COL", coloresPermitidos: ["NAT"], calidadesPermitidas: ["PRI"], unidad: "m2" },
-  "teja-plana": { codigo: "TEJ-PLA", coloresPermitidos: ["NAT", "CHO"], calidadesPermitidas: ["PRI"], unidad: "m2" },
+  "teja-colonial": {
+    codigo: "TEJ-COL",
+    coloresPermitidos: ["NAT"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "m2",
+  },
+  "teja-plana": {
+    codigo: "TEJ-PLA",
+    coloresPermitidos: ["NAT", "CHO"],
+    calidadesPermitidas: ["PRI"],
+    unidad: "m2",
+  },
 };
 
 export interface ErpEquivalencia {
@@ -185,8 +261,10 @@ export function erpEquivalencia(slug: string, variantId?: string | null): ErpEqu
   }
 
   const codigo = entry.porVariante
-    ? (variantId ? entry.porVariante[variantId] ?? null : null)
-    : entry.codigo ?? null;
+    ? variantId
+      ? (entry.porVariante[variantId] ?? null)
+      : null
+    : (entry.codigo ?? null);
   const enErp = erpDeCodigo(codigo);
   const colores = coloresDelErp(enErp);
   return {

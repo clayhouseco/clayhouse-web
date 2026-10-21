@@ -30,7 +30,11 @@ const REPORTE = path.join(raiz, "erp-divergencias.md");
 const STRICT = process.argv.includes("--strict");
 
 function leerSnapshot() {
-  try { return JSON.parse(fs.readFileSync(DESTINO, "utf8")); } catch { return null; }
+  try {
+    return JSON.parse(fs.readFileSync(DESTINO, "utf8"));
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -67,7 +71,9 @@ try {
   const antes = leerSnapshot();
   fs.writeFileSync(DESTINO, JSON.stringify(feed, null, 2) + "\n");
   const cambio = JSON.stringify(antes?.productos) !== JSON.stringify(feed.productos);
-  console.log(`ERP → web: ${feed.productos.length} productos publicados${cambio ? "  (el catálogo CAMBIÓ)" : "  (sin cambios)"}`);
+  console.log(
+    `ERP → web: ${feed.productos.length} productos publicados${cambio ? "  (el catálogo CAMBIÓ)" : "  (sin cambios)"}`
+  );
 } catch (e) {
   feed = leerSnapshot();
   const msg = `No se pudo leer el catálogo del ERP (${e.message}).`;
@@ -75,7 +81,10 @@ try {
     console.error(`✗ ${msg} Y no hay copia local para seguir.`);
     process.exit(1);
   }
-  if (STRICT) { console.error(`✗ ${msg}`); process.exit(1); }
+  if (STRICT) {
+    console.error(`✗ ${msg}`);
+    process.exit(1);
+  }
   console.warn(`⚠ ${msg} Se sigue con la última copia bajada (${feed.actualizado}).`);
 }
 

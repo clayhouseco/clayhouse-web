@@ -29,6 +29,7 @@ _inbox/
 ## Cómo trabajar
 
 ### 1) Crea una carpeta nueva
+
 Por cada producto, proyecto o post, crea una carpeta con un **nombre corto en kebab-case**:
 
 - ✅ `bocadillo-prensado`
@@ -37,15 +38,19 @@ Por cada producto, proyecto o post, crea una carpeta con un **nombre corto en ke
 - ❌ `bocadillo_prensado` (subrayados)
 
 ### 2) Copia la plantilla correspondiente
+
 Copia `_inbox/_plantillas/producto.md` (o `proyecto.md` / `blog.md`) dentro de tu carpeta nueva como `info.md` y llénala.
 
 ### 3) Suelta las fotos
+
 Dentro de la subcarpeta `fotos/`. Puedes nombrarlas como sea — yo las renombro al integrarlas.
 
 ### 4) Avísame
+
 Escríbeme "ya cargué `bocadillo-prensado`" y yo lo integro al sitio (lo muevo a `public/images/`, lo agrego a `products.ts`, etc.).
 
 ### 5) Limpieza
+
 Una vez integrado, podemos borrar tu carpeta de `_inbox/` (la info ya queda en el sitio).
 
 ## Reglas para las fotos
@@ -58,12 +63,12 @@ Una vez integrado, podemos borrar tu carpeta de `_inbox/` (la info ya queda en e
 
 ## Convenciones de nombre de carpeta (slugs)
 
-| Tipo | Slug ejemplo |
-|---|---|
-| Producto nuevo | `bocadillo-prensado`, `milano-prensado`, `teja-s` |
+| Tipo                              | Slug ejemplo                                                             |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| Producto nuevo                    | `bocadillo-prensado`, `milano-prensado`, `teja-s`                        |
 | Variante de un producto existente | usar la carpeta del producto + `/variantes/` (ver plantilla de producto) |
-| Proyecto / obra | `casa-finca-llanogrande`, `edificio-aurora`, `plaza-mercado-envigado` |
-| Post de blog | `tendencias-ladrillo-2026`, `proyecto-casa-finca-llanogrande` |
+| Proyecto / obra                   | `casa-finca-llanogrande`, `edificio-aurora`, `plaza-mercado-envigado`    |
+| Post de blog                      | `tendencias-ladrillo-2026`, `proyecto-casa-finca-llanogrande`            |
 
 ---
 

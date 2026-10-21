@@ -120,7 +120,11 @@ describe("galería", () => {
 
   it("todos los productos visibles tienen al menos una foto", () => {
     for (const p of getVisibleProducts()) {
-      const fotos = galeriaDeProducto(p, getProductAssets(p.slug), getProductAssets(p.slug)?.variants[0]?.id ?? "default");
+      const fotos = galeriaDeProducto(
+        p,
+        getProductAssets(p.slug),
+        getProductAssets(p.slug)?.variants[0]?.id ?? "default"
+      );
       expect(fotos.length, p.slug).toBeGreaterThan(0);
     }
   });

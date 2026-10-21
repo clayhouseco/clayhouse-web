@@ -80,18 +80,24 @@ export function codigosDeLaWeb() {
   // Llaves balanceadas, no líneas: en ERP_MAP hay entradas de una línea y de varias, y un
   // recorrido por líneas se salta justo las cortas.
   const re = /^\s{2}"?([a-z0-9-]+)"?:\s*\{/gm;
-  for (let m; (m = re.exec(mapa)); ) {
-    let nivel = 0, i = m.index + m[0].length - 1, fin = i;
+  for (let m; (m = re.exec(mapa));) {
+    let nivel = 0,
+      i = m.index + m[0].length - 1,
+      fin = i;
     for (; i < mapa.length; i++) {
       if (mapa[i] === "{") nivel++;
-      else if (mapa[i] === "}" && --nivel === 0) { fin = i; break; }
+      else if (mapa[i] === "}" && --nivel === 0) {
+        fin = i;
+        break;
+      }
     }
     const cuerpo = mapa.slice(m.index, fin + 1);
     const uno = cuerpo.match(/codigo:\s*"([^"]+)"/);
     if (uno) porCodigo.set(uno[1], { slug: m[1], variante: null });
     const pv = cuerpo.match(/porVariante:\s*\{([^}]*)\}/);
-    if (pv) for (const mm of pv[1].matchAll(/"?([\w.x]+)"?:\s*"([^"]+)"/g))
-      porCodigo.set(mm[2], { slug: m[1], variante: mm[1] });
+    if (pv)
+      for (const mm of pv[1].matchAll(/"?([\w.x]+)"?:\s*"([^"]+)"/g))
+        porCodigo.set(mm[2], { slug: m[1], variante: mm[1] });
   }
   return porCodigo;
 }
@@ -99,7 +105,11 @@ export function codigosDeLaWeb() {
 export function inactivosDeInventario() {
   try {
     const j = JSON.parse(fs.readFileSync(path.join(raiz, "src/data/availability.json"), "utf8"));
-    return { slugs: new Set(j.inactive ?? []), fecha: j.updatedAt ?? null, fuente: j.source ?? null };
+    return {
+      slugs: new Set(j.inactive ?? []),
+      fecha: j.updatedAt ?? null,
+      fuente: j.source ?? null,
+    };
   } catch {
     return { slugs: new Set(), fecha: null, fuente: null };
   }
@@ -116,10 +126,14 @@ export const cm = (v) => {
   return m ? Number.parseFloat(m[1].replace(",", ".")) : null;
 };
 export const medidasErp = (d) =>
-  (String(d ?? "").match(/\d+(?:[.,]\d+)?/g) || []).map((x) => Number.parseFloat(x.replace(",", ".")));
+  (String(d ?? "").match(/\d+(?:[.,]\d+)?/g) || []).map((x) =>
+    Number.parseFloat(x.replace(",", "."))
+  );
 
 export const normalizarUnidad = (raw) => {
-  const v = String(raw ?? "").trim().toLowerCase();
+  const v = String(raw ?? "")
+    .trim()
+    .toLowerCase();
   if (v === "m2" || v === "m²" || v === "mt2") return "m2";
   if (v === "ml" || v === "mt") return "ml";
   return "unidad";
@@ -170,8 +184,15 @@ export const MANDA = {
   ensayo: "Ensayo",
 };
 
-const fila = (slug, campo, web, erp, manda, accion, bloquea = false) =>
-  ({ slug, campo, web, erp, manda, accion, bloquea });
+const fila = (slug, campo, web, erp, manda, accion, bloquea = false) => ({
+  slug,
+  campo,
+  web,
+  erp,
+  manda,
+  accion,
+  bloquea,
+});
 
 /**
  * Todo lo que no coincide, en una sola lista con las seis columnas que pidió la auditoría:
@@ -201,18 +222,43 @@ export function conflictos(feed) {
   /* ── 1. Quién está en cada lista ── */
   for (const p of web) {
     if (porSlug.has(p.slug)) continue;
-    filas.push(fila(p.slug, "publicación", "ficha escrita en la web", "no lo publica", MANDA.erp,
-      "marcar `mostrar_web` en el ERP, o bajar la ficha de la web"));
+    filas.push(
+      fila(
+        p.slug,
+        "publicación",
+        "ficha escrita en la web",
+        "no lo publica",
+        MANDA.erp,
+        "marcar `mostrar_web` en el ERP, o bajar la ficha de la web"
+      )
+    );
   }
   for (const [slug] of porSlug) {
     if (slugsWeb.has(slug)) continue;
-    filas.push(fila(slug, "textos de venta", "ficha armada sola con los datos del ERP", "lo publica", MANDA.web,
-      "escribirle textos de venta y fotos de marca cuando entre al protocolo"));
+    filas.push(
+      fila(
+        slug,
+        "textos de venta",
+        "ficha armada sola con los datos del ERP",
+        "lo publica",
+        MANDA.web,
+        "escribirle textos de venta y fotos de marca cuando entre al protocolo"
+      )
+    );
   }
   for (const p of feed.productos ?? []) {
     if (p.codigo) continue;
-    filas.push(fila(p.pagina ?? p.id, "código", "—", "publicado sin código", MANDA.erp,
-      "asignarle código en el ERP: sin él no se puede cotizar ni inventariar", true));
+    filas.push(
+      fila(
+        p.pagina ?? p.id,
+        "código",
+        "—",
+        "publicado sin código",
+        MANDA.erp,
+        "asignarle código en el ERP: sin él no se puede cotizar ni inventariar",
+        true
+      )
+    );
   }
   /* Fotos que el ERP nombra y el repositorio no tiene. Va acá y no en el repaso campo a
      campo porque ese solo mira los productos con ficha escrita a mano, y un producto nacido
@@ -225,19 +271,43 @@ export function conflictos(feed) {
   const hayArchivo = (u) =>
     fs.existsSync(path.join("public", decodeURIComponent(u).replace(/^\//, "")));
   for (const [slug, filasErp] of porSlug) {
-    const faltantes = [...new Set(filasErp
-      .flatMap((x) => [x.imagen, ...(x.fotos || []), ...(x.colores || []).flatMap((c) => [c.imagen, ...(c.fotos || [])])])
-      .filter((u) => u && !/^https?:/.test(u))
-      .filter((u) => !hayArchivo(u) && !hayArchivo(u.replace(/^\/productos\//, "/images/"))))];
+    const faltantes = [
+      ...new Set(
+        filasErp
+          .flatMap((x) => [
+            x.imagen,
+            ...(x.fotos || []),
+            ...(x.colores || []).flatMap((c) => [c.imagen, ...(c.fotos || [])]),
+          ])
+          .filter((u) => u && !/^https?:/.test(u))
+          .filter((u) => !hayArchivo(u) && !hayArchivo(u.replace(/^\/productos\//, "/images/")))
+      ),
+    ];
     if (faltantes.length)
-      filas.push(fila(slug, "fotos", "no tiene el archivo", faltantes.join(", "), MANDA.web,
-        "subir la foto al repositorio en esa ruta, o quitar la referencia en el ERP"));
+      filas.push(
+        fila(
+          slug,
+          "fotos",
+          "no tiene el archivo",
+          faltantes.join(", "),
+          MANDA.web,
+          "subir la foto al repositorio en esa ruta, o quitar la referencia en el ERP"
+        )
+      );
   }
 
   for (const [codigo, de] of codigos) {
     if (codigosErp.has(codigo)) continue;
-    filas.push(fila(de.slug, "código", codigo, "no existe", MANDA.erp,
-      "crear el código en el ERP, o borrar su entrada de ERP_MAP; mientras tanto el producto no entra al cotizador"));
+    filas.push(
+      fila(
+        de.slug,
+        "código",
+        codigo,
+        "no existe",
+        MANDA.erp,
+        "crear el código en el ERP, o borrar su entrada de ERP_MAP; mientras tanto el producto no entra al cotizador"
+      )
+    );
   }
 
   /* ── 2. Campo a campo ── */
@@ -257,14 +327,23 @@ export function conflictos(feed) {
          Solo cuando el precio lo pone la web hay que llevarlo a la otra unidad, y entonces
          sí importa si se puede. */
       const loResuelveElErp = precioDePagina(filasErp) !== null;
-      const convertible = unidadErp === "m2" && unidadWeb === "unidad" && !!und && !!numero(p.precio);
-      filas.push(fila(slug, "unidad de venta", `precio por ${unidadWeb}`, unidadErp, MANDA.erp,
-        loResuelveElErp
-          ? `la página publica el precio del ERP en su unidad; el escrito a mano en products.ts quedó en ${unidadWeb} y conviene actualizarlo o borrarlo`
-          : convertible
-            ? `la página convierte con el rendimiento del ERP (${und} und/m²); poner el precio por m² en el ERP para no depender de la conversión`
-            : "no hay rendimiento publicado con el que convertir el precio: la página no muestra cifra hasta que el ERP publique precio por m²",
-        !loResuelveElErp && !convertible));
+      const convertible =
+        unidadErp === "m2" && unidadWeb === "unidad" && !!und && !!numero(p.precio);
+      filas.push(
+        fila(
+          slug,
+          "unidad de venta",
+          `precio por ${unidadWeb}`,
+          unidadErp,
+          MANDA.erp,
+          loResuelveElErp
+            ? `la página publica el precio del ERP en su unidad; el escrito a mano en products.ts quedó en ${unidadWeb} y conviene actualizarlo o borrarlo`
+            : convertible
+              ? `la página convierte con el rendimiento del ERP (${und} und/m²); poner el precio por m² en el ERP para no depender de la conversión`
+              : "no hay rendimiento publicado con el que convertir el precio: la página no muestra cifra hasta que el ERP publique precio por m²",
+          !loResuelveElErp && !convertible
+        )
+      );
     }
 
     // Precio. Manda el ERP y la página ya lo usa; el escrito a mano queda como respaldo
@@ -272,11 +351,27 @@ export function conflictos(feed) {
     const pe = precioDePagina(filasErp);
     const pw = numero(p.precio);
     if (pe === null) {
-      filas.push(fila(slug, "precio", p.precio ?? "sin precio", "no publica precio", MANDA.erp,
-        "ponerle precio en el ERP; hoy la página publica el escrito a mano, que nadie revisa"));
+      filas.push(
+        fila(
+          slug,
+          "precio",
+          p.precio ?? "sin precio",
+          "no publica precio",
+          MANDA.erp,
+          "ponerle precio en el ERP; hoy la página publica el escrito a mano, que nadie revisa"
+        )
+      );
     } else if (pw !== null && pe !== pw) {
-      filas.push(fila(slug, "precio", p.precio, `$ ${pe.toLocaleString("es-CO")}`, MANDA.erp,
-        "la página ya publica el del ERP: actualizar o borrar el escrito a mano en products.ts"));
+      filas.push(
+        fila(
+          slug,
+          "precio",
+          p.precio,
+          `$ ${pe.toLocaleString("es-CO")}`,
+          MANDA.erp,
+          "la página ya publica el del ERP: actualizar o borrar el escrito a mano en products.ts"
+        )
+      );
     }
     /**
      * UN PRECIO POR PIEZA ETIQUETADO COMO PRECIO POR METRO.
@@ -295,13 +390,19 @@ export function conflictos(feed) {
       const und = unidadesPorM2(filasErp);
       const porPieza = und ? pe / und : null;
       if (porPieza !== null && piezaMasBarata !== null && porPieza < piezaMasBarata / 4) {
-        filas.push(fila(slug, "precio", p.precio ?? "—",
-          `$ ${pe.toLocaleString("es-CO")} / m² (≈ $ ${Math.round(porPieza).toLocaleString("es-CO")} por pieza)`,
-          MANDA.erp,
-          `con ${und} piezas por m², ese precio por metro sale a menos de lo que cuesta una pieza: ` +
-          `parece el precio de la unidad puesto en un producto que se vende por m². Corregir en el ERP ` +
-          `—precio por m², o unidad «unidad»— antes de publicarlo`,
-          true));
+        filas.push(
+          fila(
+            slug,
+            "precio",
+            p.precio ?? "—",
+            `$ ${pe.toLocaleString("es-CO")} / m² (≈ $ ${Math.round(porPieza).toLocaleString("es-CO")} por pieza)`,
+            MANDA.erp,
+            `con ${und} piezas por m², ese precio por metro sale a menos de lo que cuesta una pieza: ` +
+              `parece el precio de la unidad puesto en un producto que se vende por m². Corregir en el ERP ` +
+              `—precio por m², o unidad «unidad»— antes de publicarlo`,
+            true
+          )
+        );
       }
     }
 
@@ -318,18 +419,34 @@ export function conflictos(feed) {
         /* Un cero no detiene nada: la página ya lo trata como «sin precio» y cae en el
            siguiente que haya. Vale la pena decirlo, no bloquear por ello. */
         const cero = v === 0;
-        filas.push(fila(slug, "precio", p.precio ?? "—", `${de}: $ ${v.toLocaleString("es-CO")}`, MANDA.erp,
-          cero
-            ? "precio en cero en el ERP: la página lo ignora y publica el siguiente que encuentre"
-            : "la cifra del ERP está fuera de todo rango razonable: revisarla antes de publicarla",
-          !cero));
+        filas.push(
+          fila(
+            slug,
+            "precio",
+            p.precio ?? "—",
+            `${de}: $ ${v.toLocaleString("es-CO")}`,
+            MANDA.erp,
+            cero
+              ? "precio en cero en el ERP: la página lo ignora y publica el siguiente que encuentre"
+              : "la cifra del ERP está fuera de todo rango razonable: revisarla antes de publicarla",
+            !cero
+          )
+        );
       }
     }
 
     // Colores: definen el SKU con el que se factura.
     if (filasErp.every((x) => !x.colores?.length)) {
-      filas.push(fila(slug, "colores", "lista escrita en la web", "sus variantes no tienen color", MANDA.erp,
-        "asignar el color a cada variante en el ERP; mientras no lo tenga, el precio por color tampoco viaja"));
+      filas.push(
+        fila(
+          slug,
+          "colores",
+          "lista escrita en la web",
+          "sus variantes no tienen color",
+          MANDA.erp,
+          "asignar el color a cada variante en el ERP; mientras no lo tenga, el precio por color tampoco viaja"
+        )
+      );
     }
 
     // Medidas y peso: ninguno de los dos lados se puede verificar desde un script.
@@ -339,20 +456,46 @@ export function conflictos(feed) {
       const a = [...me].sort((x, y) => x - y).join(" · ");
       const b = [...mw].sort((x, y) => x - y).join(" · ");
       if (a !== b)
-        filas.push(fila(slug, "dimensiones", b, a, MANDA.medicion,
-          "medir la pieza y corregir el lado que esté mal; de esto sale el rendimiento, así que mientras no se resuelva las piezas por m² también están en duda"));
+        filas.push(
+          fila(
+            slug,
+            "dimensiones",
+            b,
+            a,
+            MANDA.medicion,
+            "medir la pieza y corregir el lado que esté mal; de esto sale el rendimiento, así que mientras no se resuelva las piezas por m² también están en duda"
+          )
+        );
     }
-    const ke = e.pesoKg, kw = cm(p.peso);
+    const ke = e.pesoKg,
+      kw = cm(p.peso);
     if (ke && kw && Math.abs(ke - kw) > 0.05)
-      filas.push(fila(slug, "peso", `${kw} kg`, `${ke} kg`, MANDA.medicion,
-        "pesar la pieza y corregir el lado que esté mal"));
+      filas.push(
+        fila(
+          slug,
+          "peso",
+          `${kw} kg`,
+          `${ke} kg`,
+          MANDA.medicion,
+          "pesar la pieza y corregir el lado que esté mal"
+        )
+      );
 
     // Fotos: gerencia decidió traerlas a mano (protocolo de marca).
-    const externas = filasErp.flatMap((x) => [x.imagen, ...(x.fotos || [])]).filter((u) => u && /^https?:/.test(u));
+    const externas = filasErp
+      .flatMap((x) => [x.imagen, ...(x.fotos || [])])
+      .filter((u) => u && /^https?:/.test(u));
     if (externas.length)
-      filas.push(fila(slug, "fotos", "sirve las del repositorio", `${externas.length} foto(s) subidas al ERP`, MANDA.web,
-        "revisar si cumplen el protocolo de marca y bajarlas al repositorio"));
-
+      filas.push(
+        fila(
+          slug,
+          "fotos",
+          "sirve las del repositorio",
+          `${externas.length} foto(s) subidas al ERP`,
+          MANDA.web,
+          "revisar si cumplen el protocolo de marca y bajarlas al repositorio"
+        )
+      );
   }
 
   /* ── 3. Las fichas técnicas en PDF ──
@@ -364,11 +507,15 @@ export function conflictos(feed) {
   for (const [slug, campo, enFicha, enErp] of [...fichas.fisicos, ...fichas.textuales]) {
     const c = String(campo).toLowerCase();
     const manda =
-      c === "norma" ? MANDA.norma
-      : c === "titulo" ? MANDA.web
-      : c === "colores" ? MANDA.web
-      : /resistencia|absorci|tolerancia|eflorescencia/.test(c) ? MANDA.ensayo
-      : MANDA.medicion;
+      c === "norma"
+        ? MANDA.norma
+        : c === "titulo"
+          ? MANDA.web
+          : c === "colores"
+            ? MANDA.web
+            : /resistencia|absorci|tolerancia|eflorescencia/.test(c)
+              ? MANDA.ensayo
+              : MANDA.medicion;
     const accion =
       manda === MANDA.norma
         ? "confirmar qué norma le aplica por su uso y dejar la misma en los dos lados"
@@ -380,8 +527,16 @@ export function conflictos(feed) {
     filas.push(fila(slug, `ficha · ${campo}`, enFicha, enErp, manda, accion));
   }
   for (const slug of fichas.huerfanas)
-    filas.push(fila(slug, "ficha · publicación", "PDF publicado", "no lo publica", MANDA.erp,
-      "o se marca `mostrar_web` en el ERP, o se baja el PDF de la web"));
+    filas.push(
+      fila(
+        slug,
+        "ficha · publicación",
+        "PDF publicado",
+        "no lo publica",
+        MANDA.erp,
+        "o se marca `mostrar_web` en el ERP, o se baja el PDF de la web"
+      )
+    );
 
   return filas;
 }
@@ -422,6 +577,8 @@ export function reporteMarkdown(feed, filas) {
     `  «20 MPa» y «2 MPa» no hay criterio que valga: hay un ensayo que lo dice.\n\n` +
     `Las filas que empiezan por \`ficha ·\` son del PDF que el cliente descarga; el resto, de la\n` +
     `página del producto. Son dos sitios donde el mismo dato puede quedarse viejo por separado.\n\n` +
-    (secciones.length ? secciones.join("\n\n") + "\n" : "Sin conflictos: los dos lados dicen lo mismo.\n")
+    (secciones.length
+      ? secciones.join("\n\n") + "\n"
+      : "Sin conflictos: los dos lados dicen lo mismo.\n")
   );
 }

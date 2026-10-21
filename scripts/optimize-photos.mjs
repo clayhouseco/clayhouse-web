@@ -19,9 +19,16 @@ const MIN_SAVING = 0.1; // 10%
 const DRY = process.argv.includes("--dry");
 
 const files = execSync(`find public/images -iname "*.jpg" -o -iname "*.jpeg"`)
-  .toString().trim().split("\n").filter(Boolean);
+  .toString()
+  .trim()
+  .split("\n")
+  .filter(Boolean);
 
-let before = 0, after = 0, rewritten = 0, skipped = 0, failed = 0;
+let before = 0,
+  after = 0,
+  rewritten = 0,
+  skipped = 0,
+  failed = 0;
 
 for (const f of files) {
   try {
@@ -46,4 +53,6 @@ const mb = (b) => (b / 1048576).toFixed(1);
 console.log(
   `${DRY ? "[simulación] " : ""}${rewritten} recomprimidas · ${skipped} ya estaban bien · ${failed} fallos`
 );
-console.log(`Peso: ${mb(before)} MB → ${mb(after)} MB  (-${(100 - (after / before) * 100).toFixed(0)}%)`);
+console.log(
+  `Peso: ${mb(before)} MB → ${mb(after)} MB  (-${(100 - (after / before) * 100).toFixed(0)}%)`
+);

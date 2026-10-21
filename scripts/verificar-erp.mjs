@@ -19,21 +19,34 @@ const cuerpo = txt.slice(ini, txt.indexOf("\n};", ini));
 
 const web = [];
 const re = /^\s{2}"?([a-z0-9-]+)"?:\s*\{/gm;
-for (let m; (m = re.exec(cuerpo)); ) {
-  let nivel = 0, i = m.index + m[0].length - 1, fin = i;
+for (let m; (m = re.exec(cuerpo));) {
+  let nivel = 0,
+    i = m.index + m[0].length - 1,
+    fin = i;
   for (; i < cuerpo.length; i++) {
     if (cuerpo[i] === "{") nivel++;
-    else if (cuerpo[i] === "}") { nivel--; if (nivel === 0) { fin = i; break; } }
+    else if (cuerpo[i] === "}") {
+      nivel--;
+      if (nivel === 0) {
+        fin = i;
+        break;
+      }
+    }
   }
   const b = cuerpo.slice(m.index, fin + 1);
   const uno = b.match(/codigo:\s*"([^"]+)"/);
   if (uno) web.push({ slug: m[1], codigo: uno[1] });
   const pv = b.match(/porVariante:\s*\{([^}]*)\}/);
-  if (pv) for (const mm of pv[1].matchAll(/"?([\w.x]+)"?:\s*"([^"]+)"/g)) web.push({ slug: m[1], variante: mm[1], codigo: mm[2] });
+  if (pv)
+    for (const mm of pv[1].matchAll(/"?([\w.x]+)"?:\s*"([^"]+)"/g))
+      web.push({ slug: m[1], variante: mm[1], codigo: mm[2] });
 }
 
 const r = await fetch(URL_ERP);
-if (!r.ok) { console.error(`No pude leer el catálogo del ERP (${URL_ERP}): HTTP ${r.status}`); process.exit(1); }
+if (!r.ok) {
+  console.error(`No pude leer el catálogo del ERP (${URL_ERP}): HTTP ${r.status}`);
+  process.exit(1);
+}
 const { productos } = await r.json();
 const enErp = new Map(productos.map((p) => [p.codigo, p]));
 
@@ -45,7 +58,8 @@ console.log(`Catálogo de la web: ${web.length} códigos mapeados\n`);
 
 if (rotos.length) {
   console.error("❌ Códigos de la web que NO existen en el catálogo publicado del ERP:");
-  for (const w of rotos) console.error(`   ${w.codigo.padEnd(10)} ← ${w.slug}${w.variante ? ` (${w.variante})` : ""}`);
+  for (const w of rotos)
+    console.error(`   ${w.codigo.padEnd(10)} ← ${w.slug}${w.variante ? ` (${w.variante})` : ""}`);
   console.error("\n   Una cotización con estos códigos no se puede cargar al ERP.");
 }
 if (sinPublicar.length) {
@@ -54,7 +68,8 @@ if (sinPublicar.length) {
      restringir colores o calidades, o cuando una página agrupa varios formatos. Decir que
      «no se ofrecen» mandó a buscar un problema que no existía con el Catalán. */
   console.log("\n· Publicados en el ERP y sin entrada en ERP_MAP:");
-  for (const p of sinPublicar) console.log(`   ${String(p.codigo).padEnd(10)} ${p.nombre} → /${p.pagina}`);
+  for (const p of sinPublicar)
+    console.log(`   ${String(p.codigo).padEnd(10)} ${p.nombre} → /${p.pagina}`);
   console.log("   Se cotizan con el código del ERP. Solo hace falta mapearlos para limitar");
   console.log("   colores o calidades, o si la página agrupa varios formatos.");
 }

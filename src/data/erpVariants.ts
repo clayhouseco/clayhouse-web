@@ -31,7 +31,8 @@ import type { ProductColorVariant } from "@/data/productVariants";
 /** «Matizado Claro» → «matizado-claro»: la llave del botón y el nombre de la carpeta de fotos. */
 export function idDeColor(nombre: string): string {
   return nombre
-    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
@@ -39,7 +40,9 @@ export function idDeColor(nombre: string): string {
 
 /** 2500 → «$ 2.500», como lo escribe el resto del sitio. */
 export function precioTexto(valor: number | null | undefined): string | undefined {
-  return typeof valor === "number" && valor > 0 ? `$ ${Math.round(valor).toLocaleString("es-CO")}` : undefined;
+  return typeof valor === "number" && valor > 0
+    ? `$ ${Math.round(valor).toLocaleString("es-CO")}`
+    : undefined;
 }
 
 /** Las fotos que el ERP publica para un color, la portada primero y sin repetir. */

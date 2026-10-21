@@ -30,4 +30,3 @@ export const brandClients: BrandEntry[] = [
   { id: "conexo", name: "Conexo" },
   { id: "inge-sas", name: "Inge SAS" },
 ];
-

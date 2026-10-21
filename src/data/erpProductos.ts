@@ -64,7 +64,10 @@ function especificacionesDe(p: ErpProducto): { etiqueta: string; valor: string }
 /** «5*11*38» → «5 × 11 × 38 cm», para poder decir la medida en una frase. */
 function medidaLegible(dimension: string | null): string {
   if (!dimension) return "";
-  const partes = dimension.split(/[*x×]/).map((x) => x.trim()).filter(Boolean);
+  const partes = dimension
+    .split(/[*x×]/)
+    .map((x) => x.trim())
+    .filter(Boolean);
   return partes.length ? `${partes.join(" × ")} cm` : "";
 }
 
@@ -97,23 +100,40 @@ function productoDeErp(ps: ErpProducto[], slug: string): Product {
   const colores = (p.colores ?? []).map((c) => c.nombre);
 
   /* La descripción dice lo que es y cuánto mide. Ver la nota de arriba: acá no se inventa. */
-  const factual = [p.nombre, medida && `de ${medida}`, "en arcilla cocida"].filter(Boolean).join(" ") + ".";
+  const factual =
+    [p.nombre, medida && `de ${medida}`, "en arcilla cocida"].filter(Boolean).join(" ") + ".";
   const descripcion = (p.descripcion ?? "").trim() || factual;
 
   /* La ficha ya muestra la textura, el color, las medidas y el peso como campos propios: si
      además viajan en `specs` la tabla los repite. */
-  const YA_LOS_MUESTRA = ["textura", "acabado", "color", "colores", "dimensiones", "medidas", "peso"];
+  const YA_LOS_MUESTRA = [
+    "textura",
+    "acabado",
+    "color",
+    "colores",
+    "dimensiones",
+    "medidas",
+    "peso",
+  ];
   const specs: ProductSpec[] = especificacionesDe(p)
     .filter((e) => !YA_LOS_MUESTRA.includes(norm(e.etiqueta)))
     .map((e) => ({ label: e.etiqueta, value: e.valor }));
   if (p.rendimiento && !specs.some((s) => norm(s.label) === "rendimiento")) {
     /* En Colombia el decimal va con coma. El ERP manda «10.5» y la ficha lo ponía tal cual,
        justo al lado de «3,3 kg»: dos formas de escribir un decimal en la misma tabla. */
-    specs.push({ label: "Rendimiento", value: `${String(p.rendimiento).replace(/(\d)\.(\d)/g, "$1,$2")} und/m²` });
+    specs.push({
+      label: "Rendimiento",
+      value: `${String(p.rendimiento).replace(/(\d)\.(\d)/g, "$1,$2")} und/m²`,
+    });
   }
 
   const desde = precioDesde(p);
-  const partes = unicoFormato ? (p.dimension ?? "").split(/[*x×]/).map((x) => x.trim()).filter(Boolean) : [];
+  const partes = unicoFormato
+    ? (p.dimension ?? "")
+        .split(/[*x×]/)
+        .map((x) => x.trim())
+        .filter(Boolean)
+    : [];
   const nums = partes.map((x) => Number(x.replace(",", "."))).filter((n) => Number.isFinite(n));
 
   return {
@@ -130,20 +150,23 @@ function productoDeErp(ps: ErpProducto[], slug: string): Product {
     featured: false,
     seoTitle: `${p.nombre} | Clay House`,
     seoDescription: [descripcion, norma && `Norma ${norma}.`, "Fabricado en Amagá, Antioquia."]
-      .filter(Boolean).join(" ").slice(0, 300),
+      .filter(Boolean)
+      .join(" ")
+      .slice(0, 300),
     image: fotosDelErp([p.imagen])[0] ?? "",
     gallery: fotosDelErp(p.fotos ?? []),
     /* De «5*11*38» el ERP escribe espesor, ancho y largo; la ficha quiere largo y alto, y el
        largo de un ladrillo es siempre su medida mayor. */
-    dimensions: nums.length === 3
-      ? {
-          largo: `${Math.max(...nums)} cm`,
-          alto: `${Math.min(...nums)} cm`,
-          ancho: `${nums.slice().sort((a, b) => a - b)[1]} cm`,
-          pesoAprox: p.pesoKg ? `${String(p.pesoKg).replace(".", ",")} kg` : undefined,
-          rendimiento: p.rendimiento ? `${p.rendimiento} und/m²` : undefined,
-        }
-      : undefined,
+    dimensions:
+      nums.length === 3
+        ? {
+            largo: `${Math.max(...nums)} cm`,
+            alto: `${Math.min(...nums)} cm`,
+            ancho: `${nums.slice().sort((a, b) => a - b)[1]} cm`,
+            pesoAprox: p.pesoKg ? `${String(p.pesoKg).replace(".", ",")} kg` : undefined,
+            rendimiento: p.rendimiento ? `${p.rendimiento} und/m²` : undefined,
+          }
+        : undefined,
     pricePerUnit: precioTexto(desde),
     /* El precio del ERP ya viene en la unidad del ERP: acá no hay nada que convertir, solo
        nombrarla igual que en el resto de la web. */
@@ -164,13 +187,13 @@ export function productosNacidosEnErp(escritos: ReadonlySet<string>): Product[] 
   for (const p of erpProductos) {
     if (!p.pagina || escritos.has(p.pagina)) continue;
     const ps = porPagina.get(p.pagina);
-    if (ps) ps.push(p); else porPagina.set(p.pagina, [p]);
+    if (ps) ps.push(p);
+    else porPagina.set(p.pagina, [p]);
   }
   return [...porPagina.entries()]
     .sort((a, b) => (a[1][0].orden || 0) - (b[1][0].orden || 0))
     .map(([slug, ps]) => productoDeErp(ps, slug));
 }
-
 
 /**
  * LAS FOTOS DEL ERP, TRADUCIDAS A DONDE DE VERDAD ESTÁN.
@@ -241,7 +264,9 @@ export function conDatosDelErp(p: Product): Product {
    * anunciado «desde $3.190», que es el más caro: subirle el precio al cliente por un detalle
    * de cómo está ordenado un arreglo.
    */
-  const desde = ps.map(precioDesde).filter((v): v is number => typeof v === "number" && v > 0)
+  const desde = ps
+    .map(precioDesde)
+    .filter((v): v is number => typeof v === "number" && v > 0)
     .reduce<number | null>((min, v) => (min === null || v < min ? v : min), null);
 
   /**
@@ -281,7 +306,8 @@ export function conDatosDelErp(p: Product): Product {
      * otro: un «desde» por pieza debajo de un precio por m² son dos escalas en dos líneas.
      */
     priceFrom: p.priceFrom
-      ? precioDelErp ?? precioEnUnidadDeVenta(p.slug, p.priceFrom, unidadDelLiteral, unidad)?.texto
+      ? (precioDelErp ??
+        precioEnUnidadDeVenta(p.slug, p.priceFrom, unidadDelLiteral, unidad)?.texto)
       : p.priceFrom,
   };
 }

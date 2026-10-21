@@ -30,11 +30,20 @@ const FEED = path.resolve(AQUI, "../../src/data/erpFeed.json");
 
 /** «2,5» → 2.5 · «14» → 14 · cualquier otra cosa → null */
 const num = (s) => {
-  const n = Number(String(s ?? "").trim().replace(",", "."));
+  const n = Number(
+    String(s ?? "")
+      .trim()
+      .replace(",", ".")
+  );
   return Number.isFinite(n) ? n : null;
 };
 const fmt = (n) => String(n).replace(".", ",");
-const norm = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+const norm = (s) =>
+  String(s ?? "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .trim();
 
 /**
  * La llave de una fila de la tabla técnica: su etiqueta sin tildes, sin mayúsculas y EN
@@ -42,7 +51,11 @@ const norm = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toL
  * misma fila, y sin esto salía dos veces en el PDF.
  */
 export const claveFila = (etiqueta) =>
-  norm(etiqueta).replace(/\.$/, "").split(/\s+/).map((w) => w.replace(/(?:es|s)$/, "")).join(" ");
+  norm(etiqueta)
+    .replace(/\.$/, "")
+    .split(/\s+/)
+    .map((w) => w.replace(/(?:es|s)$/, ""))
+    .join(" ");
 
 /**
  * «6*15*30» → [30, 15, 6]: de mayor a menor.
@@ -52,7 +65,10 @@ export const claveFila = (etiqueta) =>
  * el largo de una pieza es su medida mayor sí se cumple siempre.
  */
 export function medidas(dimension) {
-  const xs = String(dimension ?? "").split(/[*x×]/).map(num).filter((n) => n !== null);
+  const xs = String(dimension ?? "")
+    .split(/[*x×]/)
+    .map(num)
+    .filter((n) => n !== null);
   return xs.length === 3 ? xs.sort((a, b) => b - a) : [];
 }
 
@@ -91,7 +107,8 @@ export function catalogoDelErp() {
   for (const p of feed.productos ?? []) {
     if (!p.pagina) continue;
     const ps = porPagina.get(p.pagina);
-    if (ps) ps.push(p); else porPagina.set(p.pagina, ps ?? [p]);
+    if (ps) ps.push(p);
+    else porPagina.set(p.pagina, ps ?? [p]);
   }
   return { porPagina, actualizado: feed.actualizado ?? "" };
 }
@@ -133,7 +150,8 @@ export function datosDelErp(p) {
   };
   const norma = espec(p, "Norma");
   if (norma) datos.norma = norma;
-  if (m.length === 3) datos.dims = { largo: `${fmt(m[0])} cm`, ancho: `${fmt(m[1])} cm`, alto: `${fmt(m[2])} cm` };
+  if (m.length === 3)
+    datos.dims = { largo: `${fmt(m[0])} cm`, ancho: `${fmt(m[1])} cm`, alto: `${fmt(m[2])} cm` };
   const colores = (p.colores ?? []).filter((c) => c.hex).map((c) => [c.nombre, c.hex]);
   if (colores.length) datos.colores = colores;
   return datos;
@@ -152,7 +170,8 @@ export function fusionar(delErp, editorial) {
     const base = delErp.specsRow.map((f) => [...f]);
     for (const fila of editorial?.specsRow ?? []) {
       const i = base.findIndex((f) => claveFila(f[1]) === claveFila(fila[1]));
-      if (i >= 0) base[i] = fila; else base.push(fila);
+      if (i >= 0) base[i] = fila;
+      else base.push(fila);
     }
     /**
      * EL ORDEN DE LAS FILAS LO DECIDE LA FICHA, NO EL ERP.

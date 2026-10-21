@@ -8,13 +8,13 @@ Qué pesaba, qué pesa ahora y qué queda por decidir.
 
 Lighthouse móvil, contra el sitio publicado, antes y después de la Fase 4:
 
-| Página | Rendimiento | LCP | CLS | Peso total |
-|---|---|---|---|---|
-| Inicio | 94 → **100** | 3,0 s → **1,3 s** | 0,000 → 0,001 | 1.902 → **664 KB** |
-| Catálogo | — → **100** | — → **1,3 s** | 0,012 | **565 KB** |
-| Ficha del Romano | 91 → **99** | 3,5 s → **1,9 s** | 0,000 → 0,000 | 835 → **516 KB** |
-| Cotizador | 98 → **100** | 1,8 s → **1,2 s** | 0,026 → 0,033 | 3.199 → **475 KB** |
-| Blog | — → **100** | — → **1,4 s** | 0,006 | **768 KB** |
+| Página           | Rendimiento  | LCP               | CLS           | Peso total         |
+| ---------------- | ------------ | ----------------- | ------------- | ------------------ |
+| Inicio           | 94 → **100** | 3,0 s → **1,3 s** | 0,000 → 0,001 | 1.902 → **664 KB** |
+| Catálogo         | — → **100**  | — → **1,3 s**     | 0,012         | **565 KB**         |
+| Ficha del Romano | 91 → **99**  | 3,5 s → **1,9 s** | 0,000 → 0,000 | 835 → **516 KB**   |
+| Cotizador        | 98 → **100** | 1,8 s → **1,2 s** | 0,026 → 0,033 | 3.199 → **475 KB** |
+| Blog             | — → **100**  | — → **1,4 s**     | 0,006         | **768 KB**         |
 | Artículo técnico | 83 → **100** | 4,7 s → **1,4 s** | 0,014 → 0,050 | 1.491 → **635 KB** |
 
 Los objetivos de la auditoría —LCP bajo 2,5 s, rendimiento sobre 90, CLS cerca de 0, página
@@ -24,13 +24,13 @@ para la fase de accesibilidad y diseño.
 
 Y lo que se descarga al abrir la página, simulando un teléfono de 390 px:
 
-| | Antes | Ahora |
-|---|---|---|
-| Inicio | 506 KB | **241 KB** |
-| Catálogo | 217 KB | **162 KB** |
-| Ficha del Romano | 577 KB | **354 KB** |
-| Artículo del blog | 365 KB | **157 KB** |
-| Carrusel del cotizador | 2.784 KB | **90 KB** |
+|                        | Antes    | Ahora      |
+| ---------------------- | -------- | ---------- |
+| Inicio                 | 506 KB   | **241 KB** |
+| Catálogo               | 217 KB   | **162 KB** |
+| Ficha del Romano       | 577 KB   | **354 KB** |
+| Artículo del blog      | 365 KB   | **157 KB** |
+| Carrusel del cotizador | 2.784 KB | **90 KB**  |
 
 ---
 
@@ -65,12 +65,12 @@ cuerpo no declaraban medidas, que es lo que provoca el salto de maquetación mie
 
 `scripts/generate-responsive.mjs` genera, de cada foto, lo que hace falta en cada sitio:
 
-| Ancho | Dónde se usa |
-|---|---|
-| 320 | miniaturas: carrusel del cotizador, tira del visor |
-| 480 | tarjeta en teléfono |
-| 800 | tarjeta en escritorio, galería en teléfono |
-| 1200 | galería grande y visor a pantalla completa |
+| Ancho | Dónde se usa                                       |
+| ----- | -------------------------------------------------- |
+| 320   | miniaturas: carrusel del cotizador, tira del visor |
+| 480   | tarjeta en teléfono                                |
+| 800   | tarjeta en escritorio, galería en teléfono         |
+| 1200  | galería grande y visor a pantalla completa         |
 
 Se exportan en WebP —pesa ~15% menos que el JPEG equivalente— y el archivo original queda
 como `src` de respaldo para quien no lo soporte. Son artefactos de build: no se versionan y

@@ -74,7 +74,10 @@ limpiar(OUT_ROOT);
 
 const files = fs.existsSync(SRC_ROOT) ? recorrer(SRC_ROOT) : [];
 
-let creadas = 0, enCache = 0, innecesarias = 0, fallos = 0;
+let creadas = 0,
+  enCache = 0,
+  innecesarias = 0,
+  fallos = 0;
 
 for (const src of files) {
   let meta;
@@ -92,19 +95,30 @@ for (const src of files) {
 
   for (const w of WIDTHS) {
     // Sin sentido agrandar: si el original ya es más chico, no hay variante.
-    if (!meta.width || meta.width <= w) { innecesarias++; continue; }
+    if (!meta.width || meta.width <= w) {
+      innecesarias++;
+      continue;
+    }
     const out = path.join(dir, `${base}-${w}.webp`);
     if (!FORCE && fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs) {
       enCache++;
       continue;
     }
     fs.mkdirSync(dir, { recursive: true });
-    await sharp(src).rotate().resize({ width: w }).webp({ quality: CALIDAD(w) }).toFile(out);
+    await sharp(src)
+      .rotate()
+      .resize({ width: w })
+      .webp({ quality: CALIDAD(w) })
+      .toFile(out);
     creadas++;
   }
 }
 
-const partes = [`${creadas} generadas`, `${enCache} en caché`, `${innecesarias} innecesarias (original más chico)`];
+const partes = [
+  `${creadas} generadas`,
+  `${enCache} en caché`,
+  `${innecesarias} innecesarias (original más chico)`,
+];
 if (borradas) partes.push(`${borradas} obsoletas borradas`);
 if (fallos) partes.push(`${fallos} fallos`);
 console.log(`[responsive] ${partes.join(" · ")}`);

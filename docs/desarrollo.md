@@ -55,21 +55,30 @@ un doble antes de pulsar cualquier botón; `probar:cotizador` no pulsa ningún b
 
 ## 3. Qué comprueba cada herramienta, y qué no
 
-| Herramienta | Para qué sirve | Qué NO cubre |
-|---|---|---|
-| `npm run check` (`astro check`) | Tipos, imports sin usar, variables muertas, también dentro de los `.astro` | Lo que compila bien y está mal |
-| `npm run lint` (ESLint) | Lo que los tipos dejan pasar: carreras entre `await`, `==` flojo, llaves repetidas | Estilo (eso es Prettier) |
-| `npm test` (vitest) | Precios, unidades, catálogo, sitemap, feed de Merchant, cotizador, ficha de producto | Nada que necesite navegador |
-| `probar:*` | El navegador de verdad: medición, accesibilidad, teclado, el recorrido comercial | El aspecto visual |
+| Herramienta                     | Para qué sirve                                                                       | Qué NO cubre                   |
+| ------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------ |
+| `npm run check` (`astro check`) | Tipos, imports sin usar, variables muertas, también dentro de los `.astro`           | Lo que compila bien y está mal |
+| `npm run lint` (ESLint)         | Lo que los tipos dejan pasar: carreras entre `await`, `==` flojo, llaves repetidas   | Estilo (eso es Prettier)       |
+| `npm test` (vitest)             | Precios, unidades, catálogo, sitemap, feed de Merchant, cotizador, ficha de producto | Nada que necesite navegador    |
+| `probar:*`                      | El navegador de verdad: medición, accesibilidad, teclado, el recorrido comercial     | El aspecto visual              |
 
 Las reglas de ESLint están elegidas a mano y comentadas en `eslint.config.mjs`: las que
 `astro check` ya cubre están apagadas a propósito, para no leer el mismo aviso dos veces.
 
-**Formato.** `npm run format` pasa Prettier por todo. Hoy el repositorio **no** está
-formateado: pasarlo cambia unos 65 archivos (+3.200 / −3.700 líneas) sin cambiar una sola
-línea de comportamiento. Es una decisión pendiente y conviene hacerla en un commit propio,
-nunca mezclada con un cambio de código: si no, el cambio de verdad se vuelve ilegible en la
-revisión. Por eso `format:check` existe pero **no** está en el CI.
+**Formato.** `npm run format` pasa Prettier; `format:check` lo verifica y está en el CI. El
+repositorio quedó formateado el 21 de octubre de 2026, en un commit propio.
+
+**Las plantillas `.astro` quedan fuera, y es a propósito.** `prettier-plugin-astro` mete
+espacios dentro de los elementos en línea: `<a class="btn">ver catálogo</a>` pasa a
+`<a class="btn"> ver catálogo </a>`. Eso no es cosmético —el espacio se renderiza—, así que
+un botón en `inline-block` queda unos píxeles más ancho y el subrayado de un enlace se
+estira. Se comprobó comparando el HTML construido antes y después: cambiaban las 46 páginas.
+`htmlWhitespaceSensitivity: "strict"` no lo evita. Sin prueba de regresión visual no hay con
+qué acotar ese cambio, así que el formato se aplica donde no puede alterar lo que se publica:
+TypeScript, scripts, markdown, CSS y JSON.
+
+Fuera también los artefactos generados (`docs/flujo-datos-erp-web.html`), donde formatear es
+ruido: 20.000 líneas que no escribió nadie a mano.
 
 ---
 

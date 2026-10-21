@@ -26,13 +26,13 @@ Guía detallada para la app de escritorio. Asumes que **ya cambiaste el fondo** 
 
 De arriba hacia abajo (los iconos verticales, **no** el panel Insert que ya conoces):
 
-| Si el icono parece… | Se llama | Para qué |
-|---------------------|--------|----------|
-| Páginas / lista | **Pages** | Ver Home, Shop, About, Contact… |
-| Signo **+** | **Insert** | Añadir Sections, Forms… (ya lo tienes abierto) |
-| Cuadrados / capas apiladas | **Assets** | **Colors** y **Text** styles (marca) |
-| Base de datos | **CMS** | Productos, proyectos, blog |
-| Cubo / piezas | **Components** | Piezas reutilizables (Nav, Footer…) |
+| Si el icono parece…        | Se llama       | Para qué                                       |
+| -------------------------- | -------------- | ---------------------------------------------- |
+| Páginas / lista            | **Pages**      | Ver Home, Shop, About, Contact…                |
+| Signo **+**                | **Insert**     | Añadir Sections, Forms… (ya lo tienes abierto) |
+| Cuadrados / capas apiladas | **Assets**     | **Colors** y **Text** styles (marca)           |
+| Base de datos              | **CMS**        | Productos, proyectos, blog                     |
+| Cubo / piezas              | **Components** | Piezas reutilizables (Nav, Footer…)            |
 
 **Importante:** Colores y fuentes globales están en **Assets**, no en Insert.
 
@@ -47,21 +47,21 @@ Si no ves la barra: menú macOS **Window** → marca **Toolbar**, **Pages**, **A
 3. Clic en **+** (Add) o **New Color Style**.
 4. Crea cada color con **nombre** y **HEX**:
 
-| Name (en Assets) | Hex |
-|------------------|-----|
+| Name (en Assets)  | Hex       |
+| ----------------- | --------- |
 | chocolateProfundo | `#472410` |
-| terracotaClay | `#7C482C` |
-| salmonSuave | `#F99A91` |
-| coralVivo | `#EF5843` |
-| ambarArcilla | `#F2A141` |
-| fondoNeutro | `#FFFBF9` |
+| terracotaClay     | `#7C482C` |
+| salmonSuave       | `#F99A91` |
+| coralVivo         | `#EF5843` |
+| ambarArcilla      | `#F2A141` |
+| fondoNeutro       | `#FFFBF9` |
 
 5. Para asignar un color a un elemento:
    - Clic en ese elemento en el **canvas**
    - Panel **derecho** → sección **Fill** (o **Background**)
    - Clic en el cuadro de color → elige tu **Color Style** (ej. `terracotaClay`)
 
-*(El fondo de página ya lo hiciste; usa el mismo método para botones y el menú superior.)*
+_(El fondo de página ya lo hiciste; usa el mismo método para botones y el menú superior.)_
 
 ---
 
@@ -97,6 +97,7 @@ Necesitas Layers para borrar el “0%” y el bloque de instrucciones.
 **Opción C — Clic derecho** en el canvas → **Select Layer** / buscar en la lista.
 
 En el panel derecho, al seleccionar un frame verás hijos como:
+
 - `Navigation` / `Nav` / `Header`
 - `Hero`
 - `Preloader` / `0` / texto `0%`
@@ -131,13 +132,13 @@ En el panel derecho, al seleccionar un frame verás hijos como:
    - Panel derecho → **Image** → **Replace** → sube tu PNG/SVG de logo.
 4. **Links del menú** (clic en cada ítem: Shop, Projects, About…):
 
-| Texto actual (Nuvra) | Cambiar a | Link (panel derecho → Link) |
-|----------------------|-----------|------------------------------|
-| Shop | **Products** | Página **Shop** (luego renombrarás) |
-| Projects | *(ocultar en MVP)* | — o delete del menú |
-| About | **About** | Página About / Studio |
-| Contact | **Contact** | Página Contact / Trade |
-| — | **Downloads** | *(crear página después)* |
+| Texto actual (Nuvra) | Cambiar a          | Link (panel derecho → Link)         |
+| -------------------- | ------------------ | ----------------------------------- |
+| Shop                 | **Products**       | Página **Shop** (luego renombrarás) |
+| Projects             | _(ocultar en MVP)_ | — o delete del menú                 |
+| About                | **About**          | Página About / Studio               |
+| Contact              | **Contact**        | Página Contact / Trade              |
+| —                    | **Downloads**      | _(crear página después)_            |
 
 Para **ocultar** un ítem del menú: selecciónalo → **Delete**, o en Layers clic en el **ojo** (Hide).
 
@@ -149,7 +150,7 @@ Para **ocultar** un ítem del menú: selecciónalo → **Delete**, o en Layers c
 
 ## PASO 7 — Textos del Hero (bloque principal)
 
-1. Clic en el párrafo: *"In a world of noise, we create calm…"*
+1. Clic en el párrafo: _"In a world of noise, we create calm…"_
 2. Sustituye por (puedes pegar):
 
 ```
@@ -182,7 +183,7 @@ Ladrillo de fachada neoartesanal, fabricado en Amagá con cumplimiento NTC 4205.
      - **floors & clay**
    - **Link** de cada tarjeta → página Shop con filtro (o Shop por ahora)
 
-*(Los nombres finales en español los puedes poner después; primero estructura en inglés del template está bien.)*
+_(Los nombres finales en español los puedes poner después; primero estructura en inglés del template está bien.)_
 
 ---
 
@@ -221,6 +222,7 @@ Ladrillo de fachada neoartesanal, fabricado en Amagá con cumplimiento NTC 4205.
 4. En la página **Products**, selecciona el grid de productos → panel derecho debe decir **CMS** → lista vinculada a esa collection.
 
 **Quitar precio / carrito (Nuvra shop):**
+
 - Abre página **Shop** / **Products**
 - Selecciona texto de **price** → Delete
 - Selecciona botón **Add to Cart** → Delete
@@ -230,15 +232,15 @@ Ladrillo de fachada neoartesanal, fabricado en Amagá con cumplimiento NTC 4205.
 
 ## Orden sugerido HOY (ya con fondo hecho)
 
-1. ✅ Fondo — hecho  
-2. PASO 1 — Colors en Assets (si faltan estilos nombrados)  
-3. PASO 2 — Text styles  
-4. PASO 4 — Delete `0%`  
-5. PASO 5 — Delete instructions frame  
-6. PASO 6 — Navigation + logo  
-7. PASO 7 — Hero copy  
-8. PASO 9 — Footer  
-9. Play ▶ Preview  
+1. ✅ Fondo — hecho
+2. PASO 1 — Colors en Assets (si faltan estilos nombrados)
+3. PASO 2 — Text styles
+4. PASO 4 — Delete `0%`
+5. PASO 5 — Delete instructions frame
+6. PASO 6 — Navigation + logo
+7. PASO 7 — Hero copy
+8. PASO 9 — Footer
+9. Play ▶ Preview
 
 ---
 

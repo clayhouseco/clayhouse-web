@@ -22,11 +22,11 @@ Importar desde `cms/downloads.csv`.
 
 **Nota:** Subir archivos PDF reales en Framer CMS (campo `file`). Los placeholders del repositorio son títulos y descripciones — reemplazar con PDFs de laboratorio y catálogo.
 
-| Documento | Acción |
-|-----------|--------|
-| Ficha F-PV NTC 4205 | Subir PDF |
-| Catálogo general | Subir PDF |
-| Certificado ensayos | Subir PDF |
+| Documento            | Acción        |
+| -------------------- | ------------- |
+| Ficha F-PV NTC 4205  | Subir PDF     |
+| Catálogo general     | Subir PDF     |
+| Certificado ensayos  | Subir PDF     |
 | Detalle constructivo | Subir PDF/DWG |
 
 ---

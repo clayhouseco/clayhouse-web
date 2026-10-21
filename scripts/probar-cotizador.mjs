@@ -54,7 +54,8 @@ await esperar(2500);
 ok((await b.evaluar(`location.pathname`)) === "/cotizacion", "el botón lleva al cotizador");
 
 // ── 2. Lo que llegó ──
-const estado = JSON.parse(await b.evaluar(`
+const estado = JSON.parse(
+  await b.evaluar(`
   (() => {
     const lineas = [...document.querySelectorAll("[data-linea]")];
     const conProducto = lineas.filter((l) => l.querySelector('[data-campo="item"]').value);
@@ -70,7 +71,8 @@ const estado = JSON.parse(await b.evaluar(`
       total: document.querySelector("[data-doc-material]")?.textContent?.trim(),
     });
   })()
-`));
+`)
+);
 ok(estado.conProducto === 1, "llegó exactamente un producto", `${estado.producto} · ${estado.sku}`);
 ok(estado.vacias === 0, "y no quedó una línea en blanco de sobra");
 ok(estado.cantidad === "750", "con la cantidad que se escribió en la ficha", estado.cantidad);
@@ -79,14 +81,16 @@ ok(Boolean(estado.color), "con el color preseleccionado", estado.color);
 ok(/\$/.test(estado.total ?? ""), "el documento ya muestra el estimado", estado.total);
 
 // ── 3. El precio del documento es cantidad × precio de la ficha ──
-const cuenta = JSON.parse(await b.evaluar(`
+const cuenta = JSON.parse(
+  await b.evaluar(`
   (() => {
     const fila = document.querySelector("[data-doc-lineas] tr");
     const celdas = [...fila.querySelectorAll("td")].map((c) => c.textContent.trim());
     const num = (t) => Number((t.match(/[\\d.]+/)?.[0] ?? "0").replace(/\\./g, ""));
     return JSON.stringify({ unitario: num(celdas[2]), total: num(celdas[3]), cantidad: num(celdas[1]) });
   })()
-`));
+`)
+);
 ok(
   cuenta.total === cuenta.unitario * cuenta.cantidad,
   "y el valor de la línea es cantidad × precio unitario",
@@ -98,7 +102,8 @@ console.log("\nLo que pasa cuando faltan datos:\n");
 // ── 4. Validación ──
 await b.evaluar(`document.querySelector("[data-action-whatsapp]").click()`);
 await esperar(600);
-const aviso = JSON.parse(await b.evaluar(`
+const aviso = JSON.parse(
+  await b.evaluar(`
   (() => {
     const err = document.querySelector(".cotz-error");
     const campo = document.querySelector('[aria-invalid="true"]');
@@ -109,7 +114,8 @@ const aviso = JSON.parse(await b.evaluar(`
       foco: document.activeElement?.getAttribute("name"),
     });
   })()
-`));
+`)
+);
 ok(Boolean(aviso.mensaje), "sin nombre no se envía: el error sale junto al campo", aviso.mensaje);
 ok(aviso.campo === "nombre" && aviso.foco === "nombre", "y el foco va a ese campo");
 ok(aviso.describe, "el campo apunta a su mensaje para quien use lector de pantalla");
@@ -125,15 +131,21 @@ await b.evaluar(`
   })()
 `);
 await esperar(900);
-const dos = JSON.parse(await b.evaluar(`
+const dos = JSON.parse(
+  await b.evaluar(`
   (() => {
     const guardado = JSON.parse(localStorage.getItem("clayhouse-quote-cart") || "[]");
     const lineas = [...document.querySelectorAll("[data-linea]")].filter((l) => l.querySelector('[data-campo="item"]').value);
     return JSON.stringify({ enPantalla: lineas.length, enCarrito: guardado.length });
   })()
-`));
+`)
+);
 ok(dos.enPantalla === 2, "se puede agregar un segundo producto");
-ok(dos.enCarrito === dos.enPantalla, "el carrito guardado coincide con lo que se ve", `${dos.enCarrito} = ${dos.enPantalla}`);
+ok(
+  dos.enCarrito === dos.enPantalla,
+  "el carrito guardado coincide con lo que se ve",
+  `${dos.enCarrito} = ${dos.enPantalla}`
+);
 
 // ── 6. Borrar ──
 await b.evaluar(`[...document.querySelectorAll("[data-del-linea]")].pop().click()`);
@@ -146,7 +158,8 @@ ok(quedan === "1", "al borrar una línea desaparece del carrito: no reaparece al
 // ── 7. Recoger en planta no exige la dirección de obra ──
 await b.evaluar(`document.querySelector('[data-entrega="planta"]').click()`);
 await esperar(400);
-const planta = JSON.parse(await b.evaluar(`
+const planta = JSON.parse(
+  await b.evaluar(`
   (() => {
     const caja = document.querySelector("[data-obra-fields]");
     const dir = document.querySelector("[data-direccion]");
@@ -157,8 +170,12 @@ const planta = JSON.parse(await b.evaluar(`
       enDocumento: document.querySelector("[data-doc-entrega]").textContent.trim(),
     });
   })()
-`));
-ok(planta.oculto && planta.deshabilitado && !planta.exigido, "recoger en planta no exige la dirección de obra");
+`)
+);
+ok(
+  planta.oculto && planta.deshabilitado && !planta.exigido,
+  "recoger en planta no exige la dirección de obra"
+);
 ok(planta.enDocumento === "Recoge en planta", "y el documento lo dice", planta.enDocumento);
 
 b.cerrar();

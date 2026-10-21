@@ -37,7 +37,7 @@ import path from "node:path";
 
 const ANCHO = 1200;
 const ALTO = 630;
-const MARGEN = 40;          // aire alrededor de la pieza
+const MARGEN = 40; // aire alrededor de la pieza
 const SRC_ROOT = "public";
 const OUT_DIR = "public/images/og";
 const FORCE = process.argv.includes("--force");
@@ -125,7 +125,10 @@ async function leerFuente(file) {
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
-let hechas = 0, reusadas = 0, sinFuente = 0, fallidas = 0;
+let hechas = 0,
+  reusadas = 0,
+  sinFuente = 0,
+  fallidas = 0;
 
 const deProductos = imagenesDeProductos();
 const todas = [...deProductos, ...imagenesDelErp(new Set(deProductos.map((x) => x.slug)))];
@@ -135,15 +138,25 @@ for (const { slug, file } of todas) {
   const local = !/^https?:\/\//.test(file);
   const src = local ? path.join(SRC_ROOT, decodeURIComponent(file)) : null;
 
-  if (local && !fs.existsSync(src)) { sinFuente++; continue; }
+  if (local && !fs.existsSync(src)) {
+    sinFuente++;
+    continue;
+  }
   /* La del ERP no tiene fecha local con la que comparar: se rehace solo con --force. */
-  if (!FORCE && fs.existsSync(out) && (!local || fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs)) {
+  if (
+    !FORCE &&
+    fs.existsSync(out) &&
+    (!local || fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs)
+  ) {
     reusadas++;
     continue;
   }
 
   const fuente = await leerFuente(file);
-  if (!fuente) { sinFuente++; continue; }
+  if (!fuente) {
+    sinFuente++;
+    continue;
+  }
 
   try {
     const pieza = await sharp(fuente)
@@ -163,7 +176,10 @@ for (const { slug, file } of todas) {
 /* Las páginas: recorte a 1200×630 desde el centro, que es donde está el motivo en todas. */
 for (const { nombre, fuente } of PAGINAS) {
   const out = path.join(OUT_DIR, `pagina-${nombre}.jpg`);
-  if (!fs.existsSync(fuente)) { sinFuente++; continue; }
+  if (!fs.existsSync(fuente)) {
+    sinFuente++;
+    continue;
+  }
   if (!FORCE && fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(fuente).mtimeMs) {
     reusadas++;
     continue;

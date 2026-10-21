@@ -15,12 +15,12 @@ cambia la urgencia.
 e imágenes ya generadas. No hay servidor nuestro atendiendo peticiones: no hay dónde ejecutar
 la mayoría de estos fallos.
 
-| Riesgo | Dónde vivía | Qué podía pasar |
-|---|---|---|
-| `vite`, `esbuild`, `postcss`, `source-map-js`, `js-yaml`, `smol-toml`, `nanoid`, `devalue`, `http-cache-semantics` | Solo en el build | Lectura de archivos o bloqueo del proceso en la máquina que compila, con un proyecto o un archivo malicioso. Ninguno llega al visitante. Varios solo aplican en Windows o con el servidor de desarrollo abierto. |
-| `svgo` (scripts dentro de un SVG) | Build | Un SVG con script dentro podría quedar sin limpiar y publicarse. Solo importa si se añade un SVG que no vino de nosotros. |
-| `sharp` / libvips | Build | Imágenes malformadas podían hacer caer o desbordar el procesador de imágenes. Las fotos las subimos nosotros. |
-| **`astro` (XSS por nombres de atributo en spread props)** | **Build → sale en el HTML** | Es la única con efecto en producción: si un dato con el que se arma la página trajera el nombre de un atributo manipulado, el HTML publicado quedaría con código ejecutable. En la práctica exigiría que el ERP entregara datos manipulados, pero es el que no se podía dejar pasar. |
+| Riesgo                                                                                                             | Dónde vivía                 | Qué podía pasar                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `vite`, `esbuild`, `postcss`, `source-map-js`, `js-yaml`, `smol-toml`, `nanoid`, `devalue`, `http-cache-semantics` | Solo en el build            | Lectura de archivos o bloqueo del proceso en la máquina que compila, con un proyecto o un archivo malicioso. Ninguno llega al visitante. Varios solo aplican en Windows o con el servidor de desarrollo abierto.                                                                     |
+| `svgo` (scripts dentro de un SVG)                                                                                  | Build                       | Un SVG con script dentro podría quedar sin limpiar y publicarse. Solo importa si se añade un SVG que no vino de nosotros.                                                                                                                                                            |
+| `sharp` / libvips                                                                                                  | Build                       | Imágenes malformadas podían hacer caer o desbordar el procesador de imágenes. Las fotos las subimos nosotros.                                                                                                                                                                        |
+| **`astro` (XSS por nombres de atributo en spread props)**                                                          | **Build → sale en el HTML** | Es la única con efecto en producción: si un dato con el que se arma la página trajera el nombre de un atributo manipulado, el HTML publicado quedaría con código ejecutable. En la práctica exigiría que el ERP entregara datos manipulados, pero es el que no se podía dejar pasar. |
 
 El ERP entra en la web a través de `erpFeed.json`, así que vale decirlo: **el catálogo del ERP
 es una entrada de datos, no código**, y el único camino por el que un dato suyo podría
@@ -45,14 +45,14 @@ convertirse en algo ejecutable era precisamente ese fallo de Astro.
 
 Viven en `vercel.json`, en una regla que cubre todas las rutas.
 
-| Cabecera | Qué hace |
-|---|---|
-| `Content-Security-Policy` | La lista de dominios desde los que el navegador puede cargar algo. Ver abajo. |
-| `X-Content-Type-Options: nosniff` | Un archivo se interpreta como lo que dice ser, no como lo que parezca. |
-| `Referrer-Policy: strict-origin-when-cross-origin` | Al salir del sitio se envía el dominio, nunca la ruta completa. Una cotización no filtra qué producto miraba el visitante. |
-| `Permissions-Policy` | Apaga cámara, micrófono, ubicación, pagos, USB y sensores: la página no usa ninguno. Deja en paz la pantalla completa y el audio, que el video de YouTube sí necesita. |
-| `Strict-Transport-Security: max-age=63072000` | Dos años de HTTPS obligatorio para `clayhouse.com.co`. **Sin `includeSubDomains`**, a propósito: el ERP vive en un subdominio y esa decisión no es de este repositorio. |
-| `Cross-Origin-Opener-Policy: same-origin` | Una ventana abierta desde acá no puede manipular la nuestra. |
+| Cabecera                                           | Qué hace                                                                                                                                                                |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Content-Security-Policy`                          | La lista de dominios desde los que el navegador puede cargar algo. Ver abajo.                                                                                           |
+| `X-Content-Type-Options: nosniff`                  | Un archivo se interpreta como lo que dice ser, no como lo que parezca.                                                                                                  |
+| `Referrer-Policy: strict-origin-when-cross-origin` | Al salir del sitio se envía el dominio, nunca la ruta completa. Una cotización no filtra qué producto miraba el visitante.                                              |
+| `Permissions-Policy`                               | Apaga cámara, micrófono, ubicación, pagos, USB y sensores: la página no usa ninguno. Deja en paz la pantalla completa y el audio, que el video de YouTube sí necesita.  |
+| `Strict-Transport-Security: max-age=63072000`      | Dos años de HTTPS obligatorio para `clayhouse.com.co`. **Sin `includeSubDomains`**, a propósito: el ERP vive en un subdominio y esa decisión no es de este repositorio. |
+| `Cross-Origin-Opener-Policy: same-origin`          | Una ventana abierta desde acá no puede manipular la nuestra.                                                                                                            |
 
 No se pone `X-Frame-Options`: `frame-ancestors 'none'` en la CSP hace lo mismo y lo entienden
 todos los navegadores que importan.
@@ -63,19 +63,19 @@ todos los navegadores que importan.
 
 Solo entra lo que la página usa de verdad:
 
-| Dominio | Para qué | Directiva |
-|---|---|---|
-| `*.googletagmanager.com` | GA4 (`gtag.js`) | `script-src`, `img-src`, `connect-src` |
-| `*.google-analytics.com`, `*.analytics.google.com` | Envío de las mediciones | `connect-src`, `img-src` |
-| `stats.g.doubleclick.net`, `googleads.g.doubleclick.net`, `www.google.com`, `www.google.com.co` | Señales de Google Ads y remarketing | `img-src`, `connect-src` |
-| `xmgsljwxiyyporczsrum.supabase.co` | Guardar la cotización **y** las fotos que el ERP publica | `connect-src`, `img-src` |
-| `formspree.io` | Envío del formulario de contacto | `form-action`, `connect-src` |
-| `script.google.com`, `script.googleusercontent.com` | Reseñas aprobadas (Apps Script) | `connect-src` |
-| `nominatim.openstreetmap.org` | Buscar la dirección de obra | `connect-src` |
-| `*.tile.openstreetmap.org`, `server.arcgisonline.com` | Los mapas del cotizador | `img-src` |
-| `www.youtube-nocookie.com` | Videos del blog, sin cookies | `frame-src` |
-| `i.ytimg.com` | Miniaturas de esos videos | `img-src` |
-| `maps.google.com` | Mapa de la planta en contacto | `frame-src` |
+| Dominio                                                                                         | Para qué                                                 | Directiva                              |
+| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------- |
+| `*.googletagmanager.com`                                                                        | GA4 (`gtag.js`)                                          | `script-src`, `img-src`, `connect-src` |
+| `*.google-analytics.com`, `*.analytics.google.com`                                              | Envío de las mediciones                                  | `connect-src`, `img-src`               |
+| `stats.g.doubleclick.net`, `googleads.g.doubleclick.net`, `www.google.com`, `www.google.com.co` | Señales de Google Ads y remarketing                      | `img-src`, `connect-src`               |
+| `xmgsljwxiyyporczsrum.supabase.co`                                                              | Guardar la cotización **y** las fotos que el ERP publica | `connect-src`, `img-src`               |
+| `formspree.io`                                                                                  | Envío del formulario de contacto                         | `form-action`, `connect-src`           |
+| `script.google.com`, `script.googleusercontent.com`                                             | Reseñas aprobadas (Apps Script)                          | `connect-src`                          |
+| `nominatim.openstreetmap.org`                                                                   | Buscar la dirección de obra                              | `connect-src`                          |
+| `*.tile.openstreetmap.org`, `server.arcgisonline.com`                                           | Los mapas del cotizador                                  | `img-src`                              |
+| `www.youtube-nocookie.com`                                                                      | Videos del blog, sin cookies                             | `frame-src`                            |
+| `i.ytimg.com`                                                                                   | Miniaturas de esos videos                                | `img-src`                              |
+| `maps.google.com`                                                                               | Mapa de la planta en contacto                            | `frame-src`                            |
 
 WhatsApp, Waze y las redes sociales no aparecen: son enlaces que el visitante abre, no
 recursos que la página cargue, y la CSP no gobierna una navegación.
@@ -88,7 +88,7 @@ aparecer roto en producción.
 ### Lo que la CSP NO resuelve
 
 `script-src` y `style-src` llevan `'unsafe-inline'`. No es un descuido: Astro publica scripts
-y estilos dentro del HTML, el sitio es estático —no hay servidor que ponga un *nonce*
+y estilos dentro del HTML, el sitio es estático —no hay servidor que ponga un _nonce_
 distinto en cada visita— y las cabeceras de Vercel son fijas. Con hashes habría que
 recalcularlos en cada build y escribirlos en `vercel.json`, que está versionado y que el
 build no debe tocar (ver README).
@@ -132,7 +132,7 @@ hace Lighthouse—. Conviene repetirlo cada vez que se toque la medición.
 ## 4. Lo que sigue abierto
 
 1. **La clave de Supabase viaja en el HTML, y eso está bien; la política que la respalda, no.**
-   Es la clave *publicable* (`sb_publishable_…`), diseñada para ser pública. Lo que la hace
+   Es la clave _publicable_ (`sb_publishable_…`), diseñada para ser pública. Lo que la hace
    segura es RLS, y hoy la política de inserción es `with check (true)`: cualquiera puede
    escribir lo que quiera en la tabla de cotizaciones. La migración que lo cierra está escrita
    y **sin ejecutar**, esperando dos decisiones. Ver [`pendientes-cotizador.md`](pendientes-cotizador.md).

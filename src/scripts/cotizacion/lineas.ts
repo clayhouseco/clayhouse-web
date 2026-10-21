@@ -83,8 +83,8 @@ export function montarLineas(opciones: {
       const valido = preset.color && item.coloresPermitidos.some((c) => c.codigo === preset.color);
       sel.value = valido
         ? String(preset.color)
-        : item.coloresPermitidos.find((c) => c.codigo === "NAT")?.codigo ??
-          item.coloresPermitidos[0]!.codigo;
+        : (item.coloresPermitidos.find((c) => c.codigo === "NAT")?.codigo ??
+          item.coloresPermitidos[0]!.codigo);
     } else {
       envoltura.hidden = true;
       sel.replaceChildren();
@@ -163,7 +163,10 @@ export function montarLineas(opciones: {
       const item = porId.get(l.querySelector<HTMLInputElement>('[data-campo="item"]')?.value ?? "");
       if (!item) return [];
       const cantidad =
-        Number.parseInt(l.querySelector<HTMLInputElement>('[data-campo="cantidad"]')?.value ?? "", 10) || 0;
+        Number.parseInt(
+          l.querySelector<HTMLInputElement>('[data-campo="cantidad"]')?.value ?? "",
+          10
+        ) || 0;
       const sel = colorVisible(l);
       const colorCodigo = sel ? sel.value : null;
       return [

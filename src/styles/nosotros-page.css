@@ -406,7 +406,9 @@
 @media (prefers-reduced-motion: reduce) {
   .about-card,
   .about-hero__frame {
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
   }
 
   .about-card:hover,

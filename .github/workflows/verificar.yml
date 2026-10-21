@@ -42,6 +42,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Formato
+        # Entró al CI cuando el repositorio quedó formateado. Las plantillas .astro
+        # están excluidas a propósito: ver .prettierignore.
+        run: npm run format:check
+
       - name: Construir
         # Las pruebas del sitemap leen `dist/sitemap.xml`: el blog se monta durante el
         # build de Astro y no existe al invocar el endpoint directamente desde Vitest.

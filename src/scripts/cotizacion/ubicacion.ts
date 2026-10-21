@@ -62,9 +62,11 @@ export function montarUbicacion(opciones: {
     camposObra.hidden = planta;
     /* Deshabilitados, no solo escondidos: un campo oculto pero habilitado sigue
        enviándose y sigue exigiéndose. */
-    camposObra.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select").forEach((el) => {
-      el.disabled = planta;
-    });
+    camposObra
+      .querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")
+      .forEach((el) => {
+        el.disabled = planta;
+      });
     form.querySelectorAll<HTMLInputElement>("[data-req-obra]").forEach((el) => {
       el.required = !planta;
     });
@@ -185,7 +187,10 @@ export function montarUbicacion(opciones: {
   async function construirMapa(): Promise<import("leaflet").Map> {
     const Lf = await cargarLeaflet();
     const centro: [number, number] = [Number(latEl.value) || 6.226, Number(lngEl.value) || -75.564];
-    const nuevo = Lf.map(mapaLienzo, { scrollWheelZoom: true }).setView(centro, latEl.value ? 15 : 12);
+    const nuevo = Lf.map(mapaLienzo, { scrollWheelZoom: true }).setView(
+      centro,
+      latEl.value ? 15 : 12
+    );
     const calle = Lf.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 19,
@@ -195,7 +200,7 @@ export function montarUbicacion(opciones: {
       { attribution: "Imágenes &copy; Esri", maxZoom: 19 }
     );
     calle.addTo(nuevo);
-    Lf.control.layers({ Calle: calle, "Satélite": satelite }).addTo(nuevo);
+    Lf.control.layers({ Calle: calle, Satélite: satelite }).addTo(nuevo);
     nuevo.on("click", (e) => elegirPunto(e.latlng.lat, e.latlng.lng));
     mapa = nuevo;
     return nuevo;

@@ -12,4 +12,3 @@ export const inactiveSlugs: ReadonlySet<string> = new Set(availability.inactive)
 export function isAvailable(slug: string): boolean {
   return !inactiveSlugs.has(slug);
 }
-

@@ -144,7 +144,9 @@ p {
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+  transition:
+    background 0.25s var(--ease),
+    color 0.25s var(--ease),
     transform 0.2s var(--ease);
 }
 

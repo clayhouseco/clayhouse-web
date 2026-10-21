@@ -23,9 +23,11 @@ import { montarUbicacion } from "./ubicacion";
 function arrancar(config: ConfigCotizacion, form: HTMLFormElement): void {
   const pintar = montarDocumento(form);
   const campo = (nombre: string) =>
-    (form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
-      `[data-c="${nombre}"]`
-    )?.value ?? "").trim();
+    (
+      form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+        `[data-c="${nombre}"]`
+      )?.value ?? ""
+    ).trim();
 
   let gestor: GestorLineas | null = null;
 
@@ -61,7 +63,8 @@ function arrancar(config: ConfigCotizacion, form: HTMLFormElement): void {
       unitLabel: item.unidadLabel,
       image: item.image,
       pricePerUnit:
-        (linea.colorCodigo ? item.preciosPorColor?.[linea.colorCodigo] : undefined) ?? item.refPrice,
+        (linea.colorCodigo ? item.preciosPorColor?.[linea.colorCodigo] : undefined) ??
+        item.refPrice,
       productUrl: `/productos/${item.slug}`,
       variantId: item.variantId ?? undefined,
       calidad: linea.calidadCodigo,
