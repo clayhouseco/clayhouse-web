@@ -69,3 +69,41 @@ describe("catálogo cotizable", () => {
     }
   });
 });
+
+/**
+ * LA UNIDAD QUE DECLARA EL TEXTO LIBRE.
+ *
+ * La Teja Colonial tenía el campo «unidad de venta» en `unidad` y la descripción diciendo
+ * «Unidad de venta m²» —la misma confusión que costó un error de veinte veces en el precio—.
+ * El campo se corrigió y la frase se quedó, y ninguna verificación la miraba porque todas
+ * comparan campos estructurados.
+ *
+ * La primera versión de esta regla no disparaba nunca: llevaba un `\b` detrás del grupo, y
+ * `²` no es carácter de palabra, así que «m²» nunca cerraba. De ahí la primera prueba.
+ */
+describe("unidad declarada en la descripción", async () => {
+  const { unidadEnTexto } = await import("../scripts/lib/catalogo.mjs");
+
+  it("la lee aunque la unidad lleve el símbolo ²", () => {
+    expect(unidadEnTexto("Teja Colonial comercializada. Unidad de venta m². Solo Primera.")).toBe(
+      "m2"
+    );
+  });
+
+  it("entiende las otras formas de decirlo", () => {
+    expect(unidadEnTexto("Se vende por ml, en lotes.")).toBe("ml");
+    expect(unidadEnTexto("Unidad de venta: unidad")).toBe("unidad");
+    expect(unidadEnTexto("Venta por m2.")).toBe("m2");
+  });
+
+  it("un rendimiento NO es una unidad de venta", () => {
+    expect(unidadEnTexto("Ladrillo de fachada. Rendimiento ≈ 20 und/m².")).toBeNull();
+    expect(unidadEnTexto("Rinde 12 piezas por m² en muro de soga.")).toBeNull();
+  });
+
+  it("sin descripción no inventa nada", () => {
+    expect(unidadEnTexto("")).toBeNull();
+    expect(unidadEnTexto(null)).toBeNull();
+    expect(unidadEnTexto(undefined)).toBeNull();
+  });
+});

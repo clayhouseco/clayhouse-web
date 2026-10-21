@@ -176,6 +176,30 @@ export function unidadesPorM2(filas) {
 /* ──────────────────────────── la tabla de conflictos ──────────────────────────── */
 
 /** Quién debería decidir cada campo, y por qué. Es la única parte opinable de este archivo. */
+/**
+ * LA UNIDAD DE VENTA QUE DECLARA UNA DESCRIPCIÓN, SI DECLARA ALGUNA.
+ *
+ * La descripción del ERP es texto libre, y el texto libre envejece sin que nada lo note. La
+ * Teja Colonial lo mostró: su campo «unidad de venta» decía `unidad` y su descripción seguía
+ * diciendo «Unidad de venta m²» —la misma confusión que causó el error de veinte veces en el
+ * precio—. El campo se corrigió; la frase se quedó, y ninguna verificación la miraba porque
+ * todas comparan campos estructurados.
+ *
+ * Solo cuenta una unidad DECLARADA como tal: «unidad de venta X», «se vende por X». No
+ * cualquier mención: «≈ 20 und/m²» es un rendimiento, no una unidad de venta, y señalarlo
+ * sería ruido que acabaría enseñando a ignorar el informe.
+ *
+ * Devuelve la unidad normalizada, o null si la frase no declara ninguna.
+ */
+export function unidadEnTexto(descripcion) {
+  /* `(?![a-z…])` y no `\b`: `²` no es carácter de palabra, así que un `\b` detrás de «m²»
+     nunca cierra y la regla no dispara nunca. Pasó. */
+  const DECLARA =
+    /(?:unidad\s+de\s+venta|se\s+vende(?:\s+(?:por|en))?|venta\s+(?:por|en))\s*:?\s*(m2|m²|ml|metro\s+lineal|unidad(?:es)?|und)(?![a-záéíóúñ])/i;
+  const dicho = (descripcion ?? "").match(DECLARA)?.[1];
+  return dicho ? normalizarUnidad(dicho) : null;
+}
+
 export const MANDA = {
   erp: "ERP",
   web: "Web",
@@ -294,6 +318,28 @@ export function conflictos(feed) {
           "subir la foto al repositorio en esa ruta, o quitar la referencia en el ERP"
         )
       );
+  }
+
+  /* Una unidad declarada en la descripción que contradice al campo. Ver `unidadEnTexto`. */
+  for (const p of feed.productos ?? []) {
+    const enFrase = unidadEnTexto(p.descripcion);
+    if (!enFrase) continue;
+    const enCampo = normalizarUnidad(p.unidad);
+    if (enFrase === enCampo) continue;
+    filas.push(
+      fila(
+        p.pagina ?? p.id,
+        "unidad · descripción",
+        `campo: ${enCampo}`,
+        `la descripción dice ${enFrase}`,
+        MANDA.erp,
+        /* No bloquea el despliegue: no se sabe cuál de los dos está mal, y dejar al equipo
+         sin publicar por una frase ambigua es peor que el aviso. Si el que estuviera mal
+         fuera el CAMPO, lo atrapa la comprobación de coherencia precio/unidad, que sí
+         bloquea. */
+        "corregir la frase en el ERP: el campo manda y el texto se quedó viejo"
+      )
+    );
   }
 
   for (const [codigo, de] of codigos) {
