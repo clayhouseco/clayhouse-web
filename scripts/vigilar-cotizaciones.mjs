@@ -16,21 +16,22 @@
  * disponibilidad en la ruta de ingresos. Mejor enterarse rápido y, si llega a pasar, diseñar
  * el freno sabiendo qué patrón hay que frenar.
  *
- * NO TOCA LA BASE DE DATOS. No crea funciones, ni vistas, ni disparadores: solo lee. Después
- * de aplicar restricciones a una tabla compartida con el ERP y tener que retirarlas, esa es
- * la regla.
+ * NO NECESITA NINGUNA CREDENCIAL PRIVILEGIADA, y esa es la mitad del diseño. La primera
+ * versión pedía la `service_role` del ERP —la que se salta RLS y permite leer y modificar
+ * todo: productos, precios, clientes— para contar filas, y guardarla en GitHub. Pedir la
+ * llave maestra del negocio para contar es desproporcionado. En su lugar, la base expone una
+ * función que devuelve TRES NÚMEROS y nada más (`supabase/ritmo-cotizaciones.sql`), y acá se
+ * llama con la clave que ya es pública.
  *
- *   SUPABASE_SERVICE_KEY=... node scripts/vigilar-cotizaciones.mjs
- *   SUPABASE_SERVICE_KEY=... node scripts/vigilar-cotizaciones.mjs --strict   # sale 1 si hay pico
+ * La hora también la pone la base, no esta máquina: el número de solicitud lo estampa el
+ * reloj del visitante en hora de Colombia, y un servidor de integración corre en UTC. La
+ * primera versión contaba la ventana con cinco horas de desfase.
  *
- * La clave de servicio se saca de Supabase → Project Settings → API → `service_role`. NUNCA
- * va al repositorio: se guarda como secreto del repositorio en GitHub. Es una clave que se
- * salta RLS, así que quien la tenga puede leerlo y cambiarlo todo.
+ *   node scripts/vigilar-cotizaciones.mjs
+ *   node scripts/vigilar-cotizaciones.mjs --strict   # sale 1 si el ritmo es anormal
  */
-import { PREFIJO, filtroDelDia, filtroDesde } from "./lib/ventana.mjs";
-
 const URL_BASE = process.env.PUBLIC_SUPABASE_URL ?? "https://xmgsljwxiyyporczsrum.supabase.co";
-const CLAVE = process.env.SUPABASE_SERVICE_KEY;
+const CLAVE = process.env.PUBLIC_SUPABASE_KEY ?? "sb_publishable_fyo-0iRd3xBmq9AjAgkwxw_xjIDKYeH";
 const STRICT = process.argv.includes("--strict");
 
 /**
@@ -44,49 +45,37 @@ const STRICT = process.argv.includes("--strict");
 const TOPE_HORA = Number(process.env.COTZ_TOPE_HORA ?? 20);
 const TOPE_DIA = Number(process.env.COTZ_TOPE_DIA ?? 100);
 
-if (!CLAVE) {
-  console.log(
-    "\n  Sin SUPABASE_SERVICE_KEY no se puede mirar: la clave publicable no lee esta tabla"
-  );
-  console.log("  (es justo lo que cierra la política de RLS).\n");
-  console.log("  Supabase → Project Settings → API → `service_role`, y guardarla como secreto");
-  console.log("  del repositorio en GitHub con ese nombre. Nunca en un archivo del proyecto.\n");
-  process.exit(0);
-}
+const res = await fetch(`${URL_BASE}/rest/v1/rpc/ritmo_cotizaciones_web`, {
+  method: "POST",
+  headers: {
+    apikey: CLAVE,
+    Authorization: `Bearer ${CLAVE}`,
+    "Content-Type": "application/json",
+    Accept: "application/vnd.pgrst.object+json",
+  },
+  body: "{}",
+}).catch((e) => ({ ok: false, status: 0, error: e.message }));
 
-/** Cuenta filas sin traérselas: PostgREST devuelve el total en `content-range`. */
-async function contar(filtro) {
-  const res = await fetch(`${URL_BASE}/rest/v1/cotizaciones?select=numero&limit=0&${filtro}`, {
-    headers: {
-      apikey: CLAVE,
-      Authorization: `Bearer ${CLAVE}`,
-      Prefer: "count=exact",
-      Range: "0-0",
-    },
-  });
-  if (!res.ok) throw new Error(`Supabase respondió ${res.status}`);
-  return Number((res.headers.get("content-range") ?? "*/0").split("/")[1]) || 0;
-}
-
-let ultimaHora, ultimoDia, totalWeb, total;
-try {
-  const ahora = new Date();
-  total = await contar("");
-  totalWeb = await contar(`numero=like.${PREFIJO}*`);
-  ultimoDia = await contar(filtroDelDia(ahora));
-  ultimaHora = await contar(filtroDesde(new Date(ahora.getTime() - 3600_000)));
-} catch (e) {
-  console.error(`\n✗ No se pudo consultar: ${e.message}\n`);
+if (!res.ok) {
+  const cuerpo = res.json ? await res.text().catch(() => "") : res.error;
+  console.log(`\n  No se pudo consultar el ritmo (${res.status || "sin red"}).`);
+  if (String(cuerpo).includes("ritmo_cotizaciones_web")) {
+    console.log("\n  La función no existe todavía. Córrala una vez en Supabase:");
+    console.log("    SQL Editor → New query → pegar `supabase/ritmo-cotizaciones.sql` → Run");
+    console.log("\n  Devuelve solo tres números: no expone ninguna fila ni dato de cliente.\n");
+  } else {
+    console.log(`  ${String(cuerpo).slice(0, 180)}\n`);
+  }
   process.exit(STRICT ? 1 : 0);
 }
 
-const pico = ultimaHora > TOPE_HORA || ultimoDia > TOPE_DIA;
+const { ultima_hora: ultimaHora, hoy, total_web: totalWeb } = await res.json();
+const pico = ultimaHora > TOPE_HORA || hoy > TOPE_DIA;
 
-console.log("\nCotizaciones en la tabla del ERP\n");
-console.log(`  en total                 ${String(total).padStart(6)}`);
-console.log(`  llegadas por la web      ${String(totalWeb).padStart(6)}`);
-console.log(`  en la última hora        ${String(ultimaHora).padStart(6)}   (tope ${TOPE_HORA})`);
-console.log(`  hoy                      ${String(ultimoDia).padStart(6)}   (tope ${TOPE_DIA})`);
+console.log("\nCotizaciones llegadas por la web\n");
+console.log(`  en la última hora   ${String(ultimaHora).padStart(6)}   (tope ${TOPE_HORA})`);
+console.log(`  hoy                 ${String(hoy).padStart(6)}   (tope ${TOPE_DIA})`);
+console.log(`  desde siempre       ${String(totalWeb).padStart(6)}`);
 
 if (!pico) {
   console.log("\n✓ Ritmo normal. Nada que hacer.\n");
@@ -99,8 +88,8 @@ console.log("    1. Abrir la tabla y ver si las filas parecen reales: nombres, t
 console.log("    2. Si son basura, cortar la escritura anónima mientras se decide:");
 console.log('         alter policy "web inserta cotizaciones" on public.cotizaciones');
 console.log("           with check (false);");
-console.log("       Eso deja el cotizador sin registrar —el cliente verá el aviso de error y");
-console.log("       los botones de WhatsApp y correo siguen funcionando—, así que no se pierde");
-console.log("       el negocio mientras se limpia.");
+console.log("       Eso deja el cotizador sin registrar —el cliente ve el aviso de error y los");
+console.log("       botones de WhatsApp y correo siguen funcionando—, así que no se pierde el");
+console.log("       negocio mientras se limpia.");
 console.log("    3. Borrar las filas falsas y recién entonces decidir el freno definitivo.\n");
 process.exit(STRICT ? 1 : 0);

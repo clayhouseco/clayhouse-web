@@ -10,9 +10,11 @@
 # CÓMO AVISA: si el ritmo es anormal, el trabajo falla, y GitHub manda un correo a quien
 # administra el repositorio. No hace falta montar nada más.
 #
-# QUÉ NECESITA: un secreto del repositorio llamado `SUPABASE_SERVICE_KEY`
-# (Supabase → Project Settings → API → `service_role`). Mientras no exista, esto corre y sale
-# bien sin mirar nada, explicando qué falta — no se pone en rojo por una pieza que no está.
+# QUÉ NECESITA: NINGÚN SECRETO. La base expone una función que devuelve tres números y nada
+# más (`supabase/ritmo-cotizaciones.sql`), y se llama con la clave que ya viaja en el HTML.
+# La primera versión de esto pedía la `service_role` del ERP —la que se salta RLS y permite
+# leer y modificar todo— para contar filas. Pedir la llave maestra del negocio para contar es
+# desproporcionado.
 
 name: Vigilar cotizaciones
 
@@ -33,7 +35,5 @@ jobs:
           node-version: "22.22.0"
 
       - name: Ritmo de cotizaciones
-        env:
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        # Sin dependencias: el script solo usa `fetch`, que Node trae.
+        # Sin dependencias y sin secretos: el script solo usa `fetch`, que Node trae.
         run: node scripts/vigilar-cotizaciones.mjs --strict

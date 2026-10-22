@@ -43,7 +43,7 @@ npm run probar:resenas        # el envío de una reseña, con `fetch` doblado
 npm run probar:medicion       # los eventos y el registro en el ERP, con `fetch` doblado
 npm run probar:accesibilidad  # axe en 9 páginas + navegación con teclado
 npm audit --omit=dev          # vulnerabilidades en lo que viaja al navegador
-npm run vigilar:cotizaciones  # ritmo de entrada de cotizaciones (pide SUPABASE_SERVICE_KEY)
+npm run vigilar:cotizaciones  # ritmo de entrada de cotizaciones (sin secretos)
 ```
 
 `npm run build:prod` —el que corre Vercel— encadena las que pueden cortar un despliegue:

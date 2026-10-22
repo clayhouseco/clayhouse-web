@@ -160,8 +160,19 @@ hace Lighthouse—. Conviene repetirlo cada vez que se toque la medición.
    la ruta de escritura. Si alguna vez ocurre, el freno se diseña sabiendo qué patrón frenar,
    y el propio aviso trae el SQL para cortar la escritura anónima mientras se limpia.
 
-   Necesita un secreto `SUPABASE_SERVICE_KEY` en el repositorio; mientras no exista, el
-   script sale bien explicando qué falta, sin poner el CI en rojo.
+   **No necesita ninguna credencial privilegiada**, y esa es la mitad del diseño. La primera
+   versión pedía la `service_role` del ERP —la que se salta RLS y permite leer y modificar
+   todo: productos, precios, clientes— para contar filas, y guardarla como secreto en GitHub.
+   Pedir la llave maestra del negocio para contar es desproporcionado. En su lugar la base
+   expone `ritmo_cotizaciones_web()` (`supabase/ritmo-cotizaciones.sql`), que devuelve tres
+   enteros y nada más, y se llama con la clave que ya viaja en el HTML.
+
+   La hora la pone la base y no la máquina que vigila: el número de solicitud lo estampa el
+   reloj del visitante en hora de Colombia, y un servidor de integración corre en UTC — la
+   primera versión contaba la ventana con cinco horas de desfase.
+
+   Falta correr ese SQL una vez. Mientras no exista la función, el script lo dice y sale sin
+   poner el CI en rojo.
 
 3. **El envío de reseñas no puede confirmar.** `ReviewForm` escribe en Apps Script con
    `mode: "no-cors"`: el navegador no puede leer la respuesta, así que la página lleva al
