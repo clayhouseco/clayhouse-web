@@ -5,6 +5,7 @@ import { getProductAssets, getProductInspiration } from "@/data/productVariants"
 import { catalogCategories, type ProductCategory } from "@/data/catalogCategories";
 import { Picture } from "astro:assets";
 import { srcSetFor, SIZES } from "@/utils/responsive";
+import { getIndexedProjectHref } from "@/utils/projects";
 import heroImg from "@/assets/images/hero/Edificio 8k.jpg";
 import "@/styles/page-hero.css";
 
@@ -23,6 +24,7 @@ interface ProjectEntry {
   alt: string;
   imageCount: number;
   images: ProjectImage[];
+  pageHref?: string;
 }
 
 const allProjects: ProjectEntry[] = [];
@@ -47,6 +49,7 @@ for (const product of sortProductsByPriority(products.filter(isVisible))) {
       alt: first.alt || card.title,
       imageCount: card.images.length,
       images: card.images.map((img) => ({ src: img.src, alt: img.alt || card.title })),
+      pageHref: getIndexedProjectHref(product.slug, card.title),
     });
     productsWithProjects.add(product.slug);
   }
@@ -56,7 +59,13 @@ for (const product of sortProductsByPriority(products.filter(isVisible))) {
 const projectsData = Object.fromEntries(
   allProjects.map((p) => [
     p.id,
-    { title: p.title, productName: p.productName, productSlug: p.productSlug, images: p.images },
+    {
+      title: p.title,
+      productName: p.productName,
+      productSlug: p.productSlug,
+      pageHref: p.pageHref,
+      images: p.images,
+    },
   ])
 );
 
@@ -149,41 +158,54 @@ const totalProjects = allProjects.length;
       <div class="projects-grid" data-projects-grid>
         {
           allProjects.map((project) => (
-            <button
-              type="button"
+            <article
               class="project-card"
               data-project
               data-project-id={project.id}
               data-category={project.productCategory}
               data-product={project.productSlug}
-              aria-label={`Ver fotos de ${project.title}`}
             >
-              <div class="project-card__media">
-                <img
-                  src={project.thumbnail}
-                  srcset={srcSetFor(project.thumbnail)}
-                  sizes={SIZES.card}
-                  alt={project.alt}
-                  width="800"
-                  height="600"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {project.imageCount > 1 && (
-                  <span class="project-card__count" aria-hidden="true">
-                    +{project.imageCount - 1} fotos
+              <button
+                type="button"
+                class="project-card__open"
+                data-project-open
+                aria-label={`Abrir galería de ${project.title}`}
+              >
+                <span class="project-card__media">
+                  <img
+                    src={project.thumbnail}
+                    srcset={srcSetFor(project.thumbnail)}
+                    sizes={SIZES.card}
+                    alt={project.alt}
+                    width="800"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {project.imageCount > 1 && (
+                    <span class="project-card__count" aria-hidden="true">
+                      +{project.imageCount - 1} fotos
+                    </span>
+                  )}
+                  <span class="project-card__overlay" aria-hidden="true">
+                    <span class="project-card__cta">Ver fotos →</span>
                   </span>
-                )}
-                <span class="project-card__overlay" aria-hidden="true">
-                  <span class="project-card__cta">Ver proyecto →</span>
                 </span>
-              </div>
+              </button>
               <div class="project-card__body">
                 <p class="project-card__category">{project.productCategory}</p>
-                <h3 class="project-card__title">{project.title}</h3>
+                <h3 class="project-card__title">
+                  {
+                    project.pageHref ? (
+                      <a href={project.pageHref}>{project.title}</a>
+                    ) : (
+                      project.title
+                    )
+                  }
+                </h3>
                 <p class="project-card__product">{project.productName}</p>
               </div>
-            </button>
+            </article>
           ))
         }
       </div>
@@ -352,6 +374,7 @@ const totalProjects = allProjects.length;
     title: string;
     productName: string;
     productSlug: string;
+    pageHref?: string;
     images: ViewerImage[];
   }
 
@@ -397,7 +420,10 @@ const totalProjects = allProjects.length;
     lastFocused = trigger;
     if (viewerTitle) viewerTitle.textContent = project.title;
     if (viewerProduct) viewerProduct.textContent = project.productName;
-    if (viewerLink) viewerLink.href = `/productos/${project.productSlug}`;
+    if (viewerLink) {
+      viewerLink.href = project.pageHref ?? `/productos/${project.productSlug}`;
+      viewerLink.textContent = project.pageHref ? "Ver caso completo →" : "Ver producto →";
+    }
     renderImage();
     viewer.hidden = false;
     viewer.setAttribute("aria-hidden", "false");
@@ -427,9 +453,10 @@ const totalProjects = allProjects.length;
   }
 
   cards?.forEach((card) => {
-    card.addEventListener("click", () => {
+    const trigger = card.querySelector<HTMLElement>("[data-project-open]");
+    trigger?.addEventListener("click", () => {
       const id = card.dataset.projectId;
-      if (id) openViewer(id, card);
+      if (id) openViewer(id, trigger);
     });
   });
 
@@ -545,7 +572,6 @@ const totalProjects = allProjects.length;
     padding: 0;
     text-align: left;
     font: inherit;
-    cursor: pointer;
     background: var(--color-white);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -558,7 +584,8 @@ const totalProjects = allProjects.length;
       border-color 0.3s var(--ease);
   }
 
-  .project-card:focus-visible {
+  .project-card__open:focus-visible,
+  .project-card__title a:focus-visible {
     outline: 2px solid var(--color-terracota);
     outline-offset: 3px;
   }
@@ -575,8 +602,22 @@ const totalProjects = allProjects.length;
     box-shadow: 0 18px 40px rgba(71, 36, 16, 0.12);
   }
 
+  .project-card__open {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
   .project-card__media {
     position: relative;
+    display: block;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: #ebe6e0;
@@ -620,7 +661,7 @@ const totalProjects = allProjects.length;
   }
 
   .project-card:hover .project-card__overlay,
-  .project-card:focus-visible .project-card__overlay {
+  .project-card__open:focus-visible .project-card__overlay {
     opacity: 1;
   }
 
@@ -665,6 +706,17 @@ const totalProjects = allProjects.length;
     font-weight: 600;
     line-height: 1.3;
     color: var(--color-chocolate);
+  }
+
+  .project-card__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .project-card__title a:hover {
+    color: var(--color-terracota);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   .project-card__product {

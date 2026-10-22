@@ -45,11 +45,11 @@ export const catalogCategories: CatalogCategoryDef[] = [
     label: "Divisorios",
     title: "Divisorios",
     description:
-      "Rayados horizontales y verticales para muros divisorios y cerramientos con textura.",
+      "Ladrillos rayados horizontales y verticales para muros divisorios y cerramientos, con despacho a Medellín y Antioquia.",
     order: 2,
-    seoTitle: "Ladrillo divisorio y rayado para muro | Clay House",
+    seoTitle: "Ladrillo divisorio y rayado en Medellín | Clay House",
     seoDescription:
-      "Ladrillo rayado horizontal y vertical para muros divisorios y cerramientos con textura. Norma NTC 4205, fabricación en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
+      "Ladrillo divisorio y rayado en Medellín: formatos horizontales y verticales para muros y cerramientos. Fabricación en Amagá y despacho en Antioquia.",
     heroTitle: "ladrillo divisorio y rayado",
     coverProductSlug: "rayados-verticales",
     coverFallback: "/images/Fotos Productos/Rayado Vertical.jpg",
@@ -59,11 +59,11 @@ export const catalogCategories: CatalogCategoryDef[] = [
     label: "Enchapes",
     title: "Enchapes",
     description:
-      "Revestimientos delgados en ladrillo para muros interiores, exteriores y detalles de acento.",
+      "Enchapes delgados de ladrillo para muros interiores, fachadas y detalles de acento, con entrega en Medellín y Antioquia.",
     order: 4,
-    seoTitle: "Enchapes de ladrillo para muro y fachada | Clay House",
+    seoTitle: "Enchape de ladrillo en Medellín | Clay House",
     seoDescription:
-      "Enchapes de arcilla para revestir muros interiores, exteriores y detalles de acento: rústico, romano, thin brick y bocadillo. Fabricación en Amagá, Antioquia.",
+      "Enchape de ladrillo en Medellín para muros interiores y fachadas: romano, thin brick, rústico y bocadillo. Compara acabados y solicita cotización.",
     heroTitle: "enchape de ladrillo",
     coverProductSlug: "enchape-romano",
     coverFallback: "/images/Fotos Productos/Enchape Thin Brick.jpg",
@@ -72,11 +72,12 @@ export const catalogCategories: CatalogCategoryDef[] = [
     id: "Techos",
     label: "Techos",
     title: "Techos",
-    description: "Teja Plana y Teja Colonial para cubiertas visibles en ladrillo.",
+    description:
+      "Teja plana y teja colonial de barro para cubiertas visibles, con despacho a Medellín, Antioquia y toda Colombia.",
     order: 5,
-    seoTitle: "Teja de barro para cubierta: plana y colonial | Clay House",
+    seoTitle: "Teja de barro y arcilla en Medellín | Clay House",
     seoDescription:
-      "Teja de arcilla para cubiertas visibles en perfil plano y colonial, norma NTC 4205. Fabricación propia en Amagá, Antioquia, con despacho a toda Colombia.",
+      "Teja de barro y arcilla en Medellín para cubiertas visibles: perfiles plano y colonial, norma NTC 4205 y despacho desde Amagá a toda Colombia.",
     heroTitle: "teja de arcilla",
     coverProductSlug: "teja-plana",
     coverFallback: "/images/products/teja-plana/natural/Teja Plana Natural.webp",
@@ -85,11 +86,12 @@ export const catalogCategories: CatalogCategoryDef[] = [
     id: "Decorativos",
     label: "Decorativos",
     title: "Decorativos",
-    description: "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran.",
+    description:
+      "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran, con entrega en Medellín y Antioquia.",
     order: 6,
-    seoTitle: "Calados y celosías de arcilla | Clay House",
+    seoTitle: "Calados y celosías de arcilla en Medellín | Clay House",
     seoDescription:
-      "Calados y celosías de arcilla para muros que ventilan, tamizan la luz y decoran. Fabricación neoartesanal en Amagá, Antioquia. Cotiza en 24 horas hábiles.",
+      "Calados y celosías de arcilla en Medellín para ventilar, filtrar la luz y decorar muros. Fabricación en Amagá y despacho en Antioquia.",
     heroTitle: "calados y celosías",
     coverProductSlug: "calado",
     coverFallback: "/images/products/calado/calado-muro.webp",

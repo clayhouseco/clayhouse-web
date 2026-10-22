@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { getVisibleProducts } from "@/data/products";
 import { catalogCategories, getCategorySlug } from "@/data/catalogCategories";
 import { site } from "@/data/site";
+import { indexedProjectPaths } from "@/utils/projects";
 
 export const prerender = true;
 
@@ -19,6 +20,7 @@ const staticPaths = [
   "/privacidad",
   "/devoluciones",
   "/contacto",
+  ...indexedProjectPaths,
 ];
 
 /** El sitemap debe declarar exactamente la misma forma de URL que el

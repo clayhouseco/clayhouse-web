@@ -1,0 +1,297 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/data/site";
+import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
+import { getIndexedProjects, type IndexedProject } from "@/utils/projects";
+import { srcPara, srcSetFor } from "@/utils/responsive";
+
+export function getStaticPaths() {
+  return getIndexedProjects().map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: IndexedProject;
+}
+
+const { project } = Astro.props;
+const [cover, ...galleryImages] = project.gallery.images;
+
+if (!cover) {
+  throw new Error(`El proyecto ${project.slug} no tiene una imagen de portada`);
+}
+
+const productHref = `/productos/${project.product.slug}`;
+const pageUrl = new URL(`/proyectos/${project.slug}`, site.url).href;
+const coverUrl = new URL(cover.src, site.url).href;
+
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Inicio", href: "/" },
+  { name: "Proyectos", href: "/proyectos" },
+  { name: project.title },
+]);
+
+const projectJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: project.title,
+  description: project.description,
+  url: pageUrl,
+  image: project.gallery.images.map((image) => new URL(image.src, site.url).href),
+  about: {
+    "@type": "Product",
+    name: project.product.name,
+    url: new URL(productHref, site.url).href,
+    image: coverUrl,
+  },
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "Proyectos Clay House",
+    url: new URL("/proyectos", site.url).href,
+  },
+};
+---
+
+<BaseLayout
+  title={project.seoTitle}
+  description={project.description}
+  ogImage={cover.src}
+  preloadImage={srcPara(cover.src, 1200)}
+  preloadImageSrcset={srcSetFor(cover.src)}
+  preloadImageSizes="(max-width: 900px) 100vw, 72vw"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(projectJsonLd)} />
+
+  <article class="project-case">
+    <header class="project-case__header">
+      <div class="container">
+        <p class="project-case__back"><a href="/proyectos">← Todos los proyectos</a></p>
+        <p class="eyebrow">
+          Proyecto construido{project.location ? ` · ${project.location}` : ""}
+        </p>
+        <h1>{project.title}</h1>
+        <p class="project-case__lead">{project.description}</p>
+        <p class="project-case__material">
+          Material: <a href={productHref}>{project.product.name}</a>
+        </p>
+      </div>
+    </header>
+
+    <section class="project-case__cover" aria-label={`Vista principal de ${project.title}`}>
+      <img
+        src={srcPara(cover.src, 1200)}
+        srcset={srcSetFor(cover.src)}
+        sizes="(max-width: 900px) 100vw, 72vw"
+        alt={cover.alt || `${project.title} con ${project.product.name}`}
+        width="1600"
+        height="1067"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </section>
+
+    <section class="section project-case__story">
+      <div class="container project-case__story-grid">
+        <div>
+          <p class="eyebrow">El material en obra</p>
+          <h2>{project.product.name} en {project.title}</h2>
+        </div>
+        <div>
+          <p>{project.intro}</p>
+          <p>{project.product.shortDescription}</p>
+          <p>
+            <a href={productHref}>Ver medidas, acabados y ficha técnica →</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {
+      galleryImages.length > 0 && (
+        <section class="section project-case__gallery" aria-labelledby="galeria-proyecto">
+          <div class="container">
+            <h2 id="galeria-proyecto">Galería del proyecto</h2>
+            <div class="project-case__grid">
+              {galleryImages.map((image, index) => (
+                <figure class:list={["project-case__image", index % 5 === 0 && "project-case__image--wide"]}>
+                  <img
+                    src={srcPara(image.src, 800)}
+                    srcset={srcSetFor(image.src)}
+                    sizes="(max-width: 700px) 100vw, 50vw"
+                    alt={image.alt || `${project.title} con ${project.product.name}`}
+                    width="1200"
+                    height="800"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="section section--alt">
+      <div class="container project-case__cta">
+        <p class="eyebrow">Material para su obra</p>
+        <h2>¿Busca un resultado similar?</h2>
+        <p>
+          Compare la referencia utilizada en este proyecto o solicite una cotización según el
+          área y la ubicación de su obra.
+        </p>
+        <div class="project-case__actions">
+          <a href={productHref} class="btn btn--outline">Ver {project.product.name}</a>
+          <a
+            href="/cotizacion"
+            class="btn btn--primary"
+            data-track="cotizar_click"
+            data-track-location="proyecto"
+          >Solicitar cotización</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-case__header {
+    padding: calc(5.25rem + clamp(2.5rem, 7vw, 5rem)) 0 clamp(2.5rem, 6vw, 4.5rem);
+    background: var(--color-bg);
+  }
+
+  .project-case__back {
+    margin: 0 0 2rem;
+    font-size: 0.85rem;
+  }
+
+  .project-case__back a,
+  .project-case__material a,
+  .project-case__story a {
+    color: var(--color-terracota);
+    text-underline-offset: 0.18em;
+  }
+
+  .project-case h1 {
+    max-width: 18ch;
+    margin: 0.45rem 0 1rem;
+    text-wrap: balance;
+  }
+
+  .project-case__lead {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    line-height: 1.65;
+  }
+
+  .project-case__material {
+    margin: 1.25rem 0 0;
+    font-size: 0.9rem;
+  }
+
+  .project-case__cover {
+    width: min(100% - 2rem, 90rem);
+    margin: 0 auto;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: #ebe6e0;
+  }
+
+  .project-case__cover img,
+  .project-case__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-case__story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: start;
+  }
+
+  .project-case__story h2 {
+    margin: 0.45rem 0 0;
+    text-wrap: balance;
+  }
+
+  .project-case__story p {
+    max-width: 58ch;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  .project-case__gallery {
+    padding-top: 0;
+  }
+
+  .project-case__gallery h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .project-case__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  .project-case__image {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: #ebe6e0;
+  }
+
+  .project-case__image--wide {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+  }
+
+  .project-case__cta {
+    max-width: 48rem;
+    text-align: center;
+  }
+
+  .project-case__cta h2 {
+    margin: 0.45rem 0 0.75rem;
+  }
+
+  .project-case__cta p:not(.eyebrow) {
+    color: var(--color-text-muted);
+  }
+
+  .project-case__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .project-case__story-grid,
+    .project-case__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-case__image--wide {
+      grid-column: auto;
+      aspect-ratio: 4 / 3;
+    }
+
+    .project-case__cover {
+      width: 100%;
+      border-radius: 0;
+    }
+  }
+</style>

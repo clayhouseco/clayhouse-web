@@ -36,7 +36,7 @@ export const localBusinessJsonLd = {
     streetAddress: "Km 2, vía Amagá - Angelópolis",
     addressLocality: "Amagá",
     addressRegion: "Antioquia",
-    postalCode: "055020",
+    postalCode: "055840",
     addressCountry: "CO",
   },
   geo: {

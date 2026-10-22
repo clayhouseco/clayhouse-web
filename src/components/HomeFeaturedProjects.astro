@@ -4,6 +4,8 @@ export interface FeaturedProjectSlide {
   src: string;
   alt: string;
   label: string;
+  /** Caso de estudio indexable, cuando ya existe una página propia del proyecto. */
+  href?: string;
   /** srcset propio, para las fotos que optimiza Astro (`/ch-assets/…`): `srcSetFor`
    *  solo sabe de las que viven en `public/images`. */
   srcset?: string;
@@ -50,7 +52,9 @@ const total = slides.length;
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"
                 />
-                <figcaption>{slide.label}</figcaption>
+                <figcaption>
+                  {slide.href ? <a href={slide.href}>{slide.label}</a> : slide.label}
+                </figcaption>
               </figure>
             ))
           }
@@ -184,6 +188,17 @@ const total = slides.length;
     background: rgba(255, 251, 249, 0.92);
     border-radius: var(--radius-sm);
     z-index: 2;
+  }
+
+  .featured-projects__slide figcaption a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .featured-projects__slide figcaption a:hover,
+  .featured-projects__slide figcaption a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
   }
 
   .featured-projects__nav {

@@ -4,7 +4,7 @@
  * Dos comprobaciones sobre el sitio ya construido, en un Chrome de verdad:
  *
  *   1. axe-core, el mismo motor que usan Lighthouse y las herramientas de Deque, sobre
- *      doce páginas. Detecta contraste insuficiente, nombres accesibles que no coinciden
+ *      páginas representativas. Detecta contraste insuficiente, nombres accesibles que no coinciden
  *      con el texto visible, encabezados que saltan niveles y contenido fuera de todo
  *      punto de referencia.
  *   2. El teclado: que el primer tabulador llegue al enlace de saltar al contenido, que el
@@ -37,6 +37,7 @@ const PAGINAS = [
   "/contacto",
   "/blog/cuantos-ladrillos-por-m2",
   "/proyectos",
+  "/proyectos/edificio-el-solar-medellin",
   "/descargas",
 ];
 const AXE_URL = "https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.10.2/axe.min.js";
@@ -150,7 +151,7 @@ ok(
 
 await ir("/proyectos", 2800);
 await evaluar(
-  `(() => { const b = document.querySelector("[data-project-id]"); b.focus(); b.click(); })()`
+  `(() => { const b = document.querySelector("[data-project-open]"); b.focus(); b.click(); })()`
 );
 await esperar(700);
 ok(
@@ -179,7 +180,7 @@ ok(
   "Escape cierra el visor"
 );
 ok(
-  (await evaluar(`document.activeElement.hasAttribute("data-project-id")`)) === true,
+  (await evaluar(`document.activeElement.hasAttribute("data-project-open")`)) === true,
   "y el foco vuelve a la tarjeta desde la que se abrió"
 );
 
