@@ -137,42 +137,27 @@ hace Lighthouse—. Conviene repetirlo cada vez que se toque la medición.
    escribir lo que quiera en la tabla de cotizaciones. La migración que lo cierra está escrita
    y **sin ejecutar**, esperando dos decisiones. Ver [`pendientes-cotizador.md`](pendientes-cotizador.md).
    Es el riesgo de producción más real que tiene hoy el sitio.
-2. **No hay límite de peticiones por IP, y se decidió no ponerlo todavía.** Nada impide
-   insertar miles de cotizaciones válidas con la clave publicable.
+2. **No hay límite de peticiones por IP, y se decidió no ponerlo.** Nada impide insertar
+   miles de cotizaciones válidas con la clave publicable.
 
    **No puede tumbar la página.** El sitio es estático y se sirve desde el CDN; el navegador
    escribe directo en Supabase y Vercel ni participa. Lo que un abuso sí puede hacer es
    llenar de basura la bandeja del equipo comercial —diez mil cotizaciones falsas mezcladas
-   con las verdaderas y nadie encuentra las que importan— y consumir cuota de un proyecto que
-   sostiene el ERP.
+   con las verdaderas y nadie encuentra las que importan—.
 
-   **Por qué no se puso el freno.** Lo normal sería una Edge Function delante de la
-   escritura. Pero eso mete un componente nuevo en el único camino del sitio que genera
-   dinero: si falla, dejan de llegar cotizaciones. Es cambiar un riesgo de abuso poco
-   probable —requiere que alguien busque la clave en el HTML y escriba un script— por un
-   riesgo de disponibilidad en la ruta de ingresos. Es el mismo error de proporción que se
-   cometió con las restricciones de tabla del 21 de octubre, y se corrigió por la misma
-   razón.
+   **Por qué no hay freno ni vigilancia automática.** Un freno sería una Edge Function
+   delante de la escritura, y eso mete un componente nuevo en el único camino del sitio que
+   genera dinero: si falla, dejan de llegar cotizaciones. Una vigilancia automática necesita
+   o una credencial privilegiada del ERP, o un objeto nuevo dentro de su base. Las tres cosas
+   son la web metiéndose en el ERP, y eso no se hace (ver la regla al final de este
+   documento).
 
-   **Lo que sí hay: detección.** `npm run vigilar:cotizaciones` cuenta el ritmo de entrada y
-   marca un pico; `.github/workflows/vigilar.yml` lo corre cada seis horas y, si el ritmo es
-   anormal, el trabajo falla y GitHub manda un correo. No toca la base de datos —solo lee— ni
-   la ruta de escritura. Si alguna vez ocurre, el freno se diseña sabiendo qué patrón frenar,
-   y el propio aviso trae el SQL para cortar la escritura anónima mientras se limpia.
+   **Lo que hay:** `supabase/consultar-ritmo.sql`, una consulta de solo lectura que no deja
+   nada puesto. Se corre a mano si alguna vez hay sospecha, y trae al lado el SQL para cortar
+   la escritura anónima mientras se limpia — que deja el registro parado pero no el negocio,
+   porque WhatsApp y correo siguen funcionando.
 
-   **No necesita ninguna credencial privilegiada**, y esa es la mitad del diseño. La primera
-   versión pedía la `service_role` del ERP —la que se salta RLS y permite leer y modificar
-   todo: productos, precios, clientes— para contar filas, y guardarla como secreto en GitHub.
-   Pedir la llave maestra del negocio para contar es desproporcionado. En su lugar la base
-   expone `ritmo_cotizaciones_web()` (`supabase/ritmo-cotizaciones.sql`), que devuelve tres
-   enteros y nada más, y se llama con la clave que ya viaja en el HTML.
-
-   La hora la pone la base y no la máquina que vigila: el número de solicitud lo estampa el
-   reloj del visitante en hora de Colombia, y un servidor de integración corre en UTC — la
-   primera versión contaba la ventana con cinco horas de desfase.
-
-   Falta correr ese SQL una vez. Mientras no exista la función, el script lo dice y sale sin
-   poner el CI en rojo.
+   Es un riesgo conocido y aceptado, no uno que se pasó por alto.
 
 3. **El envío de reseñas no puede confirmar.** `ReviewForm` escribe en Apps Script con
    `mode: "no-cors"`: el navegador no puede leer la respuesta, así que la página lleva al
@@ -191,3 +176,33 @@ hace Lighthouse—. Conviene repetirlo cada vez que se toque la medición.
 2. `npm run build && npm run verificar:csp`.
 3. Si es un servicio que recibe datos de clientes, decir qué datos y por qué en
    [`privacidad`](../src/pages/privacidad.astro); la Ley 1581 pide informar a quién se entregan.
+
+---
+
+## 6. La web no toca el ERP
+
+El ERP tiene su propio código y su propio programa. **La página se arma con lo que se monte
+en el ERP, no al revés.** Nada que se haga por la web modifica el ERP: ni su base de datos,
+ni sus tablas, ni objetos nuevos dentro de ella.
+
+Lo único que la web hace contra esa base es **insertar** en `public.cotizaciones`, que es
+precisamente para lo que existe esa integración: que la solicitud caiga en la bandeja del
+ERP y no en una base aparte que nadie mira.
+
+**Lo que esta regla descartó, y conviene que conste**, porque la alternativa parecía
+razonable cada vez:
+
+| Se propuso                                  | Por qué se descartó                                                                |
+| ------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Restricciones de tabla en `cotizaciones`    | Aplican a todos, ERP incluido. Se pusieron el 21 oct y se retiraron ese mismo día. |
+| Una función `ritmo_cotizaciones_web()`      | Un objeto nuevo en la base del ERP, aunque solo devolviera números.                |
+| Usar la `service_role` del ERP para vigilar | La llave maestra del negocio, guardada en GitHub, para contar filas.               |
+
+Lo que sí queda aplicado, y es una sola cosa: **la política de inserción para el rol `anon`**
+(`supabase/cotizaciones-rls.sql`, paso 1). Gobierna únicamente lo que escribe el navegador
+con la clave publicable; el ERP entra con credenciales de servicio y se salta RLS, así que no
+lo alcanza. Se aplicó porque sin ella cualquiera podía escribir cualquier cosa en esa tabla.
+Si se decide que tampoco debe estar, se retira con un `drop policy` — y vuelve el agujero.
+
+Cuando haga falta algo del lado del servidor, va en el repositorio de la web, no en la base
+del ERP.

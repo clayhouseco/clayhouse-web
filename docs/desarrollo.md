@@ -43,7 +43,6 @@ npm run probar:resenas        # el envío de una reseña, con `fetch` doblado
 npm run probar:medicion       # los eventos y el registro en el ERP, con `fetch` doblado
 npm run probar:accesibilidad  # axe en 9 páginas + navegación con teclado
 npm audit --omit=dev          # vulnerabilidades en lo que viaja al navegador
-npm run vigilar:cotizaciones  # ritmo de entrada de cotizaciones (sin secretos)
 ```
 
 `npm run build:prod` —el que corre Vercel— encadena las que pueden cortar un despliegue:
@@ -114,3 +113,17 @@ por eso se prueba sin navegador. El cotizador está partido así a propósito �
 decide qué es válido, cómo se escribe la solicitud y qué fila recibe el ERP;
 `scripts/cotizacion/` solo lee el formulario y pinta—. Es la parte del sitio donde un error
 cuesta dinero, y era la única sin una sola prueba.
+
+---
+
+## 6. La regla que manda sobre todas
+
+**El ERP tiene su propio código y su propio programa. La página se arma con lo que se monte
+en el ERP, no al revés.**
+
+Nada que se haga por la web modifica el ERP: ni su base de datos, ni sus tablas, ni objetos
+nuevos dentro de ella. La web lee su catálogo —`npm run sync`— y le inserta cotizaciones, y
+eso es todo. Cuando algo parezca necesitar una función, un disparador o una restricción allá,
+la respuesta es que va en el repositorio de la web.
+
+Ver el punto 6 de [`seguridad.md`](seguridad.md) para lo que esta regla ya descartó.
