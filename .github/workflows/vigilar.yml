@@ -1,0 +1,39 @@
+# ¿ALGUIEN ESTÁ ABUSANDO DEL COTIZADOR?
+#
+# La clave publicable viaja en el HTML —como corresponde— y la política de RLS acota QUÉ se
+# puede escribir, pero no CUÁNTAS veces. Esto no lo impide: se entera.
+#
+# NO PUEDE TUMBAR LA PÁGINA. El sitio es estático y se sirve desde el CDN; el navegador
+# escribe directo en Supabase y Vercel ni participa. Lo que un abuso sí puede hacer es llenar
+# de basura la bandeja del equipo comercial, que es el daño que de verdad cuesta.
+#
+# CÓMO AVISA: si el ritmo es anormal, el trabajo falla, y GitHub manda un correo a quien
+# administra el repositorio. No hace falta montar nada más.
+#
+# QUÉ NECESITA: un secreto del repositorio llamado `SUPABASE_SERVICE_KEY`
+# (Supabase → Project Settings → API → `service_role`). Mientras no exista, esto corre y sale
+# bien sin mirar nada, explicando qué falta — no se pone en rojo por una pieza que no está.
+
+name: Vigilar cotizaciones
+
+on:
+  schedule:
+    # Cada seis horas. Un abuso hace daño en horas, no en minutos: no hace falta más.
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  vigilar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.22.0"
+
+      - name: Ritmo de cotizaciones
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        # Sin dependencias: el script solo usa `fetch`, que Node trae.
+        run: node scripts/vigilar-cotizaciones.mjs --strict

@@ -137,8 +137,32 @@ hace Lighthouse—. Conviene repetirlo cada vez que se toque la medición.
    escribir lo que quiera en la tabla de cotizaciones. La migración que lo cierra está escrita
    y **sin ejecutar**, esperando dos decisiones. Ver [`pendientes-cotizador.md`](pendientes-cotizador.md).
    Es el riesgo de producción más real que tiene hoy el sitio.
-2. **No hay límite de peticiones por IP.** Nada impide insertar miles de cotizaciones válidas
-   con esa clave. Exige una Edge Function o el rate limiting de Supabase.
+2. **No hay límite de peticiones por IP, y se decidió no ponerlo todavía.** Nada impide
+   insertar miles de cotizaciones válidas con la clave publicable.
+
+   **No puede tumbar la página.** El sitio es estático y se sirve desde el CDN; el navegador
+   escribe directo en Supabase y Vercel ni participa. Lo que un abuso sí puede hacer es
+   llenar de basura la bandeja del equipo comercial —diez mil cotizaciones falsas mezcladas
+   con las verdaderas y nadie encuentra las que importan— y consumir cuota de un proyecto que
+   sostiene el ERP.
+
+   **Por qué no se puso el freno.** Lo normal sería una Edge Function delante de la
+   escritura. Pero eso mete un componente nuevo en el único camino del sitio que genera
+   dinero: si falla, dejan de llegar cotizaciones. Es cambiar un riesgo de abuso poco
+   probable —requiere que alguien busque la clave en el HTML y escriba un script— por un
+   riesgo de disponibilidad en la ruta de ingresos. Es el mismo error de proporción que se
+   cometió con las restricciones de tabla del 21 de octubre, y se corrigió por la misma
+   razón.
+
+   **Lo que sí hay: detección.** `npm run vigilar:cotizaciones` cuenta el ritmo de entrada y
+   marca un pico; `.github/workflows/vigilar.yml` lo corre cada seis horas y, si el ritmo es
+   anormal, el trabajo falla y GitHub manda un correo. No toca la base de datos —solo lee— ni
+   la ruta de escritura. Si alguna vez ocurre, el freno se diseña sabiendo qué patrón frenar,
+   y el propio aviso trae el SQL para cortar la escritura anónima mientras se limpia.
+
+   Necesita un secreto `SUPABASE_SERVICE_KEY` en el repositorio; mientras no exista, el
+   script sale bien explicando qué falta, sin poner el CI en rojo.
+
 3. **El envío de reseñas no puede confirmar.** `ReviewForm` escribe en Apps Script con
    `mode: "no-cors"`: el navegador no puede leer la respuesta, así que la página lleva al
    visitante a «gracias» aunque la fila no se haya escrito. Es el mismo patrón que se corrigió
