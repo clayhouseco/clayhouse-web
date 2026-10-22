@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-10-20T17:22:07.807Z",
+  "actualizado": "2026-10-22T18:28:43.531Z",
   "productos": [
     {
       "precio": 4350,
@@ -54,1000 +54,6 @@
           "precio": 4350,
           "textura": null,
           "texturaNombre": null
-        }
-      ]
-    },
-    {
-      "precio": 3320,
-      "codigo": "TES",
-      "id": "teja-s",
-      "nombre": "Teja S",
-      "categoria": "techos",
-      "pagina": "teja-s",
-      "dimension": "30*45*9",
-      "rendimiento": "10.5",
-      "pesoKg": 3.3,
-      "unidad": "unidad",
-      "descripcion": "La Teja Ese (también llamada teja \"S\") es una variante moderna de arcilla o gres que simula visualmente la combinación de una teja canal y una cobija en una sola pieza",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Liso"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Cubierta visible"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4051- NTC 2086"
-        }
-      ],
-      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790959448507-Teja-S.png",
-      "fotos": [
-        "/productos/products/teja-s/DSC_9381.jpg"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790960111302-Teja-S.png",
-          "fotos": [],
-          "precio": 3320,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
-        }
-      ]
-    },
-    {
-      "precio": 110000,
-      "codigo": "ENC-THI",
-      "id": "enchape-thinbrick",
-      "nombre": "Enchape Thinbrick",
-      "categoria": "enchapes",
-      "pagina": "enchape-thinbrick",
-      "dimension": "5*20*1",
-      "rendimiento": "95",
-      "pesoKg": 0.33,
-      "unidad": "m2",
-      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Corcho"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205 · contracción +0 / 2%"
-        },
-        {
-          "etiqueta": "Espesor",
-          "valor": "1 cm"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Revestimiento de muros interiores"
-        },
-        {
-          "etiqueta": "Resistencia y absorción",
-          "valor": "No aplica (revestimiento)"
-        }
-      ],
-      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
-      "fotos": [],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
-          ],
-          "precio": 110000,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
-          "codigo": "BIA",
-          "nombre": "Bianco",
-          "hex": "#e8e2d8",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568935184-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg",
-          "fotos": [
-            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568984005-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg"
-          ],
-          "precio": 110000,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
-          "codigo": "CAP",
-          "nombre": "Capuccino",
-          "hex": "#a9846b",
-          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
-          ],
-          "precio": 110000,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
-          "codigo": "COC",
-          "nombre": "Cocoa",
-          "hex": "#5a4636",
-          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
-          "fotos": [
-            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
-          ],
-          "precio": 110000,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        }
-      ]
-    },
-    {
-      "precio": 2700,
-      "codigo": "CAR",
-      "id": "cartagena",
-      "nombre": "Cartagena",
-      "categoria": "fachadas",
-      "pagina": "cartagena",
-      "dimension": "30*11*4.5",
-      "rendimiento": "≈ 72 und/m²",
-      "pesoKg": 2.8,
-      "unidad": "unidad",
-      "descripcion": "Fachada comercializada Cartagena. Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Texturizado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Fachada y muro"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 4%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
-        }
-      ],
-      "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
-      "fotos": [
-        "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
-        "/productos/products/cartagena/Cartagena%20dimensiones.webp",
-        "/productos/products/cartagena/matizado%20claro/Cartagena%20Matizado-n.webp",
-        "/productos/products/cartagena/matizado%20oscuro/Cartagena%20Oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro.webp",
-          "fotos": [],
-          "precio": 2700,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
-        },
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792081518760-Cartagena-Matizado-n.webp",
-          "fotos": [],
-          "precio": 2700,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
-        },
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "hex": "#6f3a2c",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792081540180-Cartagena-Oscuro-n.webp",
-          "fotos": [],
-          "precio": 2700,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
-        }
-      ]
-    },
-    {
-      "precio": 3190,
-      "codigo": "R15V",
-      "id": "rayado-15-v",
-      "nombre": "Rayado de 15 Vertical",
-      "categoria": "divisorios",
-      "pagina": "rayados-verticales",
-      "dimension": "15*20*40",
-      "rendimiento": "≈ 12.5 und/m²",
-      "pesoKg": 9.5,
-      "unidad": "unidad",
-      "descripcion": "Bloque rayado 15 vertical. Maneja Primera y Segunda.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rayado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Divisorios y cerramientos"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Minimo 18 MPa"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        }
-      ],
-      "imagen": "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
-      "fotos": [
-        "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
-        "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
-          "fotos": [],
-          "precio": 3190,
-          "textura": "RAY",
-          "texturaNombre": "Rayado"
-        }
-      ]
-    },
-    {
-      "precio": 2190,
-      "codigo": "R12H",
-      "id": "rayado-12-h",
-      "nombre": "Rayado de 12 Horizontal",
-      "categoria": "divisorios",
-      "pagina": "rayados-horizontales",
-      "dimension": "12*20*40",
-      "rendimiento": "≈ 12.5 und/m²",
-      "pesoKg": 7.2,
-      "unidad": "unidad",
-      "descripcion": "Bloque rayado 12 horizontal. Maneja Primera y Segunda.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rayado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Divisorios y cerramientos"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 5 MPa Individual 3 MPa"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        }
-      ],
-      "imagen": "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
-      "fotos": [
-        "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
-        "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
-          "fotos": [],
-          "precio": 2190,
-          "textura": "RAY",
-          "texturaNombre": "Rayado"
-        }
-      ]
-    },
-    {
-      "precio": 1790,
-      "codigo": "R10H",
-      "id": "rayado-10-h",
-      "nombre": "Rayado de 10 Horizontal",
-      "categoria": "divisorios",
-      "pagina": "rayados-horizontales",
-      "dimension": "10*20*40",
-      "rendimiento": "≈ 12.5 und/m²",
-      "pesoKg": 5.5,
-      "unidad": "unidad",
-      "descripcion": "Bloque rayado 10 horizontal. Maneja Primera y Segunda.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rayado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Divisorios y cerramientos"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 5 MPa Individual 3 MPa"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        }
-      ],
-      "imagen": "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
-      "fotos": [
-        "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
-        "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20horizontal%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
-          "fotos": [],
-          "precio": 1790,
-          "textura": "RAY",
-          "texturaNombre": "Rayado"
-        }
-      ]
-    },
-    {
-      "precio": 2290,
-      "codigo": "MAC-624",
-      "id": "macizo-6-24",
-      "nombre": "Macizo",
-      "categoria": "fachadas",
-      "pagina": "macizo-brix",
-      "dimension": "6*13*25",
-      "rendimiento": "≈ 35 und/m²",
-      "pesoKg": 3.8,
-      "unidad": "unidad",
-      "descripcion": "Ladrillo macizo 7x12x24.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Macizo"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Estructural"
-        }
-      ],
-      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353709234-macizo-6-12-24.jpeg",
-      "fotos": [
-        "/productos/products/macizo-brix/macizo%206x12x24%20dimensiones.webp",
-        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353732758-macizo2.jpeg",
-        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353733576-macizo1.jpeg"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792092436402-macizo-6x12x24-dimensiones.webp",
-          "fotos": [],
-          "precio": 2290,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
-        }
-      ]
-    },
-    {
-      "precio": 4880,
-      "codigo": "TEJ-PLA",
-      "id": "teja-plana",
-      "nombre": "Teja Plana",
-      "categoria": "techos",
-      "pagina": "teja-plana",
-      "dimension": "40 x 25 x 1.5 cm",
-      "rendimiento": "≈ 13 und/m²",
-      "pesoKg": 2.7,
-      "unidad": "unidad",
-      "descripcion": "Teja Plana comercializada. Colores Natural y Chocolate. m². Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Plana"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Cubierta visible"
-        }
-      ],
-      "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
-      "fotos": [
-        "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
-        "/productos/products/teja-plana/natural/teja%20plana%20natural%20dimensiones.webp",
-        "/productos/products/teja-plana/chocolate/Teja%20Plana%20Chocolate%20Lisa-n.webp",
-        "/productos/products/teja-plana/chocolate/teja%20plana%20chocolate%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural.webp",
-          "fotos": [],
-          "precio": 4880,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
-        },
-        {
-          "codigo": "CHO",
-          "nombre": "Chocolate",
-          "hex": "#4a2c20",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792426347064-Teja-Plana-Chcolate-Lisa.png",
-          "fotos": [],
-          "precio": 6000,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
-        }
-      ]
-    },
-    {
-      "precio": 3100,
-      "codigo": "GFP",
-      "id": "ladrillo-gran-formato-prensado",
-      "nombre": "Ladrillo Gran Formato Prensado",
-      "categoria": "fachadas",
-      "pagina": "gran-formato-prensado",
-      "dimension": "39 x 11.5 x 5 cm",
-      "rendimiento": "≈ 41 und/m²",
-      "pesoKg": 3.1,
-      "unidad": "unidad",
-      "descripcion": "Fachada comercializada de gran formato prensado. Colores Arena, Natural, Cocoa y Adobe. Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Prensado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205 · NSR-10"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Fachada / muro divisorio"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Máx. 11% (promedio)"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Mínimo 25 MPa (promedio)"
-        }
-      ],
-      "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
-      "fotos": [],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "ARE",
-          "nombre": "Arena",
-          "hex": "#c9a876",
-          "imagen": "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
-          "fotos": [
-            "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
-            "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-dimensiones.webp"
-          ],
-          "precio": 3850,
-          "textura": "PRE",
-          "texturaNombre": "Prensado"
-        },
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
-          "fotos": [
-            "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
-            "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-dimensiones.webp"
-          ],
-          "precio": 3100,
-          "textura": "PRE",
-          "texturaNombre": "Prensado"
-        },
-        {
-          "codigo": "COC",
-          "nombre": "Cocoa",
-          "hex": "#5a4636",
-          "imagen": "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
-          "fotos": [
-            "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
-            "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-dimensiones.webp"
-          ],
-          "precio": 4250,
-          "textura": "PRE",
-          "texturaNombre": "Prensado"
-        },
-        {
-          "codigo": "ADO",
-          "nombre": "Adobe",
-          "hex": "#d8c9ae",
-          "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
-          "fotos": [
-            "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
-            "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-dimensiones.webp"
-          ],
-          "precio": 3600,
-          "textura": "PRE",
-          "texturaNombre": "Prensado"
-        }
-      ]
-    },
-    {
-      "precio": 2250,
-      "codigo": "TOS",
-      "id": "toscano",
-      "nombre": "Toscano",
-      "categoria": "fachadas",
-      "pagina": "toscano",
-      "dimension": "14*5,2*28,5",
-      "rendimiento": "≈ 68 und/m²",
-      "pesoKg": 1.8,
-      "unidad": "unidad",
-      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Tallada"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205-2 / 4205-3"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Fachada"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 13% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 14 MPa · Individual 10 MPa"
-        }
-      ],
-      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-      "fotos": [
-        "/productos/products/toscano/natural/toscano%20natural-n.webp",
-        "/productos/products/toscano/isometrico%20toscano.webp",
-        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "hex": "#6f3a2c",
-          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
-          "fotos": [],
-          "precio": 2250,
-          "textura": null,
-          "texturaNombre": null
-        },
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
-          "fotos": [],
-          "precio": 2250,
-          "textura": null,
-          "texturaNombre": null
-        },
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
-          "fotos": [],
-          "precio": 2250,
-          "textura": null,
-          "texturaNombre": null
-        }
-      ]
-    },
-    {
-      "precio": 2990,
-      "codigo": "R12V",
-      "id": "rayado-12-v",
-      "nombre": "Rayado de 12 Vertical",
-      "categoria": "divisorios",
-      "pagina": "rayados-verticales",
-      "dimension": "12*20*40",
-      "rendimiento": "≈ 12.5 und/m²",
-      "pesoKg": 8,
-      "unidad": "unidad",
-      "descripcion": "Bloque rayado 12 vertical. Maneja Primera y Segunda.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rayado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Divisorios y cerramientos"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Minimo 18 MPa"
-        }
-      ],
-      "imagen": "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
-      "fotos": [
-        "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
-        "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
-          "fotos": [],
-          "precio": 2990,
-          "textura": "RAY",
-          "texturaNombre": "Rayado"
-        }
-      ]
-    },
-    {
-      "precio": 1600,
-      "codigo": "TEJ-COL",
-      "id": "teja-colonial",
-      "nombre": "Teja Colonial",
-      "categoria": "techos",
-      "pagina": "teja-colonial",
-      "dimension": "40 x 23 cm",
-      "rendimiento": "≈ 20 und/m²",
-      "pesoKg": 1.8,
-      "unidad": "unidad",
-      "descripcion": "Teja Colonial (Española) comercializada. Unidad de venta m². Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Colonial"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Cubierta visible"
-        }
-      ],
-      "imagen": "/productos/teja-colonial.jpg",
-      "fotos": [
-        "/productos/products/teja-colonial/teja%20colonial%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/teja-colonial/roja/teja%20colonial%20natural.webp",
-          "fotos": [],
-          "precio": 1600,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
-        }
-      ]
-    },
-    {
-      "precio": 1650,
-      "codigo": "MAC-CAM",
-      "id": "macizo-campesino",
-      "nombre": "Macizo Campesino",
-      "categoria": "fachadas",
-      "pagina": "macizo-campesino",
-      "dimension": "6 x 10 x 20 cm",
-      "rendimiento": "84",
-      "pesoKg": 2,
-      "unidad": "unidad",
-      "descripcion": "Ladrillo macizo campesino, cara rústica. Matizado claro y oscuro. Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rústico"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Estructural y fachada"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 13% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 5 MPa Individual 3 MPa"
-        }
-      ],
-      "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro-n.webp",
-      "fotos": [
-        "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro-n.webp",
-        "/productos/products/macizo-campesino/macizo%20campesino%20dimensiones.webp",
-        "/productos/products/macizo-campesino/matizado%20oscuro/Campesino%20Oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
-          "fotos": [],
-          "precio": 1650,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
-        },
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "hex": "#6f3a2c",
-          "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
-          "fotos": [],
-          "precio": 1650,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
-        }
-      ]
-    },
-    {
-      "precio": 89500,
-      "codigo": "ENC-ROM",
-      "id": "enchape-romano",
-      "nombre": "Enchape Romano",
-      "categoria": "enchapes",
-      "pagina": "enchape-romano",
-      "dimension": "28 x 6 x 1.3 cm",
-      "rendimiento": "≈ 60 und/m²",
-      "pesoKg": 0.75,
-      "unidad": "m2",
-      "descripcion": "Enchape tipo Romano. Solo Primera.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Romano"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Revestimiento y detalle"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Mínimo 2 MPa"
-        }
-      ],
-      "imagen": "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
-      "fotos": [
-        "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
-        "/productos/products/enchape-romano/enchape%20romano%20dimensiones.webp",
-        "/productos/products/enchape-romano/matizado/Chapa%20Matizada%20Clara-n.webp",
-        "/productos/products/enchape-romano/matizado%20oscuro/Enchape%20Matizado%20Oscuro-n.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
-          "fotos": [],
-          "precio": 89500,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
-          "fotos": [],
-          "precio": 89500,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
-          "codigo": "MO",
-          "nombre": "Matizado Oscuro",
-          "hex": "#6f3a2c",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091846135-Enchape-Matizado-Oscuro-n.webp",
-          "fotos": [],
-          "precio": 89500,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        }
-      ]
-    },
-    {
-      "precio": 2390,
-      "codigo": "R10V",
-      "id": "rayado-10-v",
-      "nombre": "Rayado de 10 Vertical",
-      "categoria": "divisorios",
-      "pagina": "rayados-verticales",
-      "dimension": "10*20*40",
-      "rendimiento": "≈ 12.5 und/m²",
-      "pesoKg": 5.5,
-      "unidad": "unidad",
-      "descripcion": "Bloque rayado 10 vertical. Maneja Primera y Segunda.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rayado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Divisorios y cerramientos"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Minimo 18 MPa"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        }
-      ],
-      "imagen": "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
-      "fotos": [
-        "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
-        "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
-          "fotos": [],
-          "precio": 2390,
-          "textura": "RAY",
-          "texturaNombre": "Rayado"
-        }
-      ]
-    },
-    {
-      "precio": 4000,
-      "codigo": "CAL-15",
-      "id": "calado-15",
-      "nombre": "Calado 15",
-      "categoria": "decorativos",
-      "pagina": "calado",
-      "dimension": "19.5 x 20 cm · espesor 14 cm",
-      "rendimiento": "≈ 26 und/m²",
-      "pesoKg": 5,
-      "unidad": "unidad",
-      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 15 cm. Ventila y tamiza la luz.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Artesanal"
-        },
-        {
-          "etiqueta": "Calado 10 cm",
-          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
-        },
-        {
-          "etiqueta": "Calado 15 cm",
-          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
-        },
-        {
-          "etiqueta": "Patrón",
-          "valor": "Cuatrifolio calado"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Celosía divisoria / decorativa (no estructural)"
-        },
-        {
-          "etiqueta": "Acabado",
-          "valor": "Arcilla natural a la vista"
-        }
-      ],
-      "imagen": "/productos/products/calado/calado-muro.webp",
-      "fotos": [
-        "/productos/products/calado/calado-muro.webp",
-        "/productos/products/calado/15/calado-15-dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/calado/calado-muro.webp",
-          "fotos": [],
-          "precio": 4000,
-          "textura": "LIS",
-          "texturaNombre": "Liso"
         }
       ]
     },
@@ -1205,6 +211,886 @@
       ]
     },
     {
+      "precio": 4000,
+      "codigo": "CAL-15",
+      "id": "calado-15",
+      "nombre": "Calado 15",
+      "categoria": "decorativos",
+      "pagina": "calado",
+      "dimension": "19.5 x 20 cm · espesor 14 cm",
+      "rendimiento": "≈ 26 und/m²",
+      "pesoKg": 5,
+      "unidad": "unidad",
+      "descripcion": "Celosía de arcilla con patrón cuatrifolio, espesor 15 cm. Ventila y tamiza la luz.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Artesanal"
+        },
+        {
+          "etiqueta": "Calado 10 cm",
+          "valor": "Cara 19,5 × 19,5 cm · espesor 9,3 cm · 3,5 kg"
+        },
+        {
+          "etiqueta": "Calado 15 cm",
+          "valor": "Cara 19,5 × 20 cm · espesor 14 cm · 5,0 kg"
+        },
+        {
+          "etiqueta": "Patrón",
+          "valor": "Cuatrifolio calado"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Celosía divisoria / decorativa (no estructural)"
+        },
+        {
+          "etiqueta": "Acabado",
+          "valor": "Arcilla natural a la vista"
+        }
+      ],
+      "imagen": "/productos/products/calado/calado-muro.webp",
+      "fotos": [
+        "/productos/products/calado/calado-muro.webp",
+        "/productos/products/calado/15/calado-15-dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/calado/calado-muro.webp",
+          "fotos": [],
+          "precio": 4000,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 2700,
+      "codigo": "CAR",
+      "id": "cartagena",
+      "nombre": "Cartagena",
+      "categoria": "fachadas",
+      "pagina": "cartagena",
+      "dimension": "30*11*4.5",
+      "rendimiento": "≈ 72 und/m²",
+      "pesoKg": 2.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada comercializada Cartagena. Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Texturizado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada y muro"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 4%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
+        }
+      ],
+      "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
+      "fotos": [
+        "/productos/products/cartagena/natural/Cartagena%20Claro-n.webp",
+        "/productos/products/cartagena/Cartagena%20dimensiones.webp",
+        "/productos/products/cartagena/matizado%20claro/Cartagena%20Matizado-n.webp",
+        "/productos/products/cartagena/matizado%20oscuro/Cartagena%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/cartagena/natural/Cartagena%20Claro.webp",
+          "fotos": [],
+          "precio": 2700,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792081518760-Cartagena-Matizado-n.webp",
+          "fotos": [],
+          "precio": 2700,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792081540180-Cartagena-Oscuro-n.webp",
+          "fotos": [],
+          "precio": 2700,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
+        }
+      ]
+    },
+    {
+      "precio": 2000,
+      "codigo": "CAT",
+      "id": "catalan",
+      "nombre": "Catalán Horizontal",
+      "categoria": "fachadas",
+      "pagina": "catalan",
+      "dimension": "10*15*30",
+      "rendimiento": "33",
+      "pesoKg": 3,
+      "unidad": "unidad",
+      "descripcion": "El producto mas utilizado para las fachadas en Medellin por excelencia. Ha sido tradicionalmente utilizado en todos los lugares de Antioquia",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Liso"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205-2 / 4205-3"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 13% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 5 MPa Individual 3 MPa"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
+        }
+      ],
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360212282-catalan-horizontal-apilado.jpeg",
+      "fotos": [
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360261698-catalanh2.jpeg",
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360262354-catalanh1.jpeg"
+      ],
+      "orden": 5,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790366441103-catalanh1.jpeg",
+          "fotos": [],
+          "precio": 2000,
+          "textura": null,
+          "texturaNombre": null
+        }
+      ]
+    },
+    {
+      "precio": 89500,
+      "codigo": "ENC-ROM",
+      "id": "enchape-romano",
+      "nombre": "Enchape Romano",
+      "categoria": "enchapes",
+      "pagina": "enchape-romano",
+      "dimension": "28 x 6 x 1.3 cm",
+      "rendimiento": "≈ 60 und/m²",
+      "pesoKg": 0.75,
+      "unidad": "m2",
+      "descripcion": "Enchape tipo Romano. Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Romano"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Revestimiento y detalle"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Mínimo 2 MPa"
+        }
+      ],
+      "imagen": "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
+      "fotos": [
+        "/productos/products/enchape-romano/natural/Enchape%20Natural-n.webp",
+        "/productos/products/enchape-romano/enchape%20romano%20dimensiones.webp",
+        "/productos/products/enchape-romano/matizado/Chapa%20Matizada%20Clara-n.webp",
+        "/productos/products/enchape-romano/matizado%20oscuro/Enchape%20Matizado%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
+          "fotos": [],
+          "precio": 89500,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
+          "fotos": [],
+          "precio": 89500,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091846135-Enchape-Matizado-Oscuro-n.webp",
+          "fotos": [],
+          "precio": 89500,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        }
+      ]
+    },
+    {
+      "precio": 110000,
+      "codigo": "ENC-THI",
+      "id": "enchape-thinbrick",
+      "nombre": "Enchape Thinbrick",
+      "categoria": "enchapes",
+      "pagina": "enchape-thinbrick",
+      "dimension": "5*20*1",
+      "rendimiento": "95",
+      "pesoKg": 0.33,
+      "unidad": "m2",
+      "descripcion": "Enchape de bajo espesor (thin brick) para revestimiento interior y exterior.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Corcho"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205 · contracción +0 / 2%"
+        },
+        {
+          "etiqueta": "Espesor",
+          "valor": "1 cm"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Revestimiento de muros interiores"
+        },
+        {
+          "etiqueta": "Resistencia y absorción",
+          "valor": "No aplica (revestimiento)"
+        }
+      ],
+      "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/natural/enchape-thinbrick-natural.webp"
+          ],
+          "precio": 110000,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "BIA",
+          "nombre": "Bianco",
+          "hex": "#e8e2d8",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568935184-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg",
+          "fotos": [
+            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1791568984005-WhatsApp-Image-2026-10-06-at-10.58.04.jpeg"
+          ],
+          "precio": 110000,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "CAP",
+          "nombre": "Capuccino",
+          "hex": "#a9846b",
+          "imagen": "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/capuccino/enchape-thinbrick-capuccino-real.webp"
+          ],
+          "precio": 110000,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "hex": "#5a4636",
+          "imagen": "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp",
+          "fotos": [
+            "/productos/products/enchape-thinbrick/cocoa/enchape-thinbrick-cocoa-real.webp"
+          ],
+          "precio": 110000,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        }
+      ]
+    },
+    {
+      "precio": 3100,
+      "codigo": "GFP",
+      "id": "ladrillo-gran-formato-prensado",
+      "nombre": "Ladrillo Gran Formato Prensado",
+      "categoria": "fachadas",
+      "pagina": "gran-formato-prensado",
+      "dimension": "39 x 11.5 x 5 cm",
+      "rendimiento": "≈ 41 und/m²",
+      "pesoKg": 3.1,
+      "unidad": "unidad",
+      "descripcion": "Fachada comercializada de gran formato prensado. Colores Arena, Natural, Cocoa y Adobe. Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Prensado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205 · NSR-10"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada / muro divisorio"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Máx. 11% (promedio)"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Mínimo 25 MPa (promedio)"
+        }
+      ],
+      "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
+      "fotos": [],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "ARE",
+          "nombre": "Arena",
+          "hex": "#c9a876",
+          "imagen": "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-n.webp",
+            "/productos/products/gran-formato-prensado/arena/gran-formato-prensado-arena-dimensiones.webp"
+          ],
+          "precio": 3850,
+          "textura": "PRE",
+          "texturaNombre": "Prensado"
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-n.webp",
+            "/productos/products/gran-formato-prensado/natural/gran-formato-prensado-natural-dimensiones.webp"
+          ],
+          "precio": 3100,
+          "textura": "PRE",
+          "texturaNombre": "Prensado"
+        },
+        {
+          "codigo": "COC",
+          "nombre": "Cocoa",
+          "hex": "#5a4636",
+          "imagen": "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-n.webp",
+            "/productos/products/gran-formato-prensado/cocoa/gran-formato-prensado-cocoa-dimensiones.webp"
+          ],
+          "precio": 4250,
+          "textura": "PRE",
+          "texturaNombre": "Prensado"
+        },
+        {
+          "codigo": "ADO",
+          "nombre": "Adobe",
+          "hex": "#d8c9ae",
+          "imagen": "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
+          "fotos": [
+            "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-n.webp",
+            "/productos/products/gran-formato-prensado/adobe/gran-formato-prensado-adobe-dimensiones.webp"
+          ],
+          "precio": 3600,
+          "textura": "PRE",
+          "texturaNombre": "Prensado"
+        }
+      ]
+    },
+    {
+      "precio": 2290,
+      "codigo": "MAC-624",
+      "id": "macizo-6-24",
+      "nombre": "Macizo",
+      "categoria": "fachadas",
+      "pagina": "macizo-brix",
+      "dimension": "6*13*25",
+      "rendimiento": "≈ 35 und/m²",
+      "pesoKg": 3.8,
+      "unidad": "unidad",
+      "descripcion": "Ladrillo macizo 7x12x24.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Macizo"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Estructural"
+        }
+      ],
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353709234-macizo-6-12-24.jpeg",
+      "fotos": [
+        "/productos/products/macizo-brix/macizo%206x12x24%20dimensiones.webp",
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353732758-macizo2.jpeg",
+        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790353733576-macizo1.jpeg"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792092436402-macizo-6x12x24-dimensiones.webp",
+          "fotos": [],
+          "precio": 2290,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 1650,
+      "codigo": "MAC-CAM",
+      "id": "macizo-campesino",
+      "nombre": "Macizo Campesino",
+      "categoria": "fachadas",
+      "pagina": "macizo-campesino",
+      "dimension": "6 x 10 x 20 cm",
+      "rendimiento": "84",
+      "pesoKg": 2,
+      "unidad": "unidad",
+      "descripcion": "Ladrillo macizo campesino, cara rústica. Matizado claro y oscuro. Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rústico"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Estructural y fachada"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 13% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 5 MPa Individual 3 MPa"
+        }
+      ],
+      "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro-n.webp",
+      "fotos": [
+        "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro-n.webp",
+        "/productos/products/macizo-campesino/macizo%20campesino%20dimensiones.webp",
+        "/productos/products/macizo-campesino/matizado%20oscuro/Campesino%20Oscuro-n.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
+          "fotos": [],
+          "precio": 1650,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
+        },
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "/productos/products/macizo-campesino/matizado%20claro/Campesino%20Claro.webp",
+          "fotos": [],
+          "precio": 1650,
+          "textura": "RUS",
+          "texturaNombre": "Rústico"
+        }
+      ]
+    },
+    {
+      "precio": 1790,
+      "codigo": "R10H",
+      "id": "rayado-10-h",
+      "nombre": "Rayado de 10 Horizontal",
+      "categoria": "divisorios",
+      "pagina": "rayados-horizontales",
+      "dimension": "10*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 5.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 10 horizontal. Maneja Primera y Segunda.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rayado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Divisorios y cerramientos"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 5 MPa Individual 3 MPa"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        }
+      ],
+      "imagen": "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
+      "fotos": [
+        "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
+        "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20horizontal%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/rayados-horizontales/rayado%2010-horizontal/rayado%2010%20imagen.webp",
+          "fotos": [],
+          "precio": 1790,
+          "textura": "RAY",
+          "texturaNombre": "Rayado"
+        }
+      ]
+    },
+    {
+      "precio": 2390,
+      "codigo": "R10V",
+      "id": "rayado-10-v",
+      "nombre": "Rayado de 10 Vertical",
+      "categoria": "divisorios",
+      "pagina": "rayados-verticales",
+      "dimension": "10*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 5.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 10 vertical. Maneja Primera y Segunda.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rayado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Divisorios y cerramientos"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Minimo 18 MPa"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        }
+      ],
+      "imagen": "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
+        "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/rayados-verticales/rayado%2010-vertical/rayado%2010%20vertical%20apilados.webp",
+          "fotos": [],
+          "precio": 2390,
+          "textura": "RAY",
+          "texturaNombre": "Rayado"
+        }
+      ]
+    },
+    {
+      "precio": 2190,
+      "codigo": "R12H",
+      "id": "rayado-12-h",
+      "nombre": "Rayado de 12 Horizontal",
+      "categoria": "divisorios",
+      "pagina": "rayados-horizontales",
+      "dimension": "12*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 7.2,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 12 horizontal. Maneja Primera y Segunda.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rayado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Divisorios y cerramientos"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 5 MPa Individual 3 MPa"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        }
+      ],
+      "imagen": "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
+        "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/rayados-horizontales/rayado%2012-horizontal/rayado%2012%20horizontal%20apilados.webp",
+          "fotos": [],
+          "precio": 2190,
+          "textura": "RAY",
+          "texturaNombre": "Rayado"
+        }
+      ]
+    },
+    {
+      "precio": 2990,
+      "codigo": "R12V",
+      "id": "rayado-12-v",
+      "nombre": "Rayado de 12 Vertical",
+      "categoria": "divisorios",
+      "pagina": "rayados-verticales",
+      "dimension": "12*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 8,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 12 vertical. Maneja Primera y Segunda.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rayado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Divisorios y cerramientos"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Minimo 18 MPa"
+        }
+      ],
+      "imagen": "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
+      "fotos": [
+        "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
+        "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/rayados-verticales/rayado%2012-vertical/rayado%2012%20vertical%20apilado.webp",
+          "fotos": [],
+          "precio": 2990,
+          "textura": "RAY",
+          "texturaNombre": "Rayado"
+        }
+      ]
+    },
+    {
+      "precio": 2390,
+      "codigo": "R15H",
+      "id": "rayado-15-h",
+      "nombre": "Rayado de 15 Horizontal",
+      "categoria": "divisorios",
+      "pagina": "rayados-horizontales",
+      "dimension": "15*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 8.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 15 horizontal. Maneja Primera y Segunda.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rayado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Divisorios y cerramientos"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Promedio 5 MPa Individual 3 MPa"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        }
+      ],
+      "imagen": "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
+        "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
+          "fotos": [],
+          "precio": 2390,
+          "textura": "RAY",
+          "texturaNombre": "Rayado"
+        }
+      ]
+    },
+    {
+      "precio": 3190,
+      "codigo": "R15V",
+      "id": "rayado-15-v",
+      "nombre": "Rayado de 15 Vertical",
+      "categoria": "divisorios",
+      "pagina": "rayados-verticales",
+      "dimension": "15*20*40",
+      "rendimiento": "≈ 12.5 und/m²",
+      "pesoKg": 9.5,
+      "unidad": "unidad",
+      "descripcion": "Bloque rayado 15 vertical. Maneja Primera y Segunda.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Rayado"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Divisorios y cerramientos"
+        },
+        {
+          "etiqueta": "Resistencia a la compresión",
+          "valor": "Minimo 18 MPa"
+        },
+        {
+          "etiqueta": "Absorción de agua",
+          "valor": "Promedio 14% · Individual 17%"
+        }
+      ],
+      "imagen": "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
+      "fotos": [
+        "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
+        "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/rayados-verticales/rayado%2015-vertical/rayado%2015%20vertical%20apilados.webp",
+          "fotos": [],
+          "precio": 3190,
+          "textura": "RAY",
+          "texturaNombre": "Rayado"
+        }
+      ]
+    },
+    {
       "precio": 2450,
       "codigo": "ROM",
       "id": "romano",
@@ -1284,59 +1170,6 @@
           "precio": 2450,
           "textura": null,
           "texturaNombre": null
-        }
-      ]
-    },
-    {
-      "precio": 2390,
-      "codigo": "R15H",
-      "id": "rayado-15-h",
-      "nombre": "Rayado de 15 Horizontal",
-      "categoria": "divisorios",
-      "pagina": "rayados-horizontales",
-      "dimension": "15*20*40",
-      "rendimiento": "≈ 12.5 und/m²",
-      "pesoKg": 8.5,
-      "unidad": "unidad",
-      "descripcion": "Bloque rayado 15 horizontal. Maneja Primera y Segunda.",
-      "especificaciones": [
-        {
-          "etiqueta": "Textura",
-          "valor": "Rayado"
-        },
-        {
-          "etiqueta": "Norma",
-          "valor": "NTC 4205"
-        },
-        {
-          "etiqueta": "Tipo de uso",
-          "valor": "Divisorios y cerramientos"
-        },
-        {
-          "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 5 MPa Individual 3 MPa"
-        },
-        {
-          "etiqueta": "Absorción de agua",
-          "valor": "Promedio 14% · Individual 17%"
-        }
-      ],
-      "imagen": "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
-      "fotos": [
-        "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
-        "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20dimensiones.webp"
-      ],
-      "orden": 0,
-      "colores": [
-        {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "/productos/products/rayados-horizontales/rayado%2015-horizontal/rayado%2015%20horizontal%20apilados.webp",
-          "fotos": [],
-          "precio": 2390,
-          "textura": "RAY",
-          "texturaNombre": "Rayado"
         }
       ]
     },
@@ -1431,17 +1264,118 @@
       ]
     },
     {
-      "precio": 2000,
-      "codigo": "CAT",
-      "id": "catalan",
-      "nombre": "Catalán Horizontal",
-      "categoria": "fachadas",
-      "pagina": "catalan",
-      "dimension": "10*15*30",
-      "rendimiento": "33",
-      "pesoKg": 3,
+      "precio": 1600,
+      "codigo": "TEJ-COL",
+      "id": "teja-colonial",
+      "nombre": "Teja Colonial",
+      "categoria": "techos",
+      "pagina": "teja-colonial",
+      "dimension": "40 x 23 cm",
+      "rendimiento": "≈ 20 und/m²",
+      "pesoKg": 1.8,
       "unidad": "unidad",
-      "descripcion": "El producto mas utilizado para las fachadas en Medellin por excelencia. Ha sido tradicionalmente utilizado en todos los lugares de Antioquia",
+      "descripcion": "Teja Colonial (Española) comercializada. Unidad de venta m². Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Colonial"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Cubierta visible"
+        }
+      ],
+      "imagen": "/productos/teja-colonial.jpg",
+      "fotos": [
+        "/productos/products/teja-colonial/teja%20colonial%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/teja-colonial/roja/teja%20colonial%20natural.webp",
+          "fotos": [],
+          "precio": 1600,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 4880,
+      "codigo": "TEJ-PLA",
+      "id": "teja-plana",
+      "nombre": "Teja Plana",
+      "categoria": "techos",
+      "pagina": "teja-plana",
+      "dimension": "40 x 25 x 1.5 cm",
+      "rendimiento": "≈ 13 und/m²",
+      "pesoKg": 2.7,
+      "unidad": "unidad",
+      "descripcion": "Teja Plana comercializada. Colores Natural y Chocolate. m². Solo Primera.",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Plana"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4205"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Cubierta visible"
+        }
+      ],
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792599132251-Teja-Plana-Natural.png",
+      "fotos": [
+        "/productos/products/teja-plana/natural/Teja%20Plana%20Natural-n.webp",
+        "/productos/products/teja-plana/natural/teja%20plana%20natural%20dimensiones.webp",
+        "/productos/products/teja-plana/chocolate/Teja%20Plana%20Chocolate%20Lisa-n.webp",
+        "/productos/products/teja-plana/chocolate/teja%20plana%20chocolate%20dimensiones.webp"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "/productos/products/teja-plana/natural/Teja%20Plana%20Natural.webp",
+          "fotos": [],
+          "precio": 4880,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        },
+        {
+          "codigo": "CHO",
+          "nombre": "Chocolate",
+          "hex": "#4a2c20",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792426347064-Teja-Plana-Chcolate-Lisa.png",
+          "fotos": [],
+          "precio": 6000,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 3320,
+      "codigo": "TES",
+      "id": "teja-s",
+      "nombre": "Teja S",
+      "categoria": "techos",
+      "pagina": "teja-s",
+      "dimension": "30*45*9",
+      "rendimiento": "10.5",
+      "pesoKg": 3.3,
+      "unidad": "unidad",
+      "descripcion": "La Teja Ese (también llamada teja \"S\") es una variante moderna de arcilla o gres que simula visualmente la combinación de una teja canal y una cobija en una sola pieza",
       "especificaciones": [
         {
           "etiqueta": "Textura",
@@ -1449,11 +1383,59 @@
         },
         {
           "etiqueta": "Tipo de uso",
-          "valor": "Fachada"
+          "valor": "Cubierta visible"
+        },
+        {
+          "etiqueta": "Norma",
+          "valor": "NTC 4051- NTC 2086"
+        }
+      ],
+      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790959448507-Teja-S.png",
+      "fotos": [
+        "/productos/products/teja-s/DSC_9381.jpg"
+      ],
+      "orden": 0,
+      "colores": [
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790960111302-Teja-S.png",
+          "fotos": [],
+          "precio": 3320,
+          "textura": "LIS",
+          "texturaNombre": "Liso"
+        }
+      ]
+    },
+    {
+      "precio": 2250,
+      "codigo": "TOS",
+      "id": "toscano",
+      "nombre": "Toscano",
+      "categoria": "fachadas",
+      "pagina": "toscano",
+      "dimension": "14*5,2*28,5",
+      "rendimiento": "≈ 68 und/m²",
+      "pesoKg": 1.8,
+      "unidad": "unidad",
+      "descripcion": "Fachada fabricada tipo Toscano (Texturizado).",
+      "especificaciones": [
+        {
+          "etiqueta": "Textura",
+          "valor": "Tallada"
         },
         {
           "etiqueta": "Norma",
           "valor": "NTC 4205-2 / 4205-3"
+        },
+        {
+          "etiqueta": "Tipo de uso",
+          "valor": "Fachada"
+        },
+        {
+          "etiqueta": "Tolerancia dimensional",
+          "valor": "± 2%"
         },
         {
           "etiqueta": "Absorción de agua",
@@ -1461,27 +1443,45 @@
         },
         {
           "etiqueta": "Resistencia a la compresión",
-          "valor": "Promedio 5 MPa Individual 3 MPa"
-        },
-        {
-          "etiqueta": "Tolerancia dimensional",
-          "valor": "± 2%"
+          "valor": "Promedio 14 MPa · Individual 10 MPa"
         }
       ],
-      "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360212282-catalan-horizontal-apilado.jpeg",
+      "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
       "fotos": [
-        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360261698-catalanh2.jpeg",
-        "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790360262354-catalanh1.jpeg"
+        "/productos/products/toscano/natural/toscano%20natural-n.webp",
+        "/productos/products/toscano/isometrico%20toscano.webp",
+        "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+        "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp"
       ],
-      "orden": 5,
+      "orden": 0,
       "colores": [
+        {
+          "codigo": "MO",
+          "nombre": "Matizado Oscuro",
+          "hex": "#6f3a2c",
+          "imagen": "/productos/products/toscano/matizado%20oscuro/toscano%20matizado%20oscuro-n.webp",
+          "fotos": [],
+          "precio": 2250,
+          "textura": null,
+          "texturaNombre": null
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "/productos/products/toscano/matizado%20claro/toscano%20matizado%20claro-n.webp",
+          "fotos": [],
+          "precio": 2250,
+          "textura": null,
+          "texturaNombre": null
+        },
         {
           "codigo": "NAT",
           "nombre": "Natural",
           "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790366441103-catalanh1.jpeg",
+          "imagen": "/productos/products/toscano/natural/toscano%20natural-n.webp",
           "fotos": [],
-          "precio": 2000,
+          "precio": 2250,
           "textura": null,
           "texturaNombre": null
         }

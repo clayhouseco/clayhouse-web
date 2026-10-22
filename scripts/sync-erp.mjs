@@ -62,7 +62,28 @@ async function bajar() {
   const j = await r.json();
   if (!j?.ok || !Array.isArray(j.productos)) throw new Error(j?.error || "respuesta sin productos");
   if (!j.productos.length) throw new Error("el ERP devolvió un catálogo vacío");
-  return j;
+  return { ...j, productos: enOrdenEstable(j.productos) };
+}
+
+/**
+ * EL FEED SE GUARDA SIEMPRE EN EL MISMO ORDEN, AUNQUE EL ERP LO DEVUELVA BARAJADO.
+ *
+ * El ERP no garantiza el orden del arreglo: entre dos sincronizaciones sin un solo cambio de
+ * contenido, la Teja S y la Teja Plana se intercambiaron de posición y el diff salió con
+ * +50/−50 líneas. Dentro iba escondido un cambio de verdad —la Teja Plana estrenaba foto— y
+ * no había forma de verlo entre el ruido.
+ *
+ * Eso rompía lo único que justifica que sincronizar sea un paso aparte en vez de parte del
+ * build: que lo que entra se revise en un diff antes de publicarse. Un diff que grita cada
+ * vez enseña a no leerlo.
+ *
+ * Ordenar acá es seguro porque nada del sitio depende de la posición en el arreglo: los
+ * listados ordenan por el campo `orden`, y el precio «desde» toma el mínimo y no el primero
+ * —hay un comentario en erpProductos.ts contando por qué, que costó un precio mal publicado—.
+ */
+function enOrdenEstable(productos) {
+  const clave = (p) => String(p.codigo ?? p.id ?? p.pagina ?? "");
+  return [...productos].sort((a, b) => clave(a).localeCompare(clave(b), "es"));
 }
 
 let feed;

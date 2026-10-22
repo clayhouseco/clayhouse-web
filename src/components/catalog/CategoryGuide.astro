@@ -40,7 +40,25 @@ function medida(p: Product): string {
   /* Cada medida trae su «cm»; en una sola línea se dice una vez al final. */
   if (partes.length)
     return `${partes.map((x) => String(x).replace(/\s*cm\s*$/i, "")).join(" × ")} cm`;
-  const delErp = erpDeSlug(p.slug)[0]?.dimension;
+  /**
+   * De una página que agrupa formatos, la medida del formato CUYO PRECIO SE ANUNCIA.
+   *
+   * Antes era `[0]`: el primero que devolviera el ERP. El calado son dos formatos —CAL-10 y
+   * CAL-15, los dos con `orden` 0— así que el desempate lo ponía el orden del arreglo, y la
+   * tabla llegó a mostrar «19,5 × 20 × 14 cm» (el de 15) al lado de «Desde $ 3.500» (el de
+   * 10): la medida de un formato junto al precio de otro.
+   *
+   * La regla es la misma que ya usa el «desde»: manda el más barato. Así los dos números de
+   * la fila describen la misma pieza. No es la única salida posible —también cabría no
+   * mostrar medida cuando hay varios formatos— pero sí es la que mantiene la tabla
+   * comparable, que es para lo que existe.
+   */
+  const formatos = erpDeSlug(p.slug);
+  const masBarato = formatos.reduce(
+    (min, x) => (min && (min.precio ?? Infinity) <= (x.precio ?? Infinity) ? min : x),
+    formatos[0]
+  );
+  const delErp = masBarato?.dimension;
   if (!delErp) return "—";
   const nums = delErp.match(/\d+(?:[.,]\d+)?/g);
   return nums?.length ? `${nums.map((n) => n.replace(".", ",")).join(" × ")} cm` : delErp;
