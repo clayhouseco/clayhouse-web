@@ -498,3 +498,39 @@ octubre. Sin seguimiento en git, 4,7 KB.
 **La Fase 9 no está desplegada.** Todo lo de arriba está verificado en local y, donde se
 podía, contra producción. Los números de rendimiento de la Fase 9 y el 96 de «prácticas
 recomendadas» conviene repetirlos en producción después de publicar.
+
+## 11. Perfil de Empresa de Google — ejecución del 22 de octubre
+
+Se auditó la ficha administrada de Clay House. Google la marca con información completa y
+se comprobó que nombre, categoría principal, descripción, teléfono, sitio web, dirección,
+áreas de servicio y horarios coinciden con los datos publicados en la web. No se marcaron
+atributos de accesibilidad, estacionamiento, pagos o instalaciones porque no había evidencia
+suficiente para responderlos sin inventar información.
+
+La galería pasó de **9 a 16 fotos**. Se cargaron siete imágenes reales de fabricación,
+operación, cubiertas y proyectos en ladrillo. Google confirmó la carga; algunas quedaron en
+revisión temporal con estado `PENDIENTE`.
+
+El perfil no tenía catálogo. En una primera carga se publicaron por error cuatro familias
+genéricas, con fotos de proyectos y sin precio. Esa carga se corrigió el mismo 22 de octubre:
+se eliminaron las cuatro fichas y el catálogo de Google quedó como réplica de las **18
+referencias activas** que mostraba `clayhouse.com.co/productos` en ese momento.
+
+La réplica usa el mismo nombre, la misma imagen principal, el mismo precio visible, la
+categoría de la web y el vínculo individual de cada referencia. Cuando la web dice «Desde»,
+Google recibe esa misma cifra mínima en su campo numérico y la condición «Desde» queda
+expresada en la descripción, porque su editor no admite el prefijo en el precio.
+
+- Fachadas: Ladrillo Romano ($2.450), Ladrillo Toscano ($2.250), Super Terras 11 Liso
+  (desde $2.690), Catalán Horizontal ($2.000), Ladrillo Cartagena ($2.700), Macizo Campesino
+  ($1.650), Macizo ($2.290), Bocadillo Prensado (desde $1.990) y Gran Formato Prensado
+  (desde $3.100).
+- Divisorios: Ladrillo Rayado Vertical (desde $2.390), Bloquelón ($4.350) y Ladrillo Rayado
+  Horizontal (desde $1.790).
+- Enchapes: Enchape Romano ($89.500/m²) y Enchape Thin Brick ($110.000/m²).
+- Techos: Teja Plana ($4.880), Teja Colonial ($1.600) y Teja S ($3.320).
+- Decorativos: Calado (desde $3.500).
+
+La verificación final del administrador mostró las 18 referencias y sus 18 precios. Google
+advierte que una publicación puede tardar hasta 30 minutos en hacerse visible; al cerrar la
+sesión Calado, Teja S y Teja Colonial seguían con estado temporal `PENDIENTE`.
