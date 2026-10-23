@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { site } from "@/data/site";
 import { buildBreadcrumbJsonLd } from "@/utils/breadcrumbSchema";
+import { buildProjectJsonLd } from "@/utils/projectSchema";
 import { getIndexedProjects, type IndexedProject } from "@/utils/projects";
 import { srcPara, srcSetFor } from "@/utils/responsive";
 
@@ -24,8 +24,6 @@ if (!cover) {
 }
 
 const productHref = `/productos/${project.product.slug}`;
-const pageUrl = new URL(`/proyectos/${project.slug}`, site.url).href;
-const coverUrl = new URL(cover.src, site.url).href;
 
 const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: "Inicio", href: "/" },
@@ -33,25 +31,7 @@ const breadcrumbJsonLd = buildBreadcrumbJsonLd([
   { name: project.title },
 ]);
 
-const projectJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  name: project.title,
-  description: project.description,
-  url: pageUrl,
-  image: project.gallery.images.map((image) => new URL(image.src, site.url).href),
-  about: {
-    "@type": "Product",
-    name: project.product.name,
-    url: new URL(productHref, site.url).href,
-    image: coverUrl,
-  },
-  isPartOf: {
-    "@type": "CollectionPage",
-    name: "Proyectos Clay House",
-    url: new URL("/proyectos", site.url).href,
-  },
-};
+const projectJsonLd = buildProjectJsonLd(project);
 ---
 
 <BaseLayout
