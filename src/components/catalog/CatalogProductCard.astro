@@ -4,7 +4,7 @@ import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
 import {
   getReferencePriceParts,
   getReferencePriceM2,
-  getReferencePricePorPieza,
+  getPiezasPorM2Label,
 } from "@/utils/productPricing";
 import { srcSetFor, SIZES } from "@/utils/responsive";
 
@@ -16,9 +16,9 @@ interface Props {
 
 const { product, defaultColor } = Astro.props;
 const price = getReferencePriceParts(product);
-/* La otra unidad, siempre: por pieza si se factura por metro, por metro si se factura por
-   pieza. Homecenter publica las dos y quien compara busca las dos. */
-const priceM2 = getReferencePriceM2(product) ?? getReferencePricePorPieza(product);
+/* El precio por m² cuando se vende por pieza; cuántas piezas lleva el metro cuando se
+   factura por metro. Nunca un «precio por pieza» de algo que no se vende suelto. */
+const priceM2 = getReferencePriceM2(product) ?? getPiezasPorM2Label(product);
 const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? product.color;
 ---
 

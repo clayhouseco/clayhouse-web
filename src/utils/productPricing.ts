@@ -152,28 +152,35 @@ export function getReferencePriceM2(product: Product): string | null {
 }
 
 /**
- * LO MISMO AL REVÉS: EL PRECIO POR PIEZA DE LO QUE SE FACTURA POR METRO.
+ * CUÁNTAS PIEZAS LLEVA UN METRO — PARA LO QUE SE FACTURA POR METRO.
  *
- * Los enchapes se despachan por m² y la página solo mostraba esa cifra. Homecenter publica
- * las dos en la misma ficha —«$ 6.400 und» y «$ 49.612,40 metro cuadrado»— y un cliente que
- * compara va a buscar las dos; dárselas solo a medias lo manda a calcular, o a otro.
+ * Durante unas horas acá hubo un «precio por pieza» para los enchapes, y estaba mal.
+ * Gerencia lo detectó: el metro cuadrado depende del espesor de la junta, así que dividir el
+ * precio del metro entre las piezas que caben da una cifra que se mueve un 43% según un
+ * supuesto que el cliente no eligió —$ 1.492 con junta perdida, $ 2.131 con pega de 2 cm— y
+ * encima al revés de la intuición: con MÁS pega la «pieza» sale más CARA.
  *
- * Esto NO cambia en qué unidad se cotiza. El ERP factura el enchape por metro y el cotizador
- * sigue pidiendo metros: convertir una cotización sería el error de la teja colonial al
- * revés. Acá se publica una referencia, y como referencia está rotulada.
+ * La asimetría que me faltaba ver:
  *
- * Antes esta conversión estaba descartada a propósito, con el argumento de que «nadie vende
- * la pieza suelta de un producto que se despacha por metro». Era cierto para cotizar y falso
- * para comparar: quien elige enchape quiere saber a cómo le sale la pieza.
+ *  · Un ladrillo se vende por pieza. «¿Cuánto me cuesta cubrir un metro?» es una pregunta
+ *    real de presupuesto, y que su respuesta dependa de la junta es correcto: el cliente
+ *    elige la junta y la ficha le muestra los tres escenarios.
+ *  · Un enchape se factura por metro. «¿Cuánto cuesta la pieza?» no tiene respuesta
+ *    comercial: no se puede comprar una. La pieza física cuesta lo que cuesta; lo que cambia
+ *    es cuántas caben.
+ *
+ * Homecenter publica las dos cifras en una teja porque las dos son precios a los que de
+ * verdad se puede comprar. Un «$ 1.790/pieza» de enchape no lo es: es un cociente disfrazado
+ * de precio.
+ *
+ * Lo que sí se puede decir, y es cierto, es cuántas piezas lleva el metro. Eso ayuda a
+ * comparar sin fingir un precio que no existe.
  */
-export function getReferencePricePorPieza(product: Product): string | null {
-  if (!product.pricePerUnit) return null;
+export function getPiezasPorM2Label(product: Product): string | null {
   if (product.priceUnitLabel !== "m²") return null;
-  const m2Amount = parseCopAmount(product.pricePerUnit);
-  if (!m2Amount) return null;
   const units = unidadesPorMetro(product);
-  if (!units) return null;
-  return `${formatCop(Math.round(m2Amount / units))}/pieza`;
+  /* Sin «≈»: la plantilla ya lo antepone, igual que al precio por m². */
+  return units ? `${units} piezas/m²` : null;
 }
 
 /** Igual que getReferencePriceLabel pero devuelve el monto principal y la

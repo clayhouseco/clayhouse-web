@@ -152,49 +152,47 @@ describe("precio por m² en cubiertas", async () => {
 });
 
 /**
- * LAS DOS UNIDADES, SIEMPRE — COMO LAS PUBLICA EL MERCADO.
+ * CADA PRODUCTO DICE ALGO ÚTIL SOBRE LA OTRA UNIDAD — PERO NO SE INVENTA UN PRECIO.
  *
- * Homecenter muestra «$ 6.400 und» y «$ 49.612,40 metro cuadrado» en la misma ficha, y quien
- * compara busca las dos: por pieza para comparar contra un depósito, por metro para calcular
- * la obra. Dar solo una lo manda a calcular, o a otro.
+ * Lo que se vende por pieza publica su precio por m²: es una pregunta real de presupuesto y
+ * que dependa de la junta es correcto, porque el cliente elige la junta.
  *
- * Esto NO cambia en qué unidad se cotiza: eso lo manda el ERP, que es quien factura.
+ * Lo que se factura por m² NO publica un precio por pieza. Hubo uno durante unas horas y
+ * estaba mal: dividir el precio del metro entre las piezas que caben da una cifra que se
+ * mueve un 43% según el espesor de la pega —$ 1.492 con junta perdida, $ 2.131 con 2 cm— y
+ * al revés de la intuición. La pieza física cuesta lo que cuesta; lo que cambia es cuántas
+ * caben. Y no se puede comprar una. En su lugar se dice el rendimiento, que es cierto.
  */
-describe("precio en las dos unidades", async () => {
+describe("la otra unidad", async () => {
   const { getVisibleProducts } = await import("@/data/products");
-  const { getReferencePriceM2, getReferencePricePorPieza } = await import("@/utils/productPricing");
+  const { getReferencePriceM2, getPiezasPorM2Label } = await import("@/utils/productPricing");
 
   const conPrecio = getVisibleProducts().filter((p) => copANumero(p.pricePerUnit));
 
-  it("todo producto con precio publica también la otra unidad", () => {
+  it("todo producto con precio dice algo de la otra unidad", () => {
     for (const p of conPrecio) {
-      const otra = getReferencePriceM2(p) ?? getReferencePricePorPieza(p);
+      const otra = getReferencePriceM2(p) ?? getPiezasPorM2Label(p);
       expect(otra, `${p.slug} (${p.pricePerUnit}/${p.priceUnitLabel})`).toBeTruthy();
     }
   });
 
-  it("las dos direcciones no se contradicen", () => {
+  it("vendido por pieza, el metro siempre vale MÁS que la pieza", () => {
     for (const p of conPrecio) {
-      const base = copANumero(p.pricePerUnit)!;
-      const otra = copANumero(getReferencePriceM2(p) ?? getReferencePricePorPieza(p));
-      if (!otra) continue;
-      /* Vendido por pieza, el metro vale MÁS; vendido por metro, la pieza vale MENOS.
-         Si esto se invirtiera, la página estaría dividiendo donde debe multiplicar. */
-      const porPieza = !p.priceUnitLabel || p.priceUnitLabel === "unidad";
-      expect(porPieza ? otra > base : otra < base, `${p.slug}: ${base} → ${otra}`).toBe(true);
+      const m2 = copANumero(getReferencePriceM2(p));
+      if (!m2) continue;
+      /* Si se invirtiera, estaríamos dividiendo donde hay que multiplicar: la familia de
+         errores de la teja colonial y la teja S. */
+      expect(m2, `${p.slug}`).toBeGreaterThan(copANumero(p.pricePerUnit)!);
     }
   });
 
-  it("la pieza de un enchape sale de su propio rendimiento, no de un número inventado", () => {
-    const enchapes = conPrecio.filter((p) => p.priceUnitLabel === "m²");
-    expect(enchapes.length).toBeGreaterThan(0);
-    for (const p of enchapes) {
-      const pieza = copANumero(getReferencePricePorPieza(p))!;
-      const m2 = copANumero(p.pricePerUnit)!;
-      const implicito = m2 / pieza;
-      /* Un metro cuadrado de enchape lleva decenas de piezas, no dos ni mil. */
-      expect(implicito, `${p.slug}: ${implicito.toFixed(1)} piezas/m²`).toBeGreaterThan(10);
-      expect(implicito, `${p.slug}: ${implicito.toFixed(1)} piezas/m²`).toBeLessThan(300);
+  it("lo que se factura por m² NO publica un precio por pieza", () => {
+    const porMetro = conPrecio.filter((p) => p.priceUnitLabel === "m²");
+    expect(porMetro.length).toBeGreaterThan(0);
+    for (const p of porMetro) {
+      expect(getReferencePriceM2(p), p.slug).toBeNull();
+      /* Lo que sí dice: cuántas piezas lleva el metro. */
+      expect(getPiezasPorM2Label(p), p.slug).toMatch(/^\d+ piezas\/m²$/);
     }
   });
 });
