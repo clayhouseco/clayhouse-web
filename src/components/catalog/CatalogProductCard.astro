@@ -1,7 +1,11 @@
 ---
 import type { Product } from "@/data/products";
 import { getCatalogImage, getCatalogImageScale } from "@/data/productVariants";
-import { getReferencePriceParts, getReferencePriceM2 } from "@/utils/productPricing";
+import {
+  getReferencePriceParts,
+  getReferencePriceM2,
+  getReferencePricePorPieza,
+} from "@/utils/productPricing";
 import { srcSetFor, SIZES } from "@/utils/responsive";
 
 interface Props {
@@ -12,7 +16,9 @@ interface Props {
 
 const { product, defaultColor } = Astro.props;
 const price = getReferencePriceParts(product);
-const priceM2 = getReferencePriceM2(product);
+/* La otra unidad, siempre: por pieza si se factura por metro, por metro si se factura por
+   pieza. Homecenter publica las dos y quien compara busca las dos. */
+const priceM2 = getReferencePriceM2(product) ?? getReferencePricePorPieza(product);
 const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? product.color;
 ---
 

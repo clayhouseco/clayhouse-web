@@ -122,23 +122,58 @@ export function getReferencePriceM2PorVariante(
   return out;
 }
 
+/**
+ * CUÁNTAS PIEZAS LLEVA UN METRO CUADRADO.
+ *
+ * Una sola respuesta para las dos direcciones de la conversión: si las dos la calcularan
+ * por su cuenta podrían contestar distinto, y entonces la página diría que la pieza vale X
+ * y el metro vale algo que no es X por las piezas que caben.
+ *
+ *  1. El escenario de pega 1 cm, que es el que la ficha muestra en su tabla: así el titular
+ *     no contradice lo que el cliente está viendo más abajo.
+ *  2. El rendimiento publicado del producto, cuando no hay medidas con que calcular.
+ *  3. El del ERP. Es lo único que hay en cubiertas, que se traslapan y no se calculan.
+ */
+function unidadesPorMetro(product: Product): number | null {
+  const pega1 = getRendimientoTable(product)?.find((r) => r.jointCm === 1);
+  return (
+    pega1?.unitsPerM2 ?? parseCm(product.dimensions?.rendimiento) ?? erpUnidadesPorM2(product.slug)
+  );
+}
+
 export function getReferencePriceM2(product: Product): string | null {
   if (!product.pricePerUnit) return null;
   if (product.priceUnitLabel && product.priceUnitLabel !== "unidad") return null;
   const unitAmount = parseCopAmount(product.pricePerUnit);
   if (!unitAmount) return null;
-  // 1) escenario realista de pega 1 cm (coincide con la tabla de rendimiento
-  //    de la ficha, para que el titular no contradiga lo que ve el cliente).
-  const pega1 = getRendimientoTable(product)?.find((r) => r.jointCm === 1);
-  // 2) respaldo: rendimiento publicado, si el producto no tiene dims calculables.
-  // 3) último respaldo: el rendimiento del ERP. Es lo único que hay en tejas,
-  //    que se traslapan y no se pueden calcular con geometría. Sin esto la
-  //    teja colonial mostraba $ 1.600/unidad en la ficha mientras el cotizador
-  //    pedía m², y el cliente no tenía cómo relacionar las dos cifras.
-  const units =
-    pega1?.unitsPerM2 ?? parseCm(product.dimensions?.rendimiento) ?? erpUnidadesPorM2(product.slug);
+  const units = unidadesPorMetro(product);
   if (!units) return null;
   return `${formatCop(Math.round(units * unitAmount))}/m²`;
+}
+
+/**
+ * LO MISMO AL REVÉS: EL PRECIO POR PIEZA DE LO QUE SE FACTURA POR METRO.
+ *
+ * Los enchapes se despachan por m² y la página solo mostraba esa cifra. Homecenter publica
+ * las dos en la misma ficha —«$ 6.400 und» y «$ 49.612,40 metro cuadrado»— y un cliente que
+ * compara va a buscar las dos; dárselas solo a medias lo manda a calcular, o a otro.
+ *
+ * Esto NO cambia en qué unidad se cotiza. El ERP factura el enchape por metro y el cotizador
+ * sigue pidiendo metros: convertir una cotización sería el error de la teja colonial al
+ * revés. Acá se publica una referencia, y como referencia está rotulada.
+ *
+ * Antes esta conversión estaba descartada a propósito, con el argumento de que «nadie vende
+ * la pieza suelta de un producto que se despacha por metro». Era cierto para cotizar y falso
+ * para comparar: quien elige enchape quiere saber a cómo le sale la pieza.
+ */
+export function getReferencePricePorPieza(product: Product): string | null {
+  if (!product.pricePerUnit) return null;
+  if (product.priceUnitLabel !== "m²") return null;
+  const m2Amount = parseCopAmount(product.pricePerUnit);
+  if (!m2Amount) return null;
+  const units = unidadesPorMetro(product);
+  if (!units) return null;
+  return `${formatCop(Math.round(m2Amount / units))}/pieza`;
 }
 
 /** Igual que getReferencePriceLabel pero devuelve el monto principal y la

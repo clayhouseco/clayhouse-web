@@ -39,6 +39,7 @@ import {
   getRendimientoTablesByVariant,
   getFloorRendimientoTable,
   getReferencePriceM2,
+  getReferencePricePorPieza,
   getRendimientoFormats,
   getReferencePriceM2PorVariante,
   precioDeVariante,
@@ -112,7 +113,12 @@ const priceDesde = Boolean(product.priceFrom) && !hasPriceSelector;
 // Precio por m² de referencia (solo productos vendidos por unidad con rendimiento).
 const priceM2PorVariante = getReferencePriceM2PorVariante(product, assets?.variants ?? []);
 // Arranca con el de la variante activa; el JS lo cambia al pulsar otro botón.
-const priceM2 = priceM2PorVariante[activeVariantId] ?? getReferencePriceM2(product);
+/* La otra unidad. Por metro si se vende por pieza; por pieza si se factura por metro, que
+   es el caso de los enchapes. Lo que se cotiza no cambia: eso lo manda el ERP. */
+const priceM2 =
+  priceM2PorVariante[activeVariantId] ??
+  getReferencePriceM2(product) ??
+  getReferencePricePorPieza(product);
 
 
 const rendimientoVariants = assets

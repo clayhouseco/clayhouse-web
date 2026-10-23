@@ -150,3 +150,51 @@ describe("precio por m² en cubiertas", async () => {
     }
   });
 });
+
+/**
+ * LAS DOS UNIDADES, SIEMPRE — COMO LAS PUBLICA EL MERCADO.
+ *
+ * Homecenter muestra «$ 6.400 und» y «$ 49.612,40 metro cuadrado» en la misma ficha, y quien
+ * compara busca las dos: por pieza para comparar contra un depósito, por metro para calcular
+ * la obra. Dar solo una lo manda a calcular, o a otro.
+ *
+ * Esto NO cambia en qué unidad se cotiza: eso lo manda el ERP, que es quien factura.
+ */
+describe("precio en las dos unidades", async () => {
+  const { getVisibleProducts } = await import("@/data/products");
+  const { getReferencePriceM2, getReferencePricePorPieza } = await import("@/utils/productPricing");
+
+  const conPrecio = getVisibleProducts().filter((p) => copANumero(p.pricePerUnit));
+
+  it("todo producto con precio publica también la otra unidad", () => {
+    for (const p of conPrecio) {
+      const otra = getReferencePriceM2(p) ?? getReferencePricePorPieza(p);
+      expect(otra, `${p.slug} (${p.pricePerUnit}/${p.priceUnitLabel})`).toBeTruthy();
+    }
+  });
+
+  it("las dos direcciones no se contradicen", () => {
+    for (const p of conPrecio) {
+      const base = copANumero(p.pricePerUnit)!;
+      const otra = copANumero(getReferencePriceM2(p) ?? getReferencePricePorPieza(p));
+      if (!otra) continue;
+      /* Vendido por pieza, el metro vale MÁS; vendido por metro, la pieza vale MENOS.
+         Si esto se invirtiera, la página estaría dividiendo donde debe multiplicar. */
+      const porPieza = !p.priceUnitLabel || p.priceUnitLabel === "unidad";
+      expect(porPieza ? otra > base : otra < base, `${p.slug}: ${base} → ${otra}`).toBe(true);
+    }
+  });
+
+  it("la pieza de un enchape sale de su propio rendimiento, no de un número inventado", () => {
+    const enchapes = conPrecio.filter((p) => p.priceUnitLabel === "m²");
+    expect(enchapes.length).toBeGreaterThan(0);
+    for (const p of enchapes) {
+      const pieza = copANumero(getReferencePricePorPieza(p))!;
+      const m2 = copANumero(p.pricePerUnit)!;
+      const implicito = m2 / pieza;
+      /* Un metro cuadrado de enchape lleva decenas de piezas, no dos ni mil. */
+      expect(implicito, `${p.slug}: ${implicito.toFixed(1)} piezas/m²`).toBeGreaterThan(10);
+      expect(implicito, `${p.slug}: ${implicito.toFixed(1)} piezas/m²`).toBeLessThan(300);
+    }
+  });
+});
