@@ -5,6 +5,7 @@ import {
   getReferencePriceParts,
   getReferencePriceM2,
   getPiezasPorM2Label,
+  getJuntaLabel,
 } from "@/utils/productPricing";
 import { srcSetFor, SIZES } from "@/utils/responsive";
 
@@ -19,6 +20,8 @@ const price = getReferencePriceParts(product);
 /* El precio por m² cuando se vende por pieza; cuántas piezas lleva el metro cuando se
    factura por metro. Nunca un «precio por pieza» de algo que no se vende suelto. */
 const priceM2 = getReferencePriceM2(product) ?? getPiezasPorM2Label(product);
+/* Con qué junta se calculó, cuando el número depende de eso. */
+const junta = getJuntaLabel(product);
 const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? product.color;
 ---
 
@@ -44,7 +47,12 @@ const colorForCart = defaultColor ?? product.color.split(",")[0]?.trim() ?? prod
       price && (
         <p class="product-card__price">
           <span class="product-card__price-amount">{price.amount}</span>
-          {priceM2 && <span class="product-card__price-m2">≈ {priceM2}</span>}
+          {priceM2 && (
+            <span class="product-card__price-m2">
+              ≈ {priceM2}
+              {junta && <span class="product-card__price-junta"> {junta}</span>}
+            </span>
+          )}
           {price.note && <span class="product-card__price-note">{price.note}</span>}
         </p>
       )

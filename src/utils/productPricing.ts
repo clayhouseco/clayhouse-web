@@ -152,6 +152,30 @@ export function getReferencePriceM2(product: Product): string | null {
 }
 
 /**
+ * CON QUÉ JUNTA SE CALCULÓ ESE METRO. SIN ESO, EL NÚMERO NO SIGNIFICA NADA.
+ *
+ * Gerencia: «el metro cuadrado es relativo a la cantidad de pega». Exacto, y la cifra se
+ * mueve mucho: el Romano son 49 piezas/m² con pega de 1 cm y 60 a junta perdida —un 18% de
+ * diferencia en lo que cuesta cubrir un metro—. Publicar «≈ $ 120.050/m²» a secas deja al
+ * cliente sin saber cuál de las dos obras está presupuestando, y hace que la cifra parezca
+ * peleada con el rendimiento que publica el ERP, que es el de junta perdida.
+ *
+ * El escenario no cambia —sigue siendo pega de 1 cm, el realista y el que la ficha muestra
+ * en su tabla— pero ahora se nombra.
+ *
+ * Va aparte del precio y no dentro de la cadena: metido ahí, cualquiera que lea esa cifra
+ * como número se llevaría el «1 cm» pegado al final («$ 120.050/m² con pega 1 cm» → 1200501).
+ * Devuelve null donde no aplica: en cubiertas el rendimiento lo mide el ERP, no sale de una
+ * junta.
+ */
+export function getJuntaLabel(product: Product): string | null {
+  const units = unidadesPorMetro(product);
+  if (!units) return null;
+  const pega = getRendimientoTable(product)?.find((r) => r.unitsPerM2 === units);
+  return pega ? `con ${pega.label.toLowerCase()}` : null;
+}
+
+/**
  * CUÁNTAS PIEZAS LLEVA UN METRO — PARA LO QUE SE FACTURA POR METRO.
  *
  * Durante unas horas acá hubo un «precio por pieza» para los enchapes, y estaba mal.

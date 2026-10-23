@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-10-22T18:28:43.531Z",
+  "actualizado": "2026-10-23T21:53:03.592Z",
   "productos": [
     {
       "precio": 4350,
@@ -404,7 +404,7 @@
       ]
     },
     {
-      "precio": 89500,
+      "precio": 1520,
       "codigo": "ENC-ROM",
       "id": "enchape-romano",
       "nombre": "Enchape Romano",
@@ -413,7 +413,7 @@
       "dimension": "28 x 6 x 1.3 cm",
       "rendimiento": "≈ 60 und/m²",
       "pesoKg": 0.75,
-      "unidad": "m2",
+      "unidad": "unidad",
       "descripcion": "Enchape tipo Romano. Solo Primera.",
       "especificaciones": [
         {
@@ -447,22 +447,22 @@
       "orden": 0,
       "colores": [
         {
-          "codigo": "MC",
-          "nombre": "Matizado Claro",
-          "hex": "#b06a45",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
-          "fotos": [],
-          "precio": 89500,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
           "codigo": "NAT",
           "nombre": "Natural",
           "hex": "#c8835f",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
           "fotos": [],
-          "precio": 89500,
+          "precio": 1520,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "MC",
+          "nombre": "Matizado Claro",
+          "hex": "#b06a45",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
+          "fotos": [],
+          "precio": 1520,
           "textura": "COR",
           "texturaNombre": "Corcho"
         },
@@ -472,7 +472,7 @@
           "hex": "#6f3a2c",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091846135-Enchape-Matizado-Oscuro-n.webp",
           "fotos": [],
-          "precio": 89500,
+          "precio": 1520,
           "textura": "COR",
           "texturaNombre": "Corcho"
         }
