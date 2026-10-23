@@ -168,6 +168,24 @@ export interface RendimientoRow {
  *  y por ende un menor precio aparente. Mostrar los 3 escenarios deja al
  *  cliente comparar manzanas con manzanas. */
 export function getRendimientoTable(product: Product): RendimientoRow[] | null {
+  /**
+   * EN CUBIERTAS NO SE CALCULA: SE TRASLAPAN.
+   *
+   * Un ladrillo teja el plano, así que de su cara y la junta sale cuántos caben en un metro.
+   * Una teja no: se monta sobre la de abajo y sobre la de al lado, y lo que queda a la vista
+   * es menos que su medida. La geometría da una cifra plausible y falsa.
+   *
+   * La Teja S lo mostró. Su medida «30*45*9» daba tres números, así que se le calculaba una
+   * tabla —22 piezas/m² con junta de 1 cm— que ninguna ficha llega a mostrar, pero que sí
+   * mandaba sobre el titular del catálogo: la tarjeta anunciaba «≈ $ 73.040/m²» cuando el
+   * ERP publica 10,5 und/m², o sea $ 34.860. Un precio por metro inflado 2,1 veces, justo en
+   * la cifra con la que un cliente compara cubiertas.
+   *
+   * Para una cubierta manda el rendimiento que publica el ERP, que es el medido. Por eso las
+   * otras tejas salían bien: no tenían con qué calcular y caían en el dato real.
+   */
+  if (product.category === "Techos") return null;
+
   const largoCm = parseCm(product.dimensions?.largo);
   const altoCm = parseCm(product.dimensions?.alto);
   if (!largoCm || !altoCm) return null;

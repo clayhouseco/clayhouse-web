@@ -107,3 +107,46 @@ describe("unidad declarada en la descripción", async () => {
     expect(unidadEnTexto(undefined)).toBeNull();
   });
 });
+
+/**
+ * EN CUBIERTAS, EL RENDIMIENTO LO MIDE EL ERP — NO SE CALCULA.
+ *
+ * Un ladrillo teja el plano, así que de su cara y la junta sale cuántos caben en un metro.
+ * Una teja se traslapa: se monta sobre la de abajo y sobre la de al lado, y lo que queda a
+ * la vista es menos que su medida. Calcularlo da una cifra plausible y falsa.
+ *
+ * La Teja S lo mostró: su medida «30*45*9» daba tres números, así que se le calculaba una
+ * tabla —22 piezas/m²— que ninguna ficha mostraba pero que mandaba sobre el titular del
+ * catálogo. La tarjeta anunciaba «≈ $ 73.040/m²» cuando el ERP publica 10,5 und/m², o sea
+ * $ 34.860. Inflado 2,1 veces, justo en la cifra con la que se comparan cubiertas.
+ */
+describe("precio por m² en cubiertas", async () => {
+  const { getVisibleProducts } = await import("@/data/products");
+  const { getRendimientoTable, getReferencePriceM2 } = await import("@/utils/productPricing");
+  const techos = getVisibleProducts().filter((p) => p.category === "Techos");
+
+  it("hay cubiertas que comprobar", () => {
+    expect(techos.length).toBeGreaterThan(0);
+  });
+
+  it("ninguna cubierta genera una tabla de rendimiento calculada", () => {
+    for (const p of techos) expect(getRendimientoTable(p), p.slug).toBeNull();
+  });
+
+  it("su precio por m² sale del rendimiento que publica el ERP, no de la geometría", () => {
+    for (const p of techos) {
+      const m2 = getReferencePriceM2(p);
+      if (!m2) continue;
+      const porM2 = copANumero(m2);
+      const porUnidad = copANumero(p.pricePerUnit);
+      const rendimiento = Number.parseFloat(
+        String(p.dimensions?.rendimiento ?? "")
+          .replace(",", ".")
+          .replace(/[^\d.]/g, "")
+      );
+      if (!porM2 || !porUnidad || !rendimiento) continue;
+      /* El redondeo de las piezas por metro admite una pieza de holgura. */
+      expect(Math.abs(porM2 / porUnidad - rendimiento), `${p.slug}: ${m2}`).toBeLessThan(1);
+    }
+  });
+});
