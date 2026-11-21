@@ -4,7 +4,7 @@ import CatalogFilters from "@/components/catalog/CatalogFilters.astro";
 import ProductGrid from "@/components/catalog/ProductGrid.astro";
 import { groupProductsByCategory } from "@/utils/catalog";
 import { Picture } from "astro:assets";
-import heroImg from "@/assets/images/hero/DSC08873.jpg";
+import heroImg from "@/assets/images/hero/ushuaya-balcones.jpg";
 import "@/styles/catalog-page.css";
 import "@/styles/page-hero.css";
 
@@ -21,7 +21,7 @@ const grouped = groupProductsByCategory();
     <div class="page-hero__media">
       <Picture
         src={heroImg}
-        alt="Muro en ladrillo oscuro con vegetación — Clay House"
+        alt="Edificio Ushuaya: fachada en ladrillo Romano corcho matizado con balcones y jardineras — Clay House"
         widths={[640, 960, 1280, 1920]}
         sizes="100vw"
         formats={["avif"]}
@@ -29,7 +29,7 @@ const grouped = groupProductsByCategory();
         loading="eager"
         fetchpriority="high"
         width={1920}
-        height={1280}
+        height={1440}
       />
       <div class="page-hero__overlay"></div>
     </div>
