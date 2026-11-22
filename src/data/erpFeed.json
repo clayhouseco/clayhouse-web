@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "actualizado": "2026-10-23T21:53:03.592Z",
+  "actualizado": "2026-11-22T12:43:14.545Z",
   "productos": [
     {
       "precio": 4350,
@@ -404,7 +404,7 @@
       ]
     },
     {
-      "precio": 1520,
+      "precio": 100000,
       "codigo": "ENC-ROM",
       "id": "enchape-romano",
       "nombre": "Enchape Romano",
@@ -413,7 +413,7 @@
       "dimension": "28 x 6 x 1.3 cm",
       "rendimiento": "≈ 60 und/m²",
       "pesoKg": 0.75,
-      "unidad": "unidad",
+      "unidad": "m2",
       "descripcion": "Enchape tipo Romano. Solo Primera.",
       "especificaciones": [
         {
@@ -447,22 +447,22 @@
       "orden": 0,
       "colores": [
         {
-          "codigo": "NAT",
-          "nombre": "Natural",
-          "hex": "#c8835f",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
-          "fotos": [],
-          "precio": 1520,
-          "textura": "COR",
-          "texturaNombre": "Corcho"
-        },
-        {
           "codigo": "MC",
           "nombre": "Matizado Claro",
           "hex": "#b06a45",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091834310-Chapa-Matizada-Clara-n.webp",
           "fotos": [],
-          "precio": 1520,
+          "precio": 100000,
+          "textura": "COR",
+          "texturaNombre": "Corcho"
+        },
+        {
+          "codigo": "NAT",
+          "nombre": "Natural",
+          "hex": "#c8835f",
+          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091805984-Enchape-Natural-n.webp",
+          "fotos": [],
+          "precio": 100000,
           "textura": "COR",
           "texturaNombre": "Corcho"
         },
@@ -472,7 +472,7 @@
           "hex": "#6f3a2c",
           "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1792091846135-Enchape-Matizado-Oscuro-n.webp",
           "fotos": [],
-          "precio": 1520,
+          "precio": 100000,
           "textura": "COR",
           "texturaNombre": "Corcho"
         }
@@ -1234,32 +1234,6 @@
           "precio": 2990,
           "textura": "LIS",
           "texturaNombre": "Liso"
-        },
-        {
-          "codigo": "ARE",
-          "nombre": "Arena",
-          "hex": "#c9a876",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956456785-WhatsApp-Image-2026-09-21-at-11.50.20.jpeg",
-          "fotos": [
-            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956550756-WhatsApp-Image-2026-09-21-at-12.06.57.jpeg",
-            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956551618-WhatsApp-Image-2026-09-21-at-12.06.58.jpeg"
-          ],
-          "precio": 2790,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
-        },
-        {
-          "codigo": "TOPO",
-          "nombre": "Topo",
-          "hex": "#7a533e",
-          "imagen": "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956521021-WhatsApp-Image-2026-09-21-at-07.57.14.jpeg",
-          "fotos": [
-            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956572476-WhatsApp-Image-2026-09-21-at-07.57.14-2-.jpeg",
-            "https://xmgsljwxiyyporczsrum.supabase.co/storage/v1/object/public/adjuntos/productos/1790956573393-WhatsApp-Image-2026-09-21-at-07.57.14-1-.jpeg"
-          ],
-          "precio": 3390,
-          "textura": "RUS",
-          "texturaNombre": "Rústico"
         }
       ]
     },
